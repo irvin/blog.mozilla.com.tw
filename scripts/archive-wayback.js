@@ -21,6 +21,9 @@ const URLS_PATH = path.join(ROOT, 'urls.txt');
 const URL_PROBE_PATH = path.join(DISCOVERY_DIR, 'url-probe-report.json');
 const URL_IMPORT_PATH = path.join(DISCOVERY_DIR, 'url-import-report.json');
 const URL_RETRY_IDS_PATH = path.join(DISCOVERY_DIR, 'urls-retry-post-ids.txt');
+const TIMEMAP_PATH = path.join(ROOT, 'json.json');
+const TIMEMAP_IMPORT_PATH = path.join(DISCOVERY_DIR, 'timemap-import-report.json');
+const TIMEMAP_RETRY_IDS_PATH = path.join(DISCOVERY_DIR, 'timemap-retry-post-ids.txt');
 
 const POST_ID_MIN = 74;
 const POST_ID_MAX = 9335;
@@ -105,6 +108,15 @@ async function main() {
     return;
   }
 
+  if (command === 'import-timemap') {
+    const snapshots = await scanOrReadCdx();
+    const result = await importTimemapFile(snapshots);
+    console.log(
+      `Imported ${result.timemap_unique_post_ids} timemap post ids; synthesized ${result.synthesized_count}; CDX count ${result.initial_cdx_count} -> ${result.final_cdx_count}; retry ids written to ${relative(TIMEMAP_RETRY_IDS_PATH)}`
+    );
+    return;
+  }
+
   if (command === 'discover-urls') {
     const snapshots = await scanOrReadCdx();
     const result = await discoverFromArchivedUrls(snapshots);
@@ -179,6 +191,8 @@ Commands:
          Query all archived blog.mozilla.com.tw URLs and extract post ids
   import-urls
          Synthesize cdx-snapshots.json candidates from urls.txt
+  import-timemap
+         Synthesize cdx-snapshots.json candidates from json.json TimeMap groups
   discover-urls
          Fetch archived listing URLs from the full URL list and extract post ids
   discover
@@ -768,7 +782,7 @@ async function importUrlsFile(snapshots) {
   const allIds = [...new Set(urlRows.map((row) => row.post_id))].sort((a, b) => a - b);
   const manifest = await readManifestIfExists();
   const failedIds = new Set(manifest?.posts?.filter((post) => post.status !== 'ok').map((post) => post.post_id) ?? []);
-  const successIds = new Set(manifest?.posts?.filter((post) => post.status === 'ok').map((post) => post.post_id) ?? []);
+  const archivedIds = await readArchivedArticleIds();
   const synthesized = [];
 
   for (const postId of allIds) {
@@ -786,7 +800,7 @@ async function importUrlsFile(snapshots) {
   }
 
   const retryIds = allIds
-    .filter((postId) => !successIds.has(postId))
+    .filter((postId) => !archivedIds.has(postId))
     .sort((a, b) => a - b);
   const existingFailedRetryIds = retryIds.filter((postId) => failedIds.has(postId));
   const newRetryIds = retryIds.filter((postId) => !failedIds.has(postId));
@@ -811,12 +825,81 @@ async function importUrlsFile(snapshots) {
   return result;
 }
 
+async function importTimemapFile(snapshots) {
+  await mkdir(DISCOVERY_DIR, { recursive: true });
+
+  const initialCdxCount = Object.keys(snapshots).length;
+  const timemapRows = await readTimemapRows();
+  const postRows = timemapRows
+    .map((row) => ({ ...row, post_id: getPostId(row.original) }))
+    .filter((row) => row.post_id && row.post_id >= POST_ID_MIN && row.post_id <= POST_ID_MAX);
+  const allIds = [...new Set(postRows.map((row) => row.post_id))].sort((a, b) => a - b);
+  const archivedIds = await readArchivedArticleIds();
+  const synthesized = [];
+
+  for (const postId of allIds) {
+    if (snapshots[postId]) {
+      continue;
+    }
+
+    const postSnapshots = synthesizeSnapshotsFromTimemap(postId, postRows.filter((row) => row.post_id === postId));
+    if (!postSnapshots.length) {
+      continue;
+    }
+
+    snapshots[postId] = postSnapshots;
+    synthesized.push({ post_id: postId, snapshots: postSnapshots.length });
+  }
+
+  const retryIds = allIds
+    .filter((postId) => !archivedIds.has(postId))
+    .sort((a, b) => a - b);
+  const sortedSnapshots = sortSnapshotMap(snapshots);
+  const result = {
+    generated_at: new Date().toISOString(),
+    source: relative(TIMEMAP_PATH),
+    rows: timemapRows.length,
+    columns: timemapRows.columns,
+    url_types: timemapUrlTypeCounts(timemapRows),
+    timemap_unique_post_ids: allIds.length,
+    initial_cdx_count: initialCdxCount,
+    final_cdx_count: Object.keys(sortedSnapshots).length,
+    synthesized_count: synthesized.length,
+    retry_count: retryIds.length,
+    synthesized,
+  };
+
+  await saveJson(CDX_PATH, sortedSnapshots);
+  await saveJson(TIMEMAP_IMPORT_PATH, result);
+  await writeFile(TIMEMAP_RETRY_IDS_PATH, retryIds.join('\n') + (retryIds.length ? '\n' : ''), 'utf8');
+  return result;
+}
+
 async function readManifestIfExists() {
   try {
     return JSON.parse(await readFile(MANIFEST_PATH, 'utf8'));
   } catch {
     return null;
   }
+}
+
+async function readArchivedArticleIds() {
+  try {
+    return new Set((await readdir(JSON_DIR))
+      .filter((file) => file.endsWith('.json'))
+      .map((file) => Number.parseInt(file, 10))
+      .filter(Number.isFinite));
+  } catch {
+    return new Set();
+  }
+}
+
+async function readTimemapRows() {
+  const rows = JSON.parse(await readFile(TIMEMAP_PATH, 'utf8'));
+  const header = rows[0] ?? [];
+  const dataRows = rows.slice(1).map((row) => Object.fromEntries(header.map((key, index) => [key, row[index]])));
+  dataRows.columns = header;
+  return dataRows;
 }
 
 async function urlsFileRows() {
@@ -827,6 +910,39 @@ async function urlsFileRows() {
     .filter(Boolean)
     .map((url, index) => ({ url, index, post_id: getPostId(url) }))
     .filter((row) => row.post_id && row.post_id >= POST_ID_MIN && row.post_id <= POST_ID_MAX);
+}
+
+function synthesizeSnapshotsFromTimemap(postId, rows) {
+  const snapshots = [];
+  const seen = new Set();
+
+  for (const row of rows) {
+    const timestamp = preferredTimemapTimestamp(row);
+    const original = normalizeOriginalUrl(row.original);
+    const key = `timemap:${postId}:${timestamp}:${original}`;
+    if (seen.has(key)) {
+      continue;
+    }
+    seen.add(key);
+    snapshots.push({
+      timestamp,
+      original: canonicalPostUrl(postId),
+      statuscode: 200,
+      mimetype: row.mimetype || 'text/html',
+      digest: key,
+      length: 0,
+      discovered_from: {
+        kind: 'timemap',
+        source_original: original,
+        first_timestamp: row.timestamp,
+        last_timestamp: row.endtimestamp,
+        groupcount: Number(row.groupcount || 0),
+        uniqcount: Number(row.uniqcount || 0),
+      },
+    });
+  }
+
+  return snapshots.sort(compareSnapshots);
 }
 
 function synthesizeSnapshotsFromUrls(postId, rows) {
@@ -855,6 +971,52 @@ function synthesizeSnapshotsFromUrls(postId, rows) {
   }
 
   return snapshots.sort(compareSnapshots);
+}
+
+function preferredTimemapTimestamp(row) {
+  if (row.endtimestamp && row.endtimestamp <= SNAPSHOT_CUTOFF) {
+    return row.endtimestamp;
+  }
+  if (row.timestamp && row.timestamp <= SNAPSHOT_CUTOFF) {
+    return row.timestamp;
+  }
+  return SNAPSHOT_CUTOFF;
+}
+
+function timemapUrlTypeCounts(rows) {
+  const counts = {
+    post: 0,
+    category: 0,
+    month: 0,
+    paged: 0,
+    tag: 0,
+    feed: 0,
+    upload: 0,
+    other: 0,
+  };
+
+  for (const row of rows) {
+    const kind = classifyTimemapUrl(row.original);
+    counts[kind] = (counts[kind] ?? 0) + 1;
+  }
+
+  return counts;
+}
+
+function classifyTimemapUrl(url) {
+  try {
+    const parsed = new URL(normalizeOriginalUrl(url));
+    if (parsed.searchParams.has('p')) return 'post';
+    if (parsed.searchParams.has('cat')) return 'category';
+    if (parsed.searchParams.has('m')) return 'month';
+    if (parsed.searchParams.has('paged')) return 'paged';
+    if (parsed.pathname.includes('/tag/')) return 'tag';
+    if (parsed.pathname.includes('feed')) return 'feed';
+    if (parsed.pathname.includes('/wp-content/uploads/')) return 'upload';
+  } catch {
+    return 'other';
+  }
+  return 'other';
 }
 
 async function postIdsFromUrlsFile() {

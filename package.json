@@ -8,6 +8,7 @@
     "archive:scan": "node scripts/archive-wayback.js scan",
     "archive:scan-urls": "node scripts/archive-wayback.js scan-urls",
     "archive:import-urls": "node scripts/archive-wayback.js import-urls",
+    "archive:import-timemap": "node scripts/archive-wayback.js import-timemap",
     "archive:discover": "node scripts/archive-wayback.js discover",
     "archive:probe-ranges": "node scripts/archive-wayback.js probe-ranges",
     "archive:probe-urls": "node scripts/archive-wayback.js probe-urls",

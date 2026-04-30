@@ -147,6 +147,7 @@ https://web.archive.org/cdx/search/cdx?url=blog.mozilla.com.tw/&matchType=prefix
 ```
 
 - 若 UI 清單已另存成 `urls.txt`，可直接從中去重抽出 post id，與 `archive/cdx-snapshots.json` 比對，針對缺漏 ID 逐一補查 CDX。
+- 若有 TimeMap group JSON，例如 `json.json` 來自 `https://web.archive.org/web/timemap/json?url=blog.mozilla.com.tw`，可作為 `urls.txt` 的交叉驗證與補充來源。此格式是 original URL group，不是逐 snapshot 明細；需使用 `timestamp/endtimestamp/groupcount/uniqcount` 判斷封存範圍，並過濾 2020 之後疑似網域被重用產生的無關 URL。
 - 完整 URL 清單不只包含單篇 `?p=ID`，也包含首頁、月份、分類、分頁、press 等 listing URL；若單篇 CDX 不完整，應抓 listing HTML 再解析其中的文章連結。
 
 ---
