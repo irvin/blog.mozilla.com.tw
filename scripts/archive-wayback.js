@@ -10,6 +10,7 @@ const RAW_DIR = path.join(ARCHIVE_DIR, 'raw-html');
 const JSON_DIR = path.join(ARCHIVE_DIR, 'articles-json');
 const MD_DIR = path.join(ARCHIVE_DIR, 'articles-md');
 const ASSETS_DIR = path.join(ARCHIVE_DIR, 'assets');
+const DISCOVERY_DIR = path.join(ARCHIVE_DIR, 'discovery');
 const CDX_PATH = path.join(ARCHIVE_DIR, 'cdx-snapshots.json');
 const MANIFEST_PATH = path.join(ARCHIVE_DIR, 'manifest.json');
 const INDEX_PATH = path.join(ARCHIVE_DIR, 'index.csv');
@@ -20,6 +21,23 @@ const SNAPSHOT_CUTOFF = '20201231235959';
 const MAX_SNAPSHOT_ATTEMPTS = 5;
 const ARTICLE_TEXT_MIN_LENGTH = 120;
 const USER_AGENT = 'MozillaTaiwanBlogArchive/0.1 (+https://blog.mozilla.com.tw archival recovery)';
+const CATEGORY_MAP = {
+  8: 'Firefox',
+  11: 'Firefox for Android',
+  154: 'Firefox for iOS',
+  10: 'Firefox OS',
+  43: 'Identity',
+  12: 'Mozilla',
+  42: 'Privacy',
+  149: 'Security',
+  35: 'Web App',
+  16: '新聞訊息',
+  1: '未分類',
+  44: '校園大使',
+  21: '活動',
+};
+const MONTH_START = 201112;
+const MONTH_END = 201610;
 
 const args = parseArgs(process.argv.slice(2));
 const command = args._[0] ?? 'all';
@@ -44,6 +62,20 @@ async function main() {
     return;
   }
 
+  if (command === 'discover') {
+    const snapshots = await scanOrReadCdx();
+    const result = await discoverFromCategories(snapshots);
+    console.log(
+      [
+        `Discovered ${result.discovered_count} post ids from listing pages`,
+        `${result.missing_before_count} were missing before discovery`,
+        `${result.merged_count} merged into ${relative(CDX_PATH)}`,
+        `${result.missing_after_count} still missing`,
+      ].join('; ')
+    );
+    return;
+  }
+
   if (command === 'fetch' || command === 'all') {
     const snapshots = command === 'all' ? await scanOrReadCdx() : await readCdx();
     const result = await fetchPosts(snapshots);
@@ -58,11 +90,14 @@ async function main() {
 function printHelp() {
   console.log(`Usage:
   npm run archive:scan
+  npm run archive -- discover --merge-cdx
   npm run archive:fetch -- --limit 10 --include-assets
   npm run archive -- --start 74 --end 9335 --delay-min 1000 --delay-max 3000
 
 Commands:
   scan   Query CDX and write archive/cdx-snapshots.json
+  discover
+         Discover post ids from archived category/month listing pages
   fetch  Read archive/cdx-snapshots.json and archive posts
   all    Scan if needed, then archive posts (default)
 
@@ -74,6 +109,7 @@ Options:
   --delay-min <ms>      Minimum request delay, default 1000
   --delay-max <ms>      Maximum request delay, default 3000
   --max-attempts <n>    Snapshot attempts per post, default ${MAX_SNAPSHOT_ATTEMPTS}
+  --merge-cdx           For discovered missing ids, query CDX and merge found snapshots
 `);
 }
 
@@ -131,6 +167,216 @@ async function scanCdx() {
   }
 
   return snapshots;
+}
+
+async function discoverFromCategories(snapshots) {
+  await mkdir(DISCOVERY_DIR, { recursive: true });
+
+  const categoryPages = await scanListingPages('cat');
+  const monthPages = await scanListingPages('month');
+  const discovered = new Map();
+  const listingPages = [...categoryPages, ...monthPages];
+
+  for (const [index, page] of listingPages.entries()) {
+    try {
+      const html = await fetchText(waybackUrl(page.snapshot, true));
+      const cleanedHtml = cleanWaybackHtml(html);
+      const ids = discoverPostIdsFromHtml(cleanedHtml);
+      const rawPath = path.join(DISCOVERY_DIR, 'listing-pages', `${page.kind}-${page.key}-page-${page.page}-${page.snapshot.timestamp}.html`);
+
+      await mkdir(path.dirname(rawPath), { recursive: true });
+      await writeFile(rawPath, html, 'utf8');
+
+      for (const postId of ids) {
+        const item = discovered.get(postId) ?? { post_id: postId, sources: [] };
+        item.sources.push({
+          kind: page.kind,
+          key: page.key,
+          name: page.name,
+          page: page.page,
+          url: page.snapshot.original,
+          timestamp: page.snapshot.timestamp,
+        });
+        discovered.set(postId, item);
+      }
+
+      console.log(`Discovery ${index + 1}/${listingPages.length}: ${page.kind} ${page.key} page ${page.page}, ids=${ids.length}`);
+    } catch (error) {
+      console.warn(`Discovery failed: ${page.kind} ${page.key} page ${page.page}: ${error.message}`);
+    }
+
+    await sleep(randomDelay());
+  }
+
+  const discoveredRows = [...discovered.values()].sort((a, b) => a.post_id - b.post_id);
+  const missingBefore = discoveredRows.filter((row) => !snapshots[row.post_id]);
+  const merged = [];
+
+  if (hasFlag('merge-cdx')) {
+    for (const [index, row] of missingBefore.entries()) {
+      const postSnapshots = await scanPostSnapshots(row.post_id);
+      if (postSnapshots.length) {
+        snapshots[row.post_id] = postSnapshots;
+        merged.push({ post_id: row.post_id, snapshots: postSnapshots.length });
+      }
+      console.log(`CDX merge ${index + 1}/${missingBefore.length}: ${row.post_id}, snapshots=${postSnapshots.length}`);
+      await sleep(randomDelay());
+    }
+
+    for (const postSnapshots of Object.values(snapshots)) {
+      postSnapshots.sort(compareSnapshots);
+    }
+
+    await saveJson(CDX_PATH, sortSnapshotMap(snapshots));
+  }
+
+  const missingAfter = discoveredRows.filter((row) => !snapshots[row.post_id]);
+  const result = {
+    generated_at: new Date().toISOString(),
+    listing_pages: {
+      category: categoryPages.length,
+      month: monthPages.length,
+      total: listingPages.length,
+    },
+    discovered_count: discoveredRows.length,
+    existing_cdx_count: Object.keys(snapshots).length,
+    missing_before_count: missingBefore.length,
+    merged_count: merged.length,
+    missing_after_count: missingAfter.length,
+    merged,
+  };
+
+  await saveJson(path.join(DISCOVERY_DIR, 'discovered-post-ids.json'), discoveredRows);
+  await saveJson(path.join(DISCOVERY_DIR, 'missing-before-merge.json'), missingBefore);
+  await saveJson(path.join(DISCOVERY_DIR, 'missing-after-merge.json'), missingAfter);
+  await saveJson(path.join(DISCOVERY_DIR, 'summary.json'), result);
+  await writeFile(
+    path.join(DISCOVERY_DIR, 'missing-post-ids.txt'),
+    missingAfter.map((row) => row.post_id).join('\n') + (missingAfter.length ? '\n' : ''),
+    'utf8'
+  );
+
+  return result;
+}
+
+async function scanListingPages(kind) {
+  const rows = kind === 'cat'
+    ? await scanCdxRows('blog.mozilla.com.tw/%3Fcat=*', 'urlkey')
+    : await scanCdxRows('blog.mozilla.com.tw/%3Fm=*', 'urlkey');
+  const pages = [];
+
+  for (const row of rows) {
+    const parsed = new URL(normalizeOriginalUrl(row.original));
+    const key = kind === 'cat' ? parsed.searchParams.get('cat') : parsed.searchParams.get('m');
+
+    if (kind === 'cat' && !CATEGORY_MAP[key]) {
+      continue;
+    }
+    if (kind === 'month' && !isWantedMonth(key)) {
+      continue;
+    }
+
+    pages.push({
+      kind,
+      key,
+      name: kind === 'cat' ? CATEGORY_MAP[key] : key,
+      page: parsed.searchParams.get('paged') || '1',
+      snapshot: {
+        timestamp: row.timestamp,
+        original: normalizeOriginalUrl(row.original),
+        statuscode: Number(row.statuscode),
+        mimetype: row.mimetype,
+        digest: row.digest,
+        length: Number(row.length || 0),
+      },
+    });
+  }
+
+  return choosePreferredListingPages(pages);
+}
+
+async function scanCdxRows(urlPattern, collapse) {
+  const url = [
+    'https://web.archive.org/cdx/search/cdx',
+    `?url=${urlPattern}`,
+    '&output=json',
+    '&fl=timestamp,original,statuscode,mimetype,digest,length',
+    '&filter=statuscode:200',
+    '&filter=mimetype:text/html',
+    `&collapse=${collapse}`,
+  ].join('');
+  const response = await fetchWithRetry(url, { accept: 'application/json' });
+  const rows = await response.json();
+  const header = rows[0] ?? [];
+  return rows.slice(1).map((row) => Object.fromEntries(header.map((key, index) => [key, row[index]])));
+}
+
+function choosePreferredListingPages(pages) {
+  const byPage = new Map();
+
+  for (const page of pages) {
+    const key = `${page.kind}:${page.key}:${page.page}`;
+    const current = byPage.get(key);
+    if (!current || compareSnapshots(page.snapshot, current.snapshot) < 0) {
+      byPage.set(key, page);
+    }
+  }
+
+  return [...byPage.values()].sort((a, b) => {
+    if (a.kind !== b.kind) return a.kind.localeCompare(b.kind);
+    if (a.key !== b.key) return String(a.key).localeCompare(String(b.key));
+    return Number(a.page) - Number(b.page);
+  });
+}
+
+async function scanPostSnapshots(postId) {
+  const rows = await scanCdxRows(`blog.mozilla.com.tw/*p=${postId}*`, 'digest');
+  const snapshots = [];
+  const seen = new Set();
+
+  for (const row of rows) {
+    const foundPostId = getPostId(row.original);
+
+    if (foundPostId !== postId) {
+      continue;
+    }
+
+    const key = `${row.timestamp}:${row.original}`;
+    if (seen.has(key)) {
+      continue;
+    }
+    seen.add(key);
+    snapshots.push({
+      timestamp: row.timestamp,
+      original: normalizeOriginalUrl(row.original),
+      statuscode: Number(row.statuscode),
+      mimetype: row.mimetype,
+      digest: row.digest,
+      length: Number(row.length || 0),
+    });
+  }
+
+  return snapshots.sort(compareSnapshots);
+}
+
+function discoverPostIdsFromHtml(html) {
+  return [...new Set(collectLinks(html, 'https://blog.mozilla.com.tw/')
+    .map((link) => getPostId(link.url))
+    .filter((postId) => postId && postId >= POST_ID_MIN && postId <= POST_ID_MAX))]
+    .sort((a, b) => a - b);
+}
+
+function isWantedMonth(value) {
+  const month = Number(value);
+  return Number.isInteger(month) && month >= MONTH_START && month <= MONTH_END;
+}
+
+function sortSnapshotMap(snapshots) {
+  return Object.fromEntries(
+    Object.entries(snapshots)
+      .sort(([a], [b]) => Number(a) - Number(b))
+      .map(([postId, postSnapshots]) => [postId, [...postSnapshots].sort(compareSnapshots)])
+  );
 }
 
 async function fetchPosts(snapshots) {

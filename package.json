@@ -6,6 +6,7 @@
   "scripts": {
     "archive": "node scripts/archive-wayback.js",
     "archive:scan": "node scripts/archive-wayback.js scan",
+    "archive:discover": "node scripts/archive-wayback.js discover",
     "archive:fetch": "node scripts/archive-wayback.js fetch"
   },
   "engines": {
