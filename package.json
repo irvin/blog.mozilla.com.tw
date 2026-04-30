@@ -1,0 +1,14 @@
+{
+  "name": "blog-mozilla-com-tw-wayback-archive",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "archive": "node scripts/archive-wayback.js",
+    "archive:scan": "node scripts/archive-wayback.js scan",
+    "archive:fetch": "node scripts/archive-wayback.js fetch"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -362,7 +362,7 @@ partial_assets_failed
 
 1. CDX 清單
 2. 篩 p 範圍
-3. 抓最新 snapshot
+3. 抓 2020 年最後有效 snapshot
 4. parse `<article>`
 5. 輸出 JSON + Markdown
 
