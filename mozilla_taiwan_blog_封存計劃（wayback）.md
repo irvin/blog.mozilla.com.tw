@@ -8,6 +8,14 @@
 ?p=74 ~ ?p=9335
 ```
 
+理論文章總數：
+
+```text
+802 篇
+```
+
+此數字以頁面側欄「月份彙整」各月份文章數加總為準；分類文章數不可直接加總，因為同一篇文章可能屬於多個分類。
+
 核心原則：
 - 只抓「實際存在的文章」
 - 以 `<article>` 為主體
@@ -280,6 +288,9 @@ categories:
 統計項目：
 
 - total posts
+- target total posts = 802
+- discovered post ids
+- coverage rate
 - success
 - no snapshot
 - fetch failed
