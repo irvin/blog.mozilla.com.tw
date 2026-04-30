@@ -36,6 +36,22 @@ const CATEGORY_MAP = {
   44: '校園大使',
   21: '活動',
 };
+const CATEGORY_COUNTS = {
+  8: 354,
+  11: 50,
+  154: 3,
+  10: 213,
+  43: 10,
+  12: 305,
+  42: 57,
+  149: 19,
+  35: 165,
+  16: 132,
+  1: 10,
+  44: 12,
+  21: 98,
+};
+const CATEGORY_LISTING_TIMESTAMP = '20200805155022';
 const MONTH_START = 201112;
 const MONTH_END = 201610;
 
@@ -90,7 +106,7 @@ async function main() {
 function printHelp() {
   console.log(`Usage:
   npm run archive:scan
-  npm run archive -- discover --synthesize-cdx
+  npm run archive -- discover --sources tag --synthesize-cdx
   npm run archive:fetch -- --limit 10 --include-assets
   npm run archive -- --start 74 --end 9335 --delay-min 1000 --delay-max 3000
 
@@ -109,6 +125,10 @@ Options:
   --delay-min <ms>      Minimum request delay, default 1000
   --delay-max <ms>      Maximum request delay, default 3000
   --max-attempts <n>    Snapshot attempts per post, default ${MAX_SNAPSHOT_ATTEMPTS}
+  --sources <list>      Listing sources for discover: cat,tag,month; default cat,tag,month
+  --expected-category-pages
+                       Also try category pages inferred from sidebar counts
+  --probe-category-cdx Query CDX for each inferred category page before fetching it
   --synthesize-cdx      Add listing-page timestamp candidates for discovered ids
   --merge-cdx           For discovered missing ids, query CDX and merge found snapshots
 `);
@@ -173,14 +193,16 @@ async function scanCdx() {
 async function discoverFromCategories(snapshots) {
   await mkdir(DISCOVERY_DIR, { recursive: true });
 
-  const categoryPages = await scanListingPages('cat');
-  const monthPages = await scanListingPages('month');
+  const sources = discoverySources();
+  const categoryPages = sources.includes('cat') ? await scanListingPages('cat') : [];
+  const tagPages = sources.includes('tag') ? await scanListingPages('tag') : [];
+  const monthPages = sources.includes('month') ? await scanListingPages('month') : [];
   const discovered = new Map();
-  const listingPages = [...categoryPages, ...monthPages];
+  const listingPages = [...categoryPages, ...tagPages, ...monthPages];
 
   for (const [index, page] of listingPages.entries()) {
     try {
-      const html = await fetchText(waybackUrl(page.snapshot, true));
+      const html = await fetchListingPage(page.snapshot);
       const cleanedHtml = cleanWaybackHtml(html);
       const ids = discoverPostIdsFromHtml(cleanedHtml);
       const rawPath = path.join(DISCOVERY_DIR, 'listing-pages', `${page.kind}-${page.key}-page-${page.page}-${page.snapshot.timestamp}.html`);
@@ -251,6 +273,7 @@ async function discoverFromCategories(snapshots) {
     generated_at: new Date().toISOString(),
     listing_pages: {
       category: categoryPages.length,
+      tag: tagPages.length,
       month: monthPages.length,
       total: listingPages.length,
     },
@@ -278,15 +301,21 @@ async function discoverFromCategories(snapshots) {
   return result;
 }
 
+async function fetchListingPage(snapshot) {
+  try {
+    return await fetchText(waybackUrl(snapshot, true));
+  } catch (error) {
+    return fetchText(waybackUrl(snapshot, false));
+  }
+}
+
 async function scanListingPages(kind) {
-  const rows = kind === 'cat'
-    ? await scanCdxRows('blog.mozilla.com.tw/%3Fcat=*', 'urlkey')
-    : await scanCdxRows('blog.mozilla.com.tw/%3Fm=*', 'urlkey');
+  const rows = await scanListingRows(kind);
   const pages = [];
 
   for (const row of rows) {
     const parsed = new URL(normalizeOriginalUrl(row.original));
-    const key = kind === 'cat' ? parsed.searchParams.get('cat') : parsed.searchParams.get('m');
+    const key = listingKey(kind, parsed);
 
     if (kind === 'cat' && !CATEGORY_MAP[key]) {
       continue;
@@ -298,8 +327,8 @@ async function scanListingPages(kind) {
     pages.push({
       kind,
       key,
-      name: kind === 'cat' ? CATEGORY_MAP[key] : key,
-      page: parsed.searchParams.get('paged') || '1',
+      name: listingName(kind, key),
+      page: listingPageNumber(parsed),
       snapshot: {
         timestamp: row.timestamp,
         original: normalizeOriginalUrl(row.original),
@@ -311,7 +340,146 @@ async function scanListingPages(kind) {
     });
   }
 
+  if (kind === 'cat' && hasFlag('expected-category-pages')) {
+    pages.push(...await expectedCategoryPages());
+  }
+
   return choosePreferredListingPages(pages);
+}
+
+async function scanListingRows(kind) {
+  if (kind === 'cat') {
+    return scanCdxRows('blog.mozilla.com.tw/%3Fcat=*', 'urlkey');
+  }
+  if (kind === 'month') {
+    return scanCdxRows('blog.mozilla.com.tw/%3Fm=*', 'urlkey');
+  }
+  if (kind === 'tag') {
+    const queryRows = await scanCdxRows('blog.mozilla.com.tw/%3Ftag=*', 'urlkey');
+    const pathRows = await scanCdxRows('blog.mozilla.com.tw/tag/*', 'urlkey');
+    return [...queryRows, ...pathRows];
+  }
+  throw new Error(`Unknown listing source: ${kind}`);
+}
+
+function discoverySources() {
+  const rawSources = String(args.sources || 'cat,tag,month')
+    .split(',')
+    .map((source) => source.trim())
+    .filter(Boolean);
+  const allowed = new Set(['cat', 'tag', 'month']);
+  const sources = rawSources.filter((source) => allowed.has(source));
+
+  if (!sources.length) {
+    throw new Error(`No valid discovery sources in: ${args.sources}`);
+  }
+  return [...new Set(sources)];
+}
+
+function listingKey(kind, parsed) {
+  if (kind === 'cat') {
+    return parsed.searchParams.get('cat');
+  }
+  if (kind === 'month') {
+    return parsed.searchParams.get('m');
+  }
+  if (kind === 'tag') {
+    return parsed.searchParams.get('tag') || parsed.pathname.match(/\/tag\/([^/]+)/)?.[1] || '';
+  }
+  return '';
+}
+
+function listingName(kind, key) {
+  if (kind === 'cat') {
+    return CATEGORY_MAP[key];
+  }
+  return key;
+}
+
+function listingPageNumber(parsed) {
+  const queryPage = parsed.searchParams.get('paged');
+  if (queryPage) {
+    return queryPage;
+  }
+  return parsed.pathname.match(/\/page\/(\d+)\/?$/)?.[1] || '1';
+}
+
+async function expectedCategoryPages() {
+  const pages = [];
+
+  for (const [categoryId, count] of Object.entries(CATEGORY_COUNTS)) {
+    const totalPages = Math.ceil(count / 10);
+    for (let page = 1; page <= totalPages; page += 1) {
+      const snapshot = hasFlag('probe-category-cdx')
+        ? await scanCategoryPageSnapshot(categoryId, page)
+        : null;
+
+      pages.push({
+        kind: 'cat',
+        key: categoryId,
+        name: CATEGORY_MAP[categoryId],
+        page: String(page),
+        snapshot: snapshot ?? {
+          timestamp: CATEGORY_LISTING_TIMESTAMP,
+          original: categoryPageUrl(categoryId, page),
+          statuscode: 200,
+          mimetype: 'text/html',
+          digest: `expected-category:${categoryId}:${page}`,
+          length: 0,
+          inferred_from: 'sidebar_category_links_20200805155022',
+        },
+      });
+
+      if (hasFlag('probe-category-cdx')) {
+        await sleep(randomDelay());
+      }
+    }
+  }
+
+  return pages;
+}
+
+async function scanCategoryPageSnapshot(categoryId, page) {
+  try {
+    const pattern = categoryPageCdxPattern(categoryId, page);
+    const rows = await scanCdxRows(pattern, 'digest');
+    const snapshots = rows
+      .map((row) => ({
+        timestamp: row.timestamp,
+        original: normalizeOriginalUrl(row.original),
+        statuscode: Number(row.statuscode),
+        mimetype: row.mimetype,
+        digest: row.digest,
+        length: Number(row.length || 0),
+        discovered_from: 'category_page_cdx_probe',
+      }))
+      .filter((snapshot) => {
+        const parsed = new URL(snapshot.original);
+        return parsed.searchParams.get('cat') === String(categoryId) && listingPageNumber(parsed) === String(page);
+      })
+      .sort(compareSnapshots);
+
+    return snapshots[0] ?? null;
+  } catch (error) {
+    console.warn(`CDX probe failed: cat ${categoryId} page ${page}: ${error.message}`);
+    return null;
+  }
+}
+
+function categoryPageCdxPattern(categoryId, page) {
+  if (page === 1) {
+    return `blog.mozilla.com.tw/%3Fcat=${categoryId}`;
+  }
+  return `blog.mozilla.com.tw/%3Fcat=${categoryId}%26paged=${page}`;
+}
+
+function categoryPageUrl(categoryId, page) {
+  const url = new URL('https://blog.mozilla.com.tw/');
+  url.searchParams.set('cat', categoryId);
+  if (page > 1) {
+    url.searchParams.set('paged', page);
+  }
+  return url.href;
 }
 
 async function scanCdxRows(urlPattern, collapse) {
