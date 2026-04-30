@@ -72,6 +72,26 @@ archive/
 CDX → 篩選 → snapshot 選擇 → 抓取 → 清理 → 解析 → 驗證 → fallback → 輸出
 ```
 
+目前完整策略：
+
+```text
+CDX ?p=* 基礎掃描
+→ 分類 / tag / 月份 / 首頁分頁 discovery
+→ 以 listing page timestamp 合成缺漏 post snapshot candidates
+→ 文章正文批次重建
+→ asset-only 補抓缺漏圖片
+→ validation 對齊 802 篇目標
+```
+
+重點：
+
+- `archive/cdx-snapshots.json` 是目前可抓候選文章的索引
+- `archive/discovery/` 保留 listing pages 與 discovered post ids
+- `discover --synthesize-cdx` 可把 listing pages 找到但 CDX `?p=*` 沒列出的 post id 補進候選清單
+- `fetch --include-assets` 可同時抓正文與圖片，但速度受圖片與 retry 影響
+- `assets` command 只重試已成功文章中的缺漏圖片，不重抓正文
+- 文章正文與資產狀態分開驗收
+
 ---
 
 ## Phase 1 — CDX 掃描（來源盤點）
@@ -109,6 +129,52 @@ https://web.archive.org/cdx/search/cdx?url=blog.mozilla.com.tw/%3Fp=*&output=jso
 - 保留 `length` 供 snapshot selection 判斷空頁或異常頁
 
 👉 產出：post_id → snapshots[]
+
+---
+
+## Phase 1.5 — Listing Discovery（補 id）
+
+CDX `?p=*` 只能找到 Wayback 直接收錄為 query post URL 的文章，不足以覆蓋全部 802 篇。
+
+補 id 來源：
+
+- 分類頁：`?cat={id}`、`?cat={id}&paged={n}`
+- tag 頁：`?tag={slug}`、`/tag/{slug}/`
+- 月份頁：`?m=YYYYMM`
+- 首頁分頁：`?paged={n}`
+
+分類 id：
+
+```text
+8    Firefox
+11   Firefox for Android
+154  Firefox for iOS
+10   Firefox OS
+43   Identity
+12   Mozilla
+42   Privacy
+149  Security
+35   Web App
+16   新聞訊息
+1    未分類
+44   校園大使
+21   活動
+```
+
+Discovery 輸出：
+
+```text
+archive/discovery/discovered-post-ids.json
+archive/discovery/missing-post-ids.txt
+archive/discovery/summary.json
+archive/discovery/listing-pages/
+```
+
+補 snapshot 策略：
+
+- 若 post id 不在 `cdx-snapshots.json`，使用發現它的 listing page timestamp 合成候選 snapshot
+- 合成候選 URL 使用 canonical `https://blog.mozilla.com.tw/?p={post_id}`
+- 實際 fetch 時仍必須通過文章品質驗證；合成候選只是可嘗試來源，不代表文章已成功保存
 
 ---
 
@@ -265,6 +331,14 @@ assets/{post_id}/{index}-{hash}.{ext}
 ![alt](../assets/9335/wp-content/uploads/data-breaches-notification-1024x657.jpg)
 ```
 
+補抓策略：
+
+- 正文重建完成後，針對 `asset_status: partial_assets_failed` 的文章跑 asset-only retry
+- asset-only retry 讀取 `archive/articles-json/*.json`
+- 只抓沒有 `archive_path` 的圖片，不重抓正文
+- 成功後更新該篇 JSON 與 Markdown
+- 輸出 `archive/asset-manifest.json`
+
 ---
 
 ## Phase 7 — Markdown 輸出
@@ -386,9 +460,12 @@ partial_assets_failed
 
 ### 完整版
 
-10. static site
-11. 搜尋 index
-12. 部署（Cloudflare Pages / GitHub Pages）
+10. listing discovery 補 id
+11. synthesize CDX candidates
+12. asset-only retry
+13. static site
+14. 搜尋 index
+15. 部署（Cloudflare Pages / GitHub Pages）
 
 ---
 
