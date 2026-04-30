@@ -15,6 +15,12 @@ const CDX_PATH = path.join(ARCHIVE_DIR, 'cdx-snapshots.json');
 const MANIFEST_PATH = path.join(ARCHIVE_DIR, 'manifest.json');
 const INDEX_PATH = path.join(ARCHIVE_DIR, 'index.csv');
 const ASSET_MANIFEST_PATH = path.join(ARCHIVE_DIR, 'asset-manifest.json');
+const RANGE_PROBE_PATH = path.join(DISCOVERY_DIR, 'range-probe-report.json');
+const RANGE_SOURCE_PATH = path.join(DISCOVERY_DIR, 'month-id-ranges-with-listings.tsv');
+const URLS_PATH = path.join(ROOT, 'urls.txt');
+const URL_PROBE_PATH = path.join(DISCOVERY_DIR, 'url-probe-report.json');
+const URL_IMPORT_PATH = path.join(DISCOVERY_DIR, 'url-import-report.json');
+const URL_RETRY_IDS_PATH = path.join(DISCOVERY_DIR, 'urls-retry-post-ids.txt');
 
 const POST_ID_MIN = 74;
 const POST_ID_MAX = 9335;
@@ -79,6 +85,35 @@ async function main() {
     return;
   }
 
+  if (command === 'scan-urls') {
+    const snapshots = await scanAllArchivedUrls();
+    const existing = await scanOrReadCdx();
+    const merged = mergeSnapshotMaps(existing, snapshots);
+    await saveJson(CDX_PATH, sortSnapshotMap(merged));
+    console.log(
+      `Scanned all archived URLs; found ${Object.keys(snapshots).length} post groups; CDX count ${Object.keys(existing).length} -> ${Object.keys(merged).length}`
+    );
+    return;
+  }
+
+  if (command === 'import-urls') {
+    const snapshots = await scanOrReadCdx();
+    const result = await importUrlsFile(snapshots);
+    console.log(
+      `Imported ${result.urls_unique_post_ids} urls.txt ids; synthesized ${result.synthesized_count}; CDX count ${result.initial_cdx_count} -> ${result.final_cdx_count}; retry ids written to ${relative(URL_RETRY_IDS_PATH)}`
+    );
+    return;
+  }
+
+  if (command === 'discover-urls') {
+    const snapshots = await scanOrReadCdx();
+    const result = await discoverFromArchivedUrls(snapshots);
+    console.log(
+      `Discovered ${result.discovered_count} post ids from archived URL listings; synthesized ${result.synthesized_count}; CDX count ${result.initial_cdx_count} -> ${result.final_cdx_count}`
+    );
+    return;
+  }
+
   if (command === 'discover') {
     const snapshots = await scanOrReadCdx();
     const result = await discoverFromCategories(snapshots);
@@ -89,6 +124,24 @@ async function main() {
         `${result.merged_count} merged into ${relative(CDX_PATH)}`,
         `${result.missing_after_count} still missing`,
       ].join('; ')
+    );
+    return;
+  }
+
+  if (command === 'probe-ranges') {
+    const snapshots = await scanOrReadCdx();
+    const result = await probeMissingRanges(snapshots);
+    console.log(
+      `Probed ${result.probed_count} candidate ids; found ${result.found_count}; CDX count ${result.initial_cdx_count} -> ${result.final_cdx_count}; report written to ${relative(RANGE_PROBE_PATH)}`
+    );
+    return;
+  }
+
+  if (command === 'probe-urls') {
+    const snapshots = await scanOrReadCdx();
+    const result = await probeUrlsFile(snapshots);
+    console.log(
+      `Probed ${result.probed_count} urls.txt ids; found ${result.found_count}; CDX count ${result.initial_cdx_count} -> ${result.final_cdx_count}; report written to ${relative(URL_PROBE_PATH)}`
     );
     return;
   }
@@ -122,8 +175,18 @@ function printHelp() {
 
 Commands:
   scan   Query CDX and write archive/cdx-snapshots.json
+  scan-urls
+         Query all archived blog.mozilla.com.tw URLs and extract post ids
+  import-urls
+         Synthesize cdx-snapshots.json candidates from urls.txt
+  discover-urls
+         Fetch archived listing URLs from the full URL list and extract post ids
   discover
          Discover post ids from archived category/month listing pages
+  probe-ranges
+         Query individual post ids inferred from monthly missing ranges
+  probe-urls
+         Query post ids listed in urls.txt but missing from cdx-snapshots.json
   fetch  Read archive/cdx-snapshots.json and archive posts
   assets Retry only missing article image assets from archive/articles-json
   all    Scan if needed, then archive posts (default)
@@ -132,6 +195,7 @@ Options:
   --start <id>          First post id, default ${POST_ID_MIN}
   --end <id>            Last post id, default ${POST_ID_MAX}
   --limit <n>           Limit number of posts processed
+  --ids-file <path>     Process only newline-delimited post ids from a file
   --include-assets      Download images referenced inside article content
   --delay-min <ms>      Minimum request delay, default 1000
   --delay-max <ms>      Maximum request delay, default 3000
@@ -142,6 +206,10 @@ Options:
   --probe-category-cdx Query CDX for each inferred category page before fetching it
   --synthesize-cdx      Add listing-page timestamp candidates for discovered ids
   --merge-cdx           For discovered missing ids, query CDX and merge found snapshots
+  --range-source <path> Missing range TSV, default ${relative(RANGE_SOURCE_PATH)}
+  --limit <n>           Also limits probe-ranges candidate ids
+  --prefixes            Probe inferred ids by CDX prefix groups instead of one id at a time
+  --prefix-length <n>   Prefix length for --prefixes, default 3
 `);
 }
 
@@ -199,6 +267,54 @@ async function scanCdx() {
   }
 
   return snapshots;
+}
+
+async function scanAllArchivedUrls() {
+  const rows = await scanCdxRows('blog.mozilla.com.tw/', 'digest', { matchType: 'prefix' });
+  const snapshots = {};
+
+  for (const row of rows) {
+    const postId = getPostId(row.original);
+    if (!postId || postId < POST_ID_MIN || postId > POST_ID_MAX) {
+      continue;
+    }
+
+    snapshots[postId] ??= [];
+    snapshots[postId].push({
+      timestamp: row.timestamp,
+      original: normalizeOriginalUrl(row.original),
+      statuscode: Number(row.statuscode),
+      mimetype: row.mimetype,
+      digest: row.digest,
+      length: Number(row.length || 0),
+    });
+  }
+
+  for (const postSnapshots of Object.values(snapshots)) {
+    postSnapshots.sort(compareSnapshots);
+  }
+
+  return snapshots;
+}
+
+function mergeSnapshotMaps(base, extra) {
+  const merged = { ...base };
+
+  for (const [postId, postSnapshots] of Object.entries(extra)) {
+    const seen = new Set((merged[postId] || []).map((snapshot) => `${snapshot.timestamp}:${snapshot.original}`));
+    merged[postId] ??= [];
+
+    for (const snapshot of postSnapshots) {
+      const key = `${snapshot.timestamp}:${snapshot.original}`;
+      if (seen.has(key)) {
+        continue;
+      }
+      seen.add(key);
+      merged[postId].push(snapshot);
+    }
+  }
+
+  return merged;
 }
 
 async function discoverFromCategories(snapshots) {
@@ -501,10 +617,11 @@ function categoryPageUrl(categoryId, page) {
   return url.href;
 }
 
-async function scanCdxRows(urlPattern, collapse) {
+async function scanCdxRows(urlPattern, collapse, options = {}) {
   const url = [
     'https://web.archive.org/cdx/search/cdx',
     `?url=${urlPattern}`,
+    options.matchType ? `&matchType=${options.matchType}` : '',
     '&output=json',
     '&fl=timestamp,original,statuscode,mimetype,digest,length',
     '&filter=statuscode:200',
@@ -536,7 +653,7 @@ function choosePreferredListingPages(pages) {
 }
 
 async function scanPostSnapshots(postId) {
-  const rows = await scanCdxRows(`blog.mozilla.com.tw/*p=${postId}*`, 'digest');
+  const rows = await scanCdxRows(`blog.mozilla.com.tw/%3Fp=${postId}`, 'digest');
   const snapshots = [];
   const seen = new Set();
 
@@ -563,6 +680,380 @@ async function scanPostSnapshots(postId) {
   }
 
   return snapshots.sort(compareSnapshots);
+}
+
+async function probeMissingRanges(snapshots) {
+  if (hasFlag('prefixes')) {
+    return probeMissingRangePrefixes(snapshots);
+  }
+
+  const initialCdxCount = Object.keys(snapshots).length;
+  const candidates = await missingRangeCandidates(snapshots);
+  const limit = args.limit ? Number(args.limit) : Infinity;
+  const selected = candidates.slice(0, limit);
+  const found = [];
+  const misses = [];
+  const errors = [];
+
+  for (const [index, candidate] of selected.entries()) {
+    try {
+      const postSnapshots = await scanPostSnapshots(candidate.post_id);
+      if (postSnapshots.length) {
+        snapshots[candidate.post_id] = postSnapshots;
+        found.push({ ...candidate, snapshots: postSnapshots.length });
+      } else {
+        misses.push(candidate);
+      }
+
+      console.log(
+        `Range probe ${index + 1}/${selected.length}: ${candidate.post_id} ${candidate.month}, snapshots=${postSnapshots.length}`
+      );
+    } catch (error) {
+      errors.push({ ...candidate, reason: error.message });
+      console.warn(`Range probe failed ${candidate.post_id} ${candidate.month}: ${error.message}`);
+    }
+
+    if ((index + 1) % 25 === 0) {
+      await saveRangeProbeCheckpoint({ snapshots, candidates, selected, found, misses, errors, initialCdxCount });
+    }
+
+    await sleep(randomDelay());
+  }
+
+  await saveRangeProbeCheckpoint({ snapshots, candidates, selected, found, misses, errors, initialCdxCount });
+  return JSON.parse(await readFile(RANGE_PROBE_PATH, 'utf8'));
+}
+
+async function probeUrlsFile(snapshots) {
+  const initialCdxCount = Object.keys(snapshots).length;
+  const allIds = await postIdsFromUrlsFile();
+  const candidates = allIds.filter((postId) => !snapshots[postId]);
+  const limit = args.limit ? Number(args.limit) : Infinity;
+  const selected = candidates.slice(0, limit);
+  const found = [];
+  const misses = [];
+  const errors = [];
+
+  for (const [index, postId] of selected.entries()) {
+    try {
+      const postSnapshots = await scanPostSnapshots(postId);
+      if (postSnapshots.length) {
+        snapshots[postId] = postSnapshots;
+        found.push({ post_id: postId, snapshots: postSnapshots.length });
+      } else {
+        misses.push({ post_id: postId });
+      }
+      console.log(`URL probe ${index + 1}/${selected.length}: ${postId}, snapshots=${postSnapshots.length}`);
+    } catch (error) {
+      errors.push({ post_id: postId, reason: error.message });
+      console.warn(`URL probe failed ${postId}: ${error.message}`);
+    }
+
+    if ((index + 1) % 25 === 0) {
+      await saveUrlProbeCheckpoint({ snapshots, allIds, selected, found, misses, errors, initialCdxCount });
+    }
+
+    await sleep(randomDelay());
+  }
+
+  await saveUrlProbeCheckpoint({ snapshots, allIds, selected, found, misses, errors, initialCdxCount });
+  return JSON.parse(await readFile(URL_PROBE_PATH, 'utf8'));
+}
+
+async function importUrlsFile(snapshots) {
+  await mkdir(DISCOVERY_DIR, { recursive: true });
+
+  const initialCdxCount = Object.keys(snapshots).length;
+  const urlRows = await urlsFileRows();
+  const allIds = [...new Set(urlRows.map((row) => row.post_id))].sort((a, b) => a - b);
+  const manifest = await readManifestIfExists();
+  const failedIds = new Set(manifest?.posts?.filter((post) => post.status !== 'ok').map((post) => post.post_id) ?? []);
+  const successIds = new Set(manifest?.posts?.filter((post) => post.status === 'ok').map((post) => post.post_id) ?? []);
+  const synthesized = [];
+
+  for (const postId of allIds) {
+    if (snapshots[postId]) {
+      continue;
+    }
+
+    const postSnapshots = synthesizeSnapshotsFromUrls(postId, urlRows.filter((row) => row.post_id === postId));
+    if (!postSnapshots.length) {
+      continue;
+    }
+
+    snapshots[postId] = postSnapshots;
+    synthesized.push({ post_id: postId, snapshots: postSnapshots.length });
+  }
+
+  const retryIds = allIds
+    .filter((postId) => !successIds.has(postId))
+    .sort((a, b) => a - b);
+  const existingFailedRetryIds = retryIds.filter((postId) => failedIds.has(postId));
+  const newRetryIds = retryIds.filter((postId) => !failedIds.has(postId));
+  const sortedSnapshots = sortSnapshotMap(snapshots);
+  const result = {
+    generated_at: new Date().toISOString(),
+    source: relative(URLS_PATH),
+    lines: urlRows.length,
+    urls_unique_post_ids: allIds.length,
+    initial_cdx_count: initialCdxCount,
+    final_cdx_count: Object.keys(sortedSnapshots).length,
+    synthesized_count: synthesized.length,
+    retry_count: retryIds.length,
+    retry_existing_failed_count: existingFailedRetryIds.length,
+    retry_new_count: newRetryIds.length,
+    synthesized,
+  };
+
+  await saveJson(CDX_PATH, sortedSnapshots);
+  await saveJson(URL_IMPORT_PATH, result);
+  await writeFile(URL_RETRY_IDS_PATH, retryIds.join('\n') + (retryIds.length ? '\n' : ''), 'utf8');
+  return result;
+}
+
+async function readManifestIfExists() {
+  try {
+    return JSON.parse(await readFile(MANIFEST_PATH, 'utf8'));
+  } catch {
+    return null;
+  }
+}
+
+async function urlsFileRows() {
+  const text = await readFile(URLS_PATH, 'utf8');
+  return text
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((url, index) => ({ url, index, post_id: getPostId(url) }))
+    .filter((row) => row.post_id && row.post_id >= POST_ID_MIN && row.post_id <= POST_ID_MAX);
+}
+
+function synthesizeSnapshotsFromUrls(postId, rows) {
+  const snapshots = [];
+  const seen = new Set();
+
+  for (const row of rows) {
+    const key = `urls.txt:${postId}:${row.url}`;
+    if (seen.has(key)) {
+      continue;
+    }
+    seen.add(key);
+    snapshots.push({
+      timestamp: SNAPSHOT_CUTOFF,
+      original: canonicalPostUrl(postId),
+      statuscode: 200,
+      mimetype: 'text/html',
+      digest: key,
+      length: 0,
+      discovered_from: {
+        kind: 'urls.txt',
+        line: row.index + 1,
+        url: row.url,
+      },
+    });
+  }
+
+  return snapshots.sort(compareSnapshots);
+}
+
+async function postIdsFromUrlsFile() {
+  const text = await readFile(URLS_PATH, 'utf8');
+  const ids = text
+    .split(/\r?\n/)
+    .map((line) => getPostId(line.trim()))
+    .filter(Boolean);
+  return [...new Set(ids)].sort((a, b) => a - b);
+}
+
+async function saveUrlProbeCheckpoint({ snapshots, allIds, selected, found, misses, errors, initialCdxCount }) {
+  const sortedSnapshots = sortSnapshotMap(snapshots);
+  await saveJson(CDX_PATH, sortedSnapshots);
+  await saveJson(URL_PROBE_PATH, {
+    generated_at: new Date().toISOString(),
+    source: relative(URLS_PATH),
+    initial_cdx_count: initialCdxCount,
+    final_cdx_count: Object.keys(sortedSnapshots).length,
+    urls_unique_post_ids: allIds.length,
+    selected_count: selected.length,
+    probed_count: found.length + misses.length + errors.length,
+    found_count: found.length,
+    miss_count: misses.length,
+    error_count: errors.length,
+    found,
+    errors,
+  });
+}
+
+async function probeMissingRangePrefixes(snapshots) {
+  const initialCdxCount = Object.keys(snapshots).length;
+  const candidates = await missingRangeCandidates(snapshots);
+  const prefixLength = Number(args.prefixLength || args['prefix-length'] || 3);
+  const limit = args.limit ? Number(args.limit) : Infinity;
+  const groups = prefixCandidateGroups(candidates, prefixLength).slice(0, limit);
+  const found = [];
+  const errors = [];
+
+  for (const [index, group] of groups.entries()) {
+    try {
+      const rows = await scanCdxRows(`blog.mozilla.com.tw/%3Fp=${group.prefix}*`, 'digest');
+      const grouped = new Map();
+
+      for (const row of rows) {
+        const postId = getPostId(row.original);
+        if (!group.ids.has(postId) || snapshots[postId]) {
+          continue;
+        }
+        grouped.set(postId, [
+          ...(grouped.get(postId) || []),
+          {
+            timestamp: row.timestamp,
+            original: normalizeOriginalUrl(row.original),
+            statuscode: Number(row.statuscode),
+            mimetype: row.mimetype,
+            digest: row.digest,
+            length: Number(row.length || 0),
+          },
+        ]);
+      }
+
+      for (const [postId, postSnapshots] of grouped.entries()) {
+        snapshots[postId] = postSnapshots.sort(compareSnapshots);
+        found.push({ post_id: postId, prefix: group.prefix, snapshots: postSnapshots.length });
+      }
+
+      console.log(
+        `Prefix probe ${index + 1}/${groups.length}: ${group.prefix}*, candidates=${group.ids.size}, found=${grouped.size}`
+      );
+    } catch (error) {
+      errors.push({ prefix: group.prefix, candidates: group.ids.size, reason: error.message });
+      console.warn(`Prefix probe failed ${group.prefix}*: ${error.message}`);
+    }
+
+    if ((index + 1) % 10 === 0) {
+      await saveRangePrefixCheckpoint({ snapshots, candidates, groups, found, errors, initialCdxCount });
+    }
+
+    await sleep(randomDelay());
+  }
+
+  await saveRangePrefixCheckpoint({ snapshots, candidates, groups, found, errors, initialCdxCount });
+  return JSON.parse(await readFile(RANGE_PROBE_PATH, 'utf8'));
+}
+
+function prefixCandidateGroups(candidates, prefixLength) {
+  const groups = new Map();
+
+  for (const candidate of candidates) {
+    const prefix = String(candidate.post_id).slice(0, prefixLength);
+    const group = groups.get(prefix) ?? {
+      prefix,
+      ids: new Set(),
+      density: candidate.density,
+      missing: candidate.missing,
+      range_span: candidate.range_span,
+    };
+    group.ids.add(candidate.post_id);
+    group.density = Math.max(group.density, candidate.density);
+    group.missing = Math.max(group.missing, candidate.missing);
+    group.range_span = Math.min(group.range_span, candidate.range_span);
+    groups.set(prefix, group);
+  }
+
+  return [...groups.values()].sort((a, b) =>
+    b.density - a.density ||
+    b.missing - a.missing ||
+    a.range_span - b.range_span ||
+    a.prefix.localeCompare(b.prefix)
+  );
+}
+
+async function saveRangePrefixCheckpoint({ snapshots, candidates, groups, found, errors, initialCdxCount }) {
+  const sortedSnapshots = sortSnapshotMap(snapshots);
+  await saveJson(CDX_PATH, sortedSnapshots);
+  await saveJson(RANGE_PROBE_PATH, {
+    generated_at: new Date().toISOString(),
+    mode: 'prefixes',
+    source: relative(rangeSourcePath()),
+    initial_cdx_count: initialCdxCount,
+    final_cdx_count: Object.keys(sortedSnapshots).length,
+    total_candidate_count: candidates.length,
+    selected_prefix_count: groups.length,
+    probed_prefix_count: groups.length,
+    found_count: found.length,
+    error_count: errors.length,
+    found,
+    errors,
+  });
+}
+
+async function saveRangeProbeCheckpoint({ snapshots, candidates, selected, found, misses, errors, initialCdxCount }) {
+  const sortedSnapshots = sortSnapshotMap(snapshots);
+  await saveJson(CDX_PATH, sortedSnapshots);
+  await saveJson(RANGE_PROBE_PATH, {
+    generated_at: new Date().toISOString(),
+    source: relative(rangeSourcePath()),
+    initial_cdx_count: initialCdxCount,
+    final_cdx_count: Object.keys(sortedSnapshots).length,
+    total_candidate_count: candidates.length,
+    selected_count: selected.length,
+    probed_count: found.length + misses.length + errors.length,
+    found_count: found.length,
+    miss_count: misses.length,
+    error_count: errors.length,
+    found,
+    errors,
+  });
+}
+
+async function missingRangeCandidates(snapshots) {
+  const rows = parseTsv(await readFile(rangeSourcePath(), 'utf8'))
+    .map((row) => ({
+      month: row.month,
+      missing: Number(row.missing),
+      start: Number(row.candidate_start),
+      end: Number(row.candidate_end),
+    }))
+    .filter((row) => row.start && row.end && row.start <= row.end);
+  const candidates = [];
+
+  for (const row of rows) {
+    const span = row.end - row.start + 1;
+    const density = row.missing / span;
+    for (let postId = row.start; postId <= row.end; postId += 1) {
+      if (snapshots[postId]) {
+        continue;
+      }
+      candidates.push({
+        post_id: postId,
+        month: row.month,
+        missing: row.missing,
+        range_start: row.start,
+        range_end: row.end,
+        range_span: span,
+        density,
+      });
+    }
+  }
+
+  return candidates.sort((a, b) =>
+    b.density - a.density ||
+    b.missing - a.missing ||
+    a.range_span - b.range_span ||
+    a.post_id - b.post_id
+  );
+}
+
+function rangeSourcePath() {
+  return path.resolve(ROOT, args.rangeSource || args['range-source'] || RANGE_SOURCE_PATH);
+}
+
+function parseTsv(text) {
+  const [headerLine, ...lines] = text.trim().split(/\r?\n/);
+  const headers = headerLine.split('\t');
+  return lines
+    .filter(Boolean)
+    .map((line) => Object.fromEntries(line.split('\t').map((value, index) => [headers[index], value])));
 }
 
 function discoverPostIdsFromHtml(html) {
@@ -613,9 +1104,10 @@ async function fetchPosts(snapshots) {
   const start = Number(args.start ?? POST_ID_MIN);
   const end = Number(args.end ?? POST_ID_MAX);
   const limit = args.limit ? Number(args.limit) : Infinity;
-  const ids = Object.keys(snapshots)
-    .map(Number)
-    .filter((id) => id >= start && id <= end)
+  const selectedIds = await readIdsFile();
+  const ids = (selectedIds ?? Object.keys(snapshots).map(Number))
+    .filter((id) => snapshots[id])
+    .filter((id) => selectedIds || (id >= start && id <= end))
     .sort((a, b) => a - b)
     .slice(0, limit);
 
@@ -666,6 +1158,19 @@ async function fetchPosts(snapshots) {
   }
 
   return { articles, manifest };
+}
+
+async function readIdsFile() {
+  const idsFile = args.idsFile ?? args['ids-file'];
+  if (!idsFile) {
+    return null;
+  }
+
+  const text = await readFile(path.resolve(ROOT, idsFile), 'utf8');
+  return [...new Set(text
+    .split(/\r?\n/)
+    .map((line) => Number(line.trim()))
+    .filter((id) => Number.isInteger(id) && id >= POST_ID_MIN && id <= POST_ID_MAX))];
 }
 
 async function archivePost(postId, postSnapshots) {

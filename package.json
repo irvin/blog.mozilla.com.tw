@@ -6,7 +6,11 @@
   "scripts": {
     "archive": "node scripts/archive-wayback.js",
     "archive:scan": "node scripts/archive-wayback.js scan",
+    "archive:scan-urls": "node scripts/archive-wayback.js scan-urls",
+    "archive:import-urls": "node scripts/archive-wayback.js import-urls",
     "archive:discover": "node scripts/archive-wayback.js discover",
+    "archive:probe-ranges": "node scripts/archive-wayback.js probe-ranges",
+    "archive:probe-urls": "node scripts/archive-wayback.js probe-urls",
     "archive:assets": "node scripts/archive-wayback.js assets",
     "archive:fetch": "node scripts/archive-wayback.js fetch"
   },
