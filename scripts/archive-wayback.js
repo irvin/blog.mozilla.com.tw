@@ -90,7 +90,7 @@ async function main() {
 function printHelp() {
   console.log(`Usage:
   npm run archive:scan
-  npm run archive -- discover --merge-cdx
+  npm run archive -- discover --synthesize-cdx
   npm run archive:fetch -- --limit 10 --include-assets
   npm run archive -- --start 74 --end 9335 --delay-min 1000 --delay-max 3000
 
@@ -109,6 +109,7 @@ Options:
   --delay-min <ms>      Minimum request delay, default 1000
   --delay-max <ms>      Maximum request delay, default 3000
   --max-attempts <n>    Snapshot attempts per post, default ${MAX_SNAPSHOT_ATTEMPTS}
+  --synthesize-cdx      Add listing-page timestamp candidates for discovered ids
   --merge-cdx           For discovered missing ids, query CDX and merge found snapshots
 `);
 }
@@ -209,20 +210,35 @@ async function discoverFromCategories(snapshots) {
   }
 
   const discoveredRows = [...discovered.values()].sort((a, b) => a.post_id - b.post_id);
+  const initialCdxCount = Object.keys(snapshots).length;
   const missingBefore = discoveredRows.filter((row) => !snapshots[row.post_id]);
   const merged = [];
+  const synthesized = [];
+
+  if (hasFlag('synthesize-cdx')) {
+    for (const row of missingBefore) {
+      const postSnapshots = synthesizeSnapshotsFromSources(row);
+      if (postSnapshots.length) {
+        snapshots[row.post_id] = postSnapshots;
+        synthesized.push({ post_id: row.post_id, snapshots: postSnapshots.length });
+      }
+    }
+  }
 
   if (hasFlag('merge-cdx')) {
-    for (const [index, row] of missingBefore.entries()) {
+    const mergeTargets = discoveredRows.filter((row) => !snapshots[row.post_id]);
+    for (const [index, row] of mergeTargets.entries()) {
       const postSnapshots = await scanPostSnapshots(row.post_id);
       if (postSnapshots.length) {
         snapshots[row.post_id] = postSnapshots;
         merged.push({ post_id: row.post_id, snapshots: postSnapshots.length });
       }
-      console.log(`CDX merge ${index + 1}/${missingBefore.length}: ${row.post_id}, snapshots=${postSnapshots.length}`);
+      console.log(`CDX merge ${index + 1}/${mergeTargets.length}: ${row.post_id}, snapshots=${postSnapshots.length}`);
       await sleep(randomDelay());
     }
+  }
 
+  if (hasFlag('synthesize-cdx') || hasFlag('merge-cdx')) {
     for (const postSnapshots of Object.values(snapshots)) {
       postSnapshots.sort(compareSnapshots);
     }
@@ -239,10 +255,13 @@ async function discoverFromCategories(snapshots) {
       total: listingPages.length,
     },
     discovered_count: discoveredRows.length,
-    existing_cdx_count: Object.keys(snapshots).length,
+    initial_cdx_count: initialCdxCount,
+    final_cdx_count: Object.keys(snapshots).length,
     missing_before_count: missingBefore.length,
+    synthesized_count: synthesized.length,
     merged_count: merged.length,
     missing_after_count: missingAfter.length,
+    synthesized,
     merged,
   };
 
@@ -364,6 +383,30 @@ function discoverPostIdsFromHtml(html) {
     .map((link) => getPostId(link.url))
     .filter((postId) => postId && postId >= POST_ID_MIN && postId <= POST_ID_MAX))]
     .sort((a, b) => a - b);
+}
+
+function synthesizeSnapshotsFromSources(row) {
+  const snapshots = [];
+  const seen = new Set();
+
+  for (const source of row.sources) {
+    const key = `${source.timestamp}:${source.kind}:${source.key}:${source.page}`;
+    if (seen.has(key)) {
+      continue;
+    }
+    seen.add(key);
+    snapshots.push({
+      timestamp: source.timestamp,
+      original: canonicalPostUrl(row.post_id),
+      statuscode: 200,
+      mimetype: 'text/html',
+      digest: `listing:${source.kind}:${source.key}:${source.page}:${source.timestamp}`,
+      length: 0,
+      discovered_from: source,
+    });
+  }
+
+  return snapshots.sort(compareSnapshots);
 }
 
 function isWantedMonth(value) {
