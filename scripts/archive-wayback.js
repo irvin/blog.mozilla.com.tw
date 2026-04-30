@@ -300,11 +300,7 @@ function parseArticle(html, originalUrl) {
     /<div\b[^>]*class=["'][^"']*\bentry-content\b[^"']*["'][^>]*>[\s\S]*?<\/div>/i,
     /<div\b[^>]*class=["'][^"']*\bpost-content\b[^"']*["'][^>]*>[\s\S]*?<\/div>/i,
   ]);
-  const contentHtml =
-    firstMatch(articleHtml, [
-      /<div\b[^>]*class=["'][^"']*\bentry-content\b[^"']*["'][^>]*>[\s\S]*?<\/div>/i,
-      /<div\b[^>]*class=["'][^"']*\bpost-content\b[^"']*["'][^>]*>[\s\S]*?<\/div>/i,
-    ]) || articleHtml || '';
+  const contentHtml = extractEntryContent(articleHtml) || articleHtml || '';
   const title = cleanText(
     firstCapture(articleHtml, [
       /<h1\b[^>]*>([\s\S]*?)<\/h1>/i,
@@ -347,6 +343,46 @@ function validateParsed(parsed) {
     return { ok: false, reason: 'empty_article' };
   }
   return { ok: true };
+}
+
+function extractEntryContent(html) {
+  const startMatch = html.match(/<div\b[^>]*class=["'][^"']*\b(?:entry-content|post-content)\b[^"']*["'][^>]*>/i);
+  if (!startMatch) {
+    return '';
+  }
+
+  const startIndex = startMatch.index;
+  const afterStart = startIndex + startMatch[0].length;
+  const wordpressCommentEnd = html.indexOf('<!-- .entry-content -->', afterStart);
+
+  if (wordpressCommentEnd >= 0) {
+    const closeDivStart = html.lastIndexOf('</div>', wordpressCommentEnd);
+    const endIndex = closeDivStart >= afterStart ? closeDivStart + '</div>'.length : wordpressCommentEnd;
+    return html.slice(startIndex, endIndex);
+  }
+
+  return sliceBalancedElement(html, startIndex, 'div');
+}
+
+function sliceBalancedElement(html, startIndex, tagName) {
+  const tagPattern = new RegExp(`<\\/?${tagName}\\b[^>]*>`, 'gi');
+  tagPattern.lastIndex = startIndex;
+
+  let depth = 0;
+  let match;
+
+  while ((match = tagPattern.exec(html))) {
+    if (match[0].startsWith('</')) {
+      depth -= 1;
+      if (depth === 0) {
+        return html.slice(startIndex, tagPattern.lastIndex);
+      }
+    } else if (!match[0].endsWith('/>')) {
+      depth += 1;
+    }
+  }
+
+  return '';
 }
 
 async function archiveAssets(postId, images, timestamp) {
