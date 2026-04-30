@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { createHash } from 'node:crypto';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const ROOT = process.cwd();
@@ -14,6 +14,7 @@ const DISCOVERY_DIR = path.join(ARCHIVE_DIR, 'discovery');
 const CDX_PATH = path.join(ARCHIVE_DIR, 'cdx-snapshots.json');
 const MANIFEST_PATH = path.join(ARCHIVE_DIR, 'manifest.json');
 const INDEX_PATH = path.join(ARCHIVE_DIR, 'index.csv');
+const ASSET_MANIFEST_PATH = path.join(ARCHIVE_DIR, 'asset-manifest.json');
 
 const POST_ID_MIN = 74;
 const POST_ID_MAX = 9335;
@@ -100,6 +101,14 @@ async function main() {
     return;
   }
 
+  if (command === 'assets') {
+    const result = await fetchMissingAssets();
+    console.log(
+      `Retried ${result.total_missing_before} missing assets; localized ${result.localized_now}; remaining ${result.total_missing_after}; manifest written to ${relative(ASSET_MANIFEST_PATH)}`
+    );
+    return;
+  }
+
   throw new Error(`Unknown command: ${command}`);
 }
 
@@ -108,6 +117,7 @@ function printHelp() {
   npm run archive:scan
   npm run archive -- discover --sources tag --synthesize-cdx
   npm run archive:fetch -- --limit 10 --include-assets
+  npm run archive -- assets --delay-min 500 --delay-max 1500
   npm run archive -- --start 74 --end 9335 --delay-min 1000 --delay-max 3000
 
 Commands:
@@ -115,6 +125,7 @@ Commands:
   discover
          Discover post ids from archived category/month listing pages
   fetch  Read archive/cdx-snapshots.json and archive posts
+  assets Retry only missing article image assets from archive/articles-json
   all    Scan if needed, then archive posts (default)
 
 Options:
@@ -125,7 +136,7 @@ Options:
   --delay-min <ms>      Minimum request delay, default 1000
   --delay-max <ms>      Maximum request delay, default 3000
   --max-attempts <n>    Snapshot attempts per post, default ${MAX_SNAPSHOT_ATTEMPTS}
-  --sources <list>      Listing sources for discover: cat,tag,month; default cat,tag,month
+  --sources <list>      Listing sources for discover: cat,tag,month,home; default cat,tag,month
   --expected-category-pages
                        Also try category pages inferred from sidebar counts
   --probe-category-cdx Query CDX for each inferred category page before fetching it
@@ -197,8 +208,9 @@ async function discoverFromCategories(snapshots) {
   const categoryPages = sources.includes('cat') ? await scanListingPages('cat') : [];
   const tagPages = sources.includes('tag') ? await scanListingPages('tag') : [];
   const monthPages = sources.includes('month') ? await scanListingPages('month') : [];
+  const homePages = sources.includes('home') ? await scanListingPages('home') : [];
   const discovered = new Map();
-  const listingPages = [...categoryPages, ...tagPages, ...monthPages];
+  const listingPages = [...categoryPages, ...tagPages, ...monthPages, ...homePages];
 
   for (const [index, page] of listingPages.entries()) {
     try {
@@ -275,6 +287,7 @@ async function discoverFromCategories(snapshots) {
       category: categoryPages.length,
       tag: tagPages.length,
       month: monthPages.length,
+      home: homePages.length,
       total: listingPages.length,
     },
     discovered_count: discoveredRows.length,
@@ -359,6 +372,9 @@ async function scanListingRows(kind) {
     const pathRows = await scanCdxRows('blog.mozilla.com.tw/tag/*', 'urlkey');
     return [...queryRows, ...pathRows];
   }
+  if (kind === 'home') {
+    return scanCdxRows('blog.mozilla.com.tw/%3Fpaged=*', 'urlkey');
+  }
   throw new Error(`Unknown listing source: ${kind}`);
 }
 
@@ -367,7 +383,7 @@ function discoverySources() {
     .split(',')
     .map((source) => source.trim())
     .filter(Boolean);
-  const allowed = new Set(['cat', 'tag', 'month']);
+  const allowed = new Set(['cat', 'tag', 'month', 'home']);
   const sources = rawSources.filter((source) => allowed.has(source));
 
   if (!sources.length) {
@@ -385,6 +401,9 @@ function listingKey(kind, parsed) {
   }
   if (kind === 'tag') {
     return parsed.searchParams.get('tag') || parsed.pathname.match(/\/tag\/([^/]+)/)?.[1] || '';
+  }
+  if (kind === 'home') {
+    return 'home';
   }
   return '';
 }
@@ -887,6 +906,107 @@ async function archiveAssets(postId, images, timestamp) {
     images: archivedImages,
     asset_status: assetErrors.length ? 'partial_assets_failed' : 'ok',
     asset_errors: assetErrors,
+  };
+}
+
+async function fetchMissingAssets() {
+  const articles = await readArchivedArticles();
+  const result = {
+    generated_at: new Date().toISOString(),
+    articles_total: articles.length,
+    articles_with_missing_before: 0,
+    articles_with_missing_after: 0,
+    total_images: 0,
+    total_localized_before: 0,
+    total_missing_before: 0,
+    total_localized_after: 0,
+    total_missing_after: 0,
+    localized_now: 0,
+    asset_errors: [],
+    articles: [],
+  };
+
+  for (const [index, article] of articles.entries()) {
+    const before = assetStats(article);
+    result.total_images += before.total;
+    result.total_localized_before += before.localized;
+    result.total_missing_before += before.missing;
+
+    if (!before.missing) {
+      result.total_localized_after += before.localized;
+      result.total_missing_after += before.missing;
+      continue;
+    }
+
+    result.articles_with_missing_before += 1;
+    const updated = await retryArticleAssets(article);
+    const after = assetStats(updated);
+    result.total_localized_after += after.localized;
+    result.total_missing_after += after.missing;
+    result.localized_now += after.localized - before.localized;
+    result.asset_errors.push(...(updated.asset_errors || []).map((error) => ({ post_id: updated.post_id, ...error })));
+    result.articles.push({
+      post_id: updated.post_id,
+      title: updated.title,
+      before,
+      after,
+      asset_status: updated.asset_status,
+      asset_errors: updated.asset_errors || [],
+    });
+
+    if (after.missing) {
+      result.articles_with_missing_after += 1;
+    }
+
+    await writeArticle(updated);
+
+    if ((index + 1) % 25 === 0) {
+      await saveJson(ASSET_MANIFEST_PATH, result);
+      console.log(`Asset checkpoint: ${index + 1}/${articles.length}`);
+    }
+  }
+
+  await saveJson(ASSET_MANIFEST_PATH, result);
+  return result;
+}
+
+async function readArchivedArticles() {
+  const files = (await readdir(JSON_DIR))
+    .filter((file) => file.endsWith('.json'))
+    .sort((a, b) => Number.parseInt(a, 10) - Number.parseInt(b, 10));
+  const articles = [];
+
+  for (const file of files) {
+    articles.push(JSON.parse(await readFile(path.join(JSON_DIR, file), 'utf8')));
+  }
+
+  return articles;
+}
+
+async function retryArticleAssets(article) {
+  const missingImages = (article.images || []).filter((image) => !image.archive_path);
+  const existingImages = (article.images || []).filter((image) => image.archive_path);
+  const existingByUrl = new Map(existingImages.map((image) => [image.url, image]));
+  const retryResult = await archiveAssets(article.post_id, missingImages, article.wayback_timestamp);
+  const retriedByUrl = new Map(retryResult.images.map((image) => [image.url, image]));
+  const images = (article.images || []).map((image) => existingByUrl.get(image.url) || retriedByUrl.get(image.url) || image);
+  const stillMissing = images.filter((image) => !image.archive_path);
+
+  return {
+    ...article,
+    images,
+    asset_status: stillMissing.length ? 'partial_assets_failed' : 'ok',
+    asset_errors: retryResult.asset_errors,
+  };
+}
+
+function assetStats(article) {
+  const images = article.images || [];
+  const localized = images.filter((image) => image.archive_path).length;
+  return {
+    total: images.length,
+    localized,
+    missing: images.length - localized,
   };
 }
 
