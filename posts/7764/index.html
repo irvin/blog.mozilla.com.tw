@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Trainspotting 系列文章：Firefox 40 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Trainspotting 系列文章：Firefox 40</h2>
+            <p class="entry-posted"><time datetime="2015-08-14" class="published"><span class="posted-month">8月</span><span class="posted-date">14</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p>〈Trainspotting〉系列文章將重點提示 Firefox 最新版本的已上線功能。Firefox 現固定每六個星期釋出新版本，而我們稱此種模式為「Release trains」。</p>
+<p>新版 Firefox 就如同大型噴射機一樣再度起飛！來看看哪些有趣的新東西可給使用者與開發者享受的吧。</p>
+<p>若要完整知道相關細節，請參閱 <a href="https://www.mozilla.org/en-US/firefox/40.0/releasenotes/">Firefox 40 版本說明</a>。</p>
+<h4>開發者工具</h4>
+<p>你可曾在「檢測器 (Inspector)」中找到自己需要的東西，卻不知道位在網頁的何處嗎？現在可透過檢測器中的「Markup View」，直接捲動找到所需的元素：</p>
+<p><img src="../../assets/7764/wp-content/uploads/scroll-into-view.gif" alt="scroll-into-view" loading="lazy"></p>
+<p>透過 CSS 規則篩選，可更輕鬆找出複雜的樣式表 (Stylesheets)：</p>
+<p><img src="../../assets/7764/wp-content/uploads/css-filtered-1024x665.png" alt="css-filtered" loading="lazy"></p>
+<p>在「規則 (Rule)」檢視面板中，只要按住 Shift 再於色彩之上點擊滑鼠，就能看到色彩的呈現方式：</p>
+<p><img src="../../assets/7764/wp-content/uploads/color-rotate.gif" alt="color-rotate" loading="lazy"></p>
+<p>若在 return 陳述式之後有任何程式碼，「網頁主控台 (Web Console)」將警告有某段執行不到 (Unreachable) 的程式碼。</p>
+<p><img src="../../assets/7764/wp-content/uploads/unreachable-1024x42.png" alt="unreachable" loading="lazy"></p>
+<p>開發者工具另加入了強大的「Performance」效能分析工具集，並已透過<a href="../../posts/7600/">此篇文章</a>搭配 Firefox 40 開發者工具來展示相關範例。</p>
+<h4>已簽署的附加元件</h4>
+<p><img src="../../assets/7764/wp-content/uploads/extension-warning.png" alt="extension-warning" loading="lazy"></p>
+<p>對所有瀏覽器來說，惡意的擴充套件一直是揮之不去的問題。因為 Firefox 附加元件 (Add-on) 功能強大，所以應該要有更好的方式保護使用者，避免惡意程式碼自行偷跑。而從 Firefox 42 開始，所有 Firefox 附加元件都必須完成簽署，才得以讓消費者安裝。在目前的 Firefox 40 中，使用者會收到未簽署擴充套件的警示，但仍可繼續逕自安裝。你可以進一步了解<a href="https://blog.mozilla.org/addons/2015/04/15/the-case-for-extension-signing/">為何需要簽署擴充套件</a>，並透過<a href="https://wiki.mozilla.org/Addons/Extension_Signing">整體規劃</a>來產出已簽署的擴充套件。</p>
+<h4>offsetX 與 offsetY 事件</h4>
+<p>有時候好東西就是好東西，即便耗時 <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=69787">14 年</a>也還是好東西！Firefox 現可支援<a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent">MouseEvents</a> 的 <a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/offsetX">offsetX</a> 與 <a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/offsetX">offsetY</a> 屬性。往後只要是滑鼠於網頁元素中的位移事件，能更容易透過程式碼進行追蹤，而不用先取得該元素在網頁中的位置。一如既往，應先執行功能檢查以確保程式碼可跨瀏覽器運作：</p>
+<p>el.addEventListener(function (e) {<br>  var x, y;<br>  if (&#39;offsetX&#39; in e) {<br>     x = e.offsetX;<br>     y = e.offsetY;<br>  } else {<br>    // addition needed for every offsetParent up the chain<br>    x = e.clientX + e.target.offsetLeft /<em> ... </em>/;<br>    y = e.clientY + e.target.offsetTop /<em> ... </em>/;<br>  }<br>  addGlitterMouseTrails(x, y);<br>}</p>
+<p>					123456789101112</p>
+<p>						el.addEventListener(function (e) {  var x, y;  if (&#39;offsetX&#39; in e) {     x = e.offsetX;     y = e.offsetY;  } else {    // addition needed for every offsetParent up the chain    x = e.clientX + e.target.offsetLeft /<em> ... </em>/;    y = e.clientY + e.target.offsetTop /<em> ... </em>/;  }  addGlitterMouseTrails(x, y);}</p>
+<h4>還沒完呢！</h4>
+<p>新版本 Firefox 釋出之前，往往先修正了許多錯誤並進行多項更正，只為了提供更好的瀏覽與開發經驗 (我當然只舉出其中兩個例子而已)。最後要提到 <a href="https://blog.mozilla.org/community/2015/08/10/firefox-40-new-contributors/">55 名首次貢獻此版本 Firefox 的開發者</a>，而且其中 49 位還是真正第一次加入的貢獻者。謝謝大家！</p>
+<p>若要了解所有細節，請參閱<a href="https://developer.mozilla.org/en-US/Firefox/Releases/40">開發者 (Developer) 版本說明</a>，也有<a href="https://bugzilla.mozilla.org/buglist.cgi?j_top=OR&amp;f1=target_milestone&amp;o3=equals&amp;v3=Firefox%2040&amp;o1=equals&amp;resolution=FIXED&amp;o2=anyexact&amp;query_format=advanced&amp;f3=target_milestone&amp;f2=cf_status_firefox40&amp;bug_status=RESOLVED&amp;bug_status=VERIFIED&amp;bug_status=CLOSED&amp;v1=mozilla40&amp;v2=fixed%2Cverified&amp;limit=0">已修復錯誤的完整清單</a>。祝瀏覽愉快！</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/08/trainspotting-firefox-40/">Trainspotting: Firefox 40</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824011143id_/https://blog.mozilla.com.tw/?p=7764">Wayback snapshot</a>
+              <span>Post ID: 7764</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

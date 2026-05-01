@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>網路付款 navigator.mozPay() 介紹 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">網路付款 navigator.mozPay() 介紹</h2>
+            <p class="entry-posted"><time datetime="2013-04-11" class="published"><span class="posted-month">4月</span><span class="posted-date">11</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p>現在網路上的付款機制到底出了什麼問題？任何網站都已經有購物車功能，而且幾乎都搭配信用卡或類似的付款機制。依照目前網路的自由度，應該要能支援更多商業模式才對。這裡就是問題所在：</p>
+<ul><li>使用者不能選擇付款方式，卻必須選擇那些預先定義的選項之一。</li></ul>
+<ul><li>在大多數情形中，使用者必須在網站上鍵入實際的信用卡卡號。這就好像你把自己的雙 B 車鑰匙給某個人，讓他把車開到治安不好的地區 (就是網路) 大繞特繞，然後還要大叫「不要搶我的車」一樣。</li></ul>
+<ul><li>而付款服務商往往要自己管理所有事情：設定付款處理機制、高額的金流處理費用，甚至還要顧到 PCI 相容性。</li></ul>
+<p>如 PayPal 與 Stripe 的相關服務，則能代勞許多相容性的問題，但仍未能十分完善的整合網路裝置。而 Mozilla 要提供常見的網路 API，讓網路裝置上的付款過程更輕鬆、更安全，同時能讓付款服務供應商 (如 ASP、銀行、賣方企業等) 更靈活檢查相關設定。</p>
+<p>首先就是 Mozilla 為 <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox_OS">Firefox OS</a> 所發表的 <a href="https://wiki.mozilla.org/WebAPI/WebPayment">navigator.mozPay()</a>，可讓網路 App <a href="https://developer.mozilla.org/en-US/docs/Apps/Publishing/In-app_payments">接受付款</a>。</p>
+<p>如何運作？</p>
+<p><a href="https://wiki.mozilla.org/WebAPI/WebPayment">navigator.mozPay()</a> 是由 <a href="https://developers.google.com/commerce/wallet/digital/docs/index">google.payments.inapp.buy()</a> 所開發的 JavaScript API，另修改了如多家付款服務供應商，與電信帳單代繳等功能。一旦 Firefox OS 中的網路 App 呼叫 navigator.mozPay() 之後，該裝置隨即以簡潔的 UI 顯示安全視窗。在授權之後，使用者可透過信用卡或電訊帳單付費。付費程序完成，App 隨即送出產品。亦可輕鬆且快速的重複購買。</p>
+<p>我在之前的文章中提過<a href="https://hacks.mozilla.org/2013/02/building-a-paid-app-for-firefox-os/">購買 App 並接受收據</a>。而 navigator.mozPay() 的不同之處，在於此 API 的概念並非真正購買了「產品」，而是簡化了數位貨品或服務的「付款」。</p>
+<p>付款作業的開始與結束，均在用戶端完成；另於伺服端進行處理與通知作業。本篇文章僅簡短說明此 API 的整合方式。若要完整了解相關概念，請參閱 <a href="https://developer.mozilla.org/en-US/docs/Apps/Publishing/In-app_payments">Firefox Marketplace 的 in-app payments 指南</a>。</p>
+<p>整合付款服務商</p>
+<p>現有多個<a href="https://wiki.mozilla.org/WebAPI/WebPaymentProvider">付款服務供應商</a>可於 <a href="https://wiki.mozilla.org/WebAPI/WebPayment">navigator.mozPay()</a> 背景中啟動付款作業。舉例來說，<a href="https://marketplace.firefox.com/">Firefox Marketplace</a> 即可進行付款作業。</p>
+<p>若是開發人員，則必須取得各供應商的授權，才能販售自己的商品。依現有的 API 設計，開發人員必須向供應商取得「Application Key」與「Application Secret」各 1 組，才能簽署數位付款請求。在簽署過請求之後，可避免未經授權的第三方販售自己的產品，亦可避免使用者篡改價格。</p>
+<p>開始付款作業</p>
+<p>只要使用者決定購買你的網路 App 之後，即可用你自己的 Application Secret 建立 <a href="https://openid.net/specs/draft-jones-json-web-token-07.html">JSON Web Token</a> (JWT)。若你已經和多家供應商達成協議，則應該為各家供應商均建立 1 組 JWT。開始付款作業時應該像：</p>
+<p>document.querySelector(&#39;button.buy&#39;).onclick = function() {<br>    navigator.mozPay([mozillaJWT, otherJWT, ...]);<br>};</p>
+<p>					123</p>
+<p>						document.querySelector(&#39;button.buy&#39;).onclick = function() {    navigator.mozPay([mozillaJWT, otherJWT, ...]);};</p>
+<p>定義產品</p>
+<p><a href="https://openid.net/specs/draft-jones-json-web-token-07.html">JWT</a> 即是簽署過的 JSON 物件，其中定義了產品名稱與價格的細節。為簡潔呈現，下列範例已移除了某些屬性：</p>
+<p>{<br>  &quot;iss&quot;: APPLICATION_KEY,<br>  &quot;aud&quot;: &quot;marketplace.firefox.com&quot;,<br>  ...<br>  &quot;request&quot;: {<br>    &quot;name&quot;: &quot;Magical Unicorn&quot;,<br>    &quot;pricePoint&quot;: 1,<br>    &quot;postbackURL&quot;: &quot;https://yourapp.com/postback&quot;,<br>    &quot;chargebackURL&quot;: &quot;https://yourapp.com/chargeback&quot;<br>  }<br>}</p>
+<p>					1234567891011</p>
+<p>						{  &quot;iss&quot;: APPLICATION_KEY,  &quot;aud&quot;: &quot;marketplace.firefox.com&quot;,  ...  &quot;request&quot;: {    &quot;name&quot;: &quot;Magical Unicorn&quot;,    &quot;pricePoint&quot;: 1,    &quot;postbackURL&quot;: &quot;https://yourapp.com/postback&quot;,    &quot;chargebackURL&quot;: &quot;https://yourapp.com/chargeback&quot;  }}</p>
+<p>此處的價格是於「price points」中定義，可讓付款服務供應商處理各地區的匯兌作業。在此範例中，pricePoint 1 可代表歐元 €0.89 或美金 $0.99。當然亦可支援小額付費。請參閱 <a href="https://wiki.mozilla.org/WebAPI/WebPayment">navigator.mozPay()</a> 以進一步讓付款作業能請求 JWT。</p>
+<p>完成付款作業</p>
+<p>若要完成付款作業，則必須等待付款服務供應商送至伺服器的結果。postbackURL 代表成功；chargebackURL 則代表失敗。若要呈現較完整的「請求購買作業」範例，則必須納入「等待 postback 抵達」的機制，則 JavaScript 如下：</p>
+<p>var request = navigator.mozPay([mozillaJWT, otherJWT]);<br>request.onsuccess = function() {<br>  // The payment window has closed.<br>  whenPaymentResultReceived(function() {<br>    console.log(&#39;Success! User has purchased a Magical Unicorn.&#39;);<br>  });<br>};</p>
+<p>					1234567</p>
+<p>						var request = navigator.mozPay([mozillaJWT, otherJWT]);request.onsuccess = function() {  // The payment window has closed.  whenPaymentResultReceived(function() {    console.log(&#39;Success! User has purchased a Magical Unicorn.&#39;);  });};</p>
+<p>若要建構 whenPaymentResultReceived()，則需先為自己的伺服器開啟網路 Socket、等待付款結果、驗證後續的 JWT 簽章。另可參閱 <a href="https://wiki.mozilla.org/WebAPI/WebPayment">navigator.mozPay()</a> 以進一步了解 postback (回傳) 與 chargeback (退款) 通知的運作方式。</p>
+<p>測試一下</p>
+<p>其實 Firefox Marketplace 中的付款機制尚未真正上線運作，但可模擬付款作業而測試自己的程式碼。請先登入 <a href="https://marketplace.firefox.com/developers/">Firefox Marketplace Developer Hub</a> 並<a href="https://marketplace.firefox.com/developers/in-app-keys/">產生</a> Application Key 與 Application Secret 即可模擬。取得 Application Key 與 Application Secret 之後，可將下列特殊參數加入至 JWT 中：</p>
+<p>{<br>  &quot;request&quot;: {<br>    &quot;name&quot;: &quot;Magical Unicorn&quot;,<br>    &quot;pricePoint&quot;: 1,<br>    ...<br>    &quot;simulate&quot;: {&quot;result&quot;: &quot;postback&quot;}<br>  }<br>}</p>
+<p>					12345678</p>
+<p>						{  &quot;request&quot;: {    &quot;name&quot;: &quot;Magical Unicorn&quot;,    &quot;pricePoint&quot;: 1,    ...    &quot;simulate&quot;: {&quot;result&quot;: &quot;postback&quot;}  }}</p>
+<p>這樣即可讓 Firefox OS 顯示付款視窗，當然不會真的要你付錢。如此可測試用戶端的 JavaScript 程式碼，還有伺服端的 postback 處理器 (Handler)，確保已妥善整合所有流程。一旦要真正上線，則只要移除這個模擬屬性即可。如果你才剛開始接觸 Firefox OS 的開發作業，則可參閱 <a href="https://hacks.mozilla.org/2013/03/firefox-os-simulator-previewing-version-3-0/">Firefox OS 模擬器</a>。</p>
+<p>若你已經開始開發 Firefox OS 的遊戲或網路 App，則可參閱 <a href="https://wiki.mozilla.org/WebAPI/WebPayment">navigator.mozPay()</a> 以深入了解。</p>
+<p>用函式庫應該比較簡單</p>
+<p>我們也是這樣想！所以我們針對 <a href="https://github.com/mozilla/mozpay-js">Node.JS</a> 與 <a href="https://mozpay.readthedocs.org/en/latest/">Python</a> 建立了函式庫，確保 <a href="https://wiki.mozilla.org/WebAPI/WebPayment">navigator.mozPay()</a> 的伺服端邏輯亦儘可能簡單。用於其他程式語言的函式庫也已經快要完成。我們也在嘗試能完全<a href="https://github.com/kumar303/mozpay-catalog/">省去伺服器的基本要求</a>。</p>
+<p>目前狀態</p>
+<p>透過前置字元，你大概已經猜到 navigator.mozPay() 目前僅是實驗性的 API，而且未來可能大幅修改 API 本身或去掉其前置字元。且首款 Firefox OS 行動電話將透過此 API 處理線上付款，並將迅速超越實際用途之外。</p>
+<p>Mozilla 正打算透過 W3C 與其他供應商合作，期待能建構出通用 API 而達到最佳的網路付款作業。除了讓 Firefox OS 搭載 navigator.mozPay() 之外，Mozilla 也計畫為 Firefox 桌面版與 Firefox for Android 新增 navigator.mozPay()。</p>
+<p>新的商業模式</p>
+<p>長久以來，廣告就是網路上的<a href="https://arstechnica.com/business/2010/03/why-ad-blocking-is-devastating-to-the-sites-you-love/">主要商業模式</a>，但其實使用者也都<a href="https://addons.mozilla.org/en-us/firefox/addon/adblock-plus/statistics/?last=30">不想看到廣告</a>。Mozilla 並非想直接打斷廣告商業模式，而是要針對廣告網路而<a href="https://blog.mozilla.org/privacy/2013/02/25/firefox-getting-smarter-about-third-party-cookies/">修正重要的隱私問題</a>。</p>
+<p>如果使用者真的受到廣告吸引而掏錢呢？navigator.mozPay() 也可用於直接付款模式。網路上真有吸引你去買的東西，你直接付錢就好。其實這個機制<a href="https://articles.businessinsider.com/2012-03-21/tech/31218846_1_zynga-revenue-rate">已經妥善運作</a>於現有的行動 App 上了。行動裝置廣告所帶來的效益，可能等同桌面裝置上的廣告嗎？我對這個問題沒有確實答案，但可以確定一點：網路的初階功能，就應該支援所有的商業與付款模式。</p>
+<p>足以遍佈整個網路？</p>
+<p>Mozilla 對 navigator.mozPay() 所寄予的主要目標，就是讓使用者與供應商能夠選擇安全、簡單易用的付款系統。但是針對賣方與付款服務供應商之間的互動方式，API 尚未規範出相關細節且仍有不小的落差。首款搭載 Firefox OS 的行動電話，雖然將詳細列出已合作的付款服務供應商，但仍未臻完善。</p>
+<p>在網路普及的情況下，只要是付款的相關方面都應儘量分散 (或稱非集中 Decentralized)，才能真正促成創新概念，讓不知名的付款服務供應商竄起。誰能成為下一個 <a href="https://en.wikipedia.org/wiki/M-Pesa">M-Pesa</a> 呢？任何完善的 API 都應該要能支援 M-Pesa 的概念。要建立安全且分散的付款 API 實在是不小的挑戰，而解決方案應該要能滿足下列主要的「信任」需求：</p>
+<ul><li>如何讓消費者相信付款後能真的收到商品？</li></ul>
+<ul><li>如何讓消費者相信付款機制安全無虞？</li></ul>
+<ul><li>要如何確保賣方出貨之後能收到貨款？</li></ul>
+<p>其實只要與錢搭上關係，每一步都必須謹慎小心以免爭議。數位貨幣 <a href="https://en.wikipedia.org/wiki/Bitcoin">BitCoin</a> 透過<a href="https://en.bitcoin.it/wiki/Block_chain">區塊鏈 (Block chain)</a>；網路付款協定 <a href="https://payswarm.com/wiki/PaySwarm_Design">PaySwarm</a> 則是以分散資產與公共金鑰 (或稱公鑰 Public key) 等特色，解決了信任方面的相關問題。Mozilla 將參考 PaySwarm 與其他模式，以期讓 navigator.mozPay() 能整合相關概念的優點，達成絕佳的付款平台。</p>
+<p>英文原文：https://hacks.mozilla.org/2013/04/introducing-navigator-mozpay-for-web-payments/</p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=2295">Wayback snapshot</a>
+              <span>Post ID: 2295</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

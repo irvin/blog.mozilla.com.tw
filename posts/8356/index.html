@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>為 Firefox OS 電視打造遊戲 (上) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">為 Firefox OS 電視打造遊戲 (上)</h2>
+            <p class="entry-posted"><time datetime="2016-01-14" class="published"><span class="posted-month">1月</span><span class="posted-date">14</span><span class="posted-year">2016</span></time></p>
+          </header>
+          <div class="entry-content"><p>隨著 Firefox OS 著眼於連網裝置的趨勢，現正是針對大型螢幕開發遊戲的時候。松下電器 (Panasonic) 現已發售多款 Firefox OS 智慧電視，而相較於一般人所習慣的智慧型手機畫面，我們將透過本文簡單介紹該如何對應大型電視螢幕開發 HTML5 遊戲。</p>
+<h4>羅傑斯隊長再臨</h4>
+<p>我 (作者 <a href="https://end3r.com/">Andrzej Mazur)</a> 身為「Enclave Games」的創辦者與開發者，遊戲開發生涯就從<a href="https://rogers.enclavegames.com/">第一版〈羅傑斯隊長 (Captain Rogers)〉開始</a> (此遊戲別名為 Asteroid Belt of Sirius)，且是莫約 3 年前針對初階智慧型手機所<a href="https://hacks.mozilla.org/2013/12/write-elsewhere-run-on-firefox/">設計</a>，並針對小型螢幕完成最佳化。我還記得當時能在 Geeksphone Keon 的 3.5 吋螢幕上順暢運行，壓根沒想過有機會讓隊長再登上 50 吋的電視繼續冒險。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/captainrogers-mainmenu.png" alt="captainrogers-mainmenu" loading="lazy"></p>
+<p>我一直很樂意透過全新技術設計 HTML5 遊戲、打造最高端的 API、開發嶄新的平台，也因此我都用 Keon 測試遊戲並確保其能順暢運作。在我看到市面上的第一款智慧電視時，我就在想哪天能有一台搭載 Firefox OS 的電視呢？且和智慧型手機及 PC 端的 Web 相較，又能達到怎樣的效能與開發簡易程度呢？<a href="../../posts/8337/">初亮相的 Panasonic 電視</a>就是讓老隊長重出江湖的契機，看看玩家口味在這幾年的變化之下，是否有機會再讓玩家驚豔一次。</p>
+<h4>規劃新版本</h4>
+<p>我決定要針對大型螢幕 (當然以電視為主)，用現有技術重新打造隊長。原始遊戲是以 ImpactJS 遊戲引擎搭配 480 x 320 解析度所寫。但快轉到今天，我用 Phaser 寫遊戲已有 2 年多，也認為 Phaser 是目前一般 2D 遊戲的最佳引擎。</p>
+<p>瀏覽器繪圖引擎的效能也不可同日而語，所以我覺得遊戲要兼顧高解析度與高幀率也不是什麼問題。因此我讓新版的隊長達到 960 x 640 像素，比第一版的畫質要好上很多。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/captainrogers2-cover.png" alt="captainrogers2-cover" loading="lazy"></p>
+<p>首先我要用新框架複製原始的遊戲邏輯。本來是打算直接重新製作 HD 版本，但我想加入新的射擊、飄忽不定的敵人，以及某些視覺效果等元素，所以你幾乎是在玩全新的冒險情節。現可<a href="https://rogers2.enclavegames.com/tv/">試玩 2016 賭城 CES 展場上以 Panasonic 電視呈現的示範遊戲</a>。</p>
+<p>我目前正與 Blackmoon Design 合作打造完整的〈Captain Rogers 2: Battle at Andromeda〉，並將於約兩個月之後釋出。</p>
+<p>只要你手上有現成的、針對手機所寫的 HTML5 遊戲，也想加入電視的大螢幕遊戲行列，就一定要繼續看看〈<a href="../../posts/8357/">為 Firefox OS 電視打造遊戲 (下)</a>〉，了解作者是怎麼將此遊戲最基本的上下左右按鍵對應到遙控器，讓電視遙控器直接變身遊戲搖桿！</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2016/01/building-games-for-firefox-os-tv/">Building games for Firefox OS TV</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Web App</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20191019122130id_/https://blog.mozilla.com.tw/?p=8356">Wayback snapshot</a>
+              <span>Post ID: 8356</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>介紹 debugger.html | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">介紹 debugger.html</h2>
+            <p class="entry-posted"><time datetime="2016-10-03" class="published"><span class="posted-month">10月</span><span class="posted-date">3</span><span class="posted-year">2016</span></time></p>
+          </header>
+          <div class="entry-content"><p>「debugger.html」為 Mozilla 所提供的 JavaScript 新除錯器，並透過 <a href="https://facebook.github.io/react/">React</a> 與 <a href="https://redux.js.org/">Redux</a> 將之建構為 Web App 的形式。此一專案已從今年稍早開跑，期能取代 <a href="https://developer.mozilla.org/en/docs/Tools">Firefox 開發者工具</a>中現有的除錯器。我們更希望讓除錯器能以單一獨立的形式，對多個目標進行除錯。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/colla-1024x559.png" alt="colla" loading="lazy"></p>
+<p>目前 debugger.html 已能連上 Firefox 並除錯，另可實驗性的連接 Chrome 與 Node。連接 Firefox 是透過 Mozilla 的「<a href="https://wiki.mozilla.org/Remote_Debugging_Protocol">遠端除錯協定 (Remote Debug Protocol；RDP)</a>；連接 Node 與 Chrome 則是利用 <a href="https://developer.chrome.com/devtools/docs/debugger-protocol">Chrome 的 RDP</a>。</p>
+<p>debugger.html 專案現已置於 GitHub 上，另使用目前主流的框架與工具鏈，希望能以穩定的品質接觸更多開發者。</p>
+<h4>debugger.html</h4>
+<p>使用者介面分成 3 個主要區塊：原始碼面板、編輯器面板、右側邊欄。</p>
+<ul><li>原始碼面板是透過樹狀檢視圖，呈現目前正除錯中的 App 程式碼。</li></ul>
+<ul><li>編輯器面板則顯示專案的不同原始檔案，另可設定中斷點 (Breakpoint) 並修飾原始碼。</li></ul>
+<ul><li>除錯器暫停時，右側邊欄將顯示目前的中斷點集合、現有目前的呼叫堆疊、範圍內的變數。 除錯器可支援暫停 (Pause)、不進入函式 (Step over)、逐步執行 (Step in)、跳離函式 (Step out)、播放 (Play) 等控制功能，以利 JavaScript 除錯。</li></ul>
+<ul><li>呼叫堆疊面板則針對既有的暫停條件，顯示呼叫堆疊框架 (Frame)；而函式內的區域變數將根據選定的框架 ， 顯示可擴充的變數樹狀圖 。</li></ul>
+<h4><img src="https://blog.mozilla.com.tw/wp-content/uploads/debug-1024x582.gif" alt="debug" loading="lazy"></h4>
+<h4>動手開始</h4>
+<p>在使用除錯器之前，請先看看 Github 上的程式碼，並閱讀<a href="https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#getting-started">入門</a>指南。</p>
+<p>如果你只是想嘗鮮體驗，就執行下列指令：</p>
+<p>npm install - Install dependencies <br>npm start - Start development web server <br>open http://localhost:8000 - Open in any modern browser</p>
+<p>					123</p>
+<p>						npm install - Install dependencies npm start - Start development web server open http://localhost:8000 - Open in any modern browser</p>
+<p>當你在瀏覽器的 port 8000 中開啟除錯器之後，就會顯示除錯器的主頁面，監控你所能選擇的任何可除錯的目標。為了讓除錯器能連接目標並除錯，就必須啟動遠端除錯功能。如此會需要你以不同的參數設定開始對目標進行除錯。舉例來說，你可於 MacOS 上開始 Firefox 實體 (Instance)，並以下列指令啟動遠端除錯功能：</p>
+<p>$ /Applications/Firefox.app/Contents/MacOS/firefox-bin <br>--start-debugger-server 6080 -P development</p>
+<p>					12</p>
+<p>						$ /Applications/Firefox.app/Contents/MacOS/firefox-bin --start-debugger-server 6080 -P development</p>
+<p>Chrome 與 Firefox 可用的其他選項列在<a href="https://github.com/devtools-html/debugger.html/blob/master/docs/remotely-debuggable-browsers.md">這裡</a>。</p>
+<p>Debugging Node 需要你安裝 version v6.3.0 或更高版本。在執行 Node 時必須加上檢視參數。再舉個例子，如果你要對 myserver.js 除錯，則需使用類似下列的指令：</p>
+<p>$ node --inspect myserver.js</p>
+<p>					1</p>
+<p>						$ node --inspect myserver.js</p>
+<p>請參閱〈<a href="https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md#getting-started">Getting Started</a>〉獲得進一步資訊。</p>
+<h4>Firefox 開發者工具</h4>
+<p>我們現正將此除錯器整合至 Firefox <a href="https://developer.mozilla.org/en-US/docs/Tools">開發者工具</a>中，你已可透過<a href="https://nightly.mozilla.org/">每夜更新版 (Nightly)</a> 搶先體驗。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/jsfiddle-1024x696.png" alt="jsfiddle" loading="lazy"></p>
+<h4>一同參與</h4>
+<p>如上所提到的，此一專案目前仍處於開發階段，也需要更多人協助打造出更好的除錯器。如果你想加入我們，請先參閱<a href="https://github.com/devtools-html/debugger.html/blob/master/CONTRIBUTING.md">加入貢獻</a>指南。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2016/09/introducing-debugger-html/">Introducing debugger.html</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Web App</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20200805164126id_/https://blog.mozilla.com.tw/?p=9228">Wayback snapshot</a>
+              <span>Post ID: 9228</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

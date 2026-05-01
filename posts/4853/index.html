@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Firefox OS 適用的 WebGL 與 CreateJS (上) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Firefox OS 適用的 WebGL 與 CreateJS (上)</h2>
+            <p class="entry-posted"><time datetime="2014-02-05" class="published"><span class="posted-month">2月</span><span class="posted-date">5</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>本篇為 <a href="https://gskinner.com/">gskinner</a> 公司開發者的友情贊助文。Mozilla 已與該公司的 CreateJS.com 團隊合作，除了協助開發開放源碼函式庫的新功能之外，也確保該函式庫能於 Firefox OS 上妥善運行。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/bunny.jpg" alt="bunny" loading="lazy"></p>
+<p>我們 <a href="https://www.gskinner.com/">gskinner</a> 的公司哲學，就是要將解決方案貢獻給開發社群所用。最近四年來，我們都專注於 HTML 與 Javascript 的 Web 標準。我們的 <a href="https://www.createjs.com/">CreateJS</a> 函式庫現已提供模組化、簡易不生硬、可跨平台與瀏覽器的 API，並能於開放的 Web 上建構豐富的互動經驗。實在太好玩了。</p>
+<p>舉例來說，<a href="https://code.createjs.com/">CreateJS CDN</a> 每個月都能收到許多意見與心得。而 Adobe 也已選用 CreateJS 作為其官方的正式框架，可於 <a href="https://www.adobe.com/products/flash.html">Flash Professional CC</a> 中建立 <a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 文件。</p>
+<p>Firefox OS 則是能完美搭配 CreateJS 的內容。我們只花了些許功夫，就讓最新函式庫不僅能支援 Firefox OS，也成為該平台 App 與遊戲的有力撰寫工具。</p>
+<p>我們很高興能有 Mozilla 全力支援 CreateJS，並對外發表絕妙的函式庫！</p>
+<h3>WebGL</h3>
+<p>隨著有<a href="https://caniuse.com/webgl">越來越多瀏覽器</a>支援 <a href="https://developer.mozilla.org/en/WebGL">WebGL</a>，在與 Mozilla 密切合作之後，我們也很高興能大聲宣佈：適用於 EaselJS 的全新 WebGL 繪圖器 (Renderer) 現已進入早期測試階段了！接下來的研究、最佳化、內部討論等活動重點，將努力建構出繪圖器以描繪 2D 內容，並達到目前 Canvas 2D 的 6 ~ 50 倍速度，且將完整支援瀏覽器與 Firefox OS 的 In-app 內容。</p>
+<p>我們之前就盤算著要讓 WebGL 繪圖器能達到哪些效能，目前先濃縮出三大主要目標：</p>
+<ul><li>繪製 sprites 與點陣圖 (bitmap) 的超高效能</li></ul>
+<ul><li>以現有的 EaselJS API 為基礎，保持其一致性</li></ul>
+<ul><li>若無法使用 WebGL，亦可退回使用 Context2D</li></ul>
+<p>下列是我們想到的重點：</p>
+<h3>SpriteStage 與 SpriteContainer</h3>
+<p>SpriteStage 與 SpriteContainer 此二項新類別，可於顯示清單上強加限制，主動最佳化點陣圖的描繪作業。描繪作業包含圖像、sprite 動畫、點陣圖文字等。SpriteStage 則是能自動對各組幀像產生額外的繪圖呼叫 (Draw call)、讓單一繪圖呼叫內的最多元素數量不受限，達到更靈活的作業。</p>
+<p>此二種新類別均為現有 EaselJS 類別 (即 Stage 與 Container) 的延伸，因此只要開發者熟悉 EaselJS，就能輕鬆建構出 WebGL 內容。且若是使用 EaselJS 繪出現有內容，也只要幾個步驟就能改用 WebGL。</p>
+<h3>圖層繪圖器 (Layering Renderer)</h3>
+<p>此方式可讓 WebGL 與 Context2D 的內容層疊於畫面之上，而且滑鼠/觸控的操作仍可在圖層之間運作。舉例來說，若有高速的遊戲引擎使用 WebGL 繪圖技術，即可在 UI 圖層之下顯示，且此圖層又可利用 Context2D 繪圖器最常見的功能。你甚至可在 WebGL 與 Context2D 之間切換繪圖資源。</p>
+<p>最後，WebGL 內容可完全相容於現有的 Context2D 繪圖器。若裝置或瀏覽器並不支援 WebGL，則亦將由 canvas 2D 自動描繪其內容。</p>
+<p>雖然必須耗上點功夫，才能從新的繪圖器中榨出一丁點的效能，我們還是很高興能擁有此新的方式。開發者除了能讓更多裝置達到更高效能之外，也能利用 CreateJS 周遭極為豐富的現成 API 與工具。接著你可透過下方展示與遊戲的連結，了解我們所說的絕佳效能。</p>
+<p>說到這裡，你是否已經初步了解 Firefox OS 適用的 WebGL 與 CreateJS？可別錯過《<a href="../../posts/4857/">Firefox OS 適用的 WebGL 與 CreateJS (下)</a>》所提到的繪圖效能展示與小遊戲喔！</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/01/webgl-createjs-for-firefox-os/">WebGL &amp; CreateJS for Firefox OS</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=4853">Wayback snapshot</a>
+              <span>Post ID: 4853</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

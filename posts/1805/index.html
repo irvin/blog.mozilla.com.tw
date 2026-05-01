@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>[ 行動 App 開發密技 ] Firefox OS Web API 參考文件 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">[ 行動 App 開發密技 ] Firefox OS Web API 參考文件</h2>
+            <p class="entry-posted"><time datetime="2013-01-23" class="published"><span class="posted-month">1月</span><span class="posted-date">23</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p>Firefox OS Web API 參考文件</p>
+<p>– 手機振動 (Vibration API)</p>
+<p>– 位置資訊 (Geolocation API)</p>
+<p>– SD卡存取 (Device Storage API)</p>
+<p>手機振動 (Vibration)</p>
+<p>Vibrate API 可以使手機產生振動，您只需要將振動的毫秒數作為參數，即可產生效果。 現今它已是一個 Web 開放標準的 API，在 Firefox OS 中您可以直接使用，無需特別的權限宣告。</p>
+<p>權限宣告：無</p>
+<p>範例：</p>
+<p>    window.navigator.vibrate([200]);            // single vibration<br>    window.navigator.vibrate([200, 100, 200]);  // vibration pattern<br>    window.navigator.vibrate(0);                // stop vibration</p>
+<p>					123</p>
+<p>						    window.navigator.vibrate([200]);            // single vibration    window.navigator.vibrate([200, 100, 200]);  // vibration pattern    window.navigator.vibrate(0);                // stop vibration</p>
+<p>獲取位置信息 (Geolocation)</p>
+<p>Geolocation API 讓您可以取得使用者目前所在的地理位置資訊，現今它已是一個 Web 開放標準的 API，在 Firefox OS 中您可以直接使用，無需特別的權限宣告。</p>
+<p>但當您使用這個 API 企圖存取使用者位置時，系統會出現一個視窗詢問使用者是否願意透露位置訊息給您的App，並且提供一個預設選項記住使用者的選擇。</p>
+<p>權限宣告：無</p>
+<p>範例：</p>
+<p>    navigator.geolocation.getCurrentPosition(function(position) {<br>      console.log(&#39;latitude &#39; + position.coords.latitude);<br>      console.log(&#39;longitude &#39; + position.coords.longitude);                                                             <br>    }, function() {<br>      console.warn(&#39;Error: cannot fetch location&#39;);<br>    });</p>
+<p>					123456</p>
+<p>						    navigator.geolocation.getCurrentPosition(function(position) {      console.log(&#39;latitude &#39; + position.coords.latitude);      console.log(&#39;longitude &#39; + position.coords.longitude);                                                                 }, function() {      console.warn(&#39;Error: cannot fetch location&#39;);    });</p>
+<p>SD卡存取 (Device Storage)</p>
+<p>DeviceStorage API 提供 SD 卡內資料存取介面，可以讀取圖片檔、聲音檔、影片檔，以及 SD 卡的其他檔案，以及檢視 SD 卡空間使用率。</p>
+<p>由於它牽涉到使用者的儲存裝置資訊，目前僅開放審查通過的App(privileged/certified)使用這個API。您的App必須提出使用這個 API 的聲明，並且通過審查方可使用。</p>
+<p>權限宣告：依照檔案類型(圖片、影片、聲音、其他)有不同宣告方式，每種宣告還分 “readonly”, “readwrite”, “readcreate” 三種級別，分別代表「只讀取」、「讀取與修改」、「讀取與新增」。您可依照需求作適當的權限宣告。</p>
+<p>   &quot;permissions&quot;: {<br>      &quot;device-storage:pictures&quot;:{ &quot;access&quot;: &quot;readonly&quot; },<br>      &quot;device-storage:music&quot;:{ &quot;access&quot;: &quot;readcreate&quot; },<br>      &quot;device-storage:videos&quot;:{ &quot;access&quot;: &quot;readwrite&quot; },<br>      &quot;device-storage:sdcard&quot;:{ &quot;access&quot;: &quot;readonly&quot; }<br>   }</p>
+<p>					123456</p>
+<p>						   &quot;permissions&quot;: {      &quot;device-storage:pictures&quot;:{ &quot;access&quot;: &quot;readonly&quot; },      &quot;device-storage:music&quot;:{ &quot;access&quot;: &quot;readcreate&quot; },      &quot;device-storage:videos&quot;:{ &quot;access&quot;: &quot;readwrite&quot; },      &quot;device-storage:sdcard&quot;:{ &quot;access&quot;: &quot;readonly&quot; }   }</p>
+<p>範例：</p>
+<ol><li>音樂檔案列表 (“device-storage:music”:{ “access”: “readonly” })</li></ol>
+<p>    var type = &#39;music&#39;;<br>    var deviceStorage = navigator.getDeviceStorage(type);</p>
+<p>    if (!deviceStorage) {<br>      console.warn(&#39;Error: cannot get DeviceStorage for &#39; + type);<br>      return;<br>    }  </p>
+<p>    var request = deviceStorage.enumerate();<br>    request.onsuccess = function(e) {<br>      var file = request.result;<br>      console.log(&#39;file name &#39; + file.name);<br>      console.log(&#39;file size &#39; + file.size);<br>      console.log(&#39;file type &#39; + file.type);<br>      console.log(&#39;file last Modified Date &#39; + file.lastModifiedDate);<br>      request.continue();                                                                                                                                                               <br>    };</p>
+<p>    request.onerror = function() {<br>      console.warn(&#39;Error: cannot list files in SD card - &#39; + request.error.name);<br>    };</p>
+<p>					123456789101112131415161718192021</p>
+<p>						    var type = &#39;music&#39;;    var deviceStorage = navigator.getDeviceStorage(type);     if (!deviceStorage) {      console.warn(&#39;Error: cannot get DeviceStorage for &#39; + type);      return;    }       var request = deviceStorage.enumerate();    request.onsuccess = function(e) {      var file = request.result;      console.log(&#39;file name &#39; + file.name);      console.log(&#39;file size &#39; + file.size);      console.log(&#39;file type &#39; + file.type);      console.log(&#39;file last Modified Date &#39; + file.lastModifiedDate);      request.continue();                                                                                                                                                                   };     request.onerror = function() {      console.warn(&#39;Error: cannot list files in SD card - &#39; + request.error.name);    };</p>
+<ol><li>讀取某個 SD 卡檔案 (“device-storage:pictures”:{ “access”: “readonly” })</li></ol>
+<p>    var type = &#39;pictures&#39;;<br>    var deviceStorage = navigator.getDeviceStorage(type);</p>
+<p>    if (!deviceStorage) {<br>      console.warn(&#39;Error: cannot get DeviceStorage for &#39; + type);<br>      return;<br>    }</p>
+<p>    var filename = &#39;downloads/DSC02798.JPG&#39;;<br>    var request = deviceStorage.get(filename);<br>    request.onsuccess = function(e) {<br>      var file = request.result;<br>      var url = URL.createObjectURL(file);<br>      var myImage = document.getElementById(&#39;profilePhoto&#39;);<br>      myImage.src = url;                                                                                                                                                                    <br>    };</p>
+<p>    request.onerror = function() {<br>      console.warn(&#39;Error: get file from SD card - &#39; + request.error.name);<br>    };</p>
+<p>					1234567891011121314151617181920</p>
+<p>						    var type = &#39;pictures&#39;;    var deviceStorage = navigator.getDeviceStorage(type);     if (!deviceStorage) {      console.warn(&#39;Error: cannot get DeviceStorage for &#39; + type);      return;    }     var filename = &#39;downloads/DSC02798.JPG&#39;;    var request = deviceStorage.get(filename);    request.onsuccess = function(e) {      var file = request.result;      var url = URL.createObjectURL(file);      var myImage = document.getElementById(&#39;profilePhoto&#39;);      myImage.src = url;                                                                                                                                                                        };     request.onerror = function() {      console.warn(&#39;Error: get file from SD card - &#39; + request.error.name);    };</p>
+<ol><li>寫入檔案到 SD 卡 (“device-storage:sdcard”:{ “access”: “readcreate” })</li></ol>
+<p>    var type = &#39;sdcard&#39;;<br>    var deviceStorage = navigator.getDeviceStorage(type);</p>
+<p>    if (!deviceStorage) {<br>      console.warn(&#39;Error: cannot get DeviceStorage for &#39; + type);<br>      return;<br>    }</p>
+<p>    var filename = &#39;test-&#39; + Math.random().toString() + &#39;.txt&#39;;<br>    var pathname = &#39;test-tmp/&#39; + filename;<br>    console.log(&#39;file path: &#39; + pathname);</p>
+<p>    var blob = new Blob([&#39;hello&#39;, &#39;world&#39;], {type: &#39;text/plain&#39;});</p>
+<p>    var request = deviceStorage.addNamed(blob, pathname);<br>    request.onsuccess = function(e) {<br>      // try to get the file<br>      var readRequest = deviceStorage.get(pathname);<br>      readRequest.onsuccess = function() {<br>        var file = readRequest.result;<br>        var reader = new FileReader();<br>        reader.onload = function(e) {<br>          console.log(&#39;file content &#39; + e.target.result);<br>        }; <br>        reader.readAsText(file);<br>      }; </p>
+<p>      readRequest.onerror = function() {<br>        console.warn(&quot;Error: read file failure - &quot; + request.error.name);<br>      }; <br>    }; </p>
+<p>    request.onerror = function() {<br>      console.warn(&#39;Error: write file failure - &#39; + request.error.name);<br>    };</p>
+<p>					1234567891011121314151617181920212223242526272829303132333435</p>
+<p>						    var type = &#39;sdcard&#39;;    var deviceStorage = navigator.getDeviceStorage(type);     if (!deviceStorage) {      console.warn(&#39;Error: cannot get DeviceStorage for &#39; + type);      return;    }     var filename = &#39;test-&#39; + Math.random().toString() + &#39;.txt&#39;;    var pathname = &#39;test-tmp/&#39; + filename;    console.log(&#39;file path: &#39; + pathname);     var blob = new Blob([&#39;hello&#39;, &#39;world&#39;], {type: &#39;text/plain&#39;});     var request = deviceStorage.addNamed(blob, pathname);    request.onsuccess = function(e) {      // try to get the file      var readRequest = deviceStorage.get(pathname);      readRequest.onsuccess = function() {        var file = readRequest.result;        var reader = new FileReader();        reader.onload = function(e) {          console.log(&#39;file content &#39; + e.target.result);        };         reader.readAsText(file);      };        readRequest.onerror = function() {        console.warn(&quot;Error: read file failure - &quot; + request.error.name);      };     };      request.onerror = function() {      console.warn(&#39;Error: write file failure - &#39; + request.error.name);    };</p>
+<ol><li>SD 卡空間使用率 (“device-storage:sdcard”:{ “access”: “readonly” })</li></ol>
+<p>    var type = &#39;sdcard&#39;;<br>    var deviceStorage = navigator.getDeviceStorage(type);</p>
+<p>    if (!deviceStorage) {<br>      console.warn(&#39;Error: cannot get DeviceStorage for &#39; + type);<br>      return;<br>    }    </p>
+<p>    var request = deviceStorage.stat();<br>    request.onsuccess = function(e) {<br>      var totalSize = e.target.result.totalBytes;<br>      var freeBytes = e.target.result.freeBytes;<br>      console.log(&#39;totalSize &#39; + totalSize + &#39;, freeBytes &#39; + freeBytes);<br>    }; </p>
+<p>    request.onerror = function() {<br>      console.warn(&#39;Error: cannot get stat of SD card - &#39; + request.error.name);<br>    };</p>
+<p>					123456789101112131415161718</p>
+<p>						    var type = &#39;sdcard&#39;;    var deviceStorage = navigator.getDeviceStorage(type);     if (!deviceStorage) {      console.warn(&#39;Error: cannot get DeviceStorage for &#39; + type);      return;    }         var request = deviceStorage.stat();    request.onsuccess = function(e) {      var totalSize = e.target.result.totalBytes;      var freeBytes = e.target.result.freeBytes;      console.log(&#39;totalSize &#39; + totalSize + &#39;, freeBytes &#39; + freeBytes);    };      request.onerror = function() {      console.warn(&#39;Error: cannot get stat of SD card - &#39; + request.error.name);    };</p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=1805">Wayback snapshot</a>
+              <span>Post ID: 1805</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

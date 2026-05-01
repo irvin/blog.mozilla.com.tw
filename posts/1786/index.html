@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>[ 行動 App 開發密技 ] 發佈 App 至 Mozilla Marketplace | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">[ 行動 App 開發密技 ] 發佈 App 至 Mozilla Marketplace</h2>
+            <p class="entry-posted"><time datetime="2013-01-16" class="published"><span class="posted-month">1月</span><span class="posted-date">16</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p>參考資料：<a href="https://marketplace.firefox.com/developers/docs/mkt_hosting">https://marketplace.firefox.com/developers/docs/mkt_hosting</a></p>
+<p>Firefox App 分為兩大種類：</p>
+<ul><li>Hosting App (目前 marketplace 上提供這個方式)</li></ul>
+<p>所有網頁內容存放在開發者所屬的 web 平台上執行，App 使用者需要在有網路連線的情況下才能開啓 App。可搭配 HTML5 的 appcache 技術達到離線瀏覽。</p>
+<ul><li>Packaged App (new: 近日已經支援，但詳細內容之後再更新)</li></ul>
+<p>若 App 使用到特殊的 API 則需要 App 商店認可 (sign)，packaged app 讓開發者能夠提出完整的 App zip 檔以供審核。審核通過的 App 能讓使用者直接完整安裝在手機中執行。Packaged App 依照 API 授權級別還細分為三類：</p>
+<ul><li>privileged app：明確描述欲使用的 API 列表，並需要使用者許可，在商店審核通過後上架。</li></ul>
+<ul><li>certified app：系統重要功能的 App，涉及裝置功能，通常是系統預設無需使用者安裝或許可的 app。</li></ul>
+<ul><li>plain packaged app：普通 App，不涉及特殊 API 使用，只是單純打包成 zip 檔發佈。</li></ul>
+<p>針對 hosting App 發佈，以下詳細描述發佈過程：</p>
+<p>發佈前的準備工作：</p>
+<ul><li>App 程式碼與相關檔案(HTML、CSS、JavaScript、圖片…)上傳至公開平台，並確保其能夠執行。</li></ul>
+<ul><li>撰寫 manifest 檔案，也上傳至同一個平台。注意：必須放置在同來源(網域)(same origin)的平台上。</li></ul>
+<p>manifest 檔案內容：(參考資料：<a href="https://marketplace.firefox.com/developers/docs/manifests">https://marketplace.firefox.com/developers/docs/manifests</a>)</p>
+<ul><li>注意事項：</li></ul>
+<p>a) manifest 裡所描述的 URL 皆須與 manifest 檔案位於同來源網域</p>
+<p>b) manifest 裡所描述的 URL 皆是以該網域為 root 的絕對路徑</p>
+<p>c) manifest 必須能以 http 或 https 方式公開存取，且 http/https 的請求回覆中 header 須帶有 Content-Type: application/x-web-app-manifest+json</p>
+<p>d) manifest 的圖像 (icon) 欄位至少須有128 x 128 的圖像描述</p>
+<ul><li>其他 manifest 欄位內容可參考上述連結填寫。</li></ul>
+<ul><li>manifest 驗證測試：<a href="https://marketplace.firefox.com/developers/validator">https://marketplace.firefox.com/developers/validator</a></li></ul>
+<p>發佈 App 至 marketplace：</p>
+<ol><li>造訪 marketplace 頁面：<a href="https://marketplace.firefox.com/developers/submit/app">https://marketplace.firefox.com/developers/submit/app</a> 登入後可以開始發佈 App。</li></ol>
+<ol><li>勾選 App 可以正常執行的裝置種類(device type)，填寫 manifest 檔案的位置(URL)，點選驗證(validate)</li></ol>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/120.jpg"><img src="../../assets/1786/wp-content/uploads/120-1024x624.jpg" alt="" loading="lazy"></a></p>
+<p>manifest 檔案格式與描述若無錯誤可以進入下一步，反之會有對應的錯誤訊息。</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/27.jpg"><img src="../../assets/1786/wp-content/uploads/27-1024x609.jpg" alt="" loading="lazy"></a></p>
+<ol><li>填寫 App 的詳細描述，包含：簡介、類別、隱私權描述、App 維護者 email、App 畫面截圖(至</li></ol>
+<p>少一張 320 * 640 以上大小)</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/35.jpg"><img src="../../assets/1786/wp-content/uploads/35-1024x680.jpg" alt="" loading="lazy"></a></p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/45.jpg"><img src="../../assets/1786/wp-content/uploads/45-1024x686.jpg" alt="" loading="lazy"></a></p>
+<ol><li>送出之後即完成。在等待審核的期間，還是有管理頁面能夠進入修改。</li></ol>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/52.jpg"><img src="../../assets/1786/wp-content/uploads/52.jpg" alt="" loading="lazy"></a></p>
+<p>審核標準：<a href="https://developer.mozilla.org/en-US/docs/Apps/Marketplace_review_criteria">https://developer.mozilla.org/en-US/docs/Apps/Marketplace_review_criteria</a></p>
+<p>本文章由 Firefox OS 開發工程師 Evelyn Hung 撰寫</p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=1786">Wayback snapshot</a>
+              <span>Post ID: 1786</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>JSFiddle 即可撰寫 Firefox OS Apps 的雛形 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">JSFiddle 即可撰寫 Firefox OS Apps 的雛形</h2>
+            <p class="entry-posted"><time datetime="2013-08-15" class="published"><span class="posted-month">8月</span><span class="posted-date">15</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><h3>隨著 Fiddle 的輕鬆節拍起舞</h3>
+<p>JSFiddle 是撰寫並檢驗程式碼雛形的絕佳工具，不需動用你現有的工具與編輯器，即可迅速進行單元測試並執行概念性的程式碼。此外，你也可貼上有問題的程式碼，讓其他人協助你檢視並找出問題根源。</p>
+<p>除了程式碼片段之外，你更可製作 Firefox OS Apps 的雛形。我們不斷為開發者灌輸一個概念：建立 Firefox OS Apps 就如同建立 Web Apps。只要在瀏覽器中以 JSFiddle 測試不同的程式碼，你就能了解 Firefox OS Apps 的開發有多麼簡單。</p>
+<h3>輕鬆建構 Firefox OS Apps：摘要</h3>
+<p>要以 JSFiddle 測試 Firefox OS Apps 需經下列步驟：</p>
+<ul><li>在 JSFiddle 環境中，以自己熟悉的方式撰寫程式碼</li></ul>
+<ul><li>於 Fiddle URL 後方加上「/manifest.webapp」，接著將此鏈結貼入 Firefox OS 模擬器 (Firefox OS Simulator)，即可安裝此 App</li></ul>
+<ul><li>或同樣可於 Fiddle URL 後方加上「/fxos.html」，即取得典型 Firefox OS 托管式 (Hosted) Apps 的安裝頁面</li></ul>
+<p>我在<a href="https://jsfiddle.net/afabbro/vrVAP/">這裡設定了一組 JSFiddle Demo</a>，接著說明相關細節。</p>
+<h3>輕鬆建構 Firefox OS Apps：細節</h3>
+<p>隨手撰寫程式碼</p>
+<p>先來試試基本的「Hello World!」吧。在你的 Fiddle 中建構下列程式碼：</p>
+<p>HTML:</p>
+<p>&lt;h1&gt;Hello world!&lt;/h1&gt;</p>
+<p>					1</p>
+<p>						&lt;h1&gt;Hello world!&lt;/h1&gt;</p>
+<p>CSS:</p>
+<p>h1 {<br>    color: #f00;<br>}</p>
+<p>					123</p>
+<p>						h1 {    color: #f00;}</p>
+<p>JavaScript:</p>
+<p>alert(document.getElementsByTagName(&#39;h1&#39;)[0].innerHTML);</p>
+<p>					1</p>
+<p>						alert(document.getElementsByTagName(&#39;h1&#39;)[0].innerHTML);</p>
+<p>則 Fiddle 應該顯示如下：</p>
+<p><a href="https://hacks.mozilla.org/wp-content/uploads/2013/08/hello-world-fiddle-large.jpg"><img src="../../assets/3539/wp-content/uploads/hello-world-fiddle-small.jpg" alt="hello-world-fiddle-small" loading="lazy"></a></p>
+<p>接著於 Fiddle URL 後方加上「/manifest.webapp」。以我設計的 Demo 為例，就會是 <a href="https://jsfiddle.net/afabbro/vrVAP/manifest.webapp">http://jsfiddle.net/afabbro/vrVAP/manifest.webapp</a></p>
+<p>將此 URL 複製到「剪貼簿」中。根據瀏覽器的不同，則不一定會複製完整的「http://」。請注意，若 URLs 並未明確指定協定，則模擬器一律不會接受。因此需自行補為完整的 URLs。模擬器將以紅色輸入對話框表示 URLs 無效。</p>
+<p>如果從瀏覽器的位址列存取 manifest.webapp，就會自動產生 manifest 檔案的副本，以供你下載並仔細檢視。同樣以 Demo 為例，其 manifest 檔案如下：</p>
+<p>{<br>  &quot;version&quot;: &quot;0&quot;,<br>  &quot;name&quot;: &quot;Hello World Example&quot;,<br>  &quot;description&quot;: &quot;jsFiddle example&quot;,<br>  &quot;launch_path&quot;: &quot;/afabbro/vrVAP/app.html&quot;,<br>  &quot;icons&quot;: {<br>    &quot;16&quot;: &quot;/favicon.png&quot;,<br>    &quot;128&quot;: &quot;/img/jsf-circle.png&quot;<br>  },<br>  &quot;developer&quot;: {<br>    &quot;name&quot;: &quot;afabbro&quot;<br>  },<br>  &quot;installs_allowed_from&quot;: [&quot;*&quot;],<br>  &quot;appcache_path&quot;: &quot;http://fiddle.jshell.net/afabbro/vrVAP/cache.manifest&quot;,<br>  &quot;default_locale&quot;: &quot;en&quot;<br>}</p>
+<p>					12345678910111213141516</p>
+<p>						{  &quot;version&quot;: &quot;0&quot;,  &quot;name&quot;: &quot;Hello World Example&quot;,  &quot;description&quot;: &quot;jsFiddle example&quot;,  &quot;launch_path&quot;: &quot;/afabbro/vrVAP/app.html&quot;,  &quot;icons&quot;: {    &quot;16&quot;: &quot;/favicon.png&quot;,    &quot;128&quot;: &quot;/img/jsf-circle.png&quot;  },  &quot;developer&quot;: {    &quot;name&quot;: &quot;afabbro&quot;  },  &quot;installs_allowed_from&quot;: [&quot;*&quot;],  &quot;appcache_path&quot;: &quot;http://fiddle.jshell.net/afabbro/vrVAP/cache.manifest&quot;,  &quot;default_locale&quot;: &quot;en&quot;}</p>
+<p>如果你之前從未寫過 Firefox OS Apps 的 manifest 檔案，則可透過此自動產生的 manifest 檔案而初步了解 Apps 基本建構資訊。</p>
+<p>在模擬器中安裝 Apps</p>
+<p>將 URL 貼入下圖所示的欄位中。如前述，只要 URL 有任何問題，該欄位就會顯示紅色邊框。</p>
+<p><a href="https://hacks.mozilla.org/wp-content/uploads/2013/08/fiddle-url-large.jpg"><img src="../../assets/3539/wp-content/uploads/fiddle-url-large1.jpg" alt="fiddle-url-large" loading="lazy"></a></p>
+<p>在輸入完整的 URL 之後，模擬器隨即啟動你的 Apps。</p>
+<p><a href="https://hacks.mozilla.org/wp-content/uploads/2013/08/hello-world-alert-large.jpg"><img src="../../assets/3539/wp-content/uploads/hello-world-alert-large1.jpg" alt="hello-world-alert-large" loading="lazy"></a></p>
+<p>這裡可以看到，在我們關閉 alert() 之後，就能看到預期中的 (本範例為基本的 HTML 頁面) 單一紅色 h1 標籤。</p>
+<p><a href="https://hacks.mozilla.org/wp-content/uploads/2013/08/hello-world-dismissed-large.jpg"><img src="../../assets/3539/wp-content/uploads/hello-world-dismissed-large1.jpg" alt="hello-world-dismissed-large" loading="lazy"></a></p>
+<p>從 Firefox OS 裝置安裝 Apps</p>
+<p>不論是 Firefox OS 裝置或模擬器上的瀏覽器，可於 Fiddle URL 後方加上「/fxos.html」並瀏覽之。同樣以我的 Demo 為例就會是：<a href="https://jsfiddle.net/afabbro/vrVAP/fxos.html">http://jsfiddle.net/afabbro/vrVAP/fxos.html</a></p>
+<p>點選「Install」，就能在自己的主畫面上找到該 App。</p>
+<h3>小缺點</h3>
+<p>上述均是 JSFiddle 工具的新用法。我們會持續修改錯誤並提供更多功能。撰寫本篇文章時仍有下列小問題：</p>
+<ul><li>模擬器一次僅限安裝 1 組 JSFiddle App</li></ul>
+<ul><li>尚未支援離線功能</li></ul>
+<h3>感謝</h3>
+<p>本篇 JSFiddle 文章要獻給 Piotr Zalewa。他本人目前正開發可支援 Firefox OS 的 PhoneGap 版本。如果你有任何寶貴意見，請立刻讓我們知道；如果你已有某些酷炫東西而苦無炫耀的對象，也非常歡迎提供 Fiddle 的 manifest 檔案給我們。</p>
+<p>原文鏈結：<a href="https://hacks.mozilla.org/2013/08/using-jsfiddle-to-prototype-firefox-os-apps/">https://hacks.mozilla.org/2013/08/using-jsfiddle-to-prototype-firefox-os-apps/</a></p></div>
+          <footer class="entry-footer">
+            
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824004607id_/https://blog.mozilla.com.tw/?p=3539">Wayback snapshot</a>
+              <span>Post ID: 3539</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

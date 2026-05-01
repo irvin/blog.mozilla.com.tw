@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>建構互動的 HTML5 影片 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">建構互動的 HTML5 影片</h2>
+            <p class="entry-posted"><time datetime="2014-09-18" class="published"><span class="posted-month">9月</span><span class="posted-date">18</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p><a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 的 &lt;video&gt; 元素可在網頁中嵌入影片，就像嵌入圖片一樣簡單。各款主要瀏覽器均自 2011 年起支援 &lt;video&gt;，幾乎已經是最佳的動畫呈現方式。</p>
+<p><img src="../../assets/6296/wp-content/uploads/sintel-1024x520.png" alt="sintel" loading="lazy"></p>
+<p>而最近加入 HTML5 家族的 &lt;track&gt; 元素，其實就是 &lt;video&gt; 的子元素，可提供更好用的影片時間列，主要用以添增字幕 (Closed caption，CC)。這類字幕均以獨立的文字檔(<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Video_Text_Tracks_Format">WebVTT</a> 檔案) 所載入，並顯示於影片底部。Ian Devlin 已針對這一點寫過一篇《<a href="https://blog.mozilla.com.tw/posts/5916/">幫你的 HTML5 影片添加字幕</a>》。</p>
+<p>除了字幕之外，&lt;track&gt; 元素也能用於影片時間列的互動功能。本文將概略說明三個範例：章節標記、預覽縮圖、時間列搜尋。你看完就能了解 &lt;track&gt; 元素及其 API，並建構自己的互動式影片。</p>
+<h3>章節標記</h3>
+<p>先來看看 DVD 光碟常見的「章節標記 (Chapter marker)」。此功能可跳到特定章節繼續觀看內容，特別適合如《辛特爾 (Sintel)》這類的長影片：</p>
+<p>本範例所用的章節標記，是附掛於<a href="https://demo.jwplayer.com/text-tracks/assets/chapters.vtt">外部 VTT 檔案</a>之中，並透過一組 &lt;track&gt; 元素 (搭配 kind 屬性設定為 chapters ) 載入至頁面上。且此「track」已設定為預設載入：</p>
+<p>&lt;video width=&quot;480&quot; height=&quot;204&quot; poster=&quot;assets/sintel.jpg&quot; controls&gt;<br>  &lt;source src=&quot;assets/sintel.mp4&quot; type=&quot;video/mp4&quot;&gt;<br>  &lt;track src=&quot;assets/chapters.vtt&quot; kind=&quot;chapters&quot; default&gt;<br>&lt;/video&gt;</p>
+<p>					1234</p>
+<p>						&lt;video width=&quot;480&quot; height=&quot;204&quot; poster=&quot;assets/sintel.jpg&quot; controls&gt;  &lt;source src=&quot;assets/sintel.mp4&quot; type=&quot;video/mp4&quot;&gt;  &lt;track src=&quot;assets/chapters.vtt&quot; kind=&quot;chapters&quot; default&gt;&lt;/video&gt;</p>
+<p>接著我們用 JavaScript 載入各影音軌的文字提示、轉換其格式，並在影片底端的控制列中顯示提示文字。另請注意，這裡必須先等到外部 VTT 檔案載入完畢：</p>
+<p>track.addEventListener(&#39;load&#39;,function() {<br>    var c = video.textTracks[0].cues;<br>    for (var i=0; i&lt;c.length; i++) {<br>      var s = document.createElement(&quot;span&quot;);<br>      s.innerHTML = c[i].text;<br>      s.setAttribute(&#39;data-start&#39;,c[i].startTime);<br>      s.addEventListener(&quot;click&quot;,seek);<br>      controlbar.appendChild(s);<br>    }<br>});</p>
+<p>					12345678910</p>
+<p>						track.addEventListener(&#39;load&#39;,function() {    var c = video.textTracks[0].cues;    for (var i=0; i&lt;c.length; i++) {      var s = document.createElement(&quot;span&quot;);      s.innerHTML = c[i].text;      s.setAttribute(&#39;data-start&#39;,c[i].startTime);      s.addEventListener(&quot;click&quot;,seek);      controlbar.appendChild(s);    }});</p>
+<p>在上面的程式碼中，我們為各章節提示元素添增了兩項屬性，才得以達到互動功能。首先必須設定資料屬性，以儲存章節的起始位置；其次就是針對外部的搜尋 (Seek) 功能，添增點擊處理器 (Click handler)。此功能可直接讓影片跳到起始位置。如果還是不能播放影片，則如下處理：</p>
+<p>function seek() {<br>  video.currentTime = this.getAttribute(&#39;data-start&#39;);<br>  if(video.paused){ video.play(); }<br>};</p>
+<p>					1234</p>
+<p>						function seek() {  video.currentTime = this.getAttribute(&#39;data-start&#39;);  if(video.paused){ video.play(); }};</p>
+<p>就是這樣！現在你的影片就能透過 VTT 而顯示章節選單了。另請注意<a href="https://demo.jwplayer.com/text-tracks/chapters.html">此實際章節標記範例</a>具有更多邏輯，例如點擊即可回播影片、根據影片播放進度而更新控制列、新增某些 CSS 風格等。</p>
+<h3>預覽縮圖</h3>
+<p>接著是因「Hulu」與「Netflix」兩大影音網站而廣為大家喜愛的酷炫功能：預覽縮圖。只要用滑鼠在控制列 (或行動裝置) 上拖曳，就能預覽目前搜尋位置的縮圖：</p>
+<p>此功能同樣需透過<a href="https://demo.jwplayer.com/text-tracks/assets/thumbs.vtt">外部 VTT 檔案</a>進行，並於後設資料 (Metadata) 影片軌中載入。此 VTT 檔案中的提示資料包含<a href="https://demo.jwplayer.com/text-tracks/assets/thumbs.jpg">獨立 JPG 圖像</a>的連結，而非純文字；每個提示資料都能連上獨立的圖像，但此範例中僅使用單一 JPG sprite，進以達到較短延遲並方便管理。我們透過 <a href="https://www.w3.org/TR/media-frags/">Media Fragment URI</a> 讓提示資料能連上 sprite 的正確區段。範例如下：</p>
+<p>http://example.com/assets/thumbs.jpg?xywh=0,0,160,90</p>
+<p>					1</p>
+<p>						http://example.com/assets/thumbs.jpg?xywh=0,0,160,90</p>
+<p>接著，所有取得正確縮圖並即時顯示的重要邏輯，都會在控制列的「mousemove」這個監聽器 (Listener) 中：</p>
+<p>controlbar.addEventListener(&#39;mousemove&#39;,function(e) {<br>  // first we convert from mouse to time position ..<br>  var p = (e.pageX - controlbar.offsetLeft) * video.duration / 480;</p>
+<p>  // ..then we find the matching cue..<br>  var c = video.textTracks[0].cues;<br>  for (var i=0; i&lt;c.length; i++) {<br>      if(c[i].startTime &lt;= p &amp;&amp; c[i].endTime &gt; p) {<br>          break;<br>      };<br>  }</p>
+<p>  // ..next we unravel the JPG url and fragment query..<br>  var url =c[i].text.split(&#39;#&#39;)[0];<br>  var xywh = c[i].text.substr(c[i].text.indexOf(&quot;=&quot;)+1).split(&#39;,&#39;);</p>
+<p>  // ..and last we style the thumbnail overlay<br>  thumbnail.style.backgroundImage = &#39;url(&#39;+c[i].text.split(&#39;#&#39;)[0]+&#39;)&#39;;<br>  thumbnail.style.backgroundPosition = &#39;-&#39;+xywh[0]+&#39;px -&#39;+xywh[1]+&#39;px&#39;;<br>  thumbnail.style.left = e.pageX - xywh[2]/2+&#39;px&#39;;<br>  thumbnail.style.top = controlbar.offsetTop - xywh[3]+8+&#39;px&#39;;<br>  thumbnail.style.width = xywh[2]+&#39;px&#39;;<br>  thumbnail.style.height = xywh[3]+&#39;px&#39;;<br>});</p>
+<p>					123456789101112131415161718192021222324</p>
+<p>						controlbar.addEventListener(&#39;mousemove&#39;,function(e) {  // first we convert from mouse to time position ..  var p = (e.pageX - controlbar.offsetLeft) * video.duration / 480;   // ..then we find the matching cue..  var c = video.textTracks[0].cues;  for (var i=0; i&lt;c.length; i++) {      if(c[i].startTime &lt;= p &amp;&amp; c[i].endTime &gt; p) {          break;      };  }   // ..next we unravel the JPG url and fragment query..  var url =c[i].text.split(&#39;#&#39;)[0];  var xywh = c[i].text.substr(c[i].text.indexOf(&quot;=&quot;)+1).split(&#39;,&#39;);   // ..and last we style the thumbnail overlay  thumbnail.style.backgroundImage = &#39;url(&#39;+c[i].text.split(&#39;#&#39;)[0]+&#39;)&#39;;  thumbnail.style.backgroundPosition = &#39;-&#39;+xywh[0]+&#39;px -&#39;+xywh[1]+&#39;px&#39;;  thumbnail.style.left = e.pageX - xywh[2]/2+&#39;px&#39;;  thumbnail.style.top = controlbar.offsetTop - xywh[3]+8+&#39;px&#39;;  thumbnail.style.width = xywh[2]+&#39;px&#39;;  thumbnail.style.height = xywh[3]+&#39;px&#39;;});</p>
+<p>這樣就可以了！必須再次提醒，<a href="https://demo.jwplayer.com/text-tracks/thumbs.html">即時預覽縮圖的實際範例</a>另包含額外程式碼；其啟動回播與搜尋的邏輯仍相同；且當滑鼠游標接觸/移出工具列時，其顯示/隱藏縮圖的邏輯也一樣。</p>
+<h3>時間軸搜尋</h3>
+<p>最後就是影片中的時間軸搜尋功能：</p>
+<p>此範例將利用現有的 <a href="https://demo.jwplayer.com/text-tracks/assets/captions.vtt">VTT 字幕檔案</a> (已載入至字幕軌中)。我們在影片與控制列下方另外提供搜尋框：</p>
+<p>&lt;form&gt;<br>    &lt;input type=&quot;search&quot; /&gt;<br>    &lt;button type=&quot;submit&quot;&gt;Search&lt;/button&gt;<br>&lt;/form&gt;</p>
+<p>					1234</p>
+<p>						&lt;form&gt;    &lt;input type=&quot;search&quot; /&gt;    &lt;button type=&quot;submit&quot;&gt;Search&lt;/button&gt;&lt;/form&gt;</p>
+<p>如同剛剛的縮圖範例，所有的關鍵邏輯都包含於單一函式之中。但這裡則是提交搜尋表單的事件處理器 (Event handler)：</p>
+<p>form.addEventListener(&#39;submit&#39;,function(e) {<br>  // First we’ll prevent page reload and grab the cues/query..<br>  e.preventDefault();<br>  var c = video.textTracks[0].cues;<br>  var q = document.querySelector(&quot;input&quot;).value.toLowerCase();</p>
+<p>  // ..then we find all matching cues..<br>  var a = [];<br>  for(var j=0; j&lt;c.length; j++) {<br>    if(c[j].text.toLowerCase().indexOf(q) &gt; -1) {<br>      a.push(c[j]);<br>    }<br>  }</p>
+<p>  // ..and last we highlight matching cues on the controlbar.<br>  for (var i=0; i&lt;a.length; i++) {<br>    var s = document.createElement(&quot;span&quot;);<br>    s.style.left = (a[i].startTime/video.duration*480-2)+&quot;px&quot;;<br>    bar.appendChild(s);<br>  }<br>});</p>
+<p>					123456789101112131415161718192021</p>
+<p>						form.addEventListener(&#39;submit&#39;,function(e) {  // First we’ll prevent page reload and grab the cues/query..  e.preventDefault();  var c = video.textTracks[0].cues;  var q = document.querySelector(&quot;input&quot;).value.toLowerCase();   // ..then we find all matching cues..  var a = [];  for(var j=0; j&lt;c.length; j++) {    if(c[j].text.toLowerCase().indexOf(q) &gt; -1) {      a.push(c[j]);    }  }   // ..and last we highlight matching cues on the controlbar.  for (var i=0; i&lt;a.length; i++) {    var s = document.createElement(&quot;span&quot;);    s.style.left = (a[i].startTime/video.duration*480-2)+&quot;px&quot;;    bar.appendChild(s);  }});</p>
+<p>這樣又完成了！同樣的，<a href="https://demo.jwplayer.com/text-tracks/search.html">即時的時間列搜尋範例</a>也有額外程式碼可啟動回播與搜尋作業，另有程式碼片段可更新工具列的輔助說明文字。</p>
+<h3>全部包起來用</h3>
+<p>上述範例可讓你設計出自己的互動式影片。如果需要更多靈感，可參考<a href="https://www.jwplayer.com/labs/experiments/hot-spots/">可點擊的影片章節捷徑</a>、<a href="https://www.jwplayer.com/labs/experiments/interactive-transcripts/">互動式逐字稿</a>、<a href="https://www.jwplayer.com/labs/experiments/timeline-interaction/">時間軸互動</a>等影片。</p>
+<p>整體來說，如果想提升自己影片的互動功能，<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/track">HTML5 的  元素</a>絕對是簡單易用又能跨平台的好方法。只要你肯花時間寫出 VTT 檔案並打造類似的經驗，就能提高影片的能見度而獲得更高點閱率。祝你順利囉！</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/08/building-interactive-html5-videos/">Building Interactive HTML5 Videos</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Mozilla</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Mozilla</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190825004626id_/https://blog.mozilla.com.tw/?p=6296">Wayback snapshot</a>
+              <span>Post ID: 6296</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

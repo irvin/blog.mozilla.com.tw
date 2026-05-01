@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>撰寫平台隨你選，Firefox OS 都「行」(上) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">撰寫平台隨你選，Firefox OS 都「行」(上)</h2>
+            <p class="entry-posted"><time datetime="2013-12-20" class="published"><span class="posted-month">12月</span><span class="posted-date">20</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p>我們過去一年來不斷招募開發者。這些開發者均已於不同的 Open Web 與 <a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 平台上開發過 App，如以 PhoneGap wrapper 建構的原生 App；針對 Amazon、Blackberry、Chrome、Microsoft、WebOS，甚至手寫的原生程式碼 wrapper 而建構的 HTML5 App；用 <a href="https://developer.mozilla.org/en-US/docs/Emscripten">Emscripten</a> 編譯過的 C++ 等等。我們已於全球寄出多款裝置而支援了數百名開發者，以利大家測試並展示 Firefox App。</p>
+<p>如果你本身擁有成功且高評價的 HTML5 App (任何平台均可)，Mozilla 熱切希望你能將之移植到 Firefox OS 之上。我們保證不會佔用你太多時間而且絕對值得。今年十一月，Firefox OS 已於希臘、匈牙利、塞爾維亞、蒙特內哥羅等國現身，本月稍早亦於義大利發表。在 2014 年，Mozilla 另將與新合作的電信營運商發表新語系的 Firefox OS，也會有新規格的新款裝置。我們預期會出現更強大的跨平台工具，對 PhoneGap 與 Firefox 開發者工具的整合度也更高。現在正是你跨則搶占先機的最好時間點。</p>
+<p>現來看看 Mozilla 注意到的幾個 App 成功移植案例。這幾位技巧嫻熟的 HTML5 App 開發者均參加過 App 移植專案與相關工作坊 (需受邀才能參加)。在與他們會談之後，我們也請他們寫下自己的 Firefox App 移植經驗。除了要和你們分享之外，也希望能激發各位更多的靈感。</p>
+<p><a href="https://developer.mozilla.org/zh-TW/docs/%E6%87%89%E7%94%A8%E7%A8%8B%E5%BC%8F-840092-dup"><img src="https://blog.mozilla.com.tw/wp-content/uploads/RunOnFirefoxOS-500x355.jpg" alt="RunOnFirefoxOS-500x355" loading="lazy"></a>Andrzej Mazur 撰寫的 Captain Rogers；Dimitry Vinogradov 與 David Zorycht 撰寫的 Reditr；Diego Lopez 撰寫的 Aquarium Plants</p>
+<h4>Aquarium Plants – 以 Android 搭配手寫的原生 wrapper</h4>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/116564.png" alt="116564" loading="lazy"></p>
+<p>App 名稱：<a href="https://marketplace.firefox.com/app/aquarium-plants">Aquarium Plants</a></p>
+<p>開發者：Diego Lopez</p>
+<p>原始平台：<a href="https://play.google.com/store/apps/details?id=com.golgorz.aquariumplantsfree">Google Play Store</a></p>
+<p>耗時：</p>
+<p>我們用自己現成的 JavaScript 程式碼搭配簡單的 HTML5 程式碼，撰寫出 Aquarium Plants。而且我們也只用了二個常見的 JavaScript 框架 (Zepto.js 與 TaffyDB.js)。大概花不到三個小時吧？而且大部分的時間都在看論壇文章與說明文件。</p>
+<p>建議：</p>
+<p>為 Firefox OS 建構/移植 App 真的很簡單。絕妙之處在於，我們只需要 Web 工具與框架，即可建構出 Firefox OS 適用的 App。我建議大家立刻開發 Firefox App，幾乎不耗任何功夫又能有絕妙經驗。</p>
+<p>遇上的困難：</p>
+<p>要先了解 App 封裝的方式，對我來說比較麻煩一點。但當我發現「撰寫 Firefox OS 的 App，只需要建立 App 與其 manifest 檔案，再將二者存為 zip 檔」之後，一切就變得輕鬆又好玩。</p>
+<p>####</p>
+<h4>Calc ─ 以 iOS 搭配手寫的原生 wrapper</h4>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/118962.png" alt="118962" loading="lazy"></p>
+<p>App 名稱：<a href="https://marketplace.firefox.com/app/calc-by-lancio/">Calc</a></p>
+<p>開發者：Markus Greve</p>
+<p>平台：iOS 搭配手寫的原生 wrapper</p>
+<p>耗時：</p>
+<p>移植作業很簡單，也因此我願意為《Write Elsewhere, Run on Firefox OS》撰文。我只花了大概二個晚上。第一個晚上就讓 App 能順利執行，隔天就再針對 Keon 與 Firefox OS 模擬器 (Firefox OS Simulator) 的顯示畫面進一步微調而已。</p>
+<p>再一個晚上的時間，我設計完 App 圖示就發佈到 Marketplace 上了。</p>
+<p>建議：</p>
+<p>我建議開發者只管試著移植 App 就對了。你試過才會發現有多麼簡單。我認為 <a href="https://mozilla.org/">Mozilla.org</a> 確實以絕妙理念在做很酷的事，而且一直全力支援開發者。</p>
+<p>根據自己的 Firefox OS App 創作經驗，我完成了《<a href="https://de.slideshare.net/markusgreve/20131130-firefoxosappin5minutes">A Firefox OS app in five minutes</a> (英文)》簡報。我也用德文寫了《<a href="https://www.kochan.de/blog/20131208-app-entwicklung-firefox">App Entwicklung für den Feuerfuchs</a>》部落格文章。</p>
+<p>遇上的困難：</p>
+<ul><li>我使用 OSX 10.9 Mavericks，所以模擬器會因為舊版外掛程式而當機。若選用Firefox 1.26b 與應用程式管理員 (App Manager) 就比較穩定。</li></ul>
+<ul><li>每個 App 都需要一組子網域 ─ 這應該是共通的問題。</li></ul>
+<ul><li>JSON Manifest 檔案中的資料型態。我嘗試以 “fullscreen”: true 取代 “fullscreen”: “true”。其實這是我自己造成的錯誤；解決之後也已經收錄在簡報中。</li></ul>
+<ul><li>我覺得自己簡報所寫的圖示尺寸，其實並不符合 Marketplace 所規定的尺寸。而當你需要比較大的檔案時 (例如某個商城需要 256×256)，僅 60×60 像素的 Photoshop 範本圖示根本不夠。你最好能提供 1024 的範本，讓後來的使用者自行縮小即可。</li></ul>
+<ul><li>個人建議：應更詳細說明 navigator.mozApp.checkInstalled() 與 .install() 之間的關連性。</li></ul>
+<p>####</p>
+<h4>Calcula Hipoteca – Amazon Appstore</h4>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/115771.png" alt="115771" loading="lazy"></p>
+<p>App 名稱：<a href="https://marketplace.firefox.com/app/calcula-hipoteca">Calcula Hipoteca</a></p>
+<p>開發者：Emilio Baena</p>
+<p>原始平台：<a href="https://www.amazon.com/liodevel-Calcula-Hipoteca/dp/B00F2GDV94">Amazon Appstore</a></p>
+<p>耗時：</p>
+<p>很簡單。我只花了幾小時。</p>
+<h4>建議：</h4>
+<p>只要使用這平台，一切順利。</p>
+<p>遇上的困難：</p>
+<p>我在處理 manifest.webapp 時發生一點問題。但我想只要看一看這類檔案型態的說明文件就能解決。</p>
+<p>這幾張 App 的精采截圖已經引起你的興趣了嗎？是不是看著也手癢想寫出自己的 App 呢？我們將接著提供更多開發者的心得與作品。可別錯過接下來的《撰寫平台隨你選，Firefox 都「行」(中)》與《(下)》 篇。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2013/12/write-elsewhere-run-on-firefox/#Aquarium%20Plants">Write Elsewhere, Run on Firefox OS</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=4571">Wayback snapshot</a>
+              <span>Post ID: 4571</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

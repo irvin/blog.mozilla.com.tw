@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>淺談 Firefox 46 開發者工具 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">淺談 Firefox 46 開發者工具</h2>
+            <p class="entry-posted"><time datetime="2016-02-17" class="published"><span class="posted-month">2月</span><span class="posted-date">17</span><span class="posted-year">2016</span></time></p>
+          </header>
+          <div class="entry-content"><h3>增加記憶體工具、提升 @media 側邊列，還有更多</h3>
+<p>Firefox 46 現已進入開發者 (Developer) 版本釋出頻道！我們添加了更多記憶體管理功能，並提升了其他現有工具。本文將概略介紹其中幾項重大變革。</p>
+<h4>記憶體工具的「Dominator」檢視模式</h4>
+<p>記憶體工具現提供新的檢視模式，除了協助除錯之外，更能針對高記憶體用量的 Web App 進行特性描述。「Dominator」能深入了解物件的記憶體分配情形。此累進式的檢視模式，可顯示物件 (shallow) 大小，以及目前已分配的任何參照物件 (retained)。開發者可輕鬆看出特定物件對記憶體的影響。在建構特定物件時，此檢視模式更能讓開發者迅速找出對應的程式碼。可到<a href="https://developer.mozilla.org/en-US/docs/Tools/Memory/Dominators_view">這裡</a>進一步了解此功能。</p>
+<p><img src="../../assets/8484/wp-content/uploads/memory-dominators-ui-1024x196.png" alt="「Dominator」檢視模式擷圖" loading="lazy"><br>「Dominator」檢視模式擷圖</p>
+<h4>效能工具與 GC 設定</h4>
+<p><a href="https://developer.mozilla.org/en-US/docs/Tools/Performance">效能工具</a>現可將配置 (Allocation) 情形納入記錄之中，進而協助你減少 Web App 中發生的 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Memory_Management">GC</a> 數量，以加快反應的速率。只要點擊「設定」齒輪，再找到「記錄配置 (Record Allocations)」項目，即可啟用效能工具中的配置檢視模式。</p>
+<p><img src="../../assets/8484/wp-content/uploads/allocations-view-500x170.png" alt="「配置」檢視模式擷圖" loading="lazy"><br>「配置」檢視模式擷圖</p>
+<h4>Emscripten 的還原 (Demangling) 功能</h4>
+<p>只要透過 Emscripten 編譯原生程式碼時，可以發現編譯器會修改函式名稱。效能分析器 (Profiler) 的「呼叫樹 (Call tree)」現新支援還原 C 函式名稱，可輕鬆對照原來尚未編譯的程式碼 (可參閱<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=968510">開發記錄</a>)。</p>
+<h4>樣式編輯器 (Style Editor) 與 @media 查詢</h4>
+<p>Firefox 開發者工具即提供<a href="https://developer.mozilla.org/en-US/docs/Tools/Responsive_Design_View">適應性設計 (Responsive Design) 檢視模式</a>，而透過此模式所開發的網站，即可針對不同的螢幕尺寸進行縮放。現在更可搭配<a href="https://developer.mozilla.org/en-US/docs/Tools/Style_Editor#The_media_sidebar">媒體查詢側邊列</a>，迅速找出目前螢幕尺寸所啟用的媒體規則。另針對「於適應性設計檢視模式中自動調整畫面檢視尺寸」的媒體規則，新版的媒體查詢側邊列更提供快速連結。可在<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1029371">這裡</a>查閱開發記錄。</p>
+<p><img src="../../assets/8484/wp-content/uploads/media-query-links-small.gif" alt="media-query-links-small" loading="lazy"><br>媒體查詢</p>
+<h4>常開的除錯器 (Debugger)</h4>
+<p>同樣的，在開啟了工具箱而尚未啟動除錯器面板時，除錯器還是會暫停於 debugger 陳述式之上。可參閱 James Long 的<a href="https://jlongster.com/On-the-Road-to-Better-Sourcemaps-in-the-Firefox-Developer-Tools">部落格文章</a>了解技術細節。</p>
+<h4>其他亮點</h4>
+<p>除了上述改善之外，另外再說一下工具箱的其他部分：</p>
+<ul><li>可清除記憶體工具中的 heap 快照 (可參閱<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1215955">開發記錄</a>)</li></ul>
+<ul><li>提高檢視器資訊列在暗色系頁面上顯示時的對比 (可參閱<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1228829">開發記錄</a>)</li></ul>
+<ul><li>現可選擇效能工具的呼叫樹文字 (可參閱<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1081245">開發記錄</a>)</li></ul>
+<ul><li>在非同步新增了許多記錄 (log) 時，亦提升了 console.log 的效能 (可參閱<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1237368">開發記錄</a>)</li></ul>
+<ul><li>現已不限制儲存空間檢測器中的項目數量 (可參閱<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1171903">開發記錄</a>)</li></ul>
+<p>最後感謝對此開發者版本有所貢獻的人！請立刻下載並安裝<a href="https://mozilla.com.tw/firefox/developer/">最新版開發者版本</a>，讓我們知道你的寶貴意見！</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2016/02/developer-edition-46-more-memory-tooling-improved-media-sidebar-and-more/">Developer Edition 46 – More memory tooling, improved @media sidebar and more</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190825010829id_/https://blog.mozilla.com.tw/?p=8484">Wayback snapshot</a>
+              <span>Post ID: 8484</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

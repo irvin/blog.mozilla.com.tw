@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>偵測觸碰事件：重點在「原因」而非「方法」─ 上篇 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">偵測觸碰事件：重點在「原因」而非「方法」─ 上篇</h2>
+            <p class="entry-posted"><time datetime="2013-04-18" class="published"><span class="posted-month">4月</span><span class="posted-date">18</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p>說到要讓網頁或 App 能在行動裝置上更「友善」的重點功能或介面，大家應該都認為是觸控式螢幕。而開發人員最常提出的問題大概就是「我要如何偵測到觸控功能的裝置」？</p>
+<h3>觸控的偵測功能</h3>
+<p>雖然以前的解決方案仍有專利與不相容方面的問題 (如 <a href="https://developer.mozilla.org/en-US/docs/DOM/Touch_events_%28Mozilla_experimental%29">Mozilla 實驗性質，由供應商預先設定的事件模型</a>)，但目前大多數瀏覽器均已建構了相同的<a href="https://www.w3.org/TR/touch-events/">觸碰事件 (Touch Event)</a> 模型。該解決方案首先由 Apple for iOS Safari 所提出，其他瀏覽器隨之接著採用，最後回歸成為 W3C 的基礎規格。</p>
+<p>因此，不論是否要以程式設計的方式進行偵測，瀏覽器均可透過簡單的偵測功能，支援互動的觸控作業：</p>
+<p>if (&#39;ontouchstart&#39; in window) {<br>  /<em> browser with Touch Events<br>     running on touch-capable device </em>/<br>}</p>
+<p>					1234</p>
+<p>						if (&#39;ontouchstart&#39; in window) {  /<em> browser with Touch Events     running on touch-capable device </em>/}</p>
+<p>此編碼片段可於目前的瀏覽器中穩定運作。但若要用於較舊版本的瀏覽器，就必須跳脫多樣不同的偵測功能框架而另外設定。若你的應用是針對舊版瀏覽器所設計，這裡建議你應該先參閱 <a href="https://modernizr.com/">Modernizr</a>，特別是其中所提到不同的<a href="https://modernizr.github.com/Modernizr/touch.html">觸控測試方法</a>，應能讓你順利解決相關問題。</p>
+<p>我上面強調過「大多數瀏覽器」可支援此觸控事件模型。而比較重要的例外就是 Internet Explorer 瀏覽器。最高到 IE9 都尚未支援初階的觸控功能，但 IE10 則開始支援 Microsoft 自己的 <a href="https://www.w3.org/Submission/pointer-events/">Pointer Events</a>。此事件模型已經提交到 W3C 的標準化作業，目的是要能透過新類別的單一事件，統合如滑鼠、觸控筆、觸控板等的「指示器 (Pointer)」裝置。由於此模型設計之初，並未納入任何獨立的「觸控」，因此其本身並無法使用 ontouchstart 的偵測功能。若要使用 Pointer Events，則建議在「觸控啟動式 (Touch-enabled)」的裝置上執行瀏覽器。因為 Pointer Events 並不會檢查物體是否存在，亦不會回傳 navigator.maxTouchPoints (另請注意，Microsoft 的 Pointer Events 目前仍為預先設定的狀態，所以我們實務上仍期待能採納 navigator.msMaxTouchPoints)。若物體存在且回傳的值大於零，即可支援觸控功能。</p>
+<p>if (navigator.msMaxTouchPoints &gt; 0) {<br>  /<em> IE with pointer events running<br>     on touch-capable device </em>/<br>}</p>
+<p>					1234</p>
+<p>						if (navigator.msMaxTouchPoints &gt; 0) {  /<em> IE with pointer events running     on touch-capable device </em>/}</p>
+<p>將這段加入之前的偵測功能 (內含 Pointer Events 未預先設定的版本，以因應未來所需的相容性)，接著應能得到合理且簡潔的程式碼片段：</p>
+<p>if ((&#39;ontouchstart&#39; in window) ||<br>     (navigator.maxTouchPoints &gt; 0) ||<br>     (navigator.msMaxTouchPoints &gt; 0)) {<br>      /<em> browser with either Touch Events of Pointer Events<br>         running on touch-capable device </em>/<br>}</p>
+<p>					123456</p>
+<p>						if ((&#39;ontouchstart&#39; in window) ||     (navigator.maxTouchPoints &gt; 0) ||     (navigator.msMaxTouchPoints &gt; 0)) {      /<em> browser with either Touch Events of Pointer Events         running on touch-capable device </em>/}</p>
+<h3>觸控偵測的使用方式</h3>
+<p>現在已有許多常見技術可利用偵測功能，進而最佳化觸控功能。偵測觸控最常見使用範例，就是提高觸控介面的反應度。</p>
+<p>在使用觸控式螢幕介面時，瀏覽器會在「觸碰的動作 (如點選鏈結或按鈕)」與「時間內實際發生的點選事件」之間，自行產生約 300 ms 內的人工延遲。</p>
+<p>另特別一提，若是支援 Touch Events 的瀏覽器，則會在「touchend」與「瀏覽器模擬的滑鼠事件」之間產生延遲，以相容於 mouse-centric 指令碼：</p>
+<p>touchstart &gt; [touchmove]+ &gt; touchend &gt; &lt;strong&gt; delay &lt;/strong&gt; &gt; mousemove &gt; mousedown &gt; mouseup &gt; click</p>
+<p>					1</p>
+<p>						touchstart &gt; [touchmove]+ &gt; touchend &gt; &lt;strong&gt; delay &lt;/strong&gt; &gt; mousemove &gt; mousedown &gt; mouseup &gt; click</p>
+<p>請參閱<a href="https://mozilla.github.io/mozhacks/touch-events/event-listener.html">「事件接收器 (Listener)」測試頁面</a>，以了解事件啟動的順序，還有 <a href="https://github.com/mozilla/mozhacks/blob/gh-pages/touch-events/event-listener.html">GitHub 上可用的程式碼</a>。</p>
+<p>這種延遲機制，可避免使用者意外啟動其他頁面元素，而完成如頁面縮放的雙點觸控事件。</p>
+<p>有趣的是，Android 版本的 Firefox 與 Chrome 均可針對固定、無法縮放視點的頁面，而自行移除此延遲機制。</p>
+<p>&lt;meta name=&quot;viewport&quot; value=&quot;... &lt;strong&gt;user-scalable = no&lt;/strong&gt; ...&quot;&gt;&lt;strong&gt;&lt;/strong&gt; &lt;strong&gt;&lt;/strong&gt;</p>
+<p>					1</p>
+<p>						&lt;meta name=&quot;viewport&quot; value=&quot;... &lt;strong&gt;user-scalable = no&lt;/strong&gt; ...&quot;&gt;&lt;strong&gt;&lt;/strong&gt; &lt;strong&gt;&lt;/strong&gt;</p>
+<p>另請參閱<a href="https://mozilla.github.io/mozhacks/touch-events/event-listener_user-scalable-no.html">「事件接收器 (Listener) 搭配 user-scalable=no」測試頁面</a>，還有 <a href="https://github.com/mozilla/mozhacks/blob/gh-pages/touch-events/event-listener_user-scalable-no.html">GitHub 上的可用程式碼</a>。</p>
+<p>另有某些討論提到 Chrome 於其他情況下的進一步行為，可參閱 <a href="https://code.google.com/p/chromium/issues/detail?id=169642">issue 169642 in the Chromium bug tracker</a>。</p>
+<p>雖然此種延遲機制為必要功能，但也能拖慢 Web App 或不產生任何反應。我們這裡使用常見的小把戲來支援觸控，且只要發生觸碰事件亦可直接反應 (可為 touchstart ─ 使用者觸碰螢幕；亦可為 touchend ─ 使用者手指離開螢幕)，進而可取代傳統的 click：</p>
+<p>/<em> if touch supported, listen to &#39;touchend&#39;, otherwise &#39;click&#39; </em>/<br>var clickEvent = (&#39;ontouchstart&#39; in window ? &#39;touchend&#39; : &#39;click&#39;);<br>blah.addEventListener(clickEvent, function() { ... });</p>
+<p>					123</p>
+<p>						/<em> if touch supported, listen to &#39;touchend&#39;, otherwise &#39;click&#39; </em>/var clickEvent = (&#39;ontouchstart&#39; in window ? &#39;touchend&#39; : &#39;click&#39;);blah.addEventListener(clickEvent, function() { ... });</p>
+<p>雖然此最佳化的方式已經廣泛使用，但仍是以明顯的邏輯謬誤為基礎而成。</p>
+<p>這種人工延遲同樣出現在 Pointer Events 的瀏覽器中。</p>
+<p>pointerover &gt; mouseover &gt; pointerdown &gt; mousedown &gt; pointermove &gt; mousemove &gt; pointerup &gt; mouseup &gt; pointerout &gt; mouseout &gt; delay &gt; click</p>
+<p>雖然上述的最佳化方式可進一步延伸，用以檢查 navigator.maxTouchPoints 之後，再將 Listener 銜接 pointerup (而非 click)，但其實還有更簡單的方法。就是把我們元素裡的 <a href="https://www.w3.org/Submission/pointer-events/#the-touch-action-css-property">touch-action CSS 屬性</a>設定為 none，將延遲降到最低。</p>
+<p>/<em> suppress default touch action like double-tap zoom </em>/<br>a, button {<br>  -ms-touch-action: none;<br>      touch-action: none;<br>}</p>
+<p>					12345</p>
+<p>						/<em> suppress default touch action like double-tap zoom </em>/a, button {  -ms-touch-action: none;      touch-action: none;}</p>
+<p>可參閱 <a href="https://mozilla.github.io/mozhacks/touch-events/event-listener_touch-action-none.html">「事件接收器 (Listener) 搭配 touch-action:none」測試頁面</a>，還有 <a href="https://github.com/mozilla/mozhacks/blob/gh-pages/touch-events/event-listener_touch-action-none.html">GitHub 上的可用程式碼</a>。</p>
+<h3>錯誤的假設</h3>
+<p>必須特別注意的是，這些根據「觸碰有效性」而成的最佳化類型，其實有其根本上的缺陷。相關的最佳化作業是假設「使用者根據裝置功能而做出動作」。更明確的說：上述範例均假設「裝置具備觸控輸入的功能，且使用者的觸控方式也確實符合唯一的互動方式」。</p>
+<p>如果只有典型的「行動電話」與「平板電腦」具備觸控輸入的功能，那上面的假設確實有其立足點；因為觸控式面板是唯一的輸入方式。但近來出現的全新裝置，往往具備傳統筆記型/桌上型電腦的規格 (包含滑鼠、鍵盤、軌跡板)，卻又同時搭載觸控式螢幕，如 <a href="https://windows.microsoft.com/en-us/windows-8/new-pcs">Windows 8 電腦</a>或 <a href="https://www.google.com/intl/en_uk/chrome/devices/chromebook-pixel/">Google 的 Chromebook Pixel</a>。</p>
+<p>題外話，即使是行動電話或平板電腦，在某些平台上亦可讓使用者添加更多輸入裝置。對 iOS 來說，iPhone/iPad 僅能配對藍牙鍵盤而達到單純的文字輸入；Android 與 Blackberry OS 讓使用者外接滑鼠。</p>
+<p>在 Android 系統上，這種滑鼠其實比較像「觸碰」，可平均放出「觸碰事件」與「模擬滑鼠事件」的相同序列，且中間仍保有延遲機制。也因此，上述的最佳化範例可運作無虞。但 Blackberry OS 就單純只會放出滑鼠事件，因而可能造成下面將提到的某些問題。</p>
+<p>開發人員已經逐漸發現了此一變化：觸控功能已經不再侷限於「行動裝置」。不論使用者是否選擇觸控功能成為主要/次要的輸入方式，裝置幾乎都必須搭載觸控功能。其實在互動的過程中，使用者可能隨時轉換輸入方式。</p>
+<p>上面所提到的程式碼片段，就確實呼應了這種新型態裝置的後續效應。對使用 Touch Events 的瀏覽器來說：</p>
+<p>&lt;strong&gt;var&lt;/strong&gt; clickEvent = (&#39;ontouchstart&#39; &lt;strong&gt;in&lt;/strong&gt; window ? &#39;touchend&#39; : &#39;click&#39;);</p>
+<p>					1</p>
+<p>						&lt;strong&gt;var&lt;/strong&gt; clickEvent = (&#39;ontouchstart&#39; &lt;strong&gt;in&lt;/strong&gt; window ? &#39;touchend&#39; : &#39;click&#39;);</p>
+<p>其實就代表「如果裝置支援觸控功能，就只接收 touchend 而不接收 click」。若用於多重輸入的裝置，就直接切斷了滑鼠、鍵盤、觸控板的擴充機會。</p>
+<p>── 待續 ──</p>
+<p>原文出處：https://hacks.mozilla.org/2013/04/detecting-touch-its-the-why-not-the-how/</p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824001316id_/https://blog.mozilla.com.tw/?p=2376">Wayback snapshot</a>
+              <span>Post ID: 2376</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

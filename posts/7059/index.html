@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Canvas 2D：新的 Path2D 物件與點擊區域 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Canvas 2D：新的 Path2D 物件與點擊區域</h2>
+            <p class="entry-posted"><time datetime="2015-01-30" class="published"><span class="posted-month">1月</span><span class="posted-date">30</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p>如果你是遊戲開發者，也看過《<a href="../../posts/4853/">Firefox OS 適用的 WebGL 與 CreateJS</a>》一文，那你一定還對所提過 Canvas 設計出來的跳跳兔有印象吧？快來看看 Canvas 2D 現在又有哪些新東西了呢？</p>
+<p><img src="../../assets/7059/wp-content/uploads/bunny.jpg" alt="bunny" loading="lazy"></p>
+<p>在 <a href="https://blogs.adobe.com/webplatform/">Adobe Web 平台團隊</a>的協助之下，Firefox 及其他新款瀏覽器均已於去年內建了多項 HTML 的 Canvas 2D 新功能。而 MDN 上有關 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API">Canvas 2D 的相關說明文章</a>也大幅更新，以確實反應出目前 Canvas 標準與瀏覽器的建構實例狀態。就先來看看有哪些新功能，又可如何協助你強化 Canvas 圖形與遊戲內容。</p>
+<h4>Path2D 物件</h4>
+<p>新的 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Path2D">Path2D</a> API (從 Firefox 31 起可用) 可儲存路徑，亦即能簡化 Canvas 繪圖碼並達到更快的執行速度。而<a href="https://developer.mozilla.org/en-US/docs/Web/API/Path2D.Path2D">建構子 (Constructor)</a> 則有 3 種方式可建立 Path2D 物件：</p>
+<p>new Path2D();     // empty path object<br>new Path2D(path); // copy from another path<br>new Path2D(d);    // path from from SVG path data</p>
+<p>					123</p>
+<p>						new Path2D();     // empty path objectnew Path2D(path); // copy from another pathnew Path2D(d);    // path from from SVG path data</p>
+<p>第三個版本會將 <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths">SVG 路徑資料</a>納入建構，且特別方便好用。你現在也可重複使用自己 SVG 路徑，直接在 Canvas 描繪相同的輪廓：</p>
+<p>var p = new Path2D(&quot;M10 10 h 80 v 80 h -80 Z&quot;);</p>
+<p>					1</p>
+<p>						var p = new Path2D(&quot;M10 10 h 80 v 80 h -80 Z&quot;);</p>
+<p>在建構空白的路徑物件時，則可使用一般常見的<a href="https://developer.mozilla.org/en-US/docs/Web/API/Path2D#Methods">路徑函式</a>，就像在 <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D">CanvasRenderingContext2D</a> 裡的使用方式。</p>
+<p>// create a circle<br>var circle = new Path2D();<br>circle.arc(50, 50, 50, 0, 2 * Math.PI);<br>// stroke the circle onto the context ctx<br>ctx.stroke(circle);</p>
+<p>					12345</p>
+<p>						// create a circlevar circle = new Path2D();circle.arc(50, 50, 50, 0, 2 * Math.PI);// stroke the circle onto the context ctxctx.stroke(circle);</p>
+<p>為了要實際在 Canvas 上繪製路徑，現已更新多組內容的 API，可傳入 Path2D 路徑：</p>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.fill">ctx.fill(path)</a></li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.stroke">ctx.stroke(path)</a></li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.clip">ctx.clip(path)</a></li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.isPointInPath">ctx.isPointInPath(path)</a></li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.isPointInStroke">ctx.isPointInStroke(path)</a></li></ul>
+<h4>點擊區域 (Hit regions)</h4>
+<p>從 Firefox 32 開始就支援實驗性的「<a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Hit_regions_and_accessibility#Hit_regions">點擊區域</a>」功能。你必須先將 canvas.hitregions.enabled 設定為 true 才能測試。如果滑鼠游標處於特定區域，而不須手動檢查其座標 (這樣真的很難檢查複雜的外型)，就能透過點擊區域輕鬆偵測。而 Hit Region API 很簡單：</p>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.addHitRegion">CanvasRenderingContext2D.addHitRegion()</a>可將點擊區域新增到 Canvas。</li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.removeHitRegion">CanvasRenderingContext2D.removeHitRegion()</a>透過特定的 id ，將點擊區域從 Canvas 移除。</li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.clearHitRegions">CanvasRenderingContext2D.clearHitRegions()</a>移除 Canvas 上的所有點擊區域。</li></ul>
+<p>addHitRegion 函式同樣可將點擊區域添加至現有路徑或 Path2D 路徑上。另可透過 <a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent.region">region</a> 屬性擴充 <a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent">MouseEvent</a> 介面，檢查滑鼠游標是否點擊到該區域。</p>
+<p>可實際參閱 <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.addHitRegion#Using_the_addHitRegion_method">MDN 上的範例程式碼</a> (並至少要啟用 Firefox 與 Chrome 中的設定)。</p>
+<h4>焦點環 (Focus rings)</h4>
+<p>在 Firefox 32 中的 <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.drawFocusIfNeeded">drawFocusIfNeeded(element)</a> 屬性，同樣不需切換設定就能使用。只要其 &lt;canvas&gt;&lt;/canvas&gt; 元素內部既有的應變 (Fallback) 元素取得焦點，此 API 就能讓你在 Canvas 上繪製焦點環。在應變元素取得焦點 (例如按「Tab」切換到有 Canvas 的頁面)，則 Canvas 上該元素焦點環以指出目前的焦點。</p>
+<h4>CSS/SVG 濾鏡已可用於 Canvas</h4>
+<p>同樣必須完成設定 (canvas.filters.enabled)，且尚未納入最新的 Canvas 規格 (未來就會加入)，但 Firefox 35 已支援了 <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.filter">Canvas 繪圖內容上的濾鏡 (Filter)</a>。其語法即與 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/filter">CSS 的濾鏡屬性</a>相同。</p>
+<h4>其他</h4>
+<ul><li>現已建構 <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement.getContext">alpha</a><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement.getContext">內容屬性</a> (Firefox 30)。不透明的 Canvas 則可<a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Optimizing_canvas">加快速度</a>！</li></ul>
+<ul><li>現可<a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasPattern.setTransform">添增形變資訊 (Transformation) 到樣版 (Pattern)</a> (Firefox 33)。</li></ul>
+<ul><li>現已新增 <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D.resetTransform">ctx.resetTransform()</a> ，可重設形變資訊 (Firefox 36)。</li></ul>
+<ul><li>敬請期待！最新 Canvas 規格另提供新的 API，且<a href="https://code.google.com/p/chromium/issues/detail?id=281529">現在</a>正<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1119470">著手將之建構</a>於瀏覽器之中。</li></ul>
+<h4>說明文章</h4>
+<p>如果想進一步了解 Canvas 2D，亦可參閱 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial">MDN 的 Canvas 線上教學</a>與 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API">Canvas API</a>。你也可以將 <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D">CanvasRenderingContext2D</a> 介面加入書籤，可供你在使用 Canvas 隨時參照。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/01/canvas-2d-new-docs-path2d-hit-regions/">Canvas 2D: New docs, Path2D objects, hit regions</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Mozilla</span><span>Web App</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20200805164857id_/https://blog.mozilla.com.tw/?p=7059">Wayback snapshot</a>
+              <span>Post ID: 7059</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

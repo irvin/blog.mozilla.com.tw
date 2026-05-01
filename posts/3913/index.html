@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Firefox OS：Web Components 與 Mozilla Brick | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Firefox OS：Web Components 與 Mozilla Brick</h2>
+            <p class="entry-posted"><time datetime="2013-10-18" class="published"><span class="posted-month">10月</span><span class="posted-date">18</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p><img src="../../assets/3913/wp-content/uploads/be-the-future1.png" alt="be-the-future" loading="lazy"></p>
+<p>此為「Firefox OS ─ 讓 <a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 得以完全發揮的平台」系列的第七支影片 (於此回顧<a href="https://hacks.mozilla.org/2013/06/firefox-os-for-developers-the-platform-html5-deserves/">第一</a>、<a href="../../posts/3179/">第二</a>、<a href="../../posts/3277/">第三</a>、<a href="../../posts/3419/">第四</a>、<a href="../../posts/3593/">第五</a>、<a href="../../posts/3680/">第六</a>支影片)。由 Mozilla 首席技術傳教士 Chris Heilmann (<a href="https://twitter.com/codepo8">@codepo8</a>) 與 Mozilla 資深 HTML5 工程師 Matthew Claypotch (<a href="https://twitter.com/potch">@potch</a>) 一同錄製，將為 Web App 開發者說明 Web Components 諸多可能。另將談到 Mozilla 的 Brick 函式庫。此函式庫蒐集了許多自訂元素，可用以開發 App 並協助建構更順暢的過場動畫。你也可<a href="https://www.youtube.com/watch?v=eS1O46O5saA">在 YouTube 上觀看本影片</a>。</p>
+<h3>使用 Web Components 的理由</h3>
+<p>將 Web 作為 App 平台其實有點小麻煩：雖然可輕鬆建立 HTML 文件並賦予意義，但其實 HTML 本身並沒有足夠的元素可建構 App。而 HTML5 規格擁有許多新元素，其支援功能也只是湊合著跨瀏覽器所用；不像 Flex 或 iOS 的其他平台已能提供現成 Widgets 給開發者。因此，開發者必須使用非語意式 HTML (大多數為 DIV 元素)，以自行建構如行事曆、選單列、滑動桿控制項等的 Widgets，可透過 JavaScript 與之互動，並使用 CSS 建立主題式風格。</p>
+<p>這個替代方案雖然看起來還算不錯，但問題也隨著產生。我們並非為瀏覽器擴充既有的功能，而是像疊磚頭一樣再往上加功能。換句話說，瀏覽器必須顯示 HTML 內容、達到至少 60 fps 的優秀效能、加上我們的 Widgets 功能，還要讓畫面達到動畫與變化的效果。我們不斷在瀏覽器效能和自己的程式碼上變出小把戲，但也導致介面延遲、高耗電量、畫面閃爍等缺點。</p>
+<p>為了找到上述問題的替代方案，已有許多公司與標準訂定機構的成員在擬定 <a href="https://www.w3.org/TR/2013/WD-components-intro-20130606/">Web Components</a> 規格，讓開發者能透過自訂元素，擴充瀏覽器所能辨識的 Markup。以前你必須撰寫一組滑動軸控制項，並在瀏覽器顯示文件之後才能使用。現在你可定義 1 組滑動桿元素，並使之在正常的顯示流程中即完成處理。這代表我們的 Widgets 效能更佳，不會受限於瀏覽器的「Render」流程，也達到更好的整體效能。讓較低規格的行動裝置也能擁有更多優勢。舉例來說，如果你將視訊元素添增至文件中，就會看到一組視訊控制器，包含滑動軸控制項、播放按鈕、音量控制項等等。這些介面全都是以HTML、CSS、JavaScript 所建構，也代表能在除錯工具中看到它們：</p>
+<p><img src="../../assets/3913/wp-content/uploads/shadowdom.png" alt="shadowdom" loading="lazy"></p>
+<p>Firefox OS 本來就是針對低規格的裝置所設計，且這些 Widgets 本身即屬於「Render」流程的一部分，可為 Firefox OS 提供更多優勢。Mozilla 因此提供<a href="https://mozilla.github.io/brick/">Mozilla Brick</a> 函式庫，其中具備開發 App 時所需的自訂元素。之前我們曾介紹過的 <a href="https://www.x-tags.org/">XTags</a> 函式庫亦強化了 Brick。透過 Brick，只要使用下列 Markup 即可輕鬆建立<a href="https://mozilla.github.io/brick/demos/deck/index.html">如發撲克牌般的動畫 App 配置</a>範例：</p>
+<p>&lt;x-deck selected-index=&quot;0&quot;&gt;<br>  &lt;x-card&gt;<br>    0&lt;span&gt;I&#39;m the first card!&lt;/span&gt;<br>  &lt;/x-card&gt;<br>  &lt;x-card&gt;<br>    1<br>    &lt;span&gt;<br>      These cards can contain any markup!&lt;br&gt;<br>      &lt;img src=&quot;../../site/img/grounds_keeping_it_real_s3.gif&quot;&gt;<br>      &lt;img src=&quot;../../site/img/grounds_keeping_it_real_s1.gif&quot;&gt;<br>      &lt;img src=&quot;../../site/img/grounds_keeping_it_real_s2.gif&quot;&gt;<br>    &lt;/span&gt;<br>  &lt;/x-card&gt;<br>  &lt;x-card&gt;<br>    2 &lt;img src=&quot;../../site/img/thumbs_up.gif&quot;&gt;<br>  &lt;/x-card&gt;<br>&lt;/x-deck&gt;</p>
+<p>					1234567891011121314151617</p>
+<p>						&lt;x-deck selected-index=&quot;0&quot;&gt;  &lt;x-card&gt;    0&lt;span&gt;I&#39;m the first card!&lt;/span&gt;  &lt;/x-card&gt;  &lt;x-card&gt;    1    &lt;span&gt;      These cards can contain any markup!&lt;br&gt;      &lt;img src=&quot;../../site/img/grounds_keeping_it_real_s3.gif&quot;&gt;      &lt;img src=&quot;../../site/img/grounds_keeping_it_real_s1.gif&quot;&gt;      &lt;img src=&quot;../../site/img/grounds_keeping_it_real_s2.gif&quot;&gt;    &lt;/span&gt;  &lt;/x-card&gt;  &lt;x-card&gt;    2 &lt;img src=&quot;../../site/img/thumbs_up.gif&quot;&gt;  &lt;/x-card&gt;&lt;/x-deck&gt;</p>
+<p>所建構的 App 如同三張撲克牌。不需其他多餘的作業，只要呼叫 deck.shuffleNext(); 函式即可產生過場動畫。</p>
+<p>Web Components 現已成為熱門話題，而且每個星期都產生許多新的框架與函式庫。Mozilla 希望開發者能透過 Brick，清晰且迅速建構 Firefox OS 的高適應性 App，不用再為了迎合特定 OS 而辛苦雕琢自己的 App。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2013/09/firefox-os-development-web-components-and-mozilla-brick/">https://hacks.mozilla.org/2013/09/firefox-os-development-web-components-and-mozilla-brick/</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824002835id_/https://blog.mozilla.com.tw/?p=3913">Wayback snapshot</a>
+              <span>Post ID: 3913</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

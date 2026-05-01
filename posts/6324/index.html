@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>「PhoneGap Developer」支援 Firefox OS 搶先看 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">「PhoneGap Developer」支援 Firefox OS 搶先看</h2>
+            <p class="entry-posted"><time datetime="2014-09-23" class="published"><span class="posted-month">9月</span><span class="posted-date">23</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>Mozilla 跨平台團隊一直想透過 Open Web 標準來提升 App 的開發流程。而我們認為 <a href="https://cordova.io/">Cordova</a> 與 <a href="https://phonegap.com/">PhoneGap</a> 就是目前達到此目標的絕佳工具。現在很高興能為 Firefox OS 帶來<a href="https://app.phonegap.com/">「PhoneGap Developer」</a>App，藉以強化 PhoneGap 的支援功能。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/phonegapfxos.png" alt="phonegapfxos" loading="lazy"></p>
+<p>「PhoneGap Developer」可於多款平台上輕鬆執行 PhoneGap 的 App，且開發者不需再安裝 SDK 或另外註冊。目前可分別於 Android、iOS、Windows Phone 的 App 商店中找到該 App。且此款 App 可同時配對多組裝置。只要你修改了應用程式的程式碼，都會一併傳送至所有裝置上。</p>
+<p>現在開發 Firefox OS 的應用程式時，即使不再需要一堆 SDK 或註冊，也能一次就能將修改的程式碼傳送到多組裝置上，太方便了！</p>
+<p>我們下一步就是要讓此 App 能支援 Firefox OS。而你現在就能搶先體驗。本篇文章將帶領你取得 Firefox OS 的 PhoneGap 預覽版本。就趕快來看看示範影片吧：</p>
+<h3>取得相依套件</h3>
+<p>我們將使用 <a href="https://cordova.apache.org/">Cordova</a> 的開發版本，搭配 <a href="https://phonegap.com/">PhoneGap 指令列介面</a>的開發版本而運作。這兩者相容性極高且運作順利。另請先安裝 <a href="https://git-scm.com/downloads">git</a>、<a href="https://nodejs.org/download/">nodejs 與 npm</a> 完畢。</p>
+<p>先從 github 取得所有必要模組：</p>
+<p>  $ git clone https://github.com/apache/cordova-firefoxos.git<br>  $ git clone https://github.com/apache/cordova-cli.git<br>  $ git clone https://github.com/apache/cordova-lib.git<br>  $ git clone -b fxos https://github.com/rodms10/phonegap-app-developer.git<br>  $ git clone -b fxos https://github.com/rodms10/connect-phonegap.git<br>  $ git clone https://github.com/phonegap/phonegap-cli.git</p>
+<p>					123456</p>
+<p>						  $ git clone https://github.com/apache/cordova-firefoxos.git  $ git clone https://github.com/apache/cordova-cli.git  $ git clone https://github.com/apache/cordova-lib.git  $ git clone -b fxos https://github.com/rodms10/phonegap-app-developer.git  $ git clone -b fxos https://github.com/rodms10/connect-phonegap.git  $ git clone https://github.com/phonegap/phonegap-cli.git</p>
+<p>接著再安裝相依套件：</p>
+<p>  $ cd connect-phonegap<br>  $ npm link<br>  $ cd ../phonegap-cli<br>  $ npm link connect-phonegap<br>  $ npm install<br>  $ cd ../cordova-lib/cordova-lib<br>  $ npm link<br>  $ cd ../../cordova-cli<br>  $ npm link cordova-lib<br>  $ npm install<br>  $ cd ..</p>
+<p>					1234567891011</p>
+<p>						  $ cd connect-phonegap  $ npm link  $ cd ../phonegap-cli  $ npm link connect-phonegap  $ npm install  $ cd ../cordova-lib/cordova-lib  $ npm link  $ cd ../../cordova-cli  $ npm link cordova-lib  $ npm install  $ cd ..</p>
+<h3>將 App 載入到裝置</h3>
+<p>可至 phonegap-app-developer/platforms/firefoxos/www/ 取得此 App。只要讓「<a href="https://developer.mozilla.org/en-US/Firefox_OS/Using_the_App_Manager">應用程式管理員 (App manager)</a>」或「<a href="https://developer.mozilla.org/en-US/docs/Tools/WebIDE">WebIDE</a>」指向此路徑，並將之載入到裝置或模擬器中即可。一旦啟動 App 之後，就會看到螢幕顯示一組 IP 位址，供你輸入自己伺服器的位址。</p>
+<h3>啟動伺服器</h3>
+<p>接下來啟動伺服器，就會將 App 的內容傳送到 PhoneGap Developer App 中。首先建立 Cordova 的新 App：</p>
+<p>  $ cordova-cli/bin/cordova create myapp org.app.my &quot;I Heart PhoneGap Dev App&quot;<br>  $ cd myapp</p>
+<p>					12</p>
+<p>						  $ cordova-cli/bin/cordova create myapp org.app.my &quot;I Heart PhoneGap Dev App&quot;  $ cd myapp</p>
+<p>現在我們必須讓 Cordova 指向 cordova-firefoxos 的開發版本。在你自己 App 的根目錄資料夾中 (我們的範例則是以 myapp 為根目錄資料夾)，建立名為「.cordova」(必須前置句點) 的資料夾，並於其中加入名為「config.json」的檔案，其內應含下列內容：</p>
+<p>{<br>  &quot;lib&quot;: {<br>    &quot;firefoxos&quot;: {<br>      &quot;uri&quot;: &quot;/&lt;Full/Path/To&gt;/cordova-firefoxos&quot;,<br>      &quot;version&quot;: &quot;dev&quot;,<br>      &quot;id&quot;: &quot;cordova-firefoxos-dev&quot;<br>    }<br>  }<br>}</p>
+<p>					123456789</p>
+<p>						{  &quot;lib&quot;: {    &quot;firefoxos&quot;: {      &quot;uri&quot;: &quot;/&lt;Full/Path/To&gt;/cordova-firefoxos&quot;,      &quot;version&quot;: &quot;dev&quot;,      &quot;id&quot;: &quot;cordova-firefoxos-dev&quot;    }  }}</p>
+<p>確認上述的「uri」屬性具備完整且正確的路徑，指向 cordova-firefoxos。</p>
+<p>在啟動伺服器之前，先跳回 PhoneGap：</p>
+<p>  $ ../phonegap-cli/bin/phonegap.js serve</p>
+<p>					1</p>
+<p>						  $ ../phonegap-cli/bin/phonegap.js serve</p>
+<p>你應該能看到一行：[phonegap] listening on 10.0.0.1:3000。接著在 PhoneGap Developer 之中輸入此 IP，就能看到自己的 App 開始執行了！簡單吧！</p>
+<h3>等待正式版本發佈！</h3>
+<p>跟我們做到這裡為止，你可能想問 Marketplace 上怎麼找不到這個 App？如同你目前看到的，我們仍需要開發版本的 PhoneGap 指令列介面，才能讓整個 App 完整運作。只要我們釋出新版本的程式碼，屆時不需要開發版本的指令列也能發佈 App 了。</p>
+<p>如果你有任何問題或想提出意見，可到 <a href="ircs://irc.mozilla.org:6697/apps">IRC 的 #apps 頻道</a>找到我們，也可寄發郵件到 <a href="mailto:mozilla-cordova@mozilla.org">mozilla-cordova@mozilla.org</a>。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/09/phonegap-developer-app-preview-for-firefox-os/">PhoneGap Developer App preview for Firefox OS</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190825004626id_/https://blog.mozilla.com.tw/?p=6324">Wayback snapshot</a>
+              <span>Post ID: 6324</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

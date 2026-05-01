@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Firefox Marketplace：更新 App | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Firefox Marketplace：更新 App</h2>
+            <p class="entry-posted"><time datetime="2014-03-28" class="published"><span class="posted-month">3月</span><span class="posted-date">28</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>你是熱血的 Firefox OS 開發者，而且早已設計了許多 App 準備大展身手嗎？在將自己的 App 提交到 Firefox Marketplace 之後，如果要更新自己的作品又該怎麼辦呢？先來這裡看看該如何更新 Marketplace 中的 App，讓自己的開發作業更順利。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/firefox-marketplace2.jpg" alt="firefox-marketplace" loading="lazy"></p>
+<h4>更新托管式 (Hosted) App</h4>
+<p>托管式 App 本質就是網頁，因此同樣依 Web 快取的常規而運作。但開發者亦可選用如 <a href="https://developer.mozilla.org/en-US/docs/HTML/Using_the_application_cache">HTML5 AppCache</a> 的進階機制以加快啟動速度。先了解這二點之後，更新 App 所使用的一般資源大概就沒有需要特別注意的地方了。</p>
+<p>但 Open Web App 在處理 manifest 檔案時就不太一樣了。某些 manifest 的變動必須經過使用者許可。但根據 Web runtime 實作的不同，較難以確定是否會啟動更新作業。</p>
+<p>如果要能確實解決此問題，開發者可於 manifest 檔案中添加「version」欄位。只要檢查 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Apps.getInstalled">navigator.mozApps.getInstalled()</a> 函式所回傳的值，即可了解目前的版本。如果消費者並未安裝最新版本，則可透過 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Apps.install">navigator.mozApps.install()</a> 觸發更新作業。</p>
+<p>Web runtime 並不會使用 version 的值，所以開發者可使用任何喜歡的版號設定格式。</p>
+<p>另請注意，如果因更改 manifest 檔案而發生錯誤或毀損，則一旦將 manifest 檔案提交到 Firefox Marketplace 就會發現。嚴重錯誤將導致 App 無法出現在 Marketplace 之中。若是較不嚴重的錯誤，就可能會自動標定該 App 需要重新審查。</p>
+<h4>更新封裝式 (Packaged) App</h4>
+<p><a href="https://developer.mozilla.org/zh-TW/docs/Web/Apps/Developing/Packaged_apps/Packaged_apps">封裝式 App</a> 與托管式 App 的更新程序有所不同。在更新封裝式 App 時，開發者必須將 App 的新版 zip 檔案上傳至 Firefox Marketplace。更新過的 App 同樣要先通過審查，才能再發佈至 Marketplace 之上。如此將於 Firefox OS 手機上觸發更新作業。消費者亦可透過「Settings」App 要求進行更新。</p>
+<p>若想進一步了解封裝式 App 的更新程序，可參閱下一章節。</p>
+<h4>更新封裝式 App 相關細節</h4>
+<p>接著提供封裝式 App 更新時的相關細節。如果你打算建構 App 商城，就可能必須特別注意。</p>
+<ul><li>將更新過的封裝式 App 發佈之後，亦應更新 <a href="https://developer.mozilla.org/en-US/docs/Web/Apps/Packaged_apps#Packaged_apps_and_the_Firefox_OS_Marketplace">mini-manifest</a> 以指向更新過的 ZIP 檔案 (請注意 mini-manifest 並非 App 的主要 manifest 檔案)。 ETag 標頭亦將變更，且將觸發 Firefox OS 手機上的更新作業。</li></ul>
+<ul><li>搭載於手機上的 Firefox OS 將每天一次，檢查 App 是否更新。Firefox OS 將檢查 mini-manifest 的網址，再檢查 mini-manifest 之內 package_path 的網址。只要使用 <a href="https://developer.mozilla.org/en-US/docs/Web/API/App">App 物件</a>上的 checkForUpdate() 函式即可進行此作業。一旦 ETag 標頭改變，該函式隨即得知 App 更新過，並將檢查 ZIP 檔案是否變更。</li></ul>
+<ul><li>Firefox OS 將批次檢查 App 的更新檔案。</li></ul>
+<p>Mozilla 開發者社群網站 (MDN) 原文連結：<a href="https://developer.mozilla.org/en-US/Marketplace/Publishing/Updating_apps">Updating apps</a></p>
+<p>你也可參閱中文版《<a href="https://developer.mozilla.org/zh-TW/docs/Mozilla/Marketplace/Publishing/Updating_apps">更新 App</a>》；並參閱 MDN 上的更多 Firefox OS 或 Marketplace 相關文章。</p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=5268">Wayback snapshot</a>
+              <span>Post ID: 5268</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

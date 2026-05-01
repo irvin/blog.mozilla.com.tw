@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>簡介 node-firefox (下) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">簡介 node-firefox (下)</h2>
+            <p class="entry-posted"><time datetime="2015-02-12" class="published"><span class="posted-month">2月</span><span class="posted-date">12</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p>在看過了《<a href="../../posts/7093/">簡介 node-firefox (上)</a>》之後，你應該已經對 node-firefox 有初步的認識了吧？緊接著來看看範例程式碼吧！</p>
+<h4>別說了，先來看吧</h4>
+<p>先來看看如何撰寫可啟動模擬器的指令碼吧！</p>
+<p>首先用 npm 在自己的專案中安裝此模組：</p>
+<p>npm install --save node-firefox-start-simulator</p>
+<p>					1</p>
+<p>						npm install --save node-firefox-start-simulator</p>
+<p>指令碼看起來就像這樣：</p>
+<p>var startSimulator = require(&#39;node-firefox-start-simulator&#39;);</p>
+<p>startSimulator({ version: &#39;2.2&#39; })<br>  .then(function(simulator) {<br>    console.log(&#39;Listening in port&#39;, simulator.port);<br>  });</p>
+<p>					123456</p>
+<p>						var startSimulator = require(&#39;node-firefox-start-simulator&#39;); startSimulator({ version: &#39;2.2&#39; })  .then(function(simulator) {    console.log(&#39;Listening in port&#39;, simulator.port);  });</p>
+<p>就這麼簡單！不過幾行程式碼，就能以程式設計的方式啟動 2.2 版本的模擬器。如果你不在乎版本問題，就不要放過 startSimulator 的任何設定，並啟動其遇到的第一組模擬器：</p>
+<p>startSimulator().then(function(simulator) {<br>  // your code<br>});</p>
+<p>					123</p>
+<p>						startSimulator().then(function(simulator) {  // your code});</p>
+<p>再來看看實際情況。現在我們完全以 node.js 指令碼啟動了模擬器、安裝並啟用了 App：</p>
+<p><img src="../../assets/7098/wp-content/uploads/example1.gif" alt="example1" loading="lazy"></p>
+<p>此範例中的程式碼，其實就是<a href="https://github.com/mozilla/node-firefox-uninstall-app">node-firefox-uninstall-app</a> 模組的範例。所有 node-firefox 模組都有 examples 資料夾，讓你能快速入門。</p>
+<p>如前面所提，許多 Web 開發者都想續用自己熟悉的作業執行環境而轉開發 App，所以我們也透過<a href="https://gulpjs.com/">gulp</a> 範例來引導你使用 node-firefox。</p>
+<p>先執行 default-one 試試看吧！會先啟動模擬器、佈署 App、監看 CSS 變化 (如果你想有點挑戰性)。如果你編輯並儲存了任何 App 的樣式表 (Stylesheet)，則檔案監控程式 (File watcher) 就會偵測到變化而送出新的檔案內容 (且動態取代之) 至執行環境，而不須停止、推送、重新啟動整個 App。可看看下方的背景顏色，就是從深藍色即時改變為 <a href="https://paulrouget.com/">Paul Rouget</a> 的粉紅色！</p>
+<p><img src="../../assets/7098/wp-content/uploads/example2.gif" alt="example2" loading="lazy"></p>
+<p>在打造＼測試 UI 介面時，即時重新載入 CSS 的功能確實好用。你不須重新載入 App 就能看到自己要動手修改的特定配置，真的很省時間。真希望開發 Android App 的時候就能這樣！</p>
+<p>當然不只如此。default-all 不僅能辦到跟 default-one 一樣的功能，而且還擴及系統中已安裝的所有模擬器。所以你可同時在所有模擬器中看到 CSS 改變所造成的效果：</p>
+<p><img src="../../assets/7098/wp-content/uploads/example2b2.gif" alt="example2b2" loading="lazy"></p>
+<p>但是 2.1 與 2.2 版的模擬器還有<a href="https://github.com/mozilla/node-firefox-reload-css/issues/1">錯誤</a>，導致此兩個版本不會重新載入樣式表的變化，不過已經有人提報這個問題且很快就會修復。</p>
+<h4>目前我們能怎麼做？</h4>
+<p>目前的模組集合可讓你<a href="https://github.com/mozilla/node-firefox-find-ports">找到執行環境正監聽中的通訊埠</a>、<a href="https://github.com/mozilla/node-firefox-find-simulators">尋找</a>＼<a href="https://github.com/mozilla/node-firefox-start-simulator">啟動模擬器</a>、<a href="https://github.com/mozilla/node-firefox-connect">連接</a>到執行環境、<a href="https://github.com/mozilla/node-firefox-find-app">尋找</a>＼<a href="https://github.com/mozilla/node-firefox-install-app">安裝</a>＼<a href="https://github.com/mozilla/node-firefox-uninstall-app">解除安裝</a>＼<a href="https://github.com/mozilla/node-firefox-launch-app">啟動</a> App、<a href="https://github.com/mozilla/node-firefox-reload-css">重新載入樣式表</a>。</p>
+<p>Philosophy</p>
+<p>你應該已經注意到了某個模式。但為了避免這些還不足以說服你，我們正試著撰寫特別簡單的模組。各個模組僅會執行單一行動、回傳 Promise，並儘量達到最低的相依性。</p>
+<p>小型模組比較容易觀察、使用、測試。同樣的，未來的大多數 Web API 都會為了能搭配 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promises</a> 而設計。我們當然要寫就寫未來的程式碼。此外，若能降低程式碼之間的相依性，就不用花太多時間了解不熟悉的元素，也有利於更多人加入貢獻行列。</p>
+<p>最後，因為所有模組的作業方式都一樣，所以你只要知道任一模組的使用方式，也就會用其他模組了。唯一會變化的就是參數與結果。</p>
+<h4>理想概念 (或可說目前還做不到的)</h4>
+<p>我們希望未來能進行許多事。有些人稱之為功能或特色，我則說是「理想概念」。</p>
+<p>一再有人提及的「WebCLI」即是相對於 WebIDE 的工具。只要是能用 WebIDE 辦到的，都能在 WebCLI 中以單一指令列工具達到。我不停的在「這想法不錯」與「也許根本不需要，光作業的函式庫就夠用」之間游移不定，但許多人都喜歡這個概念，所以這概念或許沒那麼糟。</p>
+<p>另一個絕佳想法，就是用指令列啟動 App，再將開發者工具的除錯器附掛到該 App 上。但這個概念最後還是沒能成功。用指令列啟動 App 很讚，但指令列除錯器就沒那麼有趣。如果能兼顧雙方不更好嗎？</p>
+<p>或許這個概念可簡化為「從指令列控制任何瀏覽器」，並透過<a href="https://developer.mozilla.org/en-US/docs/Tools/Valence">Valence</a> 介面達到互動！</p>
+<p>最後則是我自己最愛的理想概念：Firefox OS 客製版本。想像我們只要寫個指令碼就能創造出空白的 Firefox OS 樣版，丟進自己愛用的 App 與設定、產生完整的 Firefox OS 映像檔並刷進裝置。又因為這並非二進制檔案卻是指令碼，我們也能將之發佈至 Repo 之中，讓其他人取用並打造自己的 Firefox OS。</p>
+<h4>如何完成？</h4>
+<p>現在還有很長的一段路要走，且須逐一克服許多領域。也許目前大多數的緊急需求，都是要能更妥善支援多款平台。目前我們只能透過網路來與其他執行環境互動，而非實體裝置。同樣的，對於 Mac OS 以外平台的支援度仍有很大的努力空間。</p>
+<p>測試也是重要的一環。如果能儘早開始測試，往往能找出如 CSS 的問題，避免在設計 gulp 展示時卡住。我們在多個平台上執行這些模組，並連接其他不同平台 (包含實體裝置)。</p>
+<p>當然我們需要更多模組與範例！為了確保不致有兩個人撰寫相同的模組，我們會透過專案最上方的問題討論串，提案打造<a href="https://github.com/mozilla/node-firefox/labels/new-module">新模組</a>並討論。我們想看到更多範例，要是能搭配我們的程式碼，與其他 node 模組中的現有功能掛勾就更好了；例如透過<a href="https://github.com/mozilla/firefox-app-validator-manifest">firefox-app-validator-manifest</a> 模組來添增 manifest 檔案的檢驗功能。</p>
+<p>我們需要大家的參與。我們不是你，也無法得知你心裡的需要或想法，也不知道各位的軟體使用方式。我們需要所有人的加入與貢獻！</p>
+<p>我們期待看到你用<a href="https://github.com/mozilla/node-firefox">node-firefox</a> 所打造的東西。任何問題可透過<a href="https://github.com/mozilla/node-firefox/issues">File issues</a> 或 irc 告訴我們。我們幾乎都掛在 irc.mozilla.org 的 #apps 與 #devtools 頻道上。</p>
+<h4>感謝</h4>
+<p>感謝去年在 Mozilla 實習的 Nicola Greco。他想出獨立 node 模組的概念，期待能協助大家開發 Firefox OS 的 App。另可欣賞他有趣又富啟發性的<a href="https://air.mozilla.org/nicola-greco-node-fxos-ninja-tools-for-firefoxos-development/">實習期末報告</a>。</p>
+<p>另要感謝開發者工具團隊的所有人 (而且超有耐心的)：Ryan Stinnet、Alexandre Poirot、Jeff Griffiths、Dave Camp，幫我們想辦法找到遠端伺服器與 Actor 變通方法。另大大感謝<a href="https://github.com/harthur/">Heather Arthur</a> 寫出<a href="https://github.com/harthur/firefox-client">firefox-client</a>，還簡化 node-firefox 的撰寫方式。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/02/introducing-node-firefox/">Introducing node-firefox</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Web App</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20200805155720id_/https://blog.mozilla.com.tw/?p=7098">Wayback snapshot</a>
+              <span>Post ID: 7098</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

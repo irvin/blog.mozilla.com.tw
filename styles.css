@@ -1,0 +1,56 @@
+body {
+  margin: 0;
+  background: #f4f4f1;
+  color: #333;
+  font: 16px/1.7 "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+}
+a { color: #0a6f9e; text-decoration: none; }
+a:hover { text-decoration: underline; }
+#outer-wrapper { border-top: 2px solid #fff; }
+#wrapper { max-width: 1060px; margin: 0 auto; background: #fff; min-height: 100vh; box-shadow: 0 0 20px rgba(0,0,0,.08); }
+#doc { padding: 0 32px 48px; }
+#masthead { position: relative; padding: 30px 0 24px; border-bottom: 1px solid #ddd; }
+#tabzilla { position: absolute; right: 0; top: 0; padding: 7px 14px; background: #c13832; color: #fff; font-size: 13px; text-transform: lowercase; }
+#masthead > h2 { margin: 0 0 18px; font-size: 24px; letter-spacing: 0; text-transform: lowercase; }
+#masthead > h2 a { color: #333; }
+.breadcrumbs { margin: 0 0 22px; color: #777; font-size: 13px; }
+.breadcrumbs b { color: #aaa; margin: 0 6px; }
+hgroup { padding: 32px 0 34px; background: linear-gradient(90deg, #f08a24, #d94f2b); color: #fff; }
+hgroup h1, hgroup h2 { margin-left: 28px; margin-right: 28px; }
+hgroup h1 { margin-top: 0; margin-bottom: 2px; font-size: 44px; line-height: 1.1; font-weight: 300; }
+hgroup h2 { margin-top: 0; margin-bottom: 0; font-size: 18px; font-weight: 400; }
+#main { display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 36px; padding-top: 30px; }
+.article-div { padding: 0 0 28px; margin: 0 0 30px; border-bottom: 1px solid #ddd; }
+.post, .post-list-item { position: relative; }
+.entry-header { display: grid; grid-template-columns: minmax(0, 1fr) 74px; gap: 20px; align-items: start; }
+.entry-title { margin: 0 0 14px; font-size: 28px; line-height: 1.25; font-weight: 400; }
+.post-list-item .entry-title { font-size: 25px; }
+.entry-title a { color: #333; }
+.entry-posted { margin: 0; text-align: center; }
+.published { display: block; border: 1px solid #d0d0cc; background: #f8f8f5; color: #666; }
+.posted-month, .posted-year { display: block; padding: 2px 0; font-size: 13px; background: #e7e7e1; }
+.posted-date { display: block; font-size: 34px; line-height: 1.2; color: #c13832; }
+.entry-content { font-size: 17px; }
+.entry-content p { margin: 0 0 1.15em; }
+.entry-content img { max-width: 100%; height: auto; display: block; margin: 1.4em auto; }
+.entry-content blockquote { margin: 1.4em 0; padding-left: 1.2em; border-left: 4px solid #d94f2b; color: #555; }
+.entry-content pre { overflow-x: auto; padding: 14px; background: #272822; color: #f8f8f2; }
+.entry-content code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .92em; }
+.entry-content ul, .entry-content ol { padding-left: 1.6em; }
+.entry-footer { margin-top: 20px; color: #666; font-size: 14px; }
+.entry-category-box span, .entry-tag-box span { display: inline-block; margin: 0 6px 6px 0; padding: 2px 8px; background: #eee; }
+.entry-source-box { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+#secondary { font-size: 14px; color: #555; }
+.widget { margin-bottom: 28px; }
+.widget h3 { margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid #ddd; color: #333; font-size: 18px; font-weight: 400; }
+.widget ul { margin: 0; padding-left: 1.2em; }
+.widget li { margin: 0 0 5px; }
+@media (max-width: 780px) {
+  #doc { padding-left: 18px; padding-right: 18px; }
+  #main { grid-template-columns: 1fr; }
+  .entry-header { grid-template-columns: 1fr; }
+  .entry-posted { text-align: left; }
+  .published { display: inline-grid; grid-template-columns: auto auto auto; align-items: baseline; }
+  .posted-month, .posted-year, .posted-date { display: inline; padding: 2px 8px; font-size: 14px; }
+  hgroup h1 { font-size: 34px; }
+}

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Firebug 1.12 新功能 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Firebug 1.12 新功能</h2>
+            <p class="entry-posted"><time datetime="2013-08-26" class="published"><span class="posted-month">8月</span><span class="posted-date">26</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p>Firebug 團隊發表新版 <a href="https://blog.getfirebug.com/2013/08/21/firebug-1-12-0/">Firebug 1.12</a>。下列是該版本的其中幾項新功能。</p>
+<p><img src="../../assets/3651/wp-content/uploads/14.png" alt="14" loading="lazy"><br>Firebug 1.12 可相容於 Firefox 23 – 26</p>
+<p>Firebug 為開放源碼專案，是由全世界的開發者共同維護。我當然要藉此機會介紹 Firebug 1.12 的所有貢獻者：</p>
+<ul><li>Jan Odvarko</li></ul>
+<ul><li>Sebastian Zartner</li></ul>
+<ul><li>Simon Lindholm</li></ul>
+<ul><li>Farshid Beheshti</li></ul>
+<ul><li>Steven Roussey</li></ul>
+<ul><li>Florent Fayolle</li></ul>
+<ul><li>Awad Mackie</li></ul>
+<ul><li>Belakhdar Abdeldjalil</li></ul>
+<ul><li>Thomas Andersen</li></ul>
+<ul><li>Hisateru Tanaka</li></ul>
+<ul><li>複製 CSS 屬性</li></ul>
+<p>現在可輕鬆將 CSS 屬性複製到剪貼簿中。不論是個別的 CSS 屬性、規則，或完整風格，只要對你想複製的部份按下滑鼠右鍵，即可將之複製到剪貼簿中。參閱此功能的<a href="https://getfirebug.com/wiki/index.php/Style_Side_Panel#Context_Menu">詳細說明</a>。</p>
+<p><img src="../../assets/3651/wp-content/uploads/12.png" alt="1" loading="lazy"></p>
+<ul><li>「網路 (Net)」面板的新篩選器</li></ul>
+<p>舊的「Flash」篩選器已重新命名為「外掛程式 (Plugins)」，可擴及 Flash 與 Silverlight HTTP 的請求。現另有「字型 (Fonts)」篩選器，僅針對客製化字型 (font/ttf 或 font/woff mime-types) 而觀看 HTTP 請求。</p>
+<p><img src="../../assets/3651/wp-content/uploads/22.png" alt="2" loading="lazy"></p>
+<p>透過篩選器按鈕的提示文字，可了解經篩選檔案的詳細資訊。</p>
+<ul><li>「DOM」記錄事件篩選器</li></ul>
+<p>針對特定元素而設定的 DOM 事件記錄，則可透過此功能而進一步篩選。下圖即為「記錄事件 (Log Events)」功能的使用者介面。其內提供新的子選單，可針對已選定元素而挑出所要記錄的事件。</p>
+<p><img src="../../assets/3651/wp-content/uploads/32.png" alt="3" loading="lazy"></p>
+<p>你也能<a href="https://www.softwareishard.com/blog/firebug/how-to-properly-filter-dom-event-logs/">協助我們改善此功能的使用者介面/經驗</a>。</p>
+<ul><li>強化的自動完成對話框</li></ul>
+<p>自動完成 (Autocompletion) 對話框，位於「主控台 (Console)」內的命令列 (Command line) 上。除了改善其設計之外，現亦內建了 Command Line API。</p>
+<p><img src="../../assets/3651/wp-content/uploads/41.png" alt="4" loading="lazy"></p>
+<p>請注意：彈出型視窗的底部可找到「Firebug Command Line API」。</p>
+<ul><li>在命令列中使用 (Use in Command Line)</li></ul>
+<p>此功能可透過新的「$p」變數，透過命令列指向不同的頁面物件 (cookies、HTML 元素、JS 物件、網路請求等)。「$p」變數亦可用於命令列表達式之中。</p>
+<p><img src="../../assets/3651/wp-content/uploads/51.png" alt="5" loading="lazy"></p>
+<p>可參閱此功能的<a href="https://www.softwareishard.com/blog/firebug/new-firebug-feature-use-in-command-line/">詳細說明</a>。</p>
+<ul><li>以群組呈現主控台的訊息</li></ul>
+<p>若「主控台 (Console)」中的訊息連續出現多次，則能以群組顯示訊息。此功能可大幅減少記錄數量，呈現更簡潔的記錄作業！</p>
+<p><img src="../../assets/3651/wp-content/uploads/61.png" alt="6" loading="lazy"></p>
+<ul><li>更清楚顯示 HTTP 請求的階段</li></ul>
+<p>進一步改善各個 HTTP 請求的提示文字 (顯示於「網路 (Net)」面板中)。現將透過小型流程圖，顯示目前請求的所有階段。是不是看起來更清楚了呢？</p>
+<p><img src="../../assets/3651/wp-content/uploads/71.png" alt="7" loading="lazy"></p>
+<ul><li>「主控台」與「網路」面板上的多組篩選器</li></ul>
+<p>「主控台 (Console)」與「網路 (Net)」面板可同時選擇多組篩選器。只要按住「Ctrl」時點選篩選器按鈕，就可看到主控台面板中的「錯誤 (Errors)」與「警告 (Warnings)」；或是網路面板中的「HTML」、「CSS」、「JS」檔案。如下圖所示：</p>
+<p><img src="../../assets/3651/wp-content/uploads/8.png" alt="8" loading="lazy"></p>
+<ul><li>切換側邊面板的顯示狀態</li></ul>
+<p>現在可切換側邊面板的顯示狀態。即使重新啟動 Firefox 仍會保持目前狀態。如下圖所示：</p>
+<p><img src="../../assets/3651/wp-content/uploads/9.png" alt="9" loading="lazy"></p>
+<p>如果不想看到「選擇器 (Selectors)」側邊面板，亦可將之隱藏。</p>
+<p><img src="../../assets/3651/wp-content/uploads/10.png" alt="10" loading="lazy"></p>
+<ul><li>於 $_ 中儲存最近一次命令列執行的結果</li></ul>
+<p>Firebug 現於命令列中提供了新的變數「$_」。此變數可儲存前次表達式執行 (相容於 Chrome 開發工具) 的結果。</p>
+<p><img src="../../assets/3651/wp-content/uploads/111.png" alt="11" loading="lazy"></p>
+<ul><li>新命令：getEventListeners()</li></ul>
+<p>Firebug 命令列現提供新命令：「getEventListeners()」。已於指定物件上註冊的事件監聽器 (Event listener)，均可透過此命令而回傳之。此處所謂的物件一般均屬於元素，亦可能為 window 物件。</p>
+<p><img src="../../assets/3651/wp-content/uploads/121.png" alt="12" loading="lazy"></p>
+<p>在命令列上執行命令之後，即可進一步檢視「DOM」面板中的回傳物件。如下圖所示：</p>
+<p><img src="../../assets/3651/wp-content/uploads/13.png" alt="13" loading="lazy"></p>
+<ul><li>複製為 cURL (Copy as cURL)</li></ul>
+<p>現在可根據網路請求而建立 cURL 命令，藉以測試終端視窗所傳來的請求。對「網路 (Net)」面板中的請求按下滑鼠右鍵，並點選「複製為 cURL (暫譯，即下圖所示的 Copy as cURL)」即可。</p>
+<p><img src="../../assets/3651/wp-content/uploads/141.png" alt="14" loading="lazy"></p>
+<ul><li>console.log() 可透過「%f」指定浮點數的精度</li></ul>
+<p>現在浮點數透過「console.log()」第一個參數所指定的「%.xf」樣式，即可捨去指定的小數位數。這裡的「x」代表小數點後面所應捨去的位數。如果輸入：</p>
+<p>console.log(&quot;amount: %.2f&quot;, 4.3852)</p>
+<p>就會輸出：</p>
+<p>amount: 4.39</p>
+<p><img src="../../assets/3651/wp-content/uploads/15.png" alt="15" loading="lazy"></p>
+<p>你也可進一步了解 <a href="https://getfirebug.com/wiki/index.php/Console_API#console.log.28object.5B.2C_object.2C_....5D.29">Console API</a> 中可用的其他樣式。</p>
+<ul><li>顯示/隱藏堆疊參數</li></ul>
+<p>「堆疊 (Stack)」面板中顯示的堆疊架構，有時會因為參數清單太長而無法使用。Firebug 因此提供新的「顯示參數 (Show Arguments)」選項，可顯示/隱藏這些參數。</p>
+<p><img src="../../assets/3651/wp-content/uploads/16.png" alt="16" loading="lazy"></p>
+<ul><li>強化「CSS」面板</li></ul>
+<p>Firebug 對「CSS」面板進行多項強化。現在可顯示更多的 CSS 資訊。</p>
+<ul><li>顯示 @page 規則</li></ul>
+<ul><li>顯示包含 @media 元素的檔案</li></ul>
+<ul><li>顯示 @keyframes 規則</li></ul>
+<ul><li>顯示 @-moz-document 規則</li></ul>
+<p><img src="../../assets/3651/wp-content/uploads/17.png" alt="17" loading="lazy"></p>
+<p>若要進一步了解完整的 Firebug 強化功能，可參閱<a href="https://getfirebug.com/wiki/index.php/Firebug_Release_Notes#Firebug_1.12">版本說明</a>。亦可到<a href="https://blog.getfirebug.com/2013/08/21/firebug-1-12-0/">getfirebug.com</a> 觀看官方聲明。</p>
+<p>另可透過 <a href="https://twitter.com/firebugnews/">Twitter</a> 隨時獲得最新資訊！</p>
+<p>原文鏈結：<a href="https://hacks.mozilla.org/2013/08/firebug-1-12-new-features/">https://hacks.mozilla.org/2013/08/firebug-1-12-new-features/</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824004607id_/https://blog.mozilla.com.tw/?p=3651">Wayback snapshot</a>
+              <span>Post ID: 3651</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

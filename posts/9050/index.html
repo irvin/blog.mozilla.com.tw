@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>WebVR 1.0 已登上 Firefox Nightly | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">WebVR 1.0 已登上 Firefox Nightly</h2>
+            <p class="entry-posted"><time datetime="2016-08-18" class="published"><span class="posted-month">8月</span><span class="posted-date">18</span><span class="posted-year">2016</span></time></p>
+          </header>
+          <div class="entry-content"><p>Mozilla VR 團隊的使命，就是要讓 Web 能提供絕佳的「虛擬實境 (VR)」與「擴增實境 (AR)」經驗。我們現正打造平台 (融入 API 與瀏覽器)、工具、社群 (<a href="https://aframe.io/">aframe.io</a>)，期能協助內容開發者透過目前的 VR/AR 技術，發揮 Web 的最大力量。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/1PZg_jhtaquPGdvbeuhdPCA-1024x517.png" alt="1*PZg_jhtaquPGdvbeuhdPCA" loading="lazy"></p>
+<p>WebVR API 即 DOM 介面集合，可將 WebGL 繪圖功能帶入 VR 頭帶式裝置，取得不同感測器的方向與定位資訊，並銜接其他輸入控制器。</p>
+<p>自 8 月 16 起，Firefox 每夜更新版 (Nightly) 即開始支援 WebVR 1.0 API，將以 <a href="https://w3c.github.io/webvr/">WebVR w3c 社群</a>所推動的標準，取代較早期的 WebVR API 實作。而我們針對該提案所發表的<a href="https://blog.mozilla.com.tw/posts/8572/">早期文章</a>仍可協助大家儘早上手。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/1xwaEG4cjfEtx6PfHM46u_w.jpeg" alt="1*xwaEG4cjfEtx6PfHM46u_w" loading="lazy"></p>
+<p>Firefox 早已針對 VR 經驗完成最佳化。最近一次的更新即包含了專屬的 VR 繪圖流程 (Rendering path)，確保能描繪出更為一致且滑順的 VR 畫面、達到更低延遲，且不受限於使用者的主螢幕幀率，能依照 VR 頭戴式裝置的原生幀率進行繪製。</p>
+<p>此新 API 已實作於最新的 <a href="https://webvr.info/get-chrome">Chromium 實驗版本</a>，以及<a href="https://developer.samsung.com/technical-doc/view.do?v=T000000270L">三星 (Samsung) 的「Gear VR」瀏覽器</a>之上。除了能存取最新的 WebVR 網站之外，新的 API 更能針對展示模式 (Spectator views)，描繪出與使用者主螢幕相異的內容，並能切換 WebVR 頁面之間的連結。</p>
+<p>如果使用者完成了個人偏好設定，已在早期版本中最佳化自己的 VR 經驗，則建議能將刷新過的設定檔作為預設值，即可達到最佳效能。可<a href="https://support.mozilla.org/en-US/kb/profile-manager-create-and-remove-firefox-profiles">依照下列說明</a>以設定新的個人設定。<a href="https://blog.mozvr.com/oculus-home-rift-cv1-webvr/">參閱這裡</a>即可設定 Oculus 主畫面以搭配 Firefox。</p>
+<p>更新版本可於 Windows 環境下，透過<a href="https://oculus.com/en-us/setup/">最新 Oculus 作業環境</a>完整支援 Oculus CV1 與 DK2 裝置。<a href="https://blog.mozvr.com/oculus-home-rift-cv1-webvr/">可參閱此處</a>，了解應如何設定 Oculus主畫面以搭配 Firefox。此外，現已不再於 OSX 上支援 Oculus 0.5 SDK；而 Firefox 行動版 (Firefox for Android) 僅透過<a href="https://github.com/borismus/webvr-polyfill">自動補完函式庫 (Polyfill)</a> 支援 WebVR。</p>
+<p><a href="https://www.mozilla.com.tw//firefox/developer/">Firefox 50 開發者 (Developer) 版本</a>仍將持續支援舊版 WebVR API 至 9 月 12 日為止。</p>
+<p>另將在短時間內開放支援 OpenVR (HTC Vive)、OSVR，以及定位用追蹤控制器。</p>
+<p>歡迎透過任何管道反應 Firefox 對 WebVR 支援的意見。</p>
+<p>期待大家都能享受 WebVR 引人入勝的世界！</p>
+<p>原文連結：<a href="https://medium.com/mozilla-tech/webvr-1-0-available-in-firefox-nightly-7a3bf26fcb99#.9lvyx5vln">WebVR 1.0 available in Firefox Nightly</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20200927091503id_/https://blog.mozilla.com.tw/?p=9050">Wayback snapshot</a>
+              <span>Post ID: 9050</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

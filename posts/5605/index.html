@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>PDF.js 到底有多快？ | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">PDF.js 到底有多快？</h2>
+            <p class="entry-posted"><time datetime="2014-05-20" class="published"><span class="posted-month">5月</span><span class="posted-date">20</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>大家好，我是 Thorben。目前是挪威首都奧斯陸 (Oslo) 的「Opera Software」員工。我不在 Mozilla 上班，又為何今天在 Mozilla Hacks 上撰文呢？你可能知道《Opera》瀏覽器並沒有預設的 PDF 檢視器，而我們也想改變這一點。所以幫 Opera 加個預設的檢視器怎麼樣？再跟 Adobe 或 Foxit 買個檢視器？或是自己動手做呢？</p>
+<h4>介紹 PDF.js</h4>
+<p>在下決定之前，先簡單了解一下 <a href="https://mozilla.github.io/pdf.js/">PDF.js</a>。這個專案是想透過 JavaScript 與 Canvas，在瀏覽器中建構全功能的 PDF 檢視器。這聽起來有點誇張，但卻合情合理。瀏覽器應該要能順利處理文字、圖片、字型、向量圖素等等；而這些也是 PDF 檢視器能妥善進行的作業。PDF 中的繪圖指令都屬於 Postscript 的子集，其實跟 Canvas 功能的差異不大。另外就是安全性也沒有什麼問題。使用 PDF.js 就像開啟其他網站一樣安全。</p>
+<h4>開始打造 PDF.js</h4>
+<p>所以我找了 Christian Krebs 和 Mathieu Henri 一同開始研究 PDF.js，也確實留下深刻印象：PDF.js 設計妥善且執行速度不差，程式碼的大部分看來也已經可用無虞。</p>
+<p>但我們還是發現了一些問題，主要是具備大量圖片的 PDF 檔案會發生效能問題。為了要能進一步了解 PDF.js 並深入開發專案，就應該先解決我們發現的主要問題。我們因此更了解整個專案，也發現其所具備的絕佳潛能。幾番努力之後，我們更訝異於 PDF.js 所提升的效能。</p>
+<h4>測試 PDF.js 的效能基準</h4>
+<p>當然，我們自己的測試作業可能導致錯誤的效能印象分數。我們試著找到檔案超大、大到詭異，甚至難以描繪的 PDF 檔案，大多數人幾乎不會接觸到的 PDF 檔案。你實際用 PDF.js 觀看大部分 PDF 檔案時都能運作無虞，但這又要怎麼進行測試呢？</p>
+<p>你可以在網路上找找最常見的 PDF，就是你一般最常接觸到的 PDF 檔案，再測試其效能基準。各個 PDF 檔案截出一幅大概 5 ~ 10k 大小的截圖就夠了。接著就該考量 PDF 檔案來源問題。</p>
+<p>這時搜尋引擎就很有用了。只要限定搜尋 PDF 檔案，即可取得與關鍵字最高度相關的檔案，其次就是高瀏覽次數的 PDF 檔案。如果你要使用最常見的搜尋關鍵字，那最後別忘了加上適合的近似 (Approximation) 演算法。</p>
+<p>要測試這麼多 PDF 檔案的效能基準是項大工程。我找了幾台舊電腦再搭配不錯的伺服應用程式，用以支援這些電腦的相關作業。目前的 Repository 中約有七千筆 PDF 檔案，而最後約花了八個小時測得第一版的 PDF.js 效能基準。</p>
+<h4>測試結果</h4>
+<p>略過這些 PDF 到底有哪些漂亮的圖片不談。先看看下圖：</p>
+<p><img src="../../assets/5605/wp-content/uploads/histogram-of-relative-speed-per-page.png" alt="histogram-of-relative-speed-per-page" loading="lazy"></p>
+<p>這張圖幾乎可一眼看完我們最感興趣的結果。該直方圖顯示了平均頁面處理時間的相對關係。在檢視 Tracemonkey Paper (啟動 PDF.js 時所看到的預設 PDF 檔案) 時的使用者經驗還不錯，即使我的測試作業速度慢上 3 ~ 4 倍都還能接受。也就是說，超過 96% (去掉當機的 PDF 檔案) 的受測頁面都能達到好的使用者經驗。這效果真的不錯！如果改成比較簡單的圓餅圖 (以百分比計)：</p>
+<p><img src="../../assets/5605/wp-content/uploads/overview1.png" alt="overview1" loading="lazy"></p>
+<p>你可能注意到一個小地方：在我們測試期間，約有 0.8% 的 PDF 檔案讓 PDF.js 當掉了。我們仔細檢查這些檔案，裡面至少有三分之一毀損嚴重，可能任何 PDF 檢視軟體都無法再將之開啟。</p>
+<p>我們必須另外記得一點：這些都是沒有其他對照組的獨立結果。網路上還是有一些很複雜的 PDF 檔案，甚至連原生的 PDF 檢視軟體都沒辦法妥善並迅速開啟這些檔案。我們測得速度最慢的 PDF 檔案，是葡萄牙首都里斯本 (Lisbon) 超級詳盡的公眾運輸系統向量地圖。最後就算用《Adobe Reader》開啟這個檔案也真的有夠慢！</p>
+<h4>結論</h4>
+<p>從這些結果來看，我們可說 PDF.js 很適合作為《Opera》瀏覽器所預設的 PDF 檢視器。但目前若要能將 PDF.js 妥善整合到 Opera 中，還有很多事等著我們完成。不過我們也正嘗試相關整合。另外順帶一提：<a href="https://addons.opera.com/en/extensions/details/pdf-viewer/">這個附加元件</a>可搭配預設的 Mozilla 檢視器，進而添增 PDF.js。而我說的「妥善整合」也可能是開發另一個全新的檢視器。感謝 Mozilla！很期待能和你們一同研究 PDF.js！</p>
+<p>附註：現在已經釋出<a href="https://github.com/bthorben/pdfRepo">計算系統的程式碼</a>與<a href="https://bthorben.github.io/pdfRepo/">相關結果</a>。請大家看看並告訴我們你的想法！</p>
+<p>再附註：如果有任何人任職於大型搜尋引擎的公司，如果願意提供實際達 10k 的常用 PDF 檔案，那就太好了！</p>
+<h4>接下來呢？</h4>
+<p>我上面所提到的計算框架，也能用在其他許多有趣的程式中。我們下一步會嘗試根據字型格式、圖片格式，或其他類似方式，進而分類 PDF 檔案。你可以先隨意取得 PDF 檔案並測試新的功能。我們也想了解 Postscript 中較常用的繪圖指令，讓我們能針對最常見的指令進行最佳化；就如我們對瀏覽器中的 HTML 所做的相同。看看我們實際還能做什麼吧。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/05/how-fast-is-pdf-js/">How fast is PDF.js?</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190825002545id_/https://blog.mozilla.com.tw/?p=5605">Wayback snapshot</a>
+              <span>Post ID: 5605</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

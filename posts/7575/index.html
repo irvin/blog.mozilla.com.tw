@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>來充電吧：Battery Status API 的更新消息 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">來充電吧：Battery Status API 的更新消息</h2>
+            <p class="entry-posted"><time datetime="2015-06-12" class="published"><span class="posted-month">6月</span><span class="posted-date">12</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p><a href="https://developer.mozilla.org/en-US/docs/WebAPI">Web API</a> 可讓 Open Web App 透過 JavaScript 存取裝置硬體、資料、感測器，當然也為其他電視、行動裝置、路邊的互動式電子訊息站 (Kiosk)、物聯網 (Internet of Things，IoT) 等應用帶來更多可能性。</p>
+<p>多種情況或使用條件都必須知道裝置目前的電池容量。以下舉出幾個例子：</p>
+<ul><li>公用程式類的 App 會蒐集電池用量的統計數據，或單純的通知使用者最好開始充電，以利繼續上網、玩遊戲、欣賞影片。</li></ul>
+<ul><li>高品質 App 會最佳化電池的消耗情形，例如電子郵件 App 會在裝置所剩電量不多之時，同時降低向伺服器查詢新進郵件的頻率。</li></ul>
+<ul><li>在電池即將耗盡之前，文字處理 App 也會自動存檔，避免資料遺失。</li></ul>
+<ul><li>某一活動展廳所安裝的電視或電子訊息站正在充電，或是連接線發生任何錯誤，都會進行系統檢查。</li></ul>
+<ul><li>某一模組將檢查空拍機的電池容量，避免在返回基地之前就耗盡電池。</li></ul>
+<p>本文則希望以標準化的 Battery Status API 管理電源使用量。</p>
+<h4>Battery Status API</h4>
+<p>Open Web App 可透過 <a href="https://developer.mozilla.org/en-US/docs/WebAPI/Battery_Status">Battery Status API</a> 檢查電池狀態的資訊。此 API 現已進入 <a href="https://www.w3.org/TR/battery-status/">W3C 的「建議 (Recommendation)」</a>階段，且 Firefox 16 就開始支援。目前 Firefox OS、Chrome、Opera、Android 等瀏覽器均已支援，所以現在已可用於多款主要平台。</p>
+<p>而 API 在目前 W3C 建議階段，透過「<a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise Objects</a>」的導入而有所改進，現可處理單一裝置上的多個電池狀態。</p>
+<p>在撰寫本文的同時，<a href="https://www.w3.org/TR/2014/CR-battery-status-20141209/">此於 W3C 上改進的結果</a>尚未實作於 Firefox 之中。在你想為 Gecko 貢獻之前，請看下列建構更新的錯誤報告：</p>
+<ul><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1050749">[1050749</a>] Expose BatteryManager via getBattery() returning a Promise instead of a synchronous accessor (navigator.battery)</li></ul>
+<ul><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1050752">[1050752</a>] BatteryManager: specify the behavior when a host device has more than one battery</li></ul>
+<p>接著將簡單透過 Firefox OS 的快速傳訊 App，以及目前可支援的所有瀏覽器上使用 Battery Status API。</p>
+<h4>「Low Energy Messenger」展示用 App</h4>
+<p>「Low Energy Messenger」是可發出即時訊息的展示用 App，會密切注意電池的電量。此 App 是以 HTML + CSS + 原生 Javascript 所打造，以及本身所內建的資料。另外該 App 並不包含在網路上執行的 Web 服務，而是實際整合了 Battery Status API 之後提供具體的外觀和感覺。</p>
+<p>你可以欣賞 <a href="https://franciov.github.io/low-energy-messenger/">Low Energy Messenger 運作展示</a>，另有 <a href="https://github.com/franciov/low-energy-messenger/">Github 上的展示程式碼</a>，還能參閱 MDN 上的《<a href="https://developer.mozilla.org/en-US/Apps/Build/gather_and_modify_data/retrieving_battery_status_information">Retrieving Battery status information</a>》一文，為你逐步解釋程式碼。</p>
+<p><a href="https://franciov.github.io/low-energy-messenger/"><img src="../../assets/7575/wp-content/uploads/lowenergy.jpg" alt="lowenergy" loading="lazy"></a></p>
+<p>Low Energy Messenger 現有下列特色：</p>
+<ul><li>一組電池狀態列，提供電池狀態資訊。</li></ul>
+<ul><li>一組對話區塊，內含所有已接收或已送出的訊息。</li></ul>
+<ul><li>一組行動功能列，內含一組文字輸入框、一組訊息傳送按鈕、一組拍照按鈕、一組可於 Firefox OS 上安裝該 App 的按鈕。</li></ul>
+<ul><li>為了在電量偏低時儘量延長電池使用時間，當電量即將耗盡之時，此 App 將停用拍照功能。</li></ul>
+<p>App 的狀態列將實際呈現電池電量，並將根據充電狀態改變顯示方式，例如：</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/battery-low.png" alt="battery-low" loading="lazy"></p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/battery-medium.png" alt="battery-medium" loading="lazy"></p>
+<p><img src="../../assets/7575/wp-content/uploads/battery-high.png" alt="battery-high" loading="lazy"></p>
+<p>Low Energy Messenger 另具備所謂的「<a href="https://github.com/franciov/low-energy-messenger/blob/master/scripts/utils/energy-manager.js">EnergyManager.js</a>」模組，可透過 Battery Status API 取得上述顯示的資訊並進行檢查。</p>
+<p>我們透過 <a href="https://developer.mozilla.org/en-US/docs/Web/API/navigator.getBattery">navigator.getBattery</a> 函式 (使用 Promises)，或由將於未來停用的 <a href="https://developer.mozilla.org/en-US/docs/Web/API/navigator.battery">navigator.battery</a> 屬性 (之前 W3C 規格的一部分，現由 Firefox 與 Firefox OS 所使用)，來從 <a href="https://developer.mozilla.org/en-US/docs/Web/API/BatteryManager">BatteryManager</a> 衍生出電池物件。如上所述，若要了解實作細節或貢獻 Gecko，均可先行<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1050749">參閱此錯誤報告</a>。</p>
+<p>EnergyManager.js 模組則將透過下列方式，將 API 建構之中的差異降至最低：</p>
+<p>/<em> EnergyManager.js </em>/<br> init: function(callback) {<br>     var _self = this;</p>
+<p>					123</p>
+<p>						/<em> EnergyManager.js </em>/ init: function(callback) {     var _self = this;</p>
+<p>/<em> Initialize the battery object </em>/<br>    if (navigator.getBattery) {<br>       navigator.getBattery().then(function(battery) {<br>           _self.battery = battery;<br>           callback();<br>       });<br>    } else if (navigator.battery || navigator.mozBattery) { // deprecated battery objects<br>        _self.battery = navigator.battery || navigator.mozBattery;<br>        callback();<br>    }<br> }</p>
+<p>					1234567891011</p>
+<p>						/<em> Initialize the battery object </em>/    if (navigator.getBattery) {       navigator.getBattery().then(function(battery) {           _self.battery = battery;           callback();       });    } else if (navigator.battery || navigator.mozBattery) { // deprecated battery objects        _self.battery = navigator.battery || navigator.mozBattery;        callback();    } }</p>
+<p>navigator.getBattery 函式將回傳一組電池的 <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>，且透過在 BatteryManager 物件中「解決 (Resolved)」此 Promise 以監控電池狀態，而預計於未來停用的 navigator.battery 屬性將直接回傳 BatteryManager 物件。此外，BatteryManager 的實作也將自動檢查目前是否為較早期的平台，並自動對應較舊版本、具 Vendor 前綴的 API。</p>
+<p>若要了解 Battery Status API 的實際運作方式，則記錄到瀏覽器的<a href="https://developer.mozilla.org/en/docs/Tools/Web_Console">網路主控台 (Web Console)</a> 倒是不錯：</p>
+<p>/<em> EnergyManager.js </em>/</p>
+<p>					1</p>
+<p>						/<em> EnergyManager.js </em>/</p>
+<p>log: function(event) {<br>    if (event) {<br>        console.warn(event);<br>    }</p>
+<p>					1234</p>
+<p>						log: function(event) {    if (event) {        console.warn(event);    }</p>
+<p>console.log(&#39;battery.level: &#39; + this.battery.level);<br>    console.log(&#39;battery.charging: &#39; + this.battery.charging);<br>    console.log(&#39;battery.chargingTime: &#39; + this.battery.chargingTime);<br>    console.log(&#39;battery.dischargingTime: &#39; + this.battery.dischargingTime);<br> }</p>
+<p>					12345</p>
+<p>						console.log(&#39;battery.level: &#39; + this.battery.level);    console.log(&#39;battery.charging: &#39; + this.battery.charging);    console.log(&#39;battery.chargingTime: &#39; + this.battery.chargingTime);    console.log(&#39;battery.dischargingTime: &#39; + this.battery.dischargingTime); }</p>
+<p>而網路主控台 (Web Console) 上的紀錄將呈現如下：</p>
+<p><img src="../../assets/7575/wp-content/uploads/log.png" alt="log" loading="lazy"></p>
+<p>每次只要送出一組事件 (如 dischargingtimechange、levelchange 等等)，則 BatteryManager 物件就會提供更新後的值，以利 App 於任何情況下使用。</p>
+<h4>結論</h4>
+<p>Battery Status API 是存取裝置硬體的標準化方式。即使目前仍需要在 Firefox 上執行某些相容性檢查，但已可用於實際的生產環境之中。W3C 規格已足以讓我們用於不同的情境之中，因此該 API 已可因應大多數的實際使用條件。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/05/lets-get-charged-updates-to-the-battery-status-api/">Let’s get charged: Updates to the Battery Status API</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190825001002id_/https://blog.mozilla.com.tw/?p=7575">Wayback snapshot</a>
+              <span>Post ID: 7575</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

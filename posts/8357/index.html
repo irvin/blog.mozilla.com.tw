@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>為 Firefox OS 電視打造遊戲 (下) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">為 Firefox OS 電視打造遊戲 (下)</h2>
+            <p class="entry-posted"><time datetime="2016-01-18" class="published"><span class="posted-month">1月</span><span class="posted-date">18</span><span class="posted-year">2016</span></time></p>
+          </header>
+          <div class="entry-content"><p>隨著 Firefox OS 著眼於連網裝置的趨勢，現正是針對大型螢幕開發遊戲的時候。松下電器 (Panasonic) 現已發售多款 Firefox OS 智慧電視，而相較於一般人所習慣的智慧型手機畫面，我將透過本文簡單介紹該如何對應大型電視螢幕開發 HTML5 遊戲。</p>
+<p>在〈<a href="../../posts/8356/">為 Firefox OS 電視打造遊戲 (上)</a>〉一文中，我 (作者 <a href="https://end3r.com/">Andrzej Mazur</a>) 稍微解釋過第一版羅傑斯隊長的開發背景，與其所對應的執行裝置。但時至今日，逐漸普及的連網裝置讓遊戲平台也更為多元。一起來看看該如何讓電視遙控器也能化身遊戲搖桿，直接在大螢幕電視上享受遊戲！</p>
+<h4>動手開發</h4>
+<p>近幾年已有許多有關<a href="https://code.tutsplus.com/tutorials/preparing-for-firefox-os--mobile-18515">如何針對 Firefox OS 智慧型手機打造自己的 HTML5 遊戲</a>等的資源。但隨著新媒介不斷問世，相關方式也不盡相同 (以下將討論某些例外)，所以你大方向仍是可依照這些說明文章所述來做。但要針對 Panasonic 的 Firefox OS 電視開發遊戲，就需要 Firefox Nightly 與 WebIDE。你可參閱<a href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox_OS/TVs_connected_devices/How_to_connect_WebIDE_to_TV_%28VIErA%29">本篇 MDN 文章</a>，透過 WebIDE 遠端除錯的方式，逐步將遊戲推送至電視之中。</p>
+<h4>考量大型螢幕</h4>
+<p>放在客廳的電視，當然與手裡握的智慧型手機大不相同。而針對新的媒介，遊戲與其他 App 的設計方式也勢必有所不同。而從我們的 Web 建構經驗可知，不論是在智慧型手機、平板電腦、筆記型電腦、電腦螢幕上，遊戲都能因應目前的螢幕尺寸自行調整，所以電視螢幕也不會是問題。</p>
+<h4>尺寸縮放</h4>
+<p>Phaser 只要一行程式碼就能解決尺寸縮放：</p>
+<p>this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;</p>
+<p>					1</p>
+<p>						this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;</p>
+<p>該行程式碼將負責遊戲 Canvas 所對應的畫面空間並維持長寬比 (Aspect ratio)，因此不致於胡亂延伸成錯誤比例。當然有其他的調整方式，但這個是最簡單、最普遍的方式，且小螢幕手機到大螢幕電視都適用。唯一要考量的就是解析度和執行效能之間的問題，最好能兼顧遊戲的執行與畫質都在可接受的範圍。至於解析度的部份，就要先看看你所要建構的遊戲類型、會有多少程式碼、畫面上執行的複雜程度等等，所以又是不同的考量要點。</p>
+<h4>控制方式</h4>
+<p>我利用遙控器來模擬鍵盤，所以如果你已經有自己的遊戲，也能利用現成的控制方式：</p>
+<p>this.cursors = this.input.keyboard.createCursorKeys();<br>//...<br>if(this.cursors.right.isDown) {<br>    this.player.body.velocity.x += forcePush;<br>}</p>
+<p>					12345</p>
+<p>						this.cursors = this.input.keyboard.createCursorKeys();//...if(this.cursors.right.isDown) {    this.player.body.velocity.x += forcePush;}</p>
+<p>本範例已經設定了上下左右方向鍵 (如果你是用桌機上測試遊戲，就同樣對應鍵盤的上下左右鍵)，且稍後即可檢查是否到位。這些方向鍵與遙控上的箭頭均為相同的按鍵碼，所以能輕鬆實作並測試之。遊戲期間只要按下向右鍵，太空船也會跟著右移。遙控器上可找到對應的功能鍵：</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/captainrogers2-remote.png" alt="captainrogers2-remote" loading="lazy"></p>
+<p>四個方向鍵也有其相對應的按鍵碼，但你該如何檢查遙控器上的其他按鍵呢？只要單純的 JavaScript 就能辦到：</p>
+<p>window.addEventListener(&quot;keydown&quot;, function(evt) {<br>    console.log(evt.keyCode);<br>}, this);</p>
+<p>					123</p>
+<p>						window.addEventListener(&quot;keydown&quot;, function(evt) {    console.log(evt.keyCode);}, this);</p>
+<p>如此只要你按下遙控器上的按鍵，就能看到相對的按鍵程式碼列於主控台上，方便你指派其在遊戲中所對應的動作。你也能參閱〈<a href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox_OS/TVs_connected_devices/TV_remote_control_button_mapping_to_keyboard">對應鍵盤的電視遙控器控制按鈕</a>〉一文就能輕鬆完成。</p>
+<h4>最佳化</h4>
+<p>另外必須注意的是，電視與其他類似裝置均有其硬體限制。若要讓遊戲運作順暢，就必須遵守某些說明並測試效能，以克服可能的瓶頸。可參閱<a href="https://blog.mozilla.com.tw/posts/7562/">〈Power Surge〉一文</a>中的相關訣竅。</p>
+<h4>開放源碼</h4>
+<p>在準備新版〈Captain Rogers〉的遊戲展示時，我決定要完全開放自己在 Enclave Games 所用私人範本的原始碼，以利大家開發遊戲。你現在就能上 GitHub 找到 <a href="https://github.com/EnclaveGames/Enclave-Phaser-Template">Enclave Phaser 範本</a>。我另有其他的遊戲開發專案，如 <a href="https://gamedevelopment.tutsplus.com/tutorials/getting-started-with-phaser-building-monster-wants-candy--cms-21723">Monster Wants Candy</a> 與 <a href="https://developer.mozilla.org/en-US/docs/Games/Workflows/HTML5_Gamedev_Phaser_Device_Orientation">Cyber Orb</a>，同時把這些遊戲都放在頁面上方便開發者取用還蠻不錯的。所以我另外透過 open.enclavegames.com 列出我最感興趣的開放源碼專案。</p>
+<h4>從 2014 MWC 到 2016 CES</h4>
+<p>在西班牙巴塞隆納的<a href="https://blog.end3r.com/260/enclave-games-jedzie-na-mobile-world-congress-do-barcelony/">世界行動通訊大會 (Mobile World Congress，MWC) 2014</a> 上，我就透過多款 Firefox OS 智慧型手機展示了第一版隊長遊戲。從那時開始，我就常與人討論 Firefox OS 的遊戲開發問題，也讓隊長遊戲作為案例研討之用。<a href="https://rogers2.enclavegames.com/tv/">新版遊戲</a>已經在賭城<a href="https://www.cesweb.org/">消費性電子展 (Consumer Electronics Show，CES)</a> 的 Firefox OS 電視上現身，就是松下電器 (Panasonic) <a href="../../posts/8337/">所發表的新款 UHD 電視</a>。如果你有任何疑問或想法，歡迎隨時<a href="https://twitter.com/end3r">到 Twitter 上找我</a>！</p>
+<p>── By <a href="https://end3r.com/">Andrzej Mazur</a></p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2016/01/building-games-for-firefox-os-tv/">Building games for Firefox OS TV</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Web App</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20191019130628id_/https://blog.mozilla.com.tw/?p=8357">Wayback snapshot</a>
+              <span>Post ID: 8357</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

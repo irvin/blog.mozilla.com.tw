@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Firebug 3 與多程序 Firefox (e10s) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Firebug 3 與多程序 Firefox (e10s)</h2>
+            <p class="entry-posted"><time datetime="2014-12-24" class="published"><span class="posted-month">12月</span><span class="posted-date">24</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>Firebug 3 封閉測試 (Alpha) 已於數週之前<a href="https://blog.getfirebug.com/2014/11/10/firebug-3-next-generation-of-firebug/">開跑</a>。此版本代表新一代 Firebug 是完全以 Firefox 原生開發者工具所建構而成。</p>
+<p>說到 Firebug 以 Firefox 原生開發者工具架構的優點，其中之一就是可緊密整合現成平台，進而輕鬆使用既有的平台元件。對 Firefox 即將支援的多程序 (Multiprocess) 亦格外重要；此即我們所謂的「Electrolysis」或「E10S」專案。</p>
+<p>摘錄於 Mozilla 的 <a href="https://wiki.mozilla.org/Electrolysis">Wiki</a> 頁面：</p>
+<p>The goal of the Electrolysis project (“e10s” for short) is to run web content in a separate process from Firefox itself. The two major advantages of this model are security and performance.</p>
+<p>「Electrolysis」專案 (簡稱為「e10s」) 的目標，就是要在 Firefox 之外，以獨立的程序執行 Web 內容。而此模式的兩大優點就是安全與效能。</p>
+<p>E10S 將引領安全與效能大幅躍進，並進一步強調附加元件 (Add-on) 的內部架構。而對許多擴充套件 (Extension) 而言，其主要挑戰即是要能解決程序之間的溝通問題。簡單來說，附加元件的程式碼執行於瀏覽器的主程序上 (chrome process)；有別於個別網頁內容的程序，如下圖所示。只要擴充套件要存取網頁，就必須搭配目前可用的程序間通訊 (Inter-process communication，IPC) 通道，如<a href="https://developer.mozilla.org/en-US/docs/The_message_manager">訊息管理員 (Message manager)</a> 或<a href="https://wiki.mozilla.org/Remote_Debugging_Protocol">遠端除錯協定 (Remote debugging protocol)</a>。附加元件的程式往後將無法直接存取網頁的內容。這也代表許多現有的同步 API 將轉為非同步 API。</p>
+<p>包含 Firebug 在內的開發者工具，均有多種可處理網頁內容的方式。這些工具往往蒐集了大量除錯頁面的資料 (也有 metadata)，並將之呈現給使用者。不同的 CSS 與 DOM 檢測器 (Inspector) 不僅會顯示內部的內容資料，也能讓使用者進一步編輯並即時呈現相關變化。這些功能均須仰賴工具與網頁內容之間密集的溝通互動。</p>
+<p><img src="../../assets/6886/wp-content/uploads/firebug11.png" alt="firebug11" loading="lazy"></p>
+<p>既然 Firebug 是以現成的開發者工具為其架構，當然也保留了本身與除錯頁面之間的基本互動功能，讓我們得以更專注於新功能與使用者經驗。</p>
+<h4>Firebug 相容性</h4>
+<p>Firebug 2.0 現可相容於 Firefox 30 ~ 36 版本，並將支援後續「非多程序」的瀏覽器 (以及最近針對開發者所發表的<a href="../../posts/6679/">瀏覽器</a>)。</p>
+<p>Firebug 3.0 封閉測試版 (也就是 <a href="https://github.com/firebug/firebug.next">Firebug.next</a>) 現可相容於 Firefox 35 ~ 36 版本，並將支援後續的多程序 (非多程序亦包含在內) 瀏覽器。</p>
+<h4>自 Firebug 2 升級</h4>
+<p>如果你將 Firebug 2 安裝到可支援多程序 (e10s) 的瀏覽器中，就會看到系統建議升級到 Firebug 3，或請你關閉多程序支援功能。</p>
+<p><img src="../../assets/6886/wp-content/uploads/firebug2.png" alt="firebug2" loading="lazy"></p>
+<p><a href="https://getfirebug.com/firebug3">進一步了解……</a></p>
+<p>當然我們建議你升級到 Firebug 3。因為 Firebug 3 現仍屬封閉測試階段，雖然你可能無法使用 Firebug 2 中的某些功能 (如 Firebug 的擴充套件)，但你能提供意見給我們，即時讓我們知道你最想要的功能。</p>
+<p>你也能透過 <a href="https://twitter.com/firebugnews/">Twitter</a> 隨時獲得最新資訊。</p>
+<p>另可透過 Firebug 的<a href="https://groups.google.com/forum/#%21forum/firebug">消息群組</a>或下方留言板寫下你的意見。</p>
+<p>─ Jan ‘Honza’ Odvarko</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/12/firebug-3-multiprocess-firefox-e10s/">Firebug 3 &amp; Multiprocess Firefox (e10s)</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Mozilla</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190919104914id_/https://blog.mozilla.com.tw/?p=6886">Wayback snapshot</a>
+              <span>Post ID: 6886</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

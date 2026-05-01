@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>用 TogetherJS 與 CreateJS 開發多人遊戲 (中) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">用 TogetherJS 與 CreateJS 開發多人遊戲 (中)</h2>
+            <p class="entry-posted"><time datetime="2014-05-29" class="published"><span class="posted-month">5月</span><span class="posted-date">29</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>你熟悉 TogetherJS 與 CreateJS，也想開發遊戲類的 Web App 嗎？在看完了《<a href="../../posts/5663/">用 TogetherJS 與 CreateJS 開發多人遊戲 (上)</a>》之後，當然要繼續看完《中》篇深入了解。</p>
+<h3>Flash 的動畫效果</h3>
+<p>如同目前大多數的遊戲，我也想多用點動畫效果。我自己很熟悉 Flash 動畫，並發現 CreateJS 有多種方法可支援 Flash 動畫效果，也能透過 HTML5 呈現這些動畫。<a href="https://www.createjs.com/#%21/CreateJS">CreateJS</a> 集合了許多工具與函式庫，可建立互動的 HTML5 內容。所以我用 CreateJS 產生動畫效果，並透過其他函式庫處理迴圈並管理資源，未來還能控制音效。可觀看此<a href="https://www.youtube.com/watch?v=OWHJa0jKJgo">影片</a>以初步了解 CreateJS。</p>
+<p>由 Mozilla 提倡的 CreateJS，已可對 Flash 動畫達到絕佳的支援度。</p>
+<p>透過 CreateJS，有兩種方式可在 HTML5 中使用 Flash 動畫。首先就是直接輸出 Flash 動畫，且可用原始形式存取所有元素，包含路徑、縮放/旋轉、變形等等。這種方式的優點在於產生的檔案較小，且 CreateJS 可在用戶端將這些元素轉換為 Sprite，達到更快的繪圖速度。Adobe Flash CS6 則提供「CreateJS Toolkit」外掛程式，讓開發者能匯出動畫的所有內容成為 HTML5 檔案。一般會包含一個 JavaScript 檔案 (內含所有圖片與變形)、一個 HTML 檔案、一系列的圖片。接著就能在瀏覽器中開啟 HTML 文件並觀看動畫。</p>
+<p>另外就是將動畫匯出至 Sprite，即以單一圖片包含了所有幀像，並由一個 JavaScript 檔案敘述各幀像的位置與大小。只要利用 CreateJS 中的 <a href="https://createjs.com/Docs/EaselJS/classes/SpriteSheet.html">SpriteSheet</a> 類別，就能將這些檔案輕鬆整合進 HTML 架構的 App 或遊戲中。我在這個遊戲中就用了相同方式。你可透過此<a href="https://github.com/coolwanglu/BubbleHellDuel/blob/master/js/arena.js#L31">連結</a>觀看我使用 SpriteSheet 的程式碼。如果想進一步了解，亦可觀看此<a href="https://www.youtube.com/watch?v=HaJ615V6qLk">影片</a>。</p>
+<p>看完上面兩部影片之後，你更進一步了解遊戲的 SpriteSheets 了嗎？如果想開發遊戲類的 Web App，當然不能錯過最後一集《<a href="../../posts/5672/">用 TogetherJS 與 CreateJS 開發多人遊戲 (下)</a>》。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/05/creating-a-multiplayer-game-with-togetherjs-and-createjs/">Creating a Multiplayer Game with TogetherJS and CreateJS</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190825002545id_/https://blog.mozilla.com.tw/?p=5668">Wayback snapshot</a>
+              <span>Post ID: 5668</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

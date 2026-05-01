@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>深入 ES6 系列：迭代器與 for-of 迴圈 (下) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">深入 ES6 系列：迭代器與 for-of 迴圈 (下)</h2>
+            <p class="entry-posted"><time datetime="2015-05-28" class="published"><span class="posted-month">5月</span><span class="posted-date">28</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p>歡迎觀看此系列新文。我們將概略介紹 JavaScript 的新版本「ECMAScript 6」，亦稱為「ES6」。</p>
+<p>如果你才剛發現這篇文章，也歡迎先回去看看《<a href="../../posts/7487/">深入 ES6 系列：迭代器與 for-of 迴圈 (上)</a>》，先了解 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of">for – of</a> 是如何巡訪各個元素的。</p>
+<p><img src="../../assets/7491/wp-content/uploads/es6-hiway-sign.png" alt="es6-hiway-sign" loading="lazy"><br>圖片出處：https://carlosazaustre.es/blog/ecmascript-6-el-nuevo-estandar-de-javascript/</p>
+<h4>內部運作的情形</h4>
+<p> 「好的藝術家用抄的；偉大的藝術家用偷的」─ 藝術巨擘畢卡索</p>
+<p>ES6 內正努力開發中的要點，就是要加進其他語言尚未擁有的新功能。大多數的功能均已通過測試且可用於其他語言之中。</p>
+<p>以 for–of 迴圈為例，就極為類似 C++、Java、C#、Python 中的迴圈陳述式。如同這些程式語言，for–of 迴圈會搭配多個不同的資料架構 (由該程式語言及其標準函式庫所提供)，且本身也是該語言的擴充點 (Extension point)。</p>
+<p>如同其他語言中的 for/foreach 陳述式，for–of 是完全按照函式呼叫的條件所運作。我們提過的 Array、Map、Set，以及其他物件的共通點，即是這些物件均具備一組迭代器 (Iterator)  函式。</p>
+<p>你所需的任何物件，其實都能擁有迭代器函式。</p>
+<p>只要把 myObject.toString() 函式新增到任何物件，JS 也就知道該如何將物件轉換為字串。另可將 myObject[Symbol.iterator]() 函式新增到任何物件，JS 就能在該物件之上建構迴圈。</p>
+<p>假設你在使用 jQuery，雖然你很喜歡 .each()，但你也想讓 jQuery 物件同樣可搭配 for–of。這時照著下方做就可以：</p>
+<p>// Since jQuery objects are array-like,<br>// give them the same iterator method Arrays have<br>jQuery.prototype[Symbol.iterator] =<br>  Array.prototype[Symbol.iterator];</p>
+<p>					1234</p>
+<p>						// Since jQuery objects are array-like,// give them the same iterator method Arrays havejQuery.prototype[Symbol.iterator] =  Array.prototype[Symbol.iterator];</p>
+<p>我知道你現在正想：「這個 [Symbol.iterator] 語法好怪喔」。到底發生什麼事？其實關鍵就在於函式的名稱。標準委員會將稱此函式為 .iterator()，但是你現有程式碼可能已有某些物件包含了 .iterator() 函式，所以很容易混淆。所以此標準使用了一組符碼 (而非字串) 作為此函式的名稱。</p>
+<p>符碼 (Symbol) 也是新加入 ES6 的東西。沒錯，我又要跟你說將來會有專文介紹。而目前你只需要知道該標準可定義全新的符碼，就像 Symbol.iterator 一樣，而且保證絕不會與現有程式碼衝突。為了通用的新功能與絕佳的向下相容性，此語法看起來雖然有點怪，但絕對是可以接受的代價。</p>
+<p>具備 [Symbol.iterator]() 函式的物件，即具備可迭代 (Iterable) 的屬性。接下來我們就能看到可迭代物件的概念貫通整個程式語言，不僅限於 for–of，也會進入 Map 與 Set 建構子、解構賦值 (Destructuring assignment)，以及新的展開運算子 (Spread operator)。</p>
+<h4>迭代器 (Iterator) 物件</h4>
+<p>現在有個讓你從頭開始建構迭代器物件的機會，我們會再用另一篇文章完整說明。現在先向給你介紹迭代器物件的完整概念。如果你想略過這一段落，就可能錯過某些技術細節。</p>
+<p>在集合上呼叫 [Symbol.iterator]() 函式，即可啟動 for–of 迴圈，也就會回傳新的迭代器物件。只要是包含 .next() 函式的物件都可當做迭代器物件。而 for–of 迴圈會反覆呼叫此函式，每次穿過迴圈就會呼叫一次。以下是我能想到最簡單的迭代器物件範例：</p>
+<p>var zeroesForeverIterator = {<br>  [Symbol.iterator]: function () {<br>    return this;<br>  },<br>  next: function () {<br>    return {done: false, value: 0};<br>  }<br>};</p>
+<p>					12345678</p>
+<p>						var zeroesForeverIterator = {  [Symbol.iterator]: function () {    return this;  },  next: function () {    return {done: false, value: 0};  }};</p>
+<p>每次只要呼叫此 .next() 函式，都會回傳相同的結果以告知該 for–of 迴圈：1). 我們尚未完成迭代以及 2). 下個數值為「0」。這也代表 for (value of zeroesForeverIterator) {} 是無限迴圈。當然，典型的迭代器可能不會這麼瑣碎。</p>
+<p>從這個迭代器的.done 與 .value 屬性來看，即與其他程式語言的迭代器運作方式截然不同。Java 中的迭代器具備獨立的 .hasNext() 與 .next() 函式。Python 裡面則是具備單一的 .next() 函式，可在沒有其他數值的情況下丟出 StopIteration。但這三種設計基本上都是要回傳相同的資訊。</p>
+<p>迭代器物件亦可建構選項性的 .return() 與 .throw(exc) 函式。如果迴圈提早退出，則因為例外情況或 break＼return 陳述式，會讓 for–of 迴圈呼叫 .return()。如果要進行清除作業，或要釋放使用中的資源，則迭代器可建構 .return()。大多數的迭代器物件並不需要建構此函式。.throw(exc) 則是更特殊的案例了：for–of 完全不會呼叫之。後續會有文章再清楚說明。</p>
+<p>已經知道全部細節了，接著就寫出簡易的 for–of 迴圈，再根據其內的函式呼叫條件重新修改吧。</p>
+<p>首先是 for–of 迴圈：</p>
+<p>for (VAR of ITERABLE) {<br>  STATEMENTS<br>}</p>
+<p>					123</p>
+<p>						for (VAR of ITERABLE) {  STATEMENTS}</p>
+<p>接著以內在函式與幾個臨時的變數，寫出約略類似的東西：</p>
+<p>var $iterator = ITERABLE[Symbol.iterator]();<br>var $result = $iterator.next();<br>while (!$result.done) {<br>  VAR = $result.value;<br>  STATEMENTS<br>  $result = $iterator.next();<br>}</p>
+<p>					1234567</p>
+<p>						var $iterator = ITERABLE[Symbol.iterator]();var $result = $iterator.next();while (!$result.done) {  VAR = $result.value;  STATEMENTS  $result = $iterator.next();}</p>
+<p>但這段程式碼並未呈現 .return() 的處理方式。我們當然可以新增這段，但我想在這裡會變得更不清楚。雖然 for–of 簡單易用，但背後仍有許多東西努力運作。</p>
+<h4>我何時能開始使用這東西？</h4>
+<p>Firefox 現有的所有版本均可支援 for–of 迴圈。你也可透過 chrome://flags 啟用「Experimental JavaScript」，就能讓 Chrome 一樣支援此迴圈。Microsoft 的 Spartan 瀏覽器同樣支援，但目前的 IE 版本都辦不到。如果你想在 Web 使用此新的語法，就必須支援 IE 與 Safari。只要透過如「<a href="https://babeljs.io/">Babel</a>」或 Google 的「<a href="https://github.com/google/traceur-compiler#what-is-traceur">Traceur</a>」編譯器，即可將 ES6 程式碼轉譯為友善的 ES5。</p>
+<p>若是在伺服器上，則不需編譯器。只要在 io.js (以及 Node，需包含 --harmony 選項) 中使用 for–of 就能立刻開始。</p>
+<p>呼！</p>
+<p>就先到此為止吧，但是 for–of 迴圈還沒講完呢！</p>
+<p>其實 ES6 中還有另一組新的物件，可完美搭配 for–of。因為接下來會有專文介紹，所以本文就不再贅述。我個人認為此新功能是 ES6 最奇妙的部份。如果你在 Python 與 C# 語言中還沒遇過，那第一次接觸時大概會很訝異。但這應該是寫出迭代器最簡單的方式，而且對重構 (Refactor) 很有用，也可能改變我們撰寫非同步程式碼 (瀏覽器或伺服器均然) 的方式。所以請別錯過後續的 ES6 迭代產生器 (Generator)。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/04/es6-in-depth-iterators-and-the-for-of-loop/">ES6 In Depth: Iterators and the for-of loop</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>未分類</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20191019121151id_/https://blog.mozilla.com.tw/?p=7491">Wayback snapshot</a>
+              <span>Post ID: 7491</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>透過 Mozilla 的「Push」傳送 VAPID 驗證過的 WebPush 通知 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">透過 Mozilla 的「Push」傳送 VAPID 驗證過的 WebPush 通知</h2>
+            <p class="entry-posted"><time datetime="2016-09-05" class="published"><span class="posted-month">9月</span><span class="posted-date">5</span><span class="posted-year">2016</span></time></p>
+          </header>
+          <div class="entry-content"><h4>簡介</h4>
+<p>不需與使用者互動，<a href="https://developer.mozilla.org/en-US/docs/Web/API/Push_API">Web Push API</a> 即可從應用程式伺服器 (App server) 送出即時事件 (包含資料) 至其用戶端的對應處 (即該 App)。我們另在 Push 說明文件中針對 App 的 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Push_API">API</a> 提供一般參考資料，以及<a href="https://developer.mozilla.org/en-US/docs/Web/API/Push_API/Using_the_Push_API">用戶端基本使用範例線上教學</a>。此一文件針對 App 伺服端有詳盡說明，更包含將 VAPID 與 Push 訊息加密功能整合至你的伺服器等相關資訊，並避免常見問題。</p>
+<p>注意：本文中所提的大多數情況，均假設讀者已嫻熟程式設計並知道加密的基礎。可惜的是，由於「Push」仍屬於新技術，目前尚無足夠的函式庫可輕鬆、順利的傳送訊息。只要有新的函式庫出現，我們將立刻添增相關資訊。目前將重點說明應如何進行加密，以因應當下的迫切需要，並協助其他人得以儘快著手建構函式庫。</p>
+<p>另必須說明的是：「Push」並非要取代如 <a href="https://firebase.google.com/docs/cloud-messaging/">Google Cloud Messaging</a> (GCM)、<a href="https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html">Apple Push Notification system</a> (APNs)、<a href="https://msdn.microsoft.com/en-us/library/azure/jj891130.aspx">Microsoft 的 Windows Notification System</a> (WNS) 等較完整的訊息傳輸技術。這些技術各有各的優點與成本，所以開發者應自行選用最適合自己所需的技術。若單就將資料傳送到 App，則「Push」可算是低成本又簡單易用的方式。</p>
+<h4>「Push」摘要</h4>
+<p>「Push」系統即如：</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/push-1.png" alt="push" loading="lazy"></p>
+<ul><li>應用程式 (Application；App ) ─ 使用者主要面對的程式部分，可透過瀏覽器互動以請求「推播訂閱 (Push Subscription)」，並接收訂閱更新 (Subscription Updates)。</li></ul>
+<ul><li>App 伺服器 (Application Server) ─ 後端服務可產生訂閱更新，以跨 Push 伺服器。</li></ul>
+<ul><li>Push 系統 ─ 此系統負責將事件從 App 伺服器傳送到 App。</li></ul>
+<ul><li>Push 伺服器 (Push Server) ─ 此伺服器負責處理事件，再將之傳送到正確的訂閱器 (Subscriber)。各家瀏覽器均透過自己的推播伺服器來處理訂閱管理；像 Mozilla 即用了 <a href="https://github.com/mozilla-services/autopush">autopush</a>。</li></ul>
+<ul><li>訂閱 (Subscription) ─ 此即使用者所請求的特定主題即時資訊，將建立一組末端以傳送訂閱更新。有時也稱為「頻道 (Channel)」。</li></ul>
+<ul><li>末端 (Endpoint) ─ 為一特定網址，用以傳送推播訊息到特定訂閱器。</li></ul>
+<ul><li>訂閱器 (Subscriber) ─ App 訂閱推播以獲得更新，或使用者點擊「訂閱 (Subscriber)」按鈕要求 App 訂閱推播。</li></ul>
+<ul><li>訂閱更新 (Subscription Update) ─ 此一事件傳送至 Push 之後，將從 Push 伺服器接收推播訊息。</li></ul>
+<ul><li>Push 訊息 (Push Message) ─ 從 App 伺服器經由 Push 伺服器傳送到 App 的訊息，其內可含資料內容 (Payload，裝載通知所應顯示的訊息)。</li></ul>
+<p>從推播到伺服端的重要部分如下：</p>
+<ul><li><a href="https://blog.mozilla.org/services/2016/08/23/sending-vapid-identified-webpush-notifications-via-mozillas-push-service/#ident">表達自己的身分</a>：此對安全方面甚為重要。任何具備末端的伺服器，都能透過末端傳送推播訊息至對應的 App。這時「表達自己身分」的步驟能提高困難度。</li></ul>
+<ul><li><a href="https://blog.mozilla.org/services/2016/08/23/sending-vapid-identified-webpush-notifications-via-mozillas-push-service/#receive">接收訂閱資訊</a>：可<a href="https://blog.mozilla.org/services/2016/08/23/sending-vapid-identified-webpush-notifications-via-mozillas-push-service/">參閱完整原文</a>，看看在自己 App 伺服器上接收訂閱資訊的最佳實作。</li></ul>
+<ul><li><a href="https://blog.mozilla.org/services/2016/08/23/sending-vapid-identified-webpush-notifications-via-mozillas-push-service/#send">傳送訂閱更新</a>：可能<a href="https://blog.mozilla.org/services/2016/08/23/sending-vapid-identified-webpush-notifications-via-mozillas-push-service/#send_nodata">不含資料</a>而包含加密資料。我們現仍在尋找<a href="https://blog.mozilla.org/services/2016/08/23/sending-vapid-identified-webpush-notifications-via-mozillas-push-service/#updates">訂閱更新</a>的最佳處理實作。</li></ul>
+<p>這裡先說結論：推播資料加密其實頗具挑戰性，但值得大家投入更多資源。越健全的加密也代表歹徒越無機可趁，避免未知第三方獲得你的個人資訊。我們希望未來會有更完善的函式庫，以及更廣為大家所採用的規格，讓這期間的許多痛苦與困難之處畫下句點。也期待所有程式語言的函式庫將日益完善。</p>
+<p>如果你正好在接觸「Push」的相關工作，想更進一步了解以上所提的技術面，請<a href="https://blog.mozilla.org/services/2016/08/23/sending-vapid-identified-webpush-notifications-via-mozillas-push-service/">參閱完整原文</a>。</p>
+<p>原文連結：<a href="https://blog.mozilla.org/services/2016/08/23/sending-vapid-identified-webpush-notifications-via-mozillas-push-service/">Sending VAPID identified WebPush Notifications via Mozilla’s Push Service</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Privacy</span><span>Security</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20191113171043id_/https://blog.mozilla.com.tw/?p=9111">Wayback snapshot</a>
+              <span>Post ID: 9111</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

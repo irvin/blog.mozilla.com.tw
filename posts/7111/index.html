@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>簡介「object-fit」 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">簡介「object-fit」</h2>
+            <p class="entry-posted"><time datetime="2015-03-11" class="published"><span class="posted-month">3月</span><span class="posted-date">11</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p>在相關 Web 文件上常見的問題之一，就是要讓同一地方顯示不同尺寸的圖片 (或影片)。或許你正在撰寫動態圖庫 App，以接收使用者所提交的檔案。但你無法要求所有人上傳的圖片都是一樣的解析度或長寬比。這時候該怎麼辦呢？</p>
+<p><img src="../../assets/7111/wp-content/uploads/gallery-full-display.png" alt="gallery-full-display" loading="lazy"></p>
+<p>雖然可以不管圖片長寬比例，逕自讓圖片填滿「<a href="https://developer.mozilla.org/zh-TW/docs/Web/CSS/Replaced_element">置換元素 (Replaced element)</a>」，但效果往往不佳且看起來不甚美觀。又如果每次都即時執行一些動態切割或縮放，又比整個網頁的建構作業還要麻煩 (舉例來說，你可能正在 CMS 上工作，但你根本沒有網頁內容之外的編輯權限)。</p>
+<p>而 <a href="https://dev.w3.org/csswg/css-images/">CSS Image Values and Replaced Content</a> 模組則提供所謂「<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit">object-fit</a>」屬性，可解決類似問題；另有「<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/object-position">object-position</a>」可設定內容在元素內部的垂直與水平位置。</p>
+<p>這些元素都已經能完整支援目前的主要瀏覽器 (但 IE 除外)。而我們將透過本文說明其中幾項使用範例。</p>
+<p>注意：object-fit 可搭配 SVG 內容，但只要設定 SVG 內部的 preserveAspectRatio=&quot;&quot; 屬性，亦可達到相同效果。</p>
+<p>如果你正在設計圖庫類的 App，也遇上類似難題而相關功能，就可<a href="https://hacks.mozilla.org/2015/02/exploring-object-fit/">參閱原文</a>後段介紹的程式碼與展示喔！</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/02/exploring-object-fit/">Exploring object-fit</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190825011841id_/https://blog.mozilla.com.tw/?p=7111">Wayback snapshot</a>
+              <span>Post ID: 7111</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

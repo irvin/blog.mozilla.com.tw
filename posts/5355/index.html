@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>淺談 Firefox 30 開發者工具 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">淺談 Firefox 30 開發者工具</h2>
+            <p class="entry-posted"><time datetime="2014-04-10" class="published"><span class="posted-month">4月</span><span class="posted-date">10</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><h3>Box Model 強調功能、強化網頁主控台、Firefox OS HUD， 還有更多</h3>
+<p>Firefox 30 現在進入<a href="https://www.mozilla.org/en-US/firefox/aurora/">曙光版 (Aurora) 釋出頻道</a>了。照慣例來看看此版本的開發者工具有哪些重要功能。</p>
+<h4>檢測器 (Inspector)</h4>
+<p>大家期待的諸多開發功能之一，就是要能強調頁面元素的「Box Model」區塊。我們很高興能宣佈 Firefox 30 已正式具備這個功能。而且 Box Model 現可用不同的顏色區塊區分不同 CSS 的設定值 (如 margin、padding、border 等)，達到更清晰的效果。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/inspector-box-model.png" alt="inspector-box-model" loading="lazy"></p>
+<p>可參閱<a href="https://developer.mozilla.org/en-US/docs/Tools/Page_Inspector#Box_model_view">「檢測器」說明文章</a>以進一步了解新功能，或可觀看下方短片：</p>
+<p>而 CSS 規則檢視中，有了新的字型 (font family) 提示功能。只要將滑鼠游標置於 font-family 值之上，即可預覽該字型。(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=702577">可參閱此開發討論記錄</a>)</p>
+<h4>網頁主控台 (Web Console)</h4>
+<p>網頁主控台有多項重大更新，可檢視並引導輸出效果。</p>
+<ul><li>主控台輸出對話框可對所有 JS 物件與函式達到更好的強調效果 (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=584733">可參閱此開發討論記錄</a>)</li></ul>
+<ul><li>強調其對應的節點，點擊之後即可從主控台跳至該節點 (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=757866">可參閱此開發討論記錄</a>)</li></ul>
+<ul><li>新支援 console.count() (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=922208">可參閱此開發討論記錄</a>)</li></ul>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/webconsole-output-light-1024x557.png" alt="webconsole-output-light" loading="lazy"></p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/webconsole-click-to-select-node.png" alt="webconsole-click-to-select-node" loading="lazy"></p>
+<p>在主控台中執行 cd() 指令，即可在 iframes 之間切換所屬範圍 (Scope)。可參閱 <a href="https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Working_with_iframes">cd 指令說明文件</a>。(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=609872">可參閱此開發討論記錄</a>)</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/webconsole-cd.png" alt="webconsole-cd" loading="lazy"></p>
+<p>另可參閱由 Mihai 撰文說明<a href="https://www.robodesign.ro/mihai/blog/web-console-improvements-episode-30#firefox30">網頁主控台即將發生的變化</a>。他也曾撰文說明 <a href="https://developer.mozilla.org/en-US/docs/Tools/Web_Console/Custom_output">web console API 的擴充套件</a>。</p>
+<h4>Firefox OS</h4>
+<p>網路監測器 (Network monitor) 現可搭配 Firefox OS 運作。(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=917227">可參閱此開發討論記錄</a>)</p>
+<p>目前 Firefox OS Developer HUD 提供記憶體追蹤 (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=963498">可參閱此開發討論記錄</a>) 與 jank 追蹤 (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=963499">可參閱此開發討論記錄</a>) 功能。另可參閱 Paul 撰文的 《<a href="https://paulrouget.com/e/fxoshud/">Firefox OS: tracking reflows and event loop lags</a>》以進一步了解「jank (即所謂的 event loop lag)」。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/firefoxos-developer-hud.png" alt="firefoxos-developer-hud" loading="lazy"></p>
+<p>####</p>
+<h4>網路監測器 (Network Monitor)</h4>
+<p>網路監測器現具備新外觀與數項新功能：</p>
+<ul><li>新設計的網頁時間軸，真正提升了面板上的捲動效果。(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=909251">可參閱此開發討論記錄</a>)</li></ul>
+<ul><li>只要將滑鼠游標置於某圖片網址之上，即可出現該圖片的預覽對話框。(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=859135">可參閱此開發討論記錄</a>)</li></ul>
+<ul><li>只要是圖片類型的網路請求，則檔案名稱附近亦將顯示縮圖。(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=859136">可參閱此開發討論記錄</a>)</li></ul>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/network-timeline-ui-1024x390.png" alt="network-timeline-ui" loading="lazy"></p>
+<p>只要是類似 JSON 格式的網路請求，即使是純文字檔案亦將顯示物件預覽對話框。(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=964977">可參閱此開發討論記錄</a>)</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/network-response-json.png" alt="network-response-json" loading="lazy"></p>
+<p>####</p>
+<h4>工具箱 (Toolbox)</h4>
+<p>主控台的快捷鍵 (cmd+alt+k 或 ctrl+shift+k) 有新動作了。此快捷鍵將隨時注意網頁主控台中的輸入行，並視需要而開啟工具箱且不會關閉工具箱。可參閱 <a href="https://robcee.net/2014/updated-console-keyboard-shortcuts-in-firefox/">robcee 的部落格以進一步了解</a>。(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=612253">可參閱此開發討論記錄</a>)</p>
+<p>如果想為頂端的工具列省下一點空間，則可隱藏如程式碼速記本 (Scratchpad) 的指令按鈕。現在預設開啟的按鈕只有檢測元素 (Inspect Element)、分割主控台 (Split Console)、適應性模式 (Responsive Mode)。<a href="https://groups.google.com/d/msg/mozilla.dev.developer-tools/zhFZRLnlmVw/qFalqQTUUOMJ">可透過 devtools 郵件群組進一步了解這項變更</a> (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=974947">可參閱此開發討論記錄</a>)。若要啟動程式碼速記本(Scratchpad)、閃爍繪圖區 (Paint Flashing)、並排顯示 (Tilt)，則勾選選項面板中的方塊即可。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/devtools-options-commandbuttons.png" alt="devtools-options-commandbuttons" loading="lazy"></p>
+<p>最後要感謝此版開發者工具共 46 位貢獻者！<a href="https://mzl.la/1p7uKJ2">為 Firefox 30 開發者工具解錯人員名單在此</a>。</p>
+<p>如果你有任何問題、想提出意見與功能需求，或發現任何錯誤，還是一樣可透過 <a href="https://twitter.com/firefoxdevtools">@FirefoxDevTools</a> 聯絡我們。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/03/box-model-highlighter-web-console-improvements-firefox-os-hud-more-firefox-developer-tools-episode-30/">Box model highlighter, Web Console improvements, Firefox OS HUD + more – Firefox Developer Tools Episode 30</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=5355">Wayback snapshot</a>
+              <span>Post ID: 5355</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

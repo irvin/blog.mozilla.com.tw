@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>此 API 真可輕鬆提取！ | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">此 API 真可輕鬆提取！</h2>
+            <p class="entry-posted"><time datetime="2015-04-01" class="published"><span class="posted-month">4月</span><span class="posted-date">1</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p>十多年來，Web 都是透過 XMLHttpRequest (XHR) 在 JavaScript 中達到非同步請求。XHR 雖然好用，但因為缺乏「Separation of concerns (SoC)」，所以算不上是很好的 API。其輸入、輸出、狀態，全都是經由存取單一物件進行管理，且透過事件來追蹤狀態。同樣的，事件架構的模型，並無法妥善配合 JavaScript 最近所著重的「Promise」與「產生器 (Generator)」架構之非同步程式設計方式。</p>
+<p><img src="../../assets/7265/wp-content/uploads/clean-code-part-i-design-patterns-and-best-practices-29-638.jpg" alt="clean-code-part-i-design-patterns-and-best-practices-29-638" loading="lazy"></p>
+<p>為了修正大多數的問題，我們針對 HTTP 協定所使用的基本構成元件，透過 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API">Fetch API</a> 將之導入 JavaScript。另外也導入 fetch() 公用函式，以簡化網路的資源檢索作業。</p>
+<p>用以定義此 API 的 <a href="https://fetch.spec.whatwg.org/">Fetch 規格</a>，則明確定義了瀏覽器在提取資源時的語法。若整合 ServiceWorkers 即可：</p>
+<ul><li>提升離線經驗。</li></ul>
+<ul><li>在平台中使用 Web 的基礎元件，以成為 <a href="https://extensiblewebmanifesto.org/">Web 的一份子</a>。</li></ul>
+<p>在本文發表之時，Fetch API 已經進入 Firefox 39 (目前為 Nightly 版本) 與 Chrome 42 (目前為開發版本)。而 Github 亦提供 <a href="https://github.com/github/fetch">Fetch 的自動補完函式庫 (Polyfill</a>)。</p>
+<h4>功能偵測</h4>
+<p>現在只要檢查 Headers、Request、Response，或是 window＼worker 範圍上的fetch，就能偵測是否支援 Fetch API。</p>
+<h4>簡單的提取 (Fetching)</h4>
+<p>Fetch API 最有用、最高階的部份就是 fetch() 函式。在最簡單的形式之下，此函式可取得一組網址並回傳一組 Promise 以取得回應結果 (Response)。且將擷取此回應結果作為 Response 物件。</p>
+<p>fetch(&quot;/data.json&quot;).then(function(res) {<br>  // res instanceof Response == true.<br>  if (res.ok) {<br>    res.json().then(function(data) {<br>      console.log(data.entries);<br>    });<br>  } else {<br>    console.log(&quot;Looks like the response wasn&#39;t perfect, got status&quot;, res.status);<br>  }<br>}, function(e) {<br>  console.log(&quot;Fetch failed!&quot;, e);<br>});</p>
+<p>					123456789101112</p>
+<p>						fetch(&quot;/data.json&quot;).then(function(res) {  // res instanceof Response == true.  if (res.ok) {    res.json().then(function(data) {      console.log(data.entries);    });  } else {    console.log(&quot;Looks like the response wasn&#39;t perfect, got status&quot;, res.status);  }}, function(e) {  console.log(&quot;Fetch failed!&quot;, e);});</p>
+<p>如果是要提交某些參數，就會像：</p>
+<p>fetch(&quot;http://www.example.org/submit.php&quot;, {<br>  method: &quot;POST&quot;,<br>  headers: {<br>    &quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded&quot;<br>  },<br>  body: &quot;firstName=Nikhil&amp;favColor=blue&amp;password=easytoguess&quot;<br>}).then(function(res) {<br>  if (res.ok) {<br>    alert(&quot;Perfect! Your settings are saved.&quot;);<br>  } else if (res.status == 401) {<br>    alert(&quot;Oops! You are not authorized.&quot;);<br>  }<br>}, function(e) {<br>  alert(&quot;Error submitting form!&quot;);<br>});</p>
+<p>					123456789101112131415</p>
+<p>						fetch(&quot;http://www.example.org/submit.php&quot;, {  method: &quot;POST&quot;,  headers: {    &quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded&quot;  },  body: &quot;firstName=Nikhil&amp;favColor=blue&amp;password=easytoguess&quot;}).then(function(res) {  if (res.ok) {    alert(&quot;Perfect! Your settings are saved.&quot;);  } else if (res.status == 401) {    alert(&quot;Oops! You are not authorized.&quot;);  }}, function(e) {  alert(&quot;Error submitting form!&quot;);});</p>
+<p>看到這裡，你想進一步了解 Fetch API，或是正好需要相關功能嗎？請回到<a href="https://hacks.mozilla.org/2015/03/this-api-is-so-fetching/">原文</a>觀看更多詳細的程式碼範例！</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/03/this-api-is-so-fetching/">This API is so Fetching!</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20191113174006id_/https://blog.mozilla.com.tw/?p=7265">Wayback snapshot</a>
+              <span>Post ID: 7265</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

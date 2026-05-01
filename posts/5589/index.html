@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>淺談 Firefox 31 開發者工具 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">淺談 Firefox 31 開發者工具</h2>
+            <p class="entry-posted"><time datetime="2014-05-16" class="published"><span class="posted-month">5月</span><span class="posted-date">16</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><h4>可編輯的 Box Model 、多重選擇、設定 Sublime Text ，還有更多</h4>
+<p>新的 <a href="https://developer.mozilla.org/docs/Tools">Firefox 開發者工具</a>現在已經進入<a href="https://www.mozilla.org/firefox/aurora/">曙光版 (Aurora) 釋出頻道</a>。也就是說，將於 7 月正式上線的Firefox 31 就會提供這些新工具，包含強化過的編輯器、主控台、檢測器等等。</p>
+<h4>可編輯的 Box Model</h4>
+<p>在「<a href="https://developer.mozilla.org/docs/Tools/Page_Inspector">檢測器 (Inspector)</a>」中的「Box Model」分頁，現在已可編輯以進行簡單的試驗。只要對任何「margin」、「border」、「padding」值連點滑鼠兩次，就能針對目前選取的元素更改其值。輸入任何有效 CSS 的 [](https://developer.mozilla.org/docs/Web/CSS/length) 值並搭配上/下鍵，就能以「1」的幅度增/減該值。另外若按下「Alt-Up」則可一次增加「0.1」；按下「Shift-Up」則一次增加「10」。(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=850336">可參閱此開發討論記錄</a>)</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/editable-box-model.png" alt="editable-box-model" loading="lazy"></p>
+<h4>滴管 (Eyedropper)</h4>
+<p>檢測器現在新增「<a href="https://developer.mozilla.org/en-US/docs/Tools/Eyedropper">滴管 (Eyedropper)</a>」色彩選擇器，可擷取頁面上任何像素的色彩。只要用滑鼠點擊現有色彩並按下「Enter」即可進入該模式；按下「Esc」即可退出。同樣使用鍵盤的上/下鍵可分別增/減像素「1」；「Shift-Up」或「Shift-Down」分別增/減像素「10」。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/eyedropper.png" alt="eyedropper" loading="lazy"></p>
+<p>如果要開啟「滴管」功能，則可 1). 進入 Firefox 的「網頁開發者 (Web Developer)」選單，即可發現滴管；或是 2). 進入開發面板中的「<a href="https://developer.mozilla.org/docs/Tools_Toolbox#Settings">工具箱選項</a>」(即齒輪圖示)，找到「可用的工具箱按鈕 (Available Toolbox Buttons)」，勾選「從頁面中挑選色彩 (Grab a color from the page)」。接著就能直接將色彩複製到剪貼簿。(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=939040">可參閱此開發討論記錄</a>)</p>
+<h4>主控台 (Console) 堆疊追蹤</h4>
+<p>在主控台 (Console) 中的 console.error、console.exception、console.assert 等記錄，現在均包含完整的呼叫堆疊 (Call stack)。(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=920116">可參閱此開發討論記錄</a>)</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/console-stack-traces.png" alt="console-stack-traces" loading="lazy"></p>
+<h4>具風格的主控台記錄</h4>
+<p>跟上其他瀏覽器開發工具的腳步，Firefox 開發者工具現在也能透過「%c」指示元 (Directive)，修改主控台記錄的風格。</p>
+<p>(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=823097">可參閱此開發討論記錄</a>)</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/styled-console-logs.png" alt="styled-console-logs" loading="lazy"></p>
+<h4>以 cURL 指令格式複製 (Copy as cURL)</h4>
+<p>使用者現在可在自己慣用的命令列 (終端機) 上，透過<a href="https://developer.mozilla.org/docs/Tools/Network_Monitor">網路監測器 (Network Monitor)</a> 重播任何網路請求。只要對請求按下滑鼠右鍵，點選「以 cURL 指令格式複製 (copy as cURL)」，即可將 <a href="https://en.wikipedia.org/wiki/CURL">cURL</a> 指令複製到剪貼簿，包含標頭與資料的參數。(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=859059">可參閱此開發討論記錄</a>)</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/copy-as-curl-1024x322.png" alt="copy-as-curl" loading="lazy"></p>
+<h4>編輯器 (Editor) – 多重選擇、設定 Sublime Text</h4>
+<p>開發者工具中的原始碼編輯器，現在已升級至 Codemirror 4 並包含下列特色：</p>
+<ul><li>多重選擇。 按住 Ctrl / Cmd 即可選擇多個目標。</li></ul>
+<ul><li>區塊拖曳選擇。 按住 Alt 即可選擇縮排對齊的文字區塊。</li></ul>
+<ul><li>取消選擇。 按下 Ctrl-U / Cmd-U 即可取消最近一次的選擇； Alt-U / Shift-Cmd-U 則可恢復。</li></ul>
+<ul><li>Sublime Text keybindings 。若要啟動此功能，請於網址列中鍵入 about:confi g ，將「 devtools.editor.keymap 」設定為「 sublime 」。</li></ul>
+<p>圖為多重選擇的效果：</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/editor-multiple-selection.gif" alt="editor-multiple-selection" loading="lazy"></p>
+<p><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=985924">可參閱此開發討論記錄</a></p>
+<h4>Canvas 除錯器 (Debugger)</h4>
+<p>透過新的 Canvas 除錯器 (debugger)，即可針對 <a href="https://developer.mozilla.org/en/WebGL">WebGL</a> 與 2D canvas 內容中的動畫幀像進行除錯。Canvas 除錯器目前仍屬實驗功能，必須進入開發面板中的「<a href="https://developer.mozilla.org/docs/Tools_Toolbox#Settings">工具箱選項</a>」(即齒輪圖示) 中啟動。目前尚未支援多重 Canvas (<a href="https://hacks.mozilla.org/2014/05/editable-box-model-multiple-selection-sublime-text-keys-much-more-firefox-developer-tools-episode-31/978948">bug</a>)，以及「setInterval」函式所產生的動畫 (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=978948">bug</a>)。可參閱<a href="https://hacks.mozilla.org/2014/03/introducing-the-canvas-debugger-in-firefox-developer-tools/">本篇文章</a>以進一步了解 Canvas 除錯器。</p>
+<p>(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=917226">可參閱此開發討論記錄</a>)</p>
+<h4>附加元件除錯器 (Add-on Debugger)</h4>
+<p>如果你是用 <a href="https://developer.mozilla.org/Add-ons/SDK">Add-on SDK</a> 開發 Firefox 的附加元件，現在能更輕鬆對附加元件的 JavaScript 模組除錯。可參閱<a href="https://blog.mozilla.org/addons/2014/04/08/add-on-debugger-now-in-firefox-nightly/">本篇文章</a>以進一步了解。(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=899054">可參閱此開發討論記錄</a>)</p>
+<p>由 <a href="https://vimeo.com/user7515802">Jordan Santell</a> 在 <a href="https://vimeo.com/">Vimeo</a> 上所呈現的 <a href="https://vimeo.com/90886107">Firefox 31: Add-on Debugger</a></p>
+<p><a href="https://vimeo.com/90886107"><img src="https://blog.mozilla.com.tw/wp-content/uploads/debugger1.jpg" alt="debugger" loading="lazy"></a></p>
+<h4>其他功能</h4>
+<ul><li>展開子元素。 按住 Alt 並對檢測器中的節點連續點擊兩次，即可展開所有的子元素。(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=997622">可參閱此開發討論記錄</a>)</li></ul>
+<ul><li>保持網路記錄。 進入開發面板中的「<a href="https://developer.mozilla.org/docs/Tools_Toolbox#Settings">工具箱選項</a>」(即齒輪圖示)，勾選「啟用保持記錄 (Enable persistent logs)」，即可保留「網路 (Network)」面板的重載與瀏覽記錄。(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=925275">可參閱此開發討論記錄</a>)</li></ul>
+<ul><li>預設開啟 JS 警示功能。 JavaScript 警示現在預設顯示於主控台中。(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=991734">可參閱此開發討論記錄</a>)</li></ul>
+<ul><li>程式碼速記本 (Scratchpad) 的「檢視」選單。 程式碼速記本 (Scratchpad) 現在添增了「檢視 (View)」功能，可更改字型大小、隱藏行號、換行文字 (Wrap text)、強調顯示行尾空白 (Highlight trailing space)。(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=953206">可參閱此開發討論記錄</a>)</li></ul>
+<p>特別感謝 38 名貢獻者為此版本所費心的<a href="https://mzl.la/Ri1gOT">所有功能與檔案修復</a>。</p>
+<p>有任何問題或建議？可到 Twitter 上的<a href="https://twitter.com/firefoxdevtools">@FirefoxDevTools</a>填寫建議；或可到全新的<a href="https://ffdevtools.uservoice.com/">Firefox 開發者工具意見反饋頻道</a>。如果你也想加入貢獻行列，可參閱<a href="https://wiki.mozilla.org/DevTools/GetInvolved">成為貢獻者的相關說明</a>。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/05/editable-box-model-multiple-selection-sublime-text-keys-much-more-firefox-developer-tools-episode-31/">Editable box model, multiple selection, Sublime Text keys + much more – Firefox Developer Tools Episode 31</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=5589">Wayback snapshot</a>
+              <span>Post ID: 5589</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

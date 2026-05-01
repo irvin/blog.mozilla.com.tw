@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>強化 Firefox 的惡意程式偵測功能 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">強化 Firefox 的惡意程式偵測功能</h2>
+            <p class="entry-posted"><time datetime="2014-07-31" class="published"><span class="posted-month">7月</span><span class="posted-date">31</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>我們一直想找出更好的方法，保護使用者免於惡意軟體的危害。Firefox 多年來透過 Google 的「安全瀏覽 (Safe Browsing)」─ 釣魚與惡意軟體的防護技術，避免使用者在不知情的狀況下進入危險網站。此防護功能即根據 Firefox 所下載的釣魚和惡意網站清單，進而檢查使用者現正瀏覽的網站 (可<a href="https://support.mozilla.org/en-US/kb/how-does-phishing-and-malware-protection-work">前往此頁面</a>以進一步了解)。</p>
+<p>Firefox 會越來越安全。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/%E9%87%A3%E9%AD%9A.jpg" alt="釣魚" loading="lazy"><br>網頁防護功能範例圖</p>
+<p>在此之前，Firefox 僅限取得惡意網站的回報清單。但現在安全瀏覽服務<a href="https://blog.chromium.org/2012/01/all-about-safe-browsing.html">也能監控惡意的已下載檔案</a>了。甫於 7 月 22 日發佈的最新版 Firefox 可比對「已下載的檔案」與「惡意檔案清單」，並進一步阻絕相關檔案感染使用者的系統。</p>
+<p>而將於 9 月發表的下一版 Firefox，更可進一步阻絕 Windows 環境中所發生的惡意檔案下載作業。只要使用者下載應用程式檔案，Firefox 隨即驗證該檔案的簽章。若該檔案已完成簽署，Firefox 會接著比對已知的安全發行廠商清單。如果未能將該檔案辨識為「安全 (允許)」，或依清單確認為「惡意軟體(阻絕)」，Firefox 就會寄發檔案的部份後設資料 (Metadata) 至 Google 的安全瀏覽服務，詢問該檔案是否安全。另必須說明的是，此線上檢查僅於 Windows 版本的 Firefox 執行，且只針對「不具備已知安全發行廠商」的已下載檔案。大多數 Windows 版本的常見/安全軟體均已簽署完畢，因此進行這類最後檢查的機率不大。</p>
+<p>在初步測試中，我們估算這個新防護功能，約可再減少溜過 Firefox 防護功能的惡意軟體總數<a href="https://wiki.mozilla.org/Security/Features/Application_Reputation/Preliminary_Results">達 50 %</a>。可算是極佳的防護效率。</p>
+<p>當然，就算有幾個下載檔案並不符合安全清單，而你也不想把相關資料寄送給 Google 知道，<a href="https://wiki.mozilla.org/Security/Features/Application_Reputation_Design_Doc#How_to_turn_off_this_feature">亦可關閉惡意軟體防護功能</a>。但我們認為大多數的人都極為重視惡意軟體的問題，也期待此新功能可順利於背景中運作，保護大家的瀏覽安全。</p>
+<p>另可參閱 <a href="https://monica-at-mozilla.blogspot.com/2014/07/download-files-more-safely-with-firefox.html">Monica 的部落格文章</a>以進一步了解。</p>
+<p>原文連結：<a href="https://blog.mozilla.org/security/2014/07/23/improving-malware-detection-in-firefox/">Improving Malware Detection in Firefox</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Mozilla</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Mozilla</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=6024">Wayback snapshot</a>
+              <span>Post ID: 6024</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

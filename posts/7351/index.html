@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>了解 CSS Inline 元素的 Box Model | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">了解 CSS Inline 元素的 Box Model</h2>
+            <p class="entry-posted"><time datetime="2015-04-21" class="published"><span class="posted-month">4月</span><span class="posted-date">21</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p>在網頁上，所有元素均繪製為方塊狀。而「<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/box_model">Box model</a>」則負責描述元素的 content、padding、border、margin，是如何決定該元素所佔用的空間，及其與頁面上其他元素之間的關係。</p>
+<p>根據元素的「<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/display">display</a>」屬性，其 Box 可能為 Block box 或 Inline box 之一，且其針對 Box model 的套用方式也有所不同。我們將透過本文說明 Box model 套用到 Inline box 的方法，並使用 <a href="https://developer.mozilla.org/en-US/docs/tools">Firefox 開發者工具的新功能針對 Inline 元素</a>呈現 Box model。</p>
+<h4>Inline Box 與 line Box</h4>
+<p>Inline box 水平排列於 line Box 中：</p>
+<p><img src="../../assets/7351/wp-content/uploads/2-inline-boxes.png" alt="2-inline-boxes" loading="lazy"></p>
+<p>如果單一行的水平空間不足以容納所有元素，就會在第一行下方再建立另一個 Line box。一個 Inline 元素就可能被分割為兩行：</p>
+<p><img src="../../assets/7351/wp-content/uploads/line-boxes.png" alt="line-boxes" loading="lazy"></p>
+<h4>Inline box 的 Box model</h4>
+<p>即使 Inline box 分割超過一行，邏輯上仍是單一的 Box。也就是說，任何水平的「padding」或「border」或「margin」值，均只會套用到該 Box 所佔用的第一行至最後一行為止。</p>
+<p>舉例來說，下方截圖以綠色強調的「span」即分割而跨了兩行。而其水平 padding 並不會套用到第一行末端，也不會影響第二行的起頭：</p>
+<p><img src="../../assets/7351/wp-content/uploads/horizontal-padding.png" alt="horizontal-padding" loading="lazy"></p>
+<p>同樣的，任何元素所套用的垂直 padding、border、margin，均不會推擠到其上或下的任何元素：</p>
+<p><img src="../../assets/7351/wp-content/uploads/vertical-padding.png" alt="vertical-padding" loading="lazy"></p>
+<p>但請注意，元素仍會套用垂直的 padding 與 border，且 padding 也會推擠 border：</p>
+<p><img src="../../assets/7351/wp-content/uploads/vertical-border-padding.png" alt="vertical-border-padding" loading="lazy"></p>
+<p>如果必須調整行與行之間的高度，則請以 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/line-height">line-height</a> 代替。</p>
+<h4>以開發者工具檢視 Inline 元素</h4>
+<p>在對配置問題進行除錯時，重要的是能讓工具呈現出完整的圖像。這類工具之一就是「強調器 (Highlighter)」，所有瀏覽器的開發者工具均有提供。你可透過此工具選擇元素，以進行更完整的檢驗，同時也能獲得配置的相關資訊。</p>
+<p><img src="../../assets/7351/wp-content/uploads/layout-info.png" alt="layout-info" loading="lazy"></p>
+<p>上圖範例即為 Firefox 39 的強調器，其反白的部分即為分割後橫跨數行的 Inline 元素。</p>
+<p>強調器的顯示方式，可協助你對齊元素、提供完整的節點尺寸，並覆蓋色塊圖層以呈現 Box model。</p>
+<p>從 Firefox 39 開始，針對分割 Inline 元素的 Box model 圖層，將顯示由該元素所佔用的各個獨立行列。在上述範例中，淺藍色顯示的即為內容區域，並分割成 4 行。另外也定義了該節點的正確 padding，即為強調器以紫色顯示的 padding 區域。</p>
+<p>若要了解 Box model 套用至 Inline 元素的方式，則強調各個獨立行的 Box 就很重要，也能協助開發者檢查「行」與「行」之間的空隙，以及 Inline box 的垂直對齊狀況。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/03/understanding-inline-box-model/">Understanding the CSS box model for inline elements</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20191113182201id_/https://blog.mozilla.com.tw/?p=7351">Wayback snapshot</a>
+              <span>Post ID: 7351</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

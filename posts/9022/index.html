@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>淺談 Firefox 50 開發者工具 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">淺談 Firefox 50 開發者工具</h2>
+            <p class="entry-posted"><time datetime="2016-08-11" class="published"><span class="posted-month">8月</span><span class="posted-date">11</span><span class="posted-year">2016</span></time></p>
+          </header>
+          <div class="entry-content"><h3>主控台、記憶體工具、網路監控器，還有更多</h3>
+<p>快下載 <a href="https://www.mozilla.com.tw/firefox/developer/">Firefox Developer Edition 50</a> 吧！現又改良許多功能，協助你搭配由程式碼所觸發的網路請求、微調 indexedDB 資料，還有更多。同時也提供某些大家期待已久的特殊功能。</p>
+<h4>主控台 (Console)</h4>
+<p>多人期待已久的功能終於加入開發者工具了，但我們仍需要大家幫忙最後的測試階段。<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=670002">原始 碼對映 (Source map)</a> 功能目前是預設關閉，等測試告一段落才會開放給所有人使用。</p>
+<p>如果你想知道此一功能遇上如此艱難問題的原因，可參閱 James Long 所撰寫的〈<a href="https://jlongster.com/On-the-Road-to-Better-Sourcemaps-in-the-Firefox-Developer-Tools">On the Road to Better Sourcemaps in the Firefox Developer Tools</a>〉一文。</p>
+<p>或許你想知道解決方案怎麼來的？這裡先引用 Joe Walker 的一段話：</p>
+<p>實習工程師本身的經驗往往看不出某個臭蟲的難易度，所以有時就挑上了極具挑戰性的臭蟲。我們謝謝實習工程師。</p>
+<p>所以要先謝謝 Firefox 開發者工具實習工程師 <a href="https://github.com/jbhoosreddy">Jaideep Bhoosreddy</a> 解決了這個問題。</p>
+<p>原始碼對映現讓你可在單一指令中集結所有的 JavaScript 檔案，藉以節省下載時間，也可從其他格式 (如 TypeScript 或 CoffeeScript) 編譯為 Javascript，同時維持原始檔案的參照，所以除錯不再是惡夢了。</p>
+<p>除錯器 (Debugger) 已支援原始檔對映功能，但主控台尚未納入此功能。亦即任何已記錄的訊息均有其自身位置 (送出此項記錄的程式碼所在之檔案及行數) 指向已編譯的 JavaScript 檔案。但如果檔案極長且＼或壓縮過，此位置資訊就幾乎無用。</p>
+<p>但這些情況都結束了。主控台現在會顯示原始碼，而不會是已編譯過的程式碼了。你可透過下方 gif 檔了解 CoffeeScript 檔案的情形：</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/webconsole_sourcemap-1024x595.gif" alt="webconsole_sourcemap" loading="lazy"><br>主控台所支援的原始碼對映 (Source map) 功能</p>
+<p>現在預設關閉原始檔對映的支援功能，且可透過偏好設定將之開啟。因為根據原始碼對映檔案建構工具的不同，現下有太多的實作。所以我們想起頭對不同的實作進行測試。也希望你能加入：</p>
+<p>若要啟動主控台的原始檔對映功能，必須先將偏好設定為開啟。</p>
+<ul><li>先鍵入 about:config</li></ul>
+<ul><li>找到 devtools.sourcemap.locations.enabled</li></ul>
+<ul><li>連點該行兩次，將值改為 true</li></ul>
+<ul><li>關閉再重新開啟主控台</li></ul>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/config_sourcemap-1024x267.png" alt="config_sourcemap" loading="lazy"></p>
+<p>如果發現任何不對勁的地方，可透過 Twitter 上的 <a href="https://twitter.com/firefoxdevtools">@firefoxdevtools</a>，或 IRC 上的 #devtools 頻道讓我們知道。</p>
+<h4>網路堆疊追蹤 (Network Stack Trace)</h4>
+<p>目前的 Firefox 開發者 (Developer) 版本，主控台會<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1281732">在 HTTP 記錄訊息中顯示該網路請求的堆疊追蹤</a>，且此功能預設為開啟。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/console_stacktrace.png" alt="console_stacktrace" loading="lazy"></p>
+<h4>記憶體工具 (Memory Tool)</h4>
+<p>記憶體工具 (Memory Tool) 現亦預設為啟動。此一工具為除錯與維護絕佳 App 效能所必須，亦可協助你找出 App 中的記憶體洩漏情形並修正之。若要進一步了解此工具，可參閱 <a href="https://developer.mozilla.org/docs/Tools/Memory">MDN 上的文章</a>或〈<a href="../../posts/8208/">新的記憶體工具</a>〉一文。</p>
+<h4>網路監測器 (Network Monitor)</h4>
+<p>我們已於 Firefox 49 添增了「原因 (Cause)」欄位，顯示既有網路請求觸發的方式與其類型，且若有對映的堆疊追蹤亦將顯示之。堆疊追蹤泡泡<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1280247">現顯示框架未同步的原因</a> (如 XHR、Promise、setTimeout 等)，就如同除錯器的堆疊追蹤面板一樣。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/network_stack_async-1024x249.png" alt="network_stack_async" loading="lazy"></p>
+<p>此外，<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1282211">點擊欄位標頭即可依照輸入項的原因將之排列</a>；例如可迅速找到由 fetch 所觸發的所有網路請求。</p>
+<h4>JSON 檢視器</h4>
+<p>JSON 檢視器 (JSON Viewer) 已微調過，透過更聰明的方法顯示資料：</p>
+<ul><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1244916">空白陣列現顯示為</a> [] (之前為 [0] )，以對映空白物件的語法 {} 。</li></ul>
+<ul><li>如同其他屬性類別，現在冒號分隔符號<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1244919">亦用於物件屬性</a>。</li></ul>
+<h4>儲存空間檢測器</h4>
+<p>感謝 <a href="https://twitter.com/ratcliffe_mike">Mike Ratcliffe</a> 與 <a href="https://twitter.com/jsnajdr">Jarda Snajdr</a> 一同強化了儲存空間檢測器 (Storage Inspector)，<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1231445">現在可透過右鍵選單移除單一的 indexedDB 輸入項</a>。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/idb_remove_entry-1024x186.png" alt="idb_remove_entry" loading="lazy"></p>
+<h4>about:debugging</h4>
+<p>Service Workers 絕對是 Web 開發活動的下一個重要功能，內有一系列工具可建構絕佳的 Web App 並媲美原生 App 的功能，更具備離線與推播功能。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/push-service-1024x620.png" alt="push-service" loading="lazy"></p>
+<p>你知道現在可在 about:debugging#workers 頁面中管理已註冊的 Service Workers 嗎？此頁面<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1188981">現亦顯示推播訂閱端點</a>，讓你只需輕點按鈕即可送出測試通知。</p>
+<h4>其他要點</h4>
+<p>圖示：Firefox 50 另更新了開發者工具中的所有圖示，現在<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1260523">更為一致且看起來更清晰</a>。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/icons_49-1024x38.png" alt="icons_49" loading="lazy"><br>Firefox 49 的分頁圖示</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/icons_50-1024x38.png" alt="icons_50" loading="lazy"><br>Firefox 50 的新分頁圖示</p>
+<p>WebAssembly：如同 Luke Wagner 在<a href="https://hacks.mozilla.org/2016/03/a-webassembly-milestone/">上一篇部落格文章</a>曾說過的：</p>
+<p>「WebAssembly 是正蓬勃發展中的標準，目標是定義安全、可移植、體積與載入時間皆有效率的二進制編譯器，且其效能逼近原生 App。」</p>
+<p>除錯器現已支援 WebAssembly 檔案，且<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1280471">更加上強調效果</a>，看起來更清晰。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/wasm-1024x396.png" alt="wasm" loading="lazy"><br>WebAssembly 檔案語法強調</p>
+<p>另外再提醒一項小幅度但極有用的變化：<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1221545">現可停用樣式編輯器 (Style Editor)</a>，在你不使用時省下更多空間。</p>
+<p>Firefox 50 開發者工具大概就講到這裡。請立刻下載<a href="https://mozilla.com.tw/firefox/developer/">最新版本</a>並讓我們知道你的意見。另外必須強調的，許多強化之處都有賴熱血貢獻者所完成。謝謝大家。</p>
+<p>開發者工具是以標準的 HTML、Javascript、CSS 所寫成，因此只要你有任何前端開發經驗，就一樣能參與貢獻。如果你想要協助改良開發者工具，可到 <a href="https://firefox-dev.tools/">http://firefox-dev.tools/</a> 找些簡單的錯誤就開始動手。歡迎所有人加入！</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2016/08/developer-edition-50-console-memory-tool-net-monitor-and-more/">Developer Edition 50: Console, Memory Tool, Net Monitor and more</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20200927093044id_/https://blog.mozilla.com.tw/?p=9022">Wayback snapshot</a>
+              <span>Post ID: 9022</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

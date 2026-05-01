@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>淺談 Firefox 42 開發者工具 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">淺談 Firefox 42 開發者工具</h2>
+            <p class="entry-posted"><time datetime="2015-08-28" class="published"><span class="posted-month">8月</span><span class="posted-date">28</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><h3>Win10、Wifi 除錯、ReactJS 工具、多程序 Firefox，還有更多</h3>
+<p>Firefox 42 已經來了！我們同樣為這個版本耗盡心思，要呈現高品質的 Firefox 開發者 (Developer) 版本瀏覽器。雖然<a href="https://www.mozilla.org/en-US/firefox/42.0a2/auroranotes/">版本說明</a>中並未詳細載明許多<a href="https://mzl.la/1DQeEkp">已解決的問題</a>，但這些小幅度修正的確讓開發工具更快、更穩定。仍有許多東西要向大家報告，包含 Firefox 運作方式的重要變化。</p>
+<h4>透過 Wifi 網路進行除錯</h4>
+<p>現在透過<a href="https://developer.mozilla.org/docs/Tools/Remote_Debugging/Debugging_Firefox_for_Android_over_Wifi">遠端網站除錯</a>功能，不再需要 USB 連接線或 ADB，就能用 Wifi 訊號對 Firefox for Android 裝置進行除錯。</p>
+<h4>現已預設啟用多程序 (Multiprocess)</h4>
+<p>開發者版本現已預設啟用<a href="https://wiki.mozilla.org/Electrolysis">多程序 Firefox</a> (Multiprocess，也稱為 E10s)。在啟用之後，Firefox 將於單一的背景程序中繪圖並執行 Web 相關的內容。如果你在更新至 Firefox 42 開發者版本之後，發現附加元件 (Add-on) 有任何問題，則請<a href="https://arewee10syet.com/">停用不相容的附加元件</a>，或透過 about:preferences <a href="https://wiki.mozilla.org/File:E10s-toggle-in-preferences.png">回到單程序模式</a>。</p>
+<h4>支援 Windows 10 的佈景主題</h4>
+<p>開發者版本的佈景主題，現於 Windows 10 中提供嶄新外觀，以符合作業系統的樣式風格。欣賞一下：</p>
+<p><img src="../../assets/7832/wp-content/uploads/firefox-win10-dark.png" alt="firefox-win10-dark" loading="lazy"><br>開發者版本的暗主題 – Windows 10</p>
+<p><img src="../../assets/7832/wp-content/uploads/firefox-win10-light.png" alt="開發者版本的亮主題 – Windows 10" loading="lazy"><br>開發者版本的亮主題 – Windows 10</p>
+<h4>React 開發者工具已支援 Firefox</h4>
+<p>如果你慣用 ReactJS 開發，可能已經注意到 React 最近釋出了開發者工具擴充元件的測試版本，<a href="https://www.infoq.com/news/2015/08/React-Devtools-beta">亦開始支援 Firefox</a>。目前官方尚未釋出對 Firefox 的正式版本，但可至 <a href="https://github.com/facebook/react-devtools/tree/master">github</a> 上找到原始碼。</p>
+<h4>其他變動</h4>
+<ul><li>非同步呼叫堆疊，現可讓你追蹤 setTimeout、DOM 事件處理器、Promise 處理器等的執行流程。(<a href="https://bugzil.la/981514">Bug 981514</a>)</li></ul>
+<ul><li>WebIDE 現具備新的 <a href="https://developer.mozilla.org/en-US/docs/Tools/WebIDE/Setting_up_runtimes#Configuring_Simulators">Firefox OS 模擬器設定頁面</a>。你可使用預先設置的開發參考裝置清單，變更模擬器以執行自訂的設定檔與螢幕尺寸。(<a href="https://bugzil.la/1156834">Bug 1156834</a>)</li></ul>
+<ul><li>檢測器 (Inspector) 現提供<a href="https://developer.mozilla.org/en-US/docs/Tools/Page_Inspector/How_to/Edit_CSS_filters#Saving_filter_presets">預先設置的 CSS 篩選器</a>。(<a href="https://bugzil.la/1153184">Bug 1153184</a>)</li></ul>
+<ul><li>針對程式碼範例，MDN 提示文字現使用語法強化功能。(<a href="https://bugzil.la/1154469">Bug 1154469</a>)</li></ul>
+<ul><li>當於檢測器中按下「複製」的鍵盤快捷鍵時，就會將所選節點的 outerHTML 複製到剪貼簿中。(<a href="https://bugzil.la/968241">Bug 968241</a>)</li></ul>
+<ul><li>樣式編輯器 (Style editor) 的搜尋功能，現已新提升了使用者經驗。(<a href="https://bugzil.la/1159001">Bug 1159001</a>, <a href="https://bugzil.la/1153474">Bug 1153474</a>)</li></ul>
+<ul><li>檢測器現已將 CSS 變數視為正常的宣告值。(<a href="https://bugzil.la/1142206">Bug 1142206</a>)</li></ul>
+<ul><li>在 CSS 的自動補完選單中，現按下「向下」方向鍵之後，即可於空白欄位中列出所有結果。(<a href="https://bugzil.la/1142206">Bug 1142206</a>)</li></ul>
+<p>感謝為開發者工具團隊貢獻時間與精力的所有人，讓 Firefox 42 開發者版本更精采！每次版本釋出都有許多人撰寫修正檔、測試、文字記錄、回報臭蟲、寄發反饋意見、討論相關功能等等。你可提出具建設性的意見，讓我們知道<a href="https://mzl.la/devtools">你所期待的 Firefox 開發者工具</a>，讓我們能了解後續各項功能的開發優先性。</p>
+<p>立刻免費<a href="https://mozilla.com.tw/firefox/developer/">下載 Firefox 開發者版本</a>。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/08/developer-edition-42-wifi-debugging-win10-multiprocess-firefox-reactjs-tools-and-more/">Developer Edition 42: Wifi Debugging, Win10, Multiprocess Firefox, ReactJS tools, and more</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190825011727id_/https://blog.mozilla.com.tw/?p=7832">Wayback snapshot</a>
+              <span>Post ID: 7832</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

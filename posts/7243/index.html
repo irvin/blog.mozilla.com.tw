@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>asm.js 在多家瀏覽器上的效能均有斬獲 (下) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">asm.js 在多家瀏覽器上的效能均有斬獲 (下)</h2>
+            <p class="entry-posted"><time datetime="2015-03-26" class="published"><span class="posted-month">3月</span><span class="posted-date">26</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p><a href="https://asmjs.org/">asm.js</a> 是可輕鬆最佳化的 JavaScript 子集，且不需外掛程式就能在所有瀏覽器中執行，也是移植 C/C++ 程式碼的絕佳工具。如「<a href="https://blogs.unity3d.com/2014/04/29/on-the-future-of-web-publishing-in-unity/">Unity 3D</a>」與「<a href="https://www.unrealengine.com/blog/unreal-engine-47-released">Unreal Engine</a>」等遊戲引擎，即透過 asm.js 進行移植。再一起來看看還有哪兩家瀏覽器也愈發重視 asm.js 的效能。</p>
+<h4>Internet Explorer</h4>
+<p>Internet Explorer (IE) 內部的 JavaScript 引擎稱為「Chakra」。而 Chakra 團隊在去年就<a href="https://blogs.msdn.com/b/ie/archive/2014/10/09/announcing-key-advances-to-javascript-performance-in-windows-10-technical-preview.aspx">發文</a>預告 Windows 10 中的 IE 將具備最佳化套件，並<a href="https://blogs.msdn.com/b/ie/archive/2014/10/09/announcing-key-advances-to-javascript-performance-in-windows-10-technical-preview.aspx#10563952">指出</a> Octane 與 JetStream 中的 asm.js 確實大幅提升了速度。且這只是 asm.js 納入常見效能基準，並促使各家瀏覽器最佳化的眾多例子之一罷了。</p>
+<p>其實較為重大的消息，是 <a href="https://blogs.msdn.com/b/ie/archive/2015/02/18/bringing-asm-js-to-the-chakra-javascript-engine-in-windows-10.aspx">Chakra 團隊最近宣佈</a>著手添增特定的 asm.js 最佳化作業，並將與前述提到的其他最佳化一同加入 Windows 10。這些最佳化尚未進入預覽 (Preview) 釋出頻道，所以本文無法提供量測結果。但我們可以藉此推測出 Firefox 在納入這些 asm.js 最佳化後，初步可能提升的效能程度。如同<a href="https://kripken.github.io/mloc_emscripten_talk/#/28">此效能基準比較結果</a>所示，在加入 asm.js 最佳化之後，立刻就將 Firefox 提升到幾乎只落後原生效能的 2 倍速度 (之前均落後 5 ~ 12 倍)。為何 Chakra 也能達到同樣的效能提升幅度？就如<a href="https://blog.mozilla.org/luke/2015/02/18/microsoft-announces-asm-js-optimizations">之前文章</a>說過的，因為我們可根據 asm.js 規格預測出所應達到的效果，所以可藉此檢驗 asm.js 程式碼而產生高品質的程式碼。</p>
+<p>所以，讓我們期待 asm.js 能在 Windows 10 中達到絕佳效能吧！</p>
+<h4>Firefox</h4>
+<p>如之前所提過的，在 Firefox<a href="https://blog.mozilla.org/luke/2013/03/21/asm-js-in-firefox-nightly">剛納入</a> asm.js 最佳化之後，原始效能隨即<a href="https://kripken.github.io/mloc_emscripten_talk/#/28">僅落後原生程式的 2 倍</a>。到 2013 年底，我們已經可以將此差距再拉近到<a href="https://hacks.mozilla.org/2013/12/gap-between-asm-js-and-native-performance-gets-even-narrower-with-float32-optimizations">約 1.5 倍</a>的速度了。而這已經極為接近不同原生編譯器所達到的效能，所以要再比較「原生速度」就沒多大的意義。</p>
+<p>進行到後期，就是提升兩種效能以繼續此最佳化，即編譯器後端最佳化，以及 JavaScript 的新功能。編譯器後端最佳化陸續有小幅度的進展 (對特定程式碼撰寫模式或硬體尤為如此)，而較難以舉出某項大幅度的提升。但這裡另列出兩大提升之處：</p>
+<ul><li>新的暫存器配置演算法，即以<a href="https://blog.llvm.org/2011/09/greedy-register-allocation-in-llvm-30.html">LLVM 3.0 中的新暫存配置器</a>為基礎，但能提升的速度不一。而值得一提的，就是透過 Google<a href="https://developers.google.com/octane/benchmark">Octane 效能基準</a>的「zlib」部分，可讓 x86 提升 20% 的速度，且在<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=826741">微調</a>之後又能再提高 4%。</li></ul>
+<ul><li><a href="https://www.wikiwand.com/en/Addressing_mode">有效位址 (Effective address)</a> 最佳化：為 Firefox 每夜更新版 (Nightly) <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=986981">最近新添的功能</a>，可為重度依賴記憶體「Heap」容量的各項作業，提升 5% ~ 10% 的速度。</li></ul>
+<p>除了後端最佳化之外，另有兩項 JavaScript 新功能加入 asm.js，可啟動硬體中的新功能。首先就是看起來簡單的<a href="https://people.mozilla.org/%7Ejorendorff/es6-draft.html#sec-math.fround">Math.fround</a>，只要能於 JavaScript 中小心使用，就能讓編譯器後端產生「單精度 (Single-precision)」的浮點運算。如<a href="https://blog.mozilla.org/javascript/2013/11/07/efficient-float32-arithmetic-in-javascript">此篇文章</a>所說，根據作業量的不同，啟動此功能可能達 5% ~ 60% 的加速幅度。第二個比較大型的<a href="https://hacks.mozilla.org/2014/10/introducing-simd-js">SIMD.js</a> 仍處於<a href="https://github.com/tc39/ecma262">stage 1 proposal for ES7</a>，所以新的 SIMD 作業與相關<a href="https://discourse.specifiction.org/t/request-for-comments-simd-js-in-asm-js/676/14">asm.js 擴充套件</a>，均僅限於<a href="https://nightly.mozilla.org/">Firefox Nightly</a> 版本之中。但<a href="https://01.org/blogs/tlcounts/2014/bringing-simd-javascript">剛開始的效果</a>應該不會太差。</p>
+<p>除了這些輸出率的最佳化之外，Firefox 中還有載入時間的最佳化：asm.js 程式碼的 off-main-thread 與平行編譯，以及已編譯機器程式碼的快取作業。如同<a href="https://blog.mozilla.org/luke/2014/01/14/asm-js-aot-compilation-and-startup-performance">此篇文章</a>所述，即使是 Unity 或 Epic 這種體積的 asm.js 應用程式，這些最佳化亦可大幅改善相關經驗。上述效能基準所提到的 asm.js 工作效能，均尚未測試這類大型 asm.js 的效能。所以我們再加進新的效能基準套件「<a href="https://kripken.github.io/Massive">Massive</a>」。看到 <a href="https://blog.mozilla.org/hacks/files/2014/09/massive-milestones1.png">Firefox 在 Massive 上的跑分</a>，可發現載入時間的最佳化作業，甚至能貢獻超過 6 倍的效能提升。可參閱《<a href="https://hacks.mozilla.org/2014/11/massive-the-asm-js-benchmark">the Massive benchmark</a>》以進一步了解。</p>
+<h4>基本底線</h4>
+<p>最後，也是最重要的，並非底層的建構細節，也不是效能基準中的特定效能數字。「到底能不能順利執行應用程式」才是真正的重點。而最好的檢查方式，就是實際執行遊戲吧！絕佳範例之一即為 asm.js 所移植的《<a href="https://beta.unity3d.com/jonas/DT2/">Dead Trigger 2</a>》，也是 Unity 的 3D 遊戲：</p>
+<p>此影片是以 Firefox 執行遊戲，且只用了標準的 Web API，所以應該也能在任何瀏覽器中執行。在我們測試過後，真的在 Firefox、Chrome、Safari 上會比較順暢。希望很快就能在 IE 的下個「預覽」版本中測試遊戲。</p>
+<p>另個遊戲範例則是《<a href="https://www.facebook.com/cloudraidersgame">雲端入侵者 (Cloud Raiders)</a>》：</p>
+<p>由於「Cloud Raiders」同樣是以 Unity 開發的遊戲，所以也能透過 <a href="https://emscripten.org/">Emscripten</a> 編譯現有的 C++ 程式碼，不需外掛程式就能帶上 Web 執行，且在這 4 款主要瀏覽器中都能順利運作。</p>
+<p>總結來說，asm.js 的效能已於去年大幅躍進，且仍有進步的空間。有時可能是整體效能尚未完美，或是某款瀏覽器還缺了特定的 API。但現在所有的主要瀏覽器都在努力達到更高的 asm.js 執行速度。從現正最佳化的效能基準 (包含 asm.js)，以及其 JavaScript 引擎所提升的實作 (也往往是以 asm.js 進行)，都能看到廠商的用心。不久前還需搭配外掛程式才能達到的效能，現在都已經能在沒有外掛程式的狀態下輕鬆達成。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/03/asm-speedups-everywhere/">asm.js Speedups Everywhere</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Mozilla</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Mozilla</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190825012056id_/https://blog.mozilla.com.tw/?p=7243">Wayback snapshot</a>
+              <span>Post ID: 7243</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

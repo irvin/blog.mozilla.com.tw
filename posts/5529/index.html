@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Firefox Marketplace：App 測試與疑難排解 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Firefox Marketplace：App 測試與疑難排解</h2>
+            <p class="entry-posted"><time datetime="2014-05-08" class="published"><span class="posted-month">5月</span><span class="posted-date">8</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>你是熱血的 Firefox OS 開發者，而且早已設計了許多 App 準備大展身手嗎？在完成自己的 App 作品之後，當然要進行某些測試並解決各種疑難雜症了。先來這裡看看有哪些方法可協助自己順利完成測試並排解疑難，讓自己的開發作業更順利。</p>
+<p>本文將說明 App 測試與疑難排解時的注意事項。</p>
+<p><img src="../../assets/5529/wp-content/uploads/jpeg1-730x370.jpeg" alt="jpeg1-730x370" loading="lazy"></p>
+<h4>設定自己的測試環境</h4>
+<p>開發者可安裝多種工具，針對 Firefox OS/Open Web App 執行真正有效的測試。我們建議至少安裝下列工具：</p>
+<ul><li>Firefox 桌面版。建議使用如 <a href="https://aurora.mozilla.org/">Aurora</a> 或 <a href="https://nightly.mozilla.org/">Nightly</a> 的預先發行版進行相關測試。</li></ul>
+<ul><li>Firefox 行動版，即 Firefox for Android。同樣建議使用如 <a href="https://aurora.mozilla.org/">Aurora</a> 或 <a href="https://nightly.mozilla.org/">Nightly</a> 的預先發行版進行相關測試。如果開發者手上沒有實體的 Android 裝置，亦可使用 <a href="https://developer.android.com/sdk/">Android emulator</a>。</li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/Firefox_OS/Using_the_App_Manager">Firefox OS 應用程式管理員 (App Manager)</a>。此工具已內建於桌面版 Firefox 26 或更高版本中，提供多項有用工具 (如 App 除錯)，並可將 App 安裝至模擬器與實體裝置上。</li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Tools/Firefox_OS_Simulator">Firefox OS 模擬器 (Firefox OS Simulator)</a>。如果開發者特別想在舊版 Firefox OS 上測試 App，即可使用此模擬器。針對 1.2 或更高版本，請使用「應用程式管理員 (App Manager)」。另可透過模擬器的控制面板，將 App 安裝至模擬器之中。</li></ul>
+<p>最理想的情況，當然是能用實際裝置測試自己的 App。可參閱<a href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox_OS/Developer_phone_guide">開發者手機指南</a>。</p>
+<h4>測試</h4>
+<p>雖然 Open Web App 與網頁，均使用相同的技術和發佈方式，但因為 App 環境並不具備如 Chrome 瀏覽器的網址列或返回按鈕；且 Firefox OS 裝置也不像 Android 有實體的退回按鈕，所以使用者經驗是截然不同。以下步驟可讓開發者確保 App 達到絕佳的使用者經驗。</p>
+<ul><li>安裝 App。確認 App 的圖示出現在主畫面上，且 App 的名稱完整未遭截斷。</li></ul>
+<ul><li>啟動 App。確認能正確偵測、顯示螢幕尺寸與方向。</li></ul>
+<ul><li>確認消費者可馬上看到你的 App，而不是看到你的首頁。請記住，若消費者是從 Firefox Marketplace 上安裝你的 App，也就是購買了 App 的功能。不需再次傳送 App 功能的登錄頁面給消費者才對。理想的 App 應該讓消費者能第一眼就看到「Getting Started」或「Login」頁面。</li></ul>
+<ul><li>從頭到尾執行過 App 的主要功能。特別注意瀏覽作業的最末端，還有內容縮放時的問題。</li></ul>
+<ul><li>確認內容連結將導向 App 之外 (如連至其他網頁或 Twitter)。若要開啟新的視窗或框架，也要讓消費者能順利返回你的 App。</li></ul>
+<ul><li>在桌面版瀏覽器中，可使用<a href="https://developer.mozilla.org/en-US/docs/Tools/Responsive_Design_View">適應性設計 (Responsive Design) 檢視</a>模式檢查 App 在不同螢幕尺寸中的情況。建議檢查 320×480 ~ 1260×800 的解析度。</li></ul>
+<h4>疑難排解</h4>
+<ul><li>如果需要 App 開發方面的協助，則可參閱<a href="https://developer.mozilla.org/zh-TW/docs/%E6%87%89%E7%94%A8%E7%A8%8B%E5%BC%8F-840092-dup">應用程式中心</a>上的豐富資訊，其中囊括了設計與開發技術、App 安裝作業、已支援的 API，還有更多。</li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/Firefox_OS">Firefox OS 專區</a>提供 Firefox OS 平台的豐富資訊，包含 Firefox OS 的建構、開發其內預設的 App 等。</li></ul>
+<ul><li>若要了解提交作業，可參閱下個章節。</li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Marketplace/FAQ">Marketplace 常見問題</a>，將針對 Firefox Marketplace 上的多樣 App 發佈問題，提供相關答案。</li></ul>
+<ul><li>若有特殊問題需要解答，另可前往許多<a href="https://www.mozilla.org/about/forums/">相關討論區</a>，包含新聞群組、郵件群組、IRC 聊天室等等。另可參閱<a href="https://developer.mozilla.org/en-US/Apps">應用程式中心</a>、<a href="https://developer.mozilla.org/en-US/Firefox_OS">Firefox OS 專區</a>、<a href="https://developer.mozilla.org/en-US/Marketplace">Marketplace 專區</a>等頁面，找到最高度相關的區塊！</li></ul>
+<p>Mozilla 開發者社群網站 (MDN) 原文連結：<a href="https://developer.mozilla.org/en-US/Marketplace/Submission/Testing_and_troubleshooting">App testing and troubleshooting</a></p>
+<p>你也可參閱中文版《<a href="https://developer.mozilla.org/zh-TW/docs/Mozilla/Marketplace/Submission/Pre-submission_checklist">App 測試與疑難排解</a>》；並參閱 MDN 的更多 Firefox OS 或 Marketplace 相關文章。</p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824010840id_/https://blog.mozilla.com.tw/?p=5529">Wayback snapshot</a>
+              <span>Post ID: 5529</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

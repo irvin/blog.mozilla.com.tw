@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>HTML5 流言終結 (Part 1) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">HTML5 流言終結 (Part 1)</h2>
+            <p class="entry-posted"><time datetime="2012-11-02" class="published"><span class="posted-month">11月</span><span class="posted-date">2</span><span class="posted-year">2012</span></time></p>
+          </header>
+          <div class="entry-content"><p>一直以來，大家在討論<a href="https://developer.mozilla.org/en-US/docs/HTML/HTML5">HTML5</a> 是否“已成熟”時，其中參雜了許多的誤解，誤解導致迷思，而關於 HTML5 的各項迷思不斷反覆地被傳頌，然而很多時候，這些迷思的可信度並沒有獲得確認。</p>
+<h3>HTML5 效能不佳？</h3>
+<p>HTML5 常被人詬病的問題在於它的「效能」，但關於這一點，大家常忽略一個事實，把蘋果和梨（無雙關語意）擺在一起比較是沒有意義的，因為它們就是不同的東西。</p>
+<p>把 HTML5 應用程式的效能表現與原生 App 做比較，就好像把量身訂製的手工西裝，與百貨內已做好的西裝擺在一起比！當然，手工西裝絕對合身，也一定看起來挺拔，但如果你想把它賣掉或送人，那就得憑運氣了，下一個人穿鐵定不會合身。</p>
+<p><a href="https://blog.mozilla.com.tw/?attachment_id=1410#main"><img src="../../assets/1409/wp-content/uploads/4932748746_a461dfe406.jpg" alt="" loading="lazy"></a></p>
+<p>這個比喻就如同原生 App，原生 App 是專門為單一平台所打造，目的也很單一，形態也是固定的… 稍後詳述。</p>
+<p>然而，就 HTML5 的<a href="https://www.w3.org/TR/html-design-principles/#media-independence">廣泛定義</a>來看，HTML5 是一個不受限於任何單一平台、呈現方式、技術的 Web 技術，而且，HTML5 必需要盡可能的彈性，以因應各種 Web 的應用。在這樣的定義下，Web 是屬於所有人的，而非為可負擔昂貴硬體設備的一群人所設計，且這群人被限定在單一平台，又被單一公司制約而樂在其中。</p>
+<p>開發原生應用程式的開發者，針對單一裝備或單一平台必需重新撰寫程式以符合於該單一平台或裝置的規範，然而，撰寫 HTML5 應用程式的你只需寫好一套產品，就可同時適用在手機、平板和桌機上。與開發原生應用程式不同，以HTML5 開發的 App 可以在任何平台被測試，同時也可在不同的裝置上有相同的使用者體驗，就算使用者換了不同的手機，也不會覺得被限制住。</p>
+<p>若從彈性的角度來看，HTML5 App 的 表現令人欽佩！原生應用程式在很多情況下需要搭配硬體的升級，甚至會強制使用者，藉著換新的硬體來完成升級，不然可能就無法使用。同時，原生應用程式讓使 用者必需依賴硬體設備，在你不想換新的硬體設備或財力無法負擔升級時，原生應用程式選擇離你而去但你卻束手無策。最好的例子是最近 Apple 被蘋果迷嫌棄的 iOS 地圖，大家就算想使用先前的 Google 地圖卻再也回不去了！</p>
+<p>看到 HTML5 在桌機上卓越的效能表現，從高滾動性能到<a href="https://developer.mozilla.org/en-US/docs/Manipulating_video_using_canvas">高速影音分析調校</a>，再到 <a href="https://developer.mozilla.org/en-US/demos/detail/bananabread">3D 動畫的畫面更新率</a>，以及<a href="https://hexgl.bkcore.com/">高速賽車遊戲</a>，我們不禁想問，到底 HTML5 的效能哪裡有問題？</p>
+<p>問題出在硬體支援，HTML5 被當成開發手機硬體 iOS 和 Android 平台上的二等公民，無法取得可以一顯身手展現絕佳性能的核心組件。iOS 系統阻礙了 Web 技術的發展，儘管遵守同樣的開發原則，以 HTML5 所開發出來的應用程式，在效能上就是無法與原生應用程式相比。舉 Android 平台為例，<a href="https://blog.mozilla.org/blog/2012/06/26/mozilla-launches-a-speedy-and-powerful-upgrade-to-mobile-browsing-with-firefox-for-android/">Chrome 與 Firefox 瀏覽器二者均可展現高速效能</a>，而內建瀏覽器相較上卻顯得緩慢遲行，由此可知 HTML5 應用程式如果被賦予同樣的開發條件，在效能上絕對是可以與原生應用程式一樣好，甚至可以表現得更好。</p>
+<p>Android 平台上的內建瀏覽器讓我們想起在 90 年代獨大的 IE，長時間的壟斷導致 Web 市場長期的成長呆滯，這也是為何 Mozilla 和Firefox 存在的理由 — 提供選擇、強迫競爭、開放創新。</p>
+<p>在本質上，HTML5 就像是一台一級方程式賽車，現正跑在一條崎嶇的泥路上，路上又不斷遇到來自作業系統的重量與阻礙加上，導致苦無機會展現高速效能，但，這只是現況！</p>
+<h3>HTML5 無法獲利？</h3>
+<p>HTML5 由許多開放 Web 技術堆疊而成，所以要說 HTML5 無法賺錢，就好像說 Web 無法賺錢一樣（原文刊載於含有廣告的新聞網站上，讓這點聽起來額外諷刺）。乍看之下，在封閉的 App 商城中賣軟體是個簡單的方法，也有很多知名的成功案例；不過事實上，很少開發者可以光靠一個封閉商城中的 App 維生。由於在 App 商城中要想露臉越來越困難，許多開發者不再只出品單一軟體，而是推出許多同類軟體（會說話的狗、會說話的貓、會說話的驢…）來爭取曝光，以便更容易出現在搜尋結果的第一頁、更容易被顧客找到。</p>
+<p>這就是封閉 App 商城跟原生 App 對開發者的一個缺點：App 沒有「網址」，也沒辦法在商城以外的地方尋得。你得自己分頭到每個商城提送軟體上架，等待審核等流程，也無法在不暫時中斷的情形下輕鬆更新 App。</p>
+<p>HTML5 App 活在網路上，也就有個網址，同時也能以 Adobe <a href="https://phonegap.com/">PhoneGap</a>  等方式包裝為 iOS 或 Android 上的原生軟體，其他 App 可沒辦法如此。</p>
+<p>一種是在隨時可能將產品下架的封閉環境，另一種是同時能在封閉商場及開放環境散步軟體的方式。長期來說，哪個方式對開發者比較好？</p>
+<p>許多在 Android 及 iOS 商城上的 App，其實也都是以 PhoneGap 包裝而成的 HTML5 App。最知名的案例，是<a href="https://apps.ft.com/ftwebapp/">金融時報（Financial Times）推出 HTML5 版的 App</a>，且比「原生 App」獲利更高；而最近，<a href="https://www.businesswire.com/news/home/20121002005602/en/York-Times-Launches-HTML5-Web-App-iPad">紐約時報</a>也隨這波風潮推出 Web App。</p>
+<h3>HTML5 無法離線使用？</h3>
+<p>由於 HTML5 是 Web 技術，大眾最直接的反應會是「HTML5 一定得維持連線狀態才能使用」，但這完全是誤解。有許多方法能讓 HTML5 應用程式保留內容以供離線使用，最簡單的方式是採用大部分瀏覽器都已經支援的 Web Storage API（Opera mini 因其運作方式需仰賴雲端服務，尚不支援 Web Storage API 而採用私有的儲存工具）。你也可以使用除 IE 以外都支援的 AppCache 機制，讓應用軟體本身可以離線使用。如果有更複雜的資料必須儲存而 Web Storage 無法應付，則可使用 <a href="https://developer.mozilla.org/en-US/docs/IndexedDB">IndexedDB</a>（適用於 Chrome 及 Firefox）或 WebSQL（<a href="https://caniuse.com/#feat=sql-storage">適用於 iOS 及 Safari</a>）。使用 <a href="https://brian.io/lawnchair/">Lawnchair</a> 等相關函式庫，可以更容易解決開發上不同狀況的複雜需求及問題。</p>
+<p>未完待續…</p>
+<p>原文取自 Chris Heilmann: HTML5 mythbusting<br>原文網址：https://hacks.mozilla.org/2012/11/html5-mythbusting/</p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Mozilla</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Mozilla</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=1409">Wayback snapshot</a>
+              <span>Post ID: 1409</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

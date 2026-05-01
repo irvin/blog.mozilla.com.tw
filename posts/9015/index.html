@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Firefox 多程序後的下一步 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Firefox 多程序後的下一步</h2>
+            <p class="entry-posted"><time datetime="2016-08-09" class="published"><span class="posted-month">8月</span><span class="posted-date">9</span><span class="posted-year">2016</span></time></p>
+          </header>
+          <div class="entry-content"><p>Asa Dotzler 與 Brad Lassey 撰文</p>
+<p>「Electrolysis (e10s)」專案目的是為 Firefox 打造多程序 (Multi-process) 功能，藉以提升其安全性、穩定性，及反應速度，而第一步就是將 Firefox 區分出使用者介面 (UI) 程序與內容程序。</p>
+<p>啟動多程序架構的第一階段，就是先讓一部分的 Firefox 48 使用者在本週搶先體驗。我們希望能緩慢推動 Firefox 目前為止的最大變革。我們先<a href="https://asadotzler.com/2016/06/06/firefox-48-beta-release-and-e10s/">對特定一部分的使用者啟動多程序</a>，確認Firefox 48 測試運作順利，接著也只開放給其中 1% 的使用者，讓我們能檢測其穩定性及其互動資料，確保並未出現任何新的或負面的問題。如果初始階段一切正常的話，我們才會完全開放予此特定部分的使用者，約是 Firefox 48 總使用人數的一半。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/index2-1024x580.png" alt="index2" loading="lazy"></p>
+<h4>附加元件 (Add-ons)</h4>
+<p>另針對某些已可順利相容於多程序架構的附加元件，我們將在 Beta 測試順利的前提下，讓 Firefox 49 搭配少部分的附加元件而開放多程序架構。接著 Firefox 50 也同樣必須順利通過 Beta 測試，且附加元件必須自行聲稱可相容於多程序，或是透過新 WebExtensions 附加元件 API 所設計，我們就會開放多程序搭配相關附加元件。最後為所有使用者啟動多程序架構之後，不相容的附加元件即無法運作。因此強烈建議附加元件作者應儘快<a href="https://blog.mozilla.org/addons/2016/08/02/multi-process-firefox-and-add-ons-a-call-to-action">更新自己的附加元件</a>，以能相容多程序架構。</p>
+<h4>更易於存取與觸控式螢幕</h4>
+<p>Firefox 51 除了將支援觸控式螢幕、更易於存取，並可設定為由右至左的介面之外，我們另已排定 Firefox 51 安裝下個重要的多程序更新。此版本亦將彙總程序切割的第一階段，即使載入極大量的頁面內容，Firefox 的使用者介面 (UI) 亦能持續反應。</p>
+<p>我們的多程序當然不止於此。</p>
+<h4>多重內容處理程序</h4>
+<p>多程序的第二階段就是支援多重內容處理程序。我們首先切割了內容與 UI 處理程序，讓頁面載入作業不至拖慢 UI。接著就是切割內容處理程序，讓內容繁多的頁面不致影響其他正載入頁面中的分頁。我們現已著手開發此一功能，並預定於 2017 上半年發佈。</p>
+<p>除了多重內容處理程序之外，我們更同時針對內容處理程序而強化沙箱 (Sandbox) 功能，目標是針對負責該網站內容的存取程序，讓沙箱功能限制其對瀏覽器與作業系統的存取。如此將協助 Firefox 防禦一部分的潛在漏洞。如果測試順利，我們在今年內就會釋出此功能。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/index1-1024x580.png" alt="index1" loading="lazy"></p>
+<h4>程序之外的附加元件</h4>
+<p>多程序的最後一步，就是讓擴充套件也能擁有自己的隔離＼沙箱處理程序。如同隔離網頁的沙箱功能可提升效能與安全性，只要擴充套件也擁有自己的處理程序，即可確保某個擴充套件不致拖慢瀏覽器或頁面，也可保護 Firefox 不受特定類型的攻擊所害。此一功能目前仍在初期的開發階段。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/index-1-1024x580.png" alt="index" loading="lazy"></p>
+<p>此「e10s」專案牽涉極廣，必須分多次逐步釋出。有幸我們已有極厚實的基礎，讓第一階段得以順利提供給使用者測試。接下來幾個月中，我們將繼續在此基礎上繼續提供更安全、反應更完整的 Firefox，且不致影響我們既有的記憶體優勢。請繼續注意 Mozilla 的部落格文章，隨時知悉 Firefox 問世以來最大架構變化的相關消息。</p>
+<p>原文連結：<a href="https://blog.mozilla.org/futurereleases/2016/08/02/whats-next-for-multi-process-firefox/">What’s Next for Multi-process Firefox</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20200927092427id_/https://blog.mozilla.com.tw/?p=9015">Wayback snapshot</a>
+              <span>Post ID: 9015</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>淺談 Firefox 44 開發者工具 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">淺談 Firefox 44 開發者工具</h2>
+            <p class="entry-posted"><time datetime="2015-11-16" class="published"><span class="posted-month">11月</span><span class="posted-date">16</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><h2>新的視覺編輯與記憶體管理工具</h2>
+<p>本月就是 <a href="https://firefox.com/developer">Firefox 開發者 (Developer) 版本</a>推出滿一週年。我們很高興能向大家介紹新工具，而既有工具也另有改善之處，要讓你能用更直覺、更視覺化的方式開發 Web。</p>
+<p>隨著 Web 越來越活潑、互動性高、更注重行動使用經驗，視覺設計師必須實驗更多動畫效果；而最新版的 Firefox 開發者 (Developer) 版本即提供相關工具，可更快、更順利的設計動畫。Firefox 開發者版本現提供一組視覺編輯工具，讓動畫師與視覺設計師使用起來就像日常工作一般。我們也內建一組可互動的強大工具，希望能讓設計師輕鬆使用並解決動畫技術上的難題。 視覺編輯工具應該也要讓動畫師能輕鬆上手，而不該只站在工程師的角度設計。</p>
+<h4>DevTools Challenger</h4>
+<p>你在看的我們對新工具的描述當然很好，但實際體驗就更棒了！為了讓你上手，我們與高知名度的 Web 動畫設計師 Rachel Nabors 合作打造出「DevTools Challenger」。立刻實際體驗 DevTools Challenger 上的全新視覺設計工具。記得要讓潛水艇一直向下到海床為止喔！</p>
+<h4><a href="https://devtoolschallenger.com/"><img src="../../assets/8103/wp-content/uploads/challenger-500x409.png" alt="challenger-500x409" loading="lazy"></a>動畫與 CSS 篩選器工具</h4>
+<p>現在網頁檢測器 (Inspector) 上的「<a href="https://developer.mozilla.org/docs/Tools/Page_Inspector/How_to/Work_with_animations">動畫 (Animation)</a>」面板，能輕鬆消除、暫停、呈現網頁上的各組動畫。多虧此一功能已與 DOM 檢測器緊密整合，讓開發者能各組動畫之間切換完整視圖，亦可擷取其中幾個節點。</p>
+<p><img src="../../assets/8103/wp-content/uploads/animationtools-1024x696.png" alt="animationtools" loading="lazy"></p>
+<p>在你找出所需的動畫之後，只要輕點滑鼠就能啟動我們的貝茲曲線 (Cubic-bezier) 視覺效果編輯器。我們已經預先設定編輯器的一部分功能，可順暢顯示你的動畫。</p>
+<p><img src="../../assets/8103/wp-content/uploads/cubicbezier-cropped-500x447.png" alt="cubicbezier-cropped-500x447" loading="lazy"></p>
+<p>我們也針對「<a href="https://developer.mozilla.org/docs/Tools/Page_Inspector/How_to/Edit_CSS_filters">CSS 篩選器 (CSS Filter)</a>」設計了類似的編輯器，讓你能新增、移除、調整、重設順序，並即時從網頁上看到效果。</p>
+<p><img src="../../assets/8103/wp-content/uploads/filtereditor-cropped-500x266.png" alt="filtereditor-cropped-500x266" loading="lazy"></p>
+<h4>測量與色彩</h4>
+<p>Firefox 開發者版本另提供 2 項全新的配置微調功能：現可沿著網頁邊界啟動「<a href="https://developer.mozilla.org/docs/Tools/Rulers">像素量尺 (Pixel ruler)</a>」，或以拖曳方式量測網頁的任意多邊形區域。</p>
+<p><a href="https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/files/2015/11/measuretools1.png"><img src="../../assets/8103/wp-content/uploads/measuretools1-500x344.png" alt="measuretools1-500x344" loading="lazy"></a>檢測器現另預設顯示 CSS 色彩「如同原始單位 (As authored)」，且邊按住 Shift 邊於色彩樣本小圈上點擊滑鼠，就能循環顯示對等的「hex」、「rgb」、「hsl」等色彩值。當然也有「<a href="https://developer.mozilla.org/docs/Tools/Eyedropper">滴管 (Eyedropper) 工具</a>」可從網頁上選取色彩。</p>
+<h4>記憶體快照</h4>
+<p>新的「記憶體 (Memory)」工具，可讓前端工程師了解網頁分配＼保留記憶體的方法，再進一步將之最佳化。此工具會先拍攝 heap 的快照，再讓你進一步細分已保留的物件類型 (Object type)、配置堆疊 (Allocation Stack)，或內部表示 (Internal representation)。希望你會喜歡此功能，且我們將續推更多強化功能！</p>
+<p><img src="../../assets/8103/wp-content/uploads/nyanparticles-1024x622.png" alt="nyanparticles" loading="lazy"></p>
+<h4>WebSocket Debugging API</h4>
+<p>最後，很高興宣佈 Firefox 現提供可監控 WebSocket frame 的 API (Bug 1203802)，這也是構成完整 WebSocket 檢測工具的第一步。開發者工具工程師 Jan Odvarko 已設計了<a href="https://github.com/firebug/websocket-monitor/wiki">實驗性的附加元件</a>，可檢測 WebSocket 流量。立刻安裝並體驗此附加元件吧！我們當然歡迎你隨時提供試用意見！</p>
+<p><img src="../../assets/8103/wp-content/uploads/websocket-demo.png" alt="websocket-demo" loading="lazy"></p>
+<p>現可到這裡<a href="https://mozilla.com.tw/firefox/developer/">下載 Firefox 開發者版本</a>。可直接在下方留下意見，或透過 Twitter 上的 @FirefoxDevTools 讓我們知道你對這些功能的想法。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/11/developer-edition-44-creative-tools-and-more/">Developer Edition 44: New visual editing and memory management tools</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20191019115145id_/https://blog.mozilla.com.tw/?p=8103">Wayback snapshot</a>
+              <span>Post ID: 8103</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

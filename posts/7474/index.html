@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Firefox 開發者工具擴充套件：RDP Inspector | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Firefox 開發者工具擴充套件：RDP Inspector</h2>
+            <p class="entry-posted"><time datetime="2015-05-27" class="published"><span class="posted-month">5月</span><span class="posted-date">27</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p><a href="https://addons.mozilla.org/en-US/firefox/addon/rdp-inspector/">RDP Inspector</a> 為 Firefox 的擴充套件，可攔截 (Intercept) 遠端除錯協定 (Remote Debugging Protocol，<a href="https://developer.mozilla.org/en-US/docs/Tools/Remote_Debugging">RDP</a>)，以檢驗所有送出＼接收的資料。</p>
+<p>若想建構新的遠端功能，以擴充 Firefox 原生的開發者工具；或想了解內建工具是如何透過內部通訊協定，進而溝通後端除錯伺服器，均可利用此擴充套件。</p>
+<h4>開始上手</h4>
+<p>可從 <a href="https://addons.mozilla.org/en-US/firefox/addon/rdp-inspector/">addons.mozilla.org</a> (另必須安裝 Firefox 38 以上的版本) 安裝最新版的RDP Inspector。另可在此找到<a href="https://github.com/firebug/rdp-inspector">原始碼</a>。</p>
+<p>安裝完畢之後，就能在瀏覽器視窗的右上角看到新的 RDP Inspector 按鈕。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/start-button1.png" alt="start-button" loading="lazy"></p>
+<p>點擊按鈕即可開啟 RDP Inspector 主控台視窗。</p>
+<p><img src="../../assets/7474/wp-content/uploads/rdp-console.png" alt="rdp-console" loading="lazy"></p>
+<p>主控台會顯示透過線路傳輸的所有封包，右側面板亦將顯示封包的細節。</p>
+<p>上圖則為從伺服器所接收到的第一個封包 (來自於 root，搭配 applicationType=&quot;browser&quot;)。</p>
+<p>這也是「開發者工具的工具箱」與「後端伺服器」之間開始連線的方式。</p>
+<h4>篩選封包</h4>
+<p>封包清單可能很長，所以可進一步篩選。舉例來說，如果只要看送至 Root Actor 的 getTab 封包，則可於主控台視窗的右上角搜尋欄中鍵入「getTab」。</p>
+<p><img src="../../assets/7474/wp-content/uploads/filter-packets.png" alt="filter-packets" loading="lazy"></p>
+<p>小訣竅：也可按下快捷鍵「Ctrl+F」，即可使用瀏覽器的搜尋列於封包清單中搜尋。</p>
+<h4>摘要資料</h4>
+<p>開發者有時候必須知道已傳送＼接收的總封包數或總位元數，以協助最佳化通訊協定的流量，並加快新功能或現有功能的速度。</p>
+<p>而主控台亦可隨時取得此彙總資訊。只要按下工具列中的「摘要 (Summary)」按鈕即可。</p>
+<p>下圖則是以「網路 (Network)」面板選擇 http://www.washingtonpost.com/ 頁面載入時間的摘要 (可觀看封包清單的底部)。</p>
+<p><img src="../../assets/7474/wp-content/uploads/summary.png" alt="summary" loading="lazy"></p>
+<p>可看出來共傳送了 1266 組封包；接收 2973 組封包；傳送 75.80 KB；從伺服器接收 2.27 MB 的資料。</p>
+<h4>和伺服器聊天</h4>
+<p>當然也可傳送測試封包給伺服器後端。你可用自己的屬性整合出新封包、將之傳送到伺服器、獲得回應；整個過程就如同是開發者工具箱送出的封包一般。你只要點選側邊面板的「傳送封包 (Send Packet)」、設定某些屬性，再按下「傳送 (Send)」按鈕即可。</p>
+<p>若要建立新的封包屬性，可點擊面板上方的「New…」(即底色為黃色的第一行)，並鍵入其名稱即可。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/send-packet1.png" alt="send-packet1" loading="lazy"></p>
+<p>在按下「Enter」鍵之後，就會將新屬性安插到清單的最後。</p>
+<p><img src="../../assets/7474/wp-content/uploads/send-packet2.png" alt="send-packet2" loading="lazy"></p>
+<p>其預設值為「尚未定義 (undefined)」，且只要點擊鍵值文字輸入框即可變更。你必須透過引號才能插入字串。另可於鍵值文字輸入框中鍵入 {}，以建立新的物件 (JSON packet sub-tree)。</p>
+<p><img src="../../assets/7474/wp-content/uploads/send-packet3.png" alt="send-packet3" loading="lazy"></p>
+<p>封包準備完畢即可按下「Send」按鈕，並檢查清單中顯示的新封包。</p>
+<p><img src="../../assets/7474/wp-content/uploads/send-packet4.png" alt="send-packet4" loading="lazy"></p>
+<p>上圖則顯示我們所傳送的 test 屬性。你也可觀看除錯伺服器的回應狀況。</p>
+<p>小訣竅：你可能想設定「Show Packet Details Inline」選項 (打開工具列中的「Options」按鈕)，以於封包清單中直接觀看所有封包的屬性。如此一來，你就不需一直在「Packet Details」與「Send Packet」面板之間切換。</p>
+<h4>審視 (Introspecting) 通訊協定的封包</h4>
+<p>如果你想知道後端伺服器所提供的服務並進一步測試，則以下為相關案例。這些可能同時為原生或自訂 (已安裝) 的後端 API。此協定可支援下列封包型態 (可用於動態的審視作業)。</p>
+<ul><li>requestTypes 傳送至任何 Actor，可取得其所支援封包類型 (函式) 的清單。</li></ul>
+<ul><li>protocolDescription 傳送至 Root Actor，可取得所有後端服務 (即 Actor) 及其函式的清單。</li></ul>
+<p>前一張截圖已可看到 requestTypes 的回應，並可發現 protocolDescription 就是你傳送到 Root Actor 的封包類型之一。</p>
+<p>下圖則顯示 protocolDescription 封包請求的回應。</p>
+<p><img src="../../assets/7474/wp-content/uploads/protocol-description.png" alt="protocol-description" loading="lazy"></p>
+<p>很棒吧？現在你可以和自己的通訊協定聊天了！</p>
+<p>你可到<a href="https://github.com/firebug/rdp-inspector/wiki">專案的 Wiki 頁面</a>進一步了解 RDP Inspector，並可提報你所發現的任何問題或臭蟲。當然，我們隨時歡迎你反應的意見。</p>
+<h4>─ By Jan ‘Honza’ Odvarko</h4>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/05/rdp-inspector-an-extension-for-firefox-developer-tools/">RDP Inspector: An extension for Firefox Developer Tools</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20191113171059id_/https://blog.mozilla.com.tw/?p=7474">Wayback snapshot</a>
+              <span>Post ID: 7474</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

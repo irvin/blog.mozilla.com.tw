@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Matchstick 將 Firefox OS 導入你的高畫質電視 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Matchstick 將 Firefox OS 導入你的高畫質電視</h2>
+            <p class="entry-posted"><time datetime="2014-10-01" class="published"><span class="posted-month">10月</span><span class="posted-date">1</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><h2>搶先取得開發者電視棒</h2>
+<p>首款搭載 Firefox OS 的 HDMI 電視棒 ─「<a href="https://www.matchstick.tv/">Matchstick</a>」已經來了！我們希望能匯集大家的力量為這款新裝置開發 App。</p>
+<p><a href="https://www.matchstick.tv/home/index.html"><img src="../../assets/6399/wp-content/uploads/matchstick-1.jpg" alt="matchstick-1" loading="lazy"></a></p>
+<h3>背景</h3>
+<p>Matchstick 是由具備 Boot to Gecko、XBMC、Boxee 等豐富經驗的工程師團隊打造而成。在 Google 發表了「Chromecast」之後，我們高度期待其所帶來的可能性。但最後看到該款裝置仍未能達到大家所希望的最終功能 ─ 可隨時隨地於任何高畫質 (HD) 螢幕上提供各式影音內容，讓我們不免感到失望。</p>
+<p>為了打造更好、更開放的裝置，我們選用的作業系統必須足以孕育高適應性的開放源碼平台 (也就是 Matchstick)。可堪此任的作業系統就是 <a href="https://www.mozilla.org/en-US/firefox/os/">Firefox OS</a>，同時也讓我們得以翻越目前既有生態系統的高牆，而能開始免費建構我們的第一支電視棒。</p>
+<p>Matchstick 與 Firefox OS 整合而成完全開放的平台，且軟、硬體皆然。不論是影片或遊戲，開發者都能自由探索相關內容與 App，並直接帶到自己家的客廳中享受。沒錯！就是開發者！現在開放的 SDK 可讓你打造個人化的串流與互動經驗，而不再需經過他人的審查與許可。</p>
+<h3>開發 Matchstick 的 App</h3>
+<p>我們現已開放<a href="https://www.matchstick.tv/developers/index.html">完整的開發者套件</a>，讓你能取得 Matchstick 開發作業的所有必要資源。另將於專案啟動時一併支援 Firefox OS。我們也期待能將電視相關的 App 提交到 Firefox OS Marketplace 之上。而目前<a href="https://www.matchstick.tv/developers/documents/developers-guide.html">完整函式庫所提供的 API</a>，可供開發 Android 與 iOS 的推送端 (Sender) App，以及可相容於 Matchstick Receiver 的接收端 (Receiver) App。</p>
+<p>剛剛提到「Matchsticks 的 App」，即包含了推送端與接收端 App。你可透過推送端 API 啟動自己的 Firefox OS、Android、iOS 裝置，進而找到Matchstick 電視棒，再溝通接收端 App。要將 API 嵌入現有 App，或建立新的推送端 App 都不難。請參照我們已隨附於 SDK 內的範例程式碼。</p>
+<p>Matchstick 的推送端 App 一般均依照下列執行流程：</p>
+<ol><li>掃描 Matchstick</li></ol>
+<p>只要 Matchstick 裝置使用的 Wi-Fi 網路與推送端裝置相同，就可交由推送端 App 進行搜尋。掃描作業將友善顯示名稱、型號、圖示、製造商，以及裝置的 IP 位址。使用者可於完整清單上選擇所需的目標裝置。</p>
+<ol><li>連上 Matchstick</li></ol>
+<p>推送端與接收端之間，我們現已同時支援 TLS 與 NON-TLS 的通訊方式。</p>
+<ol><li>啟動接收端 App</li></ol>
+<p>推送端隨即開始溝通目標裝置，並透過 <a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 接收端 App 的網址，甚或是 Chromecast App ID 而啟動接收端 App。</p>
+<ol><li>建立訊息通道</li></ol>
+<p>在啟動接收端 App 之後，Matchstick 隨即於推送端與接收端之間建立訊息通道。除了所有 Matchsticks App 與 Chromecast App 常見的媒體控制頻道之外，開發者亦可建立自己所需的 App 專屬頻道，以傳送給 App 任何必要的客製化資料。</p>
+<p>接收端 App 是由 HTML5、CSS、Javascript 所組成，將載入至「Receiver container」(屬於 Firefox OS 的 Certified App)。如果要使用 Matchstick 的接收端 API，則只要將 fling_receiver.js 加入自己的 App 即可。</p>
+<p>以下提供簡易視訊接收端 App 的範例：</p>
+<p>&lt;!DOCTYPE html&gt;<br>&lt;html&gt;<br>    &lt;head&gt;<br>     &lt;title&gt;Example simplest receiver&lt;/title&gt;<br>     &lt;meta charset=&quot;UTF-8&quot;&gt;<br>     &lt;!--(need) include matchstick receiver sdk--&gt;<br>     &lt;script src=&quot;//fling.matchstick.tv/sdk/libs/receiver/2.0.0/fling_receiver.js&quot;&gt;&lt;/script&gt;<br>    &lt;/head&gt;<br>    &lt;body&gt;<br>     &lt;!--(need) Give a video tag--&gt;<br>     &lt;video id=&quot;media&quot;&gt;&lt;/video&gt;<br>     &lt;script&gt;<br>         // (need) Get video element<br>         window.mediaElement = document.getElementById(&quot;media&quot;);<br>         // (need) For media applications, override/provide any event listeners on the MediaManager.<br>         window.mediaManager = new fling.receiver.MediaManager(window.mediaElement);</p>
+<p>         // (need) Get and hold the provided instance of the FlingReceiverManager.<br>         // Override/provide any event listeners on the FlingReceiverManager.<br>         window.flingReceiverManager = fling.receiver.FlingReceiverManager.getInstance();</p>
+<p>         // (need) Call start on the FlingReceiverManager to indicate the receiver application is ready to receive messages.<br>         window.flingReceiverManager.start();<br>     &lt;/script&gt;<br>    &lt;/body&gt;<br>&lt;/html&gt;</p>
+<p>					1234567891011121314151617181920212223242526</p>
+<p>						&lt;!DOCTYPE html&gt;&lt;html&gt;    &lt;head&gt;     &lt;title&gt;Example simplest receiver&lt;/title&gt;     &lt;meta charset=&quot;UTF-8&quot;&gt;     &lt;!--(need) include matchstick receiver sdk--&gt;     &lt;script src=&quot;//fling.matchstick.tv/sdk/libs/receiver/2.0.0/fling_receiver.js&quot;&gt;&lt;/script&gt;    &lt;/head&gt;    &lt;body&gt;     &lt;!--(need) Give a video tag--&gt;     &lt;video id=&quot;media&quot;&gt;&lt;/video&gt;     &lt;script&gt;         // (need) Get video element         window.mediaElement = document.getElementById(&quot;media&quot;);         // (need) For media applications, override/provide any event listeners on the MediaManager.         window.mediaManager = new fling.receiver.MediaManager(window.mediaElement);          // (need) Get and hold the provided instance of the FlingReceiverManager.         // Override/provide any event listeners on the FlingReceiverManager.         window.flingReceiverManager = fling.receiver.FlingReceiverManager.getInstance();          // (need) Call start on the FlingReceiverManager to indicate the receiver application is ready to receive messages.         window.flingReceiverManager.start();     &lt;/script&gt;    &lt;/body&gt;&lt;/html&gt;</p>
+<h3>放送 Matchstick 以徵求 App</h3>
+<p>與其依賴模擬器，我們更希望開發者能實際擁有 Matchstick 的原型機，並立刻開始開發作業。只要開發者想針對 FirefoxOS 開發或移植 Matchstick 可用的App，都歡迎<a href="https://www.matchstick.tv/developers/register.html">透過「Matchsticks for Apps」企劃來申請免費的開發者預覽裝置</a>。</p>
+<p>一如 Mozilla 所發起的「Phones-for-Apps」企劃。只要開發者已經建構出 Firefox OS、Chrome、Android、iOS，甚至 Chromecast 的 App，都能再度投入我們的「Matchsticks for Apps」企劃！讓我們將自己的視界帶進大螢幕吧！</p>
+<p><img src="../../assets/6399/wp-content/uploads/matchstick-2.jpg" alt="matchstick-2" loading="lazy"><br>Matchstick 的開發者版本 (由技術傳教士 Christian Heilmann 所攝)</p>
+<p>我們亦正尋找著酷炫的想法、影音內容、新視訊頻道，也歡迎遊戲、工具、圖/相片、公用程式，甚至使用者介面 (UI) 的佈景主題。如果你正打算為 Matchstick 開發 App 或進行有趣的事情，請立刻分享自己的計畫讓我們知道，就能獲得電視棒並儘快著手開發。</p>
+<p>申請 Matchstick 的資格：</p>
+<ul><li>想針對大螢幕電視開發 App</li></ul>
+<ul><li>已開發過 Web App 或行動 App，想進一步延伸到大螢幕之上</li></ul>
+<ul><li>已是 HDMI Dongle 的開發者，想打造自己的 Matchstick</li></ul>
+<ul><li>已是 Chromecast 開發者，想將 App 移植到開放平台之上</li></ul>
+<ul><li>就是你了！</li></ul>
+<h3>將於 11 月登場的 Matchstick 工作坊</h3>
+<p>我們正規劃 Matchstick 的 Firefox OS App 工作坊，將於 11 月 18日 (星期二) 讓受邀參加的開發者齊聚 Mozilla 的舊金山辦公室。現已開放報名表格，歡迎符合資格的開發者申請。</p>
+<p><a href="https://www.eventbrite.com/e/matchstick-hack-fest-tickets-13365734271">報名舊金山工作坊</a>！</p>
+<p>如果你離舊金山很遠，也不用擔心。我們也在規劃多個 App 工作坊，很快就會通知各位熱血的開發者！</p>
+<p>祝開發愉快！</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/09/matchstick-brings-firefox-os-to-your-hdtv-be-the-first-to-get-a-developer-stick/">Matchstick Brings Firefox OS to Your HDTV: Be the First to get a Developer Stick</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190823235655id_/https://blog.mozilla.com.tw/?p=6399">Wayback snapshot</a>
+              <span>Post ID: 6399</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

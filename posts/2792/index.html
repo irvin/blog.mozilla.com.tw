@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>動動手，讓自己的網頁嵌入 WebRTC 視訊聊天功能！ | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">動動手，讓自己的網頁嵌入 WebRTC 視訊聊天功能！</h2>
+            <p class="entry-posted"><time datetime="2013-05-31" class="published"><span class="posted-month">5月</span><span class="posted-date">31</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p><a href="https://blog.mozilla.com.tw/wp-content/uploads/webrtc-chat.png"><img src="https://blog.mozilla.com.tw/wp-content/uploads/webrtc-chat.png" alt="" loading="lazy"></a></p>
+<p>你應該還記得不久前有過一篇：<a href="../../posts/1903/">史上第一次，Firefox 與 Chrome 跨瀏覽器新利器 ─ WebRTC</a> 的文章，就展示了 Firefox 與 Chrome 之間的 WebRTC 視訊聊天功能。這個當然引起很多人的興趣。從這時開始，我們 Fresh Tilled Soil 網頁設計公司，陸續會見了多家企業。這些公司都利用 WebRTC 視訊技術而設計全新產品。大力推廣 WebRTC 的工程師 Tsashi Levent-Levi，也在自己的部落格中列出自己曾訪談過的公司，<a href="https://bloggeek.me/webrtc-interviews/">快來看看這份精采的名單</a>！</p>
+<p>###</p>
+<h3>WebRTC 聊天展示</h3>
+<p>如同許多早期就接觸 WebRTC 的朋友，我們也研究了一段時間並寫出<a href="https://freshtilledsoil.com/the-future-of-web/webrtc-video/">自己的 WebRTC 視訊聊天 Demo</a>，最近還發表了 WebRTC 視訊聊天小元件。</p>
+<p>這個小元件操作起來很簡單，任何人都可使用下列 HTML 嵌入碼：</p>
+<p>&lt;!-- Begin Fresh Tilled Soil Video Chat Embed Code --&gt;<br>&lt;div id=&quot;freshtilledsoil_embed_widget&quot; class=&quot;video-chat-widget&quot;&gt;&lt;/div&gt;<br>&lt;script id=&quot;fts&quot; src=&quot;http://freshtilledsoil.com/embed/webrtc-v5.js?r=FTS0316-CZ6NqG97&quot;&gt;&lt;/script&gt;<br>&lt;!-- End Fresh Tilled Soil Video Chat Embed Code --&gt;</p>
+<p>					1234</p>
+<p>						&lt;!-- Begin Fresh Tilled Soil Video Chat Embed Code --&gt;&lt;div id=&quot;freshtilledsoil_embed_widget&quot; class=&quot;video-chat-widget&quot;&gt;&lt;/div&gt;&lt;script id=&quot;fts&quot; src=&quot;http://freshtilledsoil.com/embed/webrtc-v5.js?r=FTS0316-CZ6NqG97&quot;&gt;&lt;/script&gt;&lt;!-- End Fresh Tilled Soil Video Chat Embed Code --&gt;</p>
+<p>而這組程式碼可新增至任何網頁或部落格文章中。接著就可以在網頁上看到這個小元件：</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/webrtc-chat-channel-chooser.png"><img src="https://blog.mozilla.com.tw/wp-content/uploads/webrtc-chat-channel-chooser.png" alt="" loading="lazy"></a></p>
+<p>從這裡要開始 WebRTC 視訊聊天就有夠簡單的！只要先想一個聊天室名稱，打入名稱再點選「Start Chat」就好了。你的好友只要重複同樣步驟，就全部設定完畢。</p>
+<p>你如果要試試這組程式碼，請確認自己在使用 <a href="https://nightly.mozilla.org/">Firefox Nightly</a> 或最新版的 <a href="https://www.google.com/intl/en/chrome/browser/">Google Chrome</a>。如果要在平板電腦中使用 Google Chrome 瀏覽器，就必須使用 Google Chrome beta。</p>
+<p>另外還必須提醒大家，在這個第一版的視訊聊天功能裡，一個聊天室只能有 2 個人。如果聊天室已經有 2 個人了，那就沒其他人可以再連進這個聊天室。</p>
+<p>###</p>
+<h3>運作方式</h3>
+<p>我們這裡不會深入探討 WebRTC 視訊聊天的程式碼如何運作。先簡單了解在按下了「Start Chat」按鈕之後，背景到底發生了什麼事，看看 WebRTC 視訊聊天實際是如何運作的。這裡提供詳細步驟來説明：</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/test1.jpg"><img src="../../assets/2792/wp-content/uploads/test1-1024x789.jpg" alt="test" loading="lazy"></a></p>
+<p>這裡簡單說明：「一旦遠端媒體開始串流，則隨即停止添加 ICE Candidates (Once remote media starts streaming stop adding ICE candidates)」。這個步驟算是臨時的解決方案，而對許多網路拓撲來說，如此可能導致媒體路由無法達到最佳效果。只要修正 Chrome 的 ICE 支援功能之後，就會停止使用這個步驟。</p>
+<p>另外再說明 1 個很重要的小技巧。我們使用類似 <a href="https://remysharp.com/2010/10/08/what-is-a-polyfill/">Remy Sharp 這篇文章</a>所提到的「填充式」技術。我們特別撰寫一小段程式碼以因應 Firefox 的語法，進而達到跨瀏覽器的功能。</p>
+<p>###</p>
+<h3>我們遇到的問題與解決方式</h3>
+<p>在撰寫出這個程式碼時，我們當然遇過很多問題。WebRTC 的發展十分快速，我們也每天都在解決很多問題。下面列出一些我們遇過的問題與解決方式：</p>
+<h4>Google Chrome 中的 PeerConnection 功能</h4>
+<p>在 Chrome 中測試新的 PeerConnection 功能時，必須搭配嚴格的規則才能順利運作，具體來說：</p>
+<ul><li>在傳送 SIP (Offer/Answer SDP) 之前，雙方均必須使用本端串流視訊</li></ul>
+<ul><li>對「Answerer」而言，必須等對方產生「Answer SDP」，才能添加 ICE Candidate</li></ul>
+<ul><li>一旦遠端媒體開始串流作業，就會停止添加 ICE Candidate</li></ul>
+<ul><li>必須取得「Offer SDP」，才能與 Answerer 建立相對連線</li></ul>
+<p>我們解決了相關問題，而且要依上述順序處理連線作業，才完全修正了這個問題。視訊連線作業首重順暢進行。在解決這個問題之前，只能碰運氣看它能不能正常運作。</p>
+<h4>延遲所造成的潛時</h4>
+<p>在串流到行動裝置時，因為延遲與行動電話的網路限制，又拉長了潛時。</p>
+<p>我們在 URL 的結尾加了雜湊標籤 (Hash tag)，降低了視訊串流的解析度，才解決了這個問題。URL 可選擇是否納入「#res=low」參數而達到低解析度的串流視訊；反之就是用「#res=hd」參數達到高解析度的視訊。現在也支援其他設定屬性，例如每秒幀數 (frames per second，fps) 也可達到相同的效果。</p>
+<h4>錄製 WebRTC 展示的影片</h4>
+<p>我們已經開始錄製 WebRTC 展示的視訊片段。在錄製影片時，是透過 JavaScript 的新型態陣列而儲存串流資料。結果我們立刻發現，這種方法卻只能分開錄製視訊與音訊。</p>
+<p>為了解決這個問題，我們建立 2 組物件 (Instance) 進行錄製，就分別用於視訊與音訊。另可有效利用新的 JavaScript 資料型態，並同步記錄 2 組串流。</p>
+<p>###</p>
+<h3>結論</h3>
+<p>我們很高興能加入 WebRTC 的開發行列。有多好玩？我們甚至用 WebRTC 搭配其他技術寫出<a href="https://freshtilledsoil.com/the-future-of-web/">專屬網頁</a>，來記錄相關過程。我們認為 WebRTC 與這些技術，會在 2013 年大幅改變 Web。如果你有任何問題或建議，歡迎隨時聯絡我們。</p>
+<p>原文鏈結：<a href="https://hacks.mozilla.org/2013/05/embedding-webrtc-video-chat-right-into-your-website/">https://hacks.mozilla.org/2013/05/embedding-webrtc-video-chat-right-into-your-website/</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=2792">Wayback snapshot</a>
+              <span>Post ID: 2792</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>TogetherJS 介紹 (上) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">TogetherJS 介紹 (上)</h2>
+            <p class="entry-posted"><time datetime="2013-10-25" class="published"><span class="posted-month">10月</span><span class="posted-date">25</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><h3>何謂 TogetherJS</h3>
+<p>本篇文章將介紹 <a href="https://mozillalabs.com/">Mozilla Labs</a> 所提供的即時協作 (Real-time collaboration) 工具 ─ <a href="https://togetherjs.com/">TogetherJS</a>。</p>
+<p>將 TogetherJS 添增至現有網站之後，即可加入即時合作功能。若有 2 名以上的使用者正在瀏覽網站或 Web App，則可看到彼此的滑鼠游標位置與點擊動作，另可互相追蹤瀏覽行為、一同編輯表單或觀看影片，並透過音訊或 <a href="https://developer.mozilla.org/en-US/docs/WebRTC">WebRTC</a> 的方式交談。</p>
+<p>TogetherJS 的功能包含：</p>
+<ul><li>觀看他人的滑鼠游標與點擊動作</li></ul>
+<ul><li>觀看捲動位置</li></ul>
+<ul><li>觀看他人瀏覽的網頁</li></ul>
+<ul><li>打字交談</li></ul>
+<ul><li>以 WebRTC 進行語音對話</li></ul>
+<ul><li>同步填寫表單 (寫入文字、勾選方塊等)</li></ul>
+<ul><li>同步播放/暫停/追蹤影片</li></ul>
+<ul><li>於單一網站上，可跨多個頁面保存工作階段 (Session)</li></ul>
+<h3>整合方式</h3>
+<p>不需另外修改網站，即可發揮 TogetherJS 的多項功能。TogetherJS 將檢查文件物件模型 (Document Object Model，DOM) 而決定所應進行的作業 ─ 偵測表單欄位、偵測如 <a href="https://codemirror.net/">CodeMirror</a> 與 <a href="https://ace.c9.io/">Ace</a> 的編輯器，並將其工具列置入你的網頁中。</p>
+<p>如果你想玩玩看 TogetherJS，只要將下列指令碼加入你的網頁即可：</p>
+<p>&lt;script src=&quot;https://togetherjs.com/togetherjs.js&quot;&gt;&lt;/script&gt;</p>
+<p>					1</p>
+<p>						&lt;script src=&quot;https://togetherjs.com/togetherjs.js&quot;&gt;&lt;/script&gt;</p>
+<p>接著為使用者建立 1 組按鈕，即可開啟 TogetherJS：</p>
+<p>&lt;button id=&quot;collaborate&quot; type=&quot;button&quot;&gt;Collaborate&lt;/button&gt;<br>&lt;script&gt;<br>document.getElementById(&quot;collaborate&quot;)<br>  .addEventListener(&quot;click&quot;, TogetherJS, false);<br>&lt;/script&gt;</p>
+<p>					12345</p>
+<p>						&lt;button id=&quot;collaborate&quot; type=&quot;button&quot;&gt;Collaborate&lt;/button&gt;&lt;script&gt;document.getElementById(&quot;collaborate&quot;)  .addEventListener(&quot;click&quot;, TogetherJS, false);&lt;/script&gt;</p>
+<p>如果你想直接體驗 TogetherJS 的功能，則 <a href="https://jsfiddle.net/">jsFiddle</a> 也已納入 TogetherJS 供你參考：</p>
+<p><img src="../../assets/4025/wp-content/uploads/screenshot-jsfiddle-highlight.png" alt="screenshot-jsfiddle-highlight" loading="lazy"></p>
+<p>只要點選「Collaboration」就會啟動 TogetherJS。接著將說明應如何在自己的 Fiddle 中使用 TogetherJS。</p>
+<h3>擴充自己的 App</h3>
+<p>TogetherJS 在檢查過 DOM 之後，即可決定所該進行的作業，但無法同步你的 JavaScript App。舉例來說，如果你的 App 有 1 份項目清單必須透過 JavaScript 更新，則該清單不會在使用者之間自動同步。大家有時會以為清單能自動更新，但就算我們跨 2 個網頁同步了 DOM，也還是無法同步底層的 JavaScript 物件。相較於 <a href="https://www.firebase.com/">Firebase</a> 或 <a href="https://developers.google.com/drive/realtime/">Google Drive Realtime API</a> 等產品，TogetherJS 並不具備即時的永久儲存功能。你的儲存與網站功能都由你自己決定，我們只會同步瀏覽器本身的工作狀態。</p>
+<p>因為如此，如果你的 App 必須執行很多 JavaScript，就必須再加進額外程式碼以保持工作狀態的同步。而我們現正努力簡化此過程！</p>
+<p>我們以簡單的繪圖 App 為例，並將之發佈<a href="https://jsfiddle.net/ianbicking/5M57n/8/">作為 Fiddle 的完整範例</a>隨你盡情把玩。</p>
+<p><img src="../../assets/4025/wp-content/uploads/screenshot-fiddle-example-1024x616.png" alt="screenshot-fiddle-example" loading="lazy"></p>
+<h3>簡易的繪圖 App</h3>
+<p>我們先從簡單的繪圖 App 開始吧。先來個簡單的繪圖區 (canvas)：</p>
+<p>&lt;canvas id=&quot;sketch&quot; <br>        style=&quot;height: 400px; width: 400px; border: 1px solid #000&quot;&gt;<br>&lt;/canvas&gt;</p>
+<p>					123</p>
+<p>						&lt;canvas id=&quot;sketch&quot;         style=&quot;height: 400px; width: 400px; border: 1px solid #000&quot;&gt;&lt;/canvas&gt;</p>
+<p>接著完成某些設定：</p>
+<p>// get the canvas element and its context<br>var canvas = document.querySelector(&#39;#sketch&#39;);<br>var context = canvas.getContext(&#39;2d&#39;);</p>
+<p>// brush settings<br>context.lineWidth = 2;<br>context.lineJoin = &#39;round&#39;;<br>context.lineCap = &#39;round&#39;;<br>context.strokeStyle = &#39;#000&#39;;</p>
+<p>					123456789</p>
+<p>						// get the canvas element and its contextvar canvas = document.querySelector(&#39;#sketch&#39;);var context = canvas.getContext(&#39;2d&#39;); // brush settingscontext.lineWidth = 2;context.lineJoin = &#39;round&#39;;context.lineCap = &#39;round&#39;;context.strokeStyle = &#39;#000&#39;;</p>
+<p>我們在繪圖區上使用 mousedown 與 mouseup 事件，針對 mousemove 事件註冊我們的 move() 處理器：</p>
+<p>var lastMouse = {<br>  x: 0,<br>  y: 0<br>};</p>
+<p>// attach the mousedown, mousemove, mouseup event listeners.<br>canvas.addEventListener(&#39;mousedown&#39;, function (e) {<br>    lastMouse = {<br>        x: e.pageX - this.offsetLeft,<br>        y: e.pageY - this.offsetTop<br>    };<br>    canvas.addEventListener(&#39;mousemove&#39;, move, false);<br>}, false);</p>
+<p>canvas.addEventListener(&#39;mouseup&#39;, function () {<br>    canvas.removeEventListener(&#39;mousemove&#39;, move, false);<br>}, false);</p>
+<p>					1234567891011121314151617</p>
+<p>						var lastMouse = {  x: 0,  y: 0}; // attach the mousedown, mousemove, mouseup event listeners.canvas.addEventListener(&#39;mousedown&#39;, function (e) {    lastMouse = {        x: e.pageX - this.offsetLeft,        y: e.pageY - this.offsetTop    };    canvas.addEventListener(&#39;mousemove&#39;, move, false);}, false); canvas.addEventListener(&#39;mouseup&#39;, function () {    canvas.removeEventListener(&#39;mousemove&#39;, move, false);}, false);</p>
+<p>接著 move() 函式將判斷所要描繪的線條：</p>
+<p>function move(e) {<br>    var mouse = {<br>        x: e.pageX - this.offsetLeft,<br>        y: e.pageY - this.offsetTop<br>    };<br>    draw(lastMouse, mouse);<br>    lastMouse = mouse;<br>}</p>
+<p>					12345678</p>
+<p>						function move(e) {    var mouse = {        x: e.pageX - this.offsetLeft,        y: e.pageY - this.offsetTop    };    draw(lastMouse, mouse);    lastMouse = mouse;}</p>
+<p>最後就是描繪線條的函式：</p>
+<p>function draw(start, end) {<br>    context.beginPath();<br>    context.moveTo(start.x, start.y);<br>    context.lineTo(end.x, end.y);<br>    context.closePath();<br>    context.stroke();<br>}</p>
+<p>					1234567</p>
+<p>						function draw(start, end) {    context.beginPath();    context.moveTo(start.x, start.y);    context.lineTo(end.x, end.y);    context.closePath();    context.stroke();}</p>
+<p>上述這些程式碼就足以形成簡易的繪圖 App 了。此時只要在這個 App 上啟動 TogetherJS，就能看到其他人的滑鼠游標與點選動作，但還看不到別人的繪圖作品。</p>
+<p>想知道怎麼修正這個問題嗎？可別錯過《<a href="../../posts/4036/">TogetherJS 介紹 (下)</a>》。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2013/10/introducing-togetherjs/">https://hacks.mozilla.org/2013/10/introducing-togetherjs/</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Mozilla</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Mozilla</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824002835id_/https://blog.mozilla.com.tw/?p=4025">Wayback snapshot</a>
+              <span>Post ID: 4025</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

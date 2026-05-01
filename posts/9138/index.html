@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Firefox Nightly 現已實驗性的支援 HTC Vive | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Firefox Nightly 現已實驗性的支援 HTC Vive</h2>
+            <p class="entry-posted"><time datetime="2016-09-06" class="published"><span class="posted-month">9月</span><span class="posted-date">6</span><span class="posted-year">2016</span></time></p>
+          </header>
+          <div class="entry-content"><p>自 9 月 1 日起，Firefox 每夜更新版 (Nightly) 即開始透過 OpenVR API 實驗性的支援「HTC Vive」頭戴式裝置。接下來幾週內，我們將陸續宣佈其他硬體支援的消息，包含 HTC Vive 控制器、Oculus Touch 控制器，以及 OSVR 頭戴式裝置。Firefox 亦將透過 OSVR API 於 Mac 與 Linux 系統中支援 WebVR。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/1rppPzXIHehdGoJH6LKSIrg-1024x749.jpeg" alt="Image Credit: Christin Gilbert" loading="lazy"><br>Image Credit: Christin Gilbert</p>
+<p>HTC Vive 本身即具備「Lighthouse」追蹤系統，可在一般房間大小的空間中追蹤 VR 頭戴式裝置的方向與位置。玩家只要進入 WebVR 網站就能自在的四處行走。</p>
+<p>目前 HTC Vive 支援功能仍在實驗中，稍晚亦將<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1299926">另行支援</a>其控制器。若想儘早嘗鮮，可開啟 Firefox Nightly 並根據以下步驟啟用之：</p>
+<ul><li>建議先<a href="https://support.mozilla.org/en-US/kb/refresh-firefox-reset-add-ons-and-settings">重新整理 Firefox</a> 以原始設定開始。因應早期 WebVR 版本所進行的某些調整，可能會在目前的 Nightly 版本中發生問題。</li></ul>
+<ul><li>到 OpenVR GitHub repository 下載 openvr_api . dll 的 1.02 版本。如果你使用的是 64 位元的 Firefox 瀏覽器，就<a href="https://github.com/ValveSoftware/openvr/raw/master/bin/win64/openvr_api.dll">下載 64 位元版本</a>；不然就請<a href="https://github.com/ValveSoftware/openvr/raw/master/bin/win32/openvr_api.dll">下載 32 位元版本</a>。我們推薦 WebVR 應搭配使用 Firefox 的 64 位元版本。</li></ul>
+<ul><li>將 openvr_api . dll 檔案儲存在 Firefox 使用者可輕鬆找到的地方。舉例來說，你可建立如「c:\openvr」路徑，並把 dll 檔案放在裡面。</li></ul>
+<ul><li>在 Firefox Nightly 的網址列中鍵入「about:config」。</li></ul>
+<ul><li>將「dom.vr.openvr.enabled」的值更改為「true」。</li></ul>
+<ul><li>將「gfx.vr.openvr-runtime」的值，更改為 openvr_api . dll 的完整下載路徑，例如「c:\openvr\openvr_api.dll」。</li></ul>
+<ul><li>重新啟動 Firefox Nightly。</li></ul>
+<p>接著要測試是否成功，可先試著執行 <a href="https://webvr.info/samples/">WebVR 1.0 範例</a>，或到如 <a href="https://sketchfab.com/">SketchFab</a> 這類可支援整個房間 WebVR 效果的網站。如果你想打造自己的 WebVR 網站，可參閱 <a href="https://aframe.io/">A-Frame</a>、<a href="https://threejs.org/">three.js</a>、<a href="https://w3c.github.io/webvr/">WebVR 1.0 Spec</a> 獲得進一步資訊。</p>
+<p>原文連結：<a href="https://medium.com/mozilla-tech/experimental-htc-vive-support-in-firefox-nightly-3ab9eeb5dfd9#.3xk5iju03">Experimental HTC Vive Support in Firefox Nightly</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20200927095331id_/https://blog.mozilla.com.tw/?p=9138">Wayback snapshot</a>
+              <span>Post ID: 9138</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

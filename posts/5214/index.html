@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>設計 Australis 附加元件即可贏得 Firefox OS 手機 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">設計 Australis 附加元件即可贏得 Firefox OS 手機</h2>
+            <p class="entry-posted"><time datetime="2014-03-20" class="published"><span class="posted-month">3月</span><span class="posted-date">20</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>Firefox 29 (專案名稱 Australis) <a href="../../posts/4232/">在設計與自訂功能上大幅提升</a>。我們現在正強力募集能在 Firefox 中讓人眼睛為之一亮的新附加元件 (Add-ons)。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/1965672_666131313446264_1115055916_o-1024x682.jpg" alt="1965672_666131313446264_1115055916_o" loading="lazy"></p>
+<p>從 2014 年 3 月 11 日到 4 月 15 日止，只要你開發出的附加元件能凸顯 Firefox 的全新外觀設計，並協助他人發掘新的自訂/客製化契機，進而提供更順暢的附加元件經驗。我們的<a href="https://blog.mozilla.org/addons/australis-judges/">評審團</a>會針對三個獎項各選出一名優勝與二名佳作。</p>
+<p>所有<a href="https://blog.mozilla.org/addons/australis-prizes/">得獎者</a>均將獲得 Firefox OS 手機，而優勝者另可獲得 Mozilla 大禮包。</p>
+<h4>獎項</h4>
+<ul><li>最佳綜合附加元件 ─ 此附加元件能充分利用 Australis 的新功能，如新的<a href="https://blog.mozilla.org/addons/2014/03/06/australis-for-add-on-developers-2/">工具列</a> Widget 與分頁外觀。</li></ul>
+<ul><li>最佳完整佈景主題 ─ <a href="https://addons.mozilla.org/firefox/complete-themes/">完整佈景主題</a>要能創意利用 Australis 外觀與感覺。</li></ul>
+<ul><li>最佳書籤附加元件 ─ 創新的<a href="https://addons.mozilla.org/firefox/extensions/bookmarks/">書籤附加元件</a>，能適切搭配 Australis 的主題。</li></ul>
+<h4>Australis 中的附加元件</h4>
+<p>如果開發者想在本競賽中脫穎而出，就應該要隨時得知 Australis 的最新消息。可觀看我們在<a href="https://blog.mozilla.org/addons/">《Add-ons》部落格</a>中發佈的相關摘要。</p>
+<h4>變化</h4>
+<p>Australis 的工具列確實發生大幅改變。我們移除了底部的「附加元件」列，另以新的選單面板 (使用許多 Widget 與按鈕所擴充的工具列) 將之取代。只要點擊主工具列最右端的按鈕，即可啟動選單面板。使用者更能自訂新選單上的所有項目，當然也能添增 Widget 與附加元件按鈕。</p>
+<p>主工具列中的圖示均為 18×18 像素。但我們預期會有 1px padding，所以開發者仍可續用現有 Firefox 版本上的 16×16 圖示而不會有任何影響。選單面板與自訂過程中的圖示均為 32×32 像素。也因為如此，如果你的附加元件本來就是依照一般規則 (先將按鈕覆蓋至面板上，等到初次執行時再透過 JS將按鈕添增到工具列之中)，將工具列按鈕添增到主工具列上，則所有物件應該都能照常運作無誤。而開發者僅需將 CSS 修改如下：</p>
+<p>/<em> Original CSS </em>/<br>#my-button {<br>  list-style-image: url(“chrome://my-extension/skin/icon16.png”);<br>}</p>
+<p>/<em> Added for Australis support </em>/<br>#my-button[cui-areatype=&quot;menu-panel&quot;],<br>  toolbarpaletteitem[place=&quot;palette&quot;] &gt; #my-button {<br>  list-style-image: url(“chrome://my-extension/skin/icon32.png”);<br>}</p>
+<p>					12345678910</p>
+<p>						/<em> Original CSS </em>/#my-button {  list-style-image: url(“chrome://my-extension/skin/icon16.png”);} /<em> Added for Australis support </em>/#my-button[cui-areatype=&quot;menu-panel&quot;],  toolbarpaletteitem[place=&quot;palette&quot;] &gt; #my-button {  list-style-image: url(“chrome://my-extension/skin/icon32.png”);}</p>
+<p>另請注意，若要將 Australis 主題的按鈕置於 UI 中，就必須設定 cui-areatype 屬性為「menu-panel」或「toolbar」。透過此設定值，亦可讓 Australis 與 non-Australis 主題的按鈕擁有不同風格。</p>
+<p>可透過《<a href="https://blog.mozilla.org/addons/2013/12/12/australis-for-add-on-developers-1/">Australis for Add-on Developers: Part 1</a>》獲得更多資訊。</p>
+<h4>新的 Customization API</h4>
+<p>Australis 另一個有趣的地方，就是能透過 <a href="https://developer.mozilla.org/docs/Mozilla/JavaScript_code_modules/CustomizableUI.jsm">CustomizableUI 模組</a>建構工具列 Widget。不論開發者是用舊 (需重新啟動 Firefox) 或新 (不需重啟 Firefox) 的方式開發附加元件，都只需極少量的程式碼，就能輕鬆設計出簡單的按鈕和更有趣的 Widget。範例如下：</p>
+<p>CustomizableUI.createWidget({<br>    id : &quot;aus-hello-button&quot;,<br>    defaultArea : CustomizableUI.AREA_NAVBAR,<br>    label : &quot;Hello Button&quot;,<br>    tooltiptext : &quot;Hello!&quot;,<br>    onCommand : function(aEvent) {<br>      let win = aEvent.target.ownerDocument.defaultView;</p>
+<p>      win.alert(&quot;Hello!&quot;);<br>    }<br>});</p>
+<p>					1234567891011</p>
+<p>						CustomizableUI.createWidget({    id : &quot;aus-hello-button&quot;,    defaultArea : CustomizableUI.AREA_NAVBAR,    label : &quot;Hello Button&quot;,    tooltiptext : &quot;Hello!&quot;,    onCommand : function(aEvent) {      let win = aEvent.target.ownerDocument.defaultView;       win.alert(&quot;Hello!&quot;);    }});</p>
+<p>《<a href="https://blog.mozilla.org/addons/2014/03/06/australis-for-add-on-developers-2/">Australis for Add-on Developers: Part 2</a>》另提供二組 Demo 與許多可把玩的程式碼，讓開發者能順利使用此 API。</p>
+<h4>動手吧！</h4>
+<ul><li>有關此競賽的<a href="https://blog.mozilla.org/addons/australis-overview/">完整細節</a></li></ul>
+<ul><li>到 <a href="https://www.mozilla.org/firefox/aurora/">Aurora 釋放頻道</a>下載 Australis</li></ul>
+<ul><li><a href="https://developer.mozilla.org/addons">附加元件開發說明</a></li></ul>
+<ul><li><a href="https://addons.mozilla.org/zh-TW/developers/">AMO 上的附加元件開發者交流中心</a></li></ul>
+<ul><li>給附加元件開發者的 Australis 說明： <a href="https://developer.mozilla.org/docs/Mozilla/JavaScript_code_modules/CustomizableUI.jsm">CustomizableUI.jsm</a></li></ul>
+<ul><li><a href="https://developer.mozilla.org/Firefox/Australis_add-on_compat">Australis 與附加元件的相容性</a></li></ul>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/03/create-add-ons-for-australis-to-win-a-firefox-os-phone/">Create Add-ons for Australis to Win a Firefox OS Phone</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=5214">Wayback snapshot</a>
+              <span>Post ID: 5214</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

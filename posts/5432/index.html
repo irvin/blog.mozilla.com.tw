@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>來量量手機的耗電量 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">來量量手機的耗電量</h2>
+            <p class="entry-posted"><time datetime="2014-05-06" class="published"><span class="posted-month">5月</span><span class="posted-date">6</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>在了解並測量手機的相關運作參數時，我們接觸到許多有關耗電量的資訊。接著向大家分享使用《<a href="https://developer.mozilla.org/en-US/Apps/Build/Performance/Performance_fundamentals/Power">FxOS Powertool!</a>》所學到的技巧。</p>
+<h4>介紹《FxOS Powertool! 》</h4>
+<p>FxOS Powertool! 可讓我們針對耗電量的部份，進行 App 的最佳化。但目前仍有錯誤等待修正。另外 FxOS Powertool! 也是命令提示字元工具的另項選擇：</p>
+<p>usage: powertool [-h] -d {yocto,mozilla} [-p PATH] -u {tk,cli} [-f FILE]<br>                 [-o OUT] [-s SHOW]</p>
+<p>Mozilla Powertool</p>
+<p>optional arguments:<br>  -h, --help            show this help message and exit<br>  -d {yocto,mozilla}, --device {yocto,mozilla}<br>                        specify ammeter device to use<br>  -p PATH, --path PATH  specify path to ammeter device (e.g. /dev/ttyACM0)<br>  -u {tk,cli}, --ui {tk,cli}<br>                        specify which UI to use<br>  -f FILE, --file FILE  test run config file<br>  -o OUT, --out OUT     output data file<br>  -s SHOW, --show SHOW  name of the sample source to display</p>
+<p>					123456789101112131415</p>
+<p>						usage: powertool [-h] -d {yocto,mozilla} [-p PATH] -u {tk,cli} [-f FILE]                 [-o OUT] [-s SHOW] Mozilla Powertool optional arguments:  -h, --help            show this help message and exit  -d {yocto,mozilla}, --device {yocto,mozilla}                        specify ammeter device to use  -p PATH, --path PATH  specify path to ammeter device (e.g. /dev/ttyACM0)  -u {tk,cli}, --ui {tk,cli}                        specify which UI to use  -f FILE, --file FILE  test run config file  -o OUT, --out OUT     output data file  -s SHOW, --show SHOW  name of the sample source to display</p>
+<p>你可複製以下 repository 取得程式碼：</p>
+<p>$ git clone git://github.com/JonHylands/fxos-powertool</p>
+<p>					1</p>
+<p>						$ git clone git://github.com/JonHylands/fxos-powertool</p>
+<p>FxOS Powertool! 是以 Python 撰寫而成，並搭配 Tkinter UI 套裝軟體，應該可跨平台使用。接著就安裝應用程式與其他有相依性的套裝工具：</p>
+<p>$ cd fxos-powertool<br>$ sudo python ./setup.py install</p>
+<p>					12</p>
+<p>						$ cd fxos-powertool$ sudo python ./setup.py install</p>
+<p>再來建立測試程序 (Test suite) 的敘述檔案。FxOS Powertool! 將透過敘述檔案而得知你所規劃的測試作業，並整理各次測試作業所蒐集的資料。測試程序敘述檔案就像：</p>
+<p>{<br>  &quot;title&quot;: &quot;My Tests&quot;,<br>  &quot;tests&quot;: [<br>    &quot;My first test&quot;,<br>    &quot;My second test&quot;,<br>    &quot;My third test&quot;<br>  ]<br>}</p>
+<p>					12345678</p>
+<p>						{  &quot;title&quot;: &quot;My Tests&quot;,  &quot;tests&quot;: [    &quot;My first test&quot;,    &quot;My second test&quot;,    &quot;My third test&quot;  ]}</p>
+<h4>設計電池外接盒</h4>
+<p>你會需要：</p>
+<ul><li>一組 USB 數位電流表/安培計，像 <a href="https://www.yoctopuce.com/EN/products/usb-sensors/yocto-amp">Yocto-Amp</a> 或<a href="https://github.com/JonHylands/fxos-battery-harness">自己做一個</a></li></ul>
+<ul><li>一組開放式硬體設計的電池外接盒，包含 3D 列印的零件，還有可插接電流表的小型電路板。你也可以使用所需的 3D 列印機與電路板檔案，<a href="https://github.com/JonHylands/fxos-battery-harness">自行打造電池外接盒</a>。目前我們所設計的外接盒： <a href="https://www.alcatelonetouch.com/global-en/products/smartphones/one_touch_fire.html">Alcatel OneTouch Fire</a></li></ul>
+<ul><li><a href="https://en.wikipedia.org/wiki/Nexus_S">Samsung Nexus S</a></li></ul>
+<ul><li><a href="https://www.lg.com/uk/mobile-phones/lg-E960-nexus-4-by-lg">LG Nexus 4</a> – <a href="https://developer.mozilla.org/en-US/Apps/Build/Performance/Performance_fundamentals/Power/Nexus_4_Harness">組裝電池外接盒的特殊說明</a></li></ul>
+<ul><li><a href="https://en.wikipedia.org/wiki/GeeksPhone_Keon">Geeksphone Keon</a></li></ul>
+<ul><li>Huawei Ascend Y3000II</li></ul>
+<ul><li><a href="https://www.ztedevices.com/product/smart_phone/2bcf2d56-0c9a-4129-a25c-acce58c8e502.html">ZTE Open</a></li></ul>
+<ul><li>「一定要設計出酷炫東西」的堅強意志</li></ul>
+<p>下一步就是設定自己的硬體：</p>
+<ol><li>抽出 Firefox OS 裝置的電池，放入電池外接盒</li></ol>
+<p><img src="../../assets/5432/wp-content/uploads/Battery_in_harness.jpg" alt="Battery_in_harness" loading="lazy"></p>
+<ol><li>將電池外接盒接回裝置</li></ol>
+<p><img src="../../assets/5432/wp-content/uploads/Harness_in_device.jpg" alt="Harness_in_device" loading="lazy"></p>
+<ol><li>接上電流表</li></ol>
+<p><img src="../../assets/5432/wp-content/uploads/Ammeter_connected.jpg" alt="Ammeter_connected" loading="lazy"></p>
+<p><img src="../../assets/5432/wp-content/uploads/mozilla_ammeter.png" alt="mozilla_ammeter" loading="lazy"></p>
+<h4>執行 FxOS Powertool!</h4>
+<p>現在你已經可以啟動 FxOS Powertool! 並蒐集資料了。</p>
+<p>FxOS Powertool! 可將所蒐集的資料儲存為 1). JSON 與 2). 用逗號分隔的數值。另外可在「--out」選項中指定檔案的附檔名，即可儲存為所需的格式。舉下列條件為例：</p>
+<ul><li>我的測試程序敘述檔案取名為 mytests.json</li></ul>
+<ul><li>我使用 Yoctopuce 電流表</li></ul>
+<ul><li>我要用 Tk GUI 顯示耗電量圖表</li></ul>
+<ul><li>我要把蒐集來的資料儲存為 .csv 檔案</li></ul>
+<p>那我的指令列看起來如下：</p>
+<p>$ powertool -d yocto -p /dev/ttyUSB0 -u tk -s current -f mytests.json -</p>
+<p>					1</p>
+<p>						$ powertool -d yocto -p /dev/ttyUSB0 -u tk -s current -f mytests.json -</p>
+<p>如果我要用 Mozilla 電流表，而且不改變測試參數的情況下：</p>
+<p>$ powertool -d mozilla -p /dev/ttyACM0 -u tk -s current -f mytests.json</p>
+<p>					1</p>
+<p>						$ powertool -d mozilla -p /dev/ttyACM0 -u tk -s current -f mytests.json</p>
+<p>接著就會啟動 Tk 圖形使用者介面 (GUI)，且第一次測試作業的名稱會顯示在 App 的標題列上：</p>
+<p><img src="../../assets/5432/wp-content/uploads/Powertool_launch.png" alt="Powertool_launch" loading="lazy"></p>
+<p>如果想控制資料蒐集作業並瀏覽測試結果，則可使用 FxOS Powertool! 的快捷鍵。在 GUI 開啟的狀態下，只要點擊空白鍵即可開始/停止目前所選擇的測試作業。第一次按下空白鍵隨即開始蒐集資料，同樣再按下空白鍵就停止蒐集資料。每一次蒐集作業所得的資料，均會在輸出檔案中呈現為一列資料：</p>
+<p><img src="../../assets/5432/wp-content/uploads/Powertool_test_one.png" alt="Powertool_test_one" loading="lazy"></p>
+<p>針對現有的測試作業，你可重複執行資料直到滿意為止，亦可瀏覽其他測試作業並同樣執行資料。最後也能回到上一筆測試作業繼續執行資料。FxOS Powertool! 不會遺漏任何資料，且能針對各次測試作業的資料執行結果，一併統整到正確的資料檔案中。可透過「L」與「H」鍵瀏覽所有測試作業。「L」會進入下一筆測試資料；「H」則回到上一筆。</p>
+<p><img src="../../assets/5432/wp-content/uploads/Powertool_test_two.png" alt="Powertool_test_two" loading="lazy"></p>
+<p>在搜集到自己所需的測試資料後，只要退出應用程式，資料檔案隨即寫入至磁碟。點擊標題列上的關閉視窗鈕，或是直接按下鍵盤的「Q」均可退出應用程式。而此範例即根據「--out」參數值，將資料輸出為 CSV 格式並命名為「mytests.csv」。應用程式另將建立「mytests」目錄，並將各次測試所蒐集而來的資料分別輸出為 CSV 檔案。</p>
+<p><img src="../../assets/5432/wp-content/uploads/Powertool_csv-1024x640.png" alt="Powertool_csv" loading="lazy"></p>
+<p>如同本文所提及的效果，FxOS Powertool! 也將自動執行基礎的統計作業。在取得原始資料後，隨即可計算出各次測試資料的最小值、最大值、平均值、標準差等數據。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/04/measuring-power-consumption-on-phones/">Measuring power consumption on phones</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824010840id_/https://blog.mozilla.com.tw/?p=5432">Wayback snapshot</a>
+              <span>Post ID: 5432</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

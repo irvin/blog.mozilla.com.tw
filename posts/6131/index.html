@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>將自己的 Facebook 頁面轉為 Firefox OS 行動 App | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">將自己的 Facebook 頁面轉為 Firefox OS 行動 App</h2>
+            <p class="entry-posted"><time datetime="2014-08-21" class="published"><span class="posted-month">8月</span><span class="posted-date">21</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>不論你負責經營的是公司或社群頁面，還有什麼能比獨立的行動 App 更能提高網頁的觸及度呢？</p>
+<p>只要你具備最基本的程式開發知識，再完成 <a href="https://www.apptuter.org/">Apptuter</a> 這個開放源碼框架的必要步驟，就能開發出自己的獨立行動 App。此框架目前支援 Facebook 頁面作為其內容來源，並可用以開發 Firefox OS 與 Android 平台的 App。</p>
+<h3>運作方式</h3>
+<p>先來看看 Apptuter 的運作方式。我們先以 Mozilla 的 Facebook 頁面作為內容來源，產生獨立的 App。</p>
+<h4>複製 Repo</h4>
+<p>第一步就是到 <a href="https://github.com/egirna/apptuter">Apptuter repository</a> 下載或複製 Apptuter-Firefox 目錄：</p>
+<p>git clone https://github.com/egirna/apptuter.git</p>
+<p>					1</p>
+<p>						git clone https://github.com/egirna/apptuter.git</p>
+<p>目錄結構如下：</p>
+<p><img src="../../assets/6131/wp-content/uploads/apptuter-directory-structure-1024x371.png" alt="apptuter-directory-structure" loading="lazy"></p>
+<h4>取得 Facebook 的數字識別碼</h4>
+<p>接著必須取得 Facebook 的頁面識別碼 (純數字)。如果你已經指定了好記又友善的頁面名稱，則網址上不會看到頁面識別碼。這種情形下，我們就必須前往下列網址以檢視之：</p>
+<p>https://graph.facebook.com/mypagename</p>
+<p>					1</p>
+<p>						https://graph.facebook.com/mypagename</p>
+<p>本文的範例就會是：<a href="https://graph.facebook.com/mozilla">https://graph.facebook.com/mozilla</a></p>
+<p>頁面識別碼就是回傳資料的第一行：</p>
+<p><img src="../../assets/6131/wp-content/uploads/apptuter-facebook-numerical-id.png" alt="apptuter-facebook-numerical-id" loading="lazy"></p>
+<h4>建立 Facebook App</h4>
+<p>下一步就是建立 Facebook App。只要組合 APP ID 與 APP SECRET，就會得到 App 的 ACCESS TOKEN；因此必要網址就會如下：</p>
+<p><a href="https://graph.facebook.com/endpoint?key=value&amp;access_token=app_id|app_secret">http://graph.facebook.com/endpoint?key=value&amp;access_token=app_id|app_secret</a></p>
+<p><img src="../../assets/6131/wp-content/uploads/apptuter-facebook-app.png" alt="apptuter-facebook-app" loading="lazy"></p>
+<p>Requesting Page Info (Info.js) 可讓我們定義相關參數，且可於 /Apptuter-Firefox/js 找到取代 PageID 所用的數字：</p>
+<p>var Main = function () {<br>    this.pageName = ‘pageID’;<br>    this.name = null;<br>    this.category = null;<br>    this.description = null;<br>    this.photoArray = null;<br>    this.postArray = null;<br>    this.infoArray = [];<br>    this.accessToken = &#39;AppID|AppSecret&#39;;<br>    this.pictureUrl = null;<br>    this.paging = &#39;https://graph.facebook.com/&#39; + this.pageName + &#39;/posts?limit=20&amp;amp;access_token=&#39;+this.accessToken;<br>    this.pagingNext = &#39;https://graph.facebook.com/&#39; + this.pageName + &#39;/posts?limit=20&amp;amp;access_token=&#39;+this.accessToken;<br>}</p>
+<p>					12345678910111213</p>
+<p>						var Main = function () {    this.pageName = ‘pageID’;    this.name = null;    this.category = null;    this.description = null;    this.photoArray = null;    this.postArray = null;    this.infoArray = [];    this.accessToken = &#39;AppID|AppSecret&#39;;    this.pictureUrl = null;    this.paging = &#39;https://graph.facebook.com/&#39; + this.pageName + &#39;/posts?limit=20&amp;amp;access_token=&#39;+this.accessToken;    this.pagingNext = &#39;https://graph.facebook.com/&#39; + this.pageName + &#39;/posts?limit=20&amp;amp;access_token=&#39;+this.accessToken;}</p>
+<p>接著在根目錄找到 manifest.webapp 檔案，即可於其中定義新的 App 屬性：</p>
+<p>{<br>  &quot;name&quot;: &quot;Mozilla App&quot;,<br>  &quot;description&quot;: &quot;This is an example app of apptuter framework&quot;,<br>  &quot;launch_path&quot;: &quot;/Shared/index.html&quot;,<br>  &quot;icons&quot;: {<br>    &quot;32&quot;: &quot;/images/app_icon_32.png&quot;,<br>    &quot;60&quot;: &quot;/images/app_icon_60.png&quot;,<br>    &quot;90&quot;: &quot;/images/app_icon_90.png&quot;,<br>    &quot;120&quot;: &quot;/images/app_icon_120.png&quot;,<br>    &quot;128&quot;: &quot;/images/app_icon_128.png&quot;,<br>    &quot;256&quot;: &quot;/images/app_icon_256.png&quot;<br>  },<br>  &quot;chrome&quot;: {<br>    &quot;navigation&quot;: true<br>  },<br>  &quot;version&quot;: &quot;1.0.1&quot;,<br>  &quot;developer&quot;: {<br>    &quot;name&quot;: &quot;Egirna Technologies Limited&quot;,<br>    &quot;url&quot;: &quot;http://www.apptuter.org&quot;<br>  },<br>  &quot;orientation&quot;: [<br>    &quot;portrait&quot;<br>  ],<br>  &quot;default_locale&quot;: &quot;en&quot;</p>
+<p>					123456789101112131415161718192021222324</p>
+<p>						{  &quot;name&quot;: &quot;Mozilla App&quot;,  &quot;description&quot;: &quot;This is an example app of apptuter framework&quot;,  &quot;launch_path&quot;: &quot;/Shared/index.html&quot;,  &quot;icons&quot;: {    &quot;32&quot;: &quot;/images/app_icon_32.png&quot;,    &quot;60&quot;: &quot;/images/app_icon_60.png&quot;,    &quot;90&quot;: &quot;/images/app_icon_90.png&quot;,    &quot;120&quot;: &quot;/images/app_icon_120.png&quot;,    &quot;128&quot;: &quot;/images/app_icon_128.png&quot;,    &quot;256&quot;: &quot;/images/app_icon_256.png&quot;  },  &quot;chrome&quot;: {    &quot;navigation&quot;: true  },  &quot;version&quot;: &quot;1.0.1&quot;,  &quot;developer&quot;: {    &quot;name&quot;: &quot;Egirna Technologies Limited&quot;,    &quot;url&quot;: &quot;http://www.apptuter.org&quot;  },  &quot;orientation&quot;: [    &quot;portrait&quot;  ],  &quot;default_locale&quot;: &quot;en&quot;</p>
+<h4>圖素</h4>
+<p>最後就剩下圖素了。到 Repo 的 /Apptuter-Firefox/images 目錄中找到預設圖像，再用對應尺寸與檔案名稱的範例圖示取代。</p>
+<p><img src="../../assets/6131/wp-content/uploads/apptuter-facebook-app-icons.png" alt="apptuter-facebook-app-icons" loading="lazy"></p>
+<h3>成功了！</h3>
+<p>這樣就完成了！接著就透過 <a href="https://developer.mozilla.org/en/docs/Tools/Firefox_OS_Simulator">Firefox OS 模擬器 (Firefox OS Simulator)</a> 測試 App 的樣子：</p>
+<p><img src="../../assets/6131/wp-content/uploads/apptuter-facebook-firefox-os-app-1.png" alt="apptuter-facebook-firefox-os-app-1" loading="lazy"></p>
+<p><img src="../../assets/6131/wp-content/uploads/apptuter-facebook-firefox-os-app-2.png" alt="apptuter-facebook-firefox-os-app-2" loading="lazy"></p>
+<p><img src="../../assets/6131/wp-content/uploads/apptuter-facebook-firefox-os-app-3.png" alt="apptuter-facebook-firefox-os-app-3" loading="lazy"></p>
+<p>你最後必須確保軟體符合 Facebook、Google、Mozilla 的服務條款，以及消費者授權協定的規範。而且相關規定亦適用該軟體可整合的其他服務。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/08/turn-your-facebook-page-into-a-firefox-os-mobile-app/">Turn your Facebook page into a Firefox OS mobile app</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190825004626id_/https://blog.mozilla.com.tw/?p=6131">Wayback snapshot</a>
+              <span>Post ID: 6131</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

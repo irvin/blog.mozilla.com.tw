@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>來開發 Firefox OS 的筆記應用程式 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">來開發 Firefox OS 的筆記應用程式</h2>
+            <p class="entry-posted"><time datetime="2014-05-21" class="published"><span class="posted-month">5月</span><span class="posted-date">21</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>這篇文章將說明筆記 App (就像 Evernote) 從無到有的開發過程，並佈署到 Firefox OS！請先觀看<a href="https://notes.sproute.io/">即時展示</a>。</p>
+<p>筆記 App 應可讓使用者儲存個人擁有的筆記 (不能任由他人閱讀)。我自己是愛用《<a href="https://getsproute.com/">Sproute</a>》後端解決方案。Sproute 屬於架設/托管式 (Hosted) 的 Web 框架，可迅速建立動態的 webapps。</p>
+<p>首先要用專屬的子網域<a href="https://getsproute.com/signup">建立帳號</a>，再從 <a href="http://%3cmysubdomain%3e.sproute.io/admin">http://.sproute.io/admin</a> 進入「Dashboard」。往後使用註冊 Sprotue 時的相同資訊即可登入。</p>
+<h4>模型</h4>
+<p>Sproute 即使用所謂「<a href="https://getsproute.com/docs/models">模型 (Model)</a>」的概念。模型將定義 App 中的動態資料，並透過某些屬性設定來確保資料的完整性 (Data integrity)。這裡先建立新的模型並命名為「notes」，並有下列欄位與屬性：</p>
+<ul><li>body ：文字、必填欄位、至少需為 1</li></ul>
+<ul><li>sharing ：文字，可為「 public 」與「 private 」；預設值為 private</li></ul>
+<p><img src="../../assets/5629/wp-content/uploads/Screen-Shot-2014-03-21-at-3.00.37-PM.png" alt="Screen-Shot-2014-03-21-at-3.00.37-PM" loading="lazy"></p>
+<p>為「notes」所填寫的模型表格</p>
+<p>「body」欄位將儲存筆記內容。「sharing」欄位將指定該筆記是否可讓他人觀看 (將提供直接連結)，或僅限擁有者觀看。開發者只需要定義此項資料，其他都由<a href="https://getsproute.com/docs/rest#built-in-fields">內建欄位</a>所代勞。</p>
+<h4>列出筆記</h4>
+<p>接著要為使用者列出可閱讀的筆記。只要透過「頁面 (Page)」就能達到此目的。所謂的「頁面」都是 HTML 搭配嵌入式的<a href="https://getsproute.com/docs/pages">樣板標籤 (Template tag)</a>，可檢索並處理資料。</p>
+<p>開啟 index 頁面。這也是他人檢視你的空間時的首頁。我們會把筆記列於此處。接著添增下列：</p>
+<p>{{ get /data/notes?sort=_lastUpdated,desc as notes }}</p>
+<p>					1</p>
+<p>						{{ get /data/notes?sort=_lastUpdated,desc as notes }}</p>
+<p>這裡透過 <a href="https://getsproute.com/docs/rest">HTTP 介面</a>檢索所有資料，因此 {{ get }} 標籤必須取得一組網址。上述請求將檢索記錄於使用者之中的所有筆記，另將結果儲存在「notes」變數之中。我們會透過查詢參數，將最後修改過的結果排序 (一組底線即代表一個內建的欄位)。</p>
+<p>接著在清單中顯示各個筆記：</p>
+<p>&lt;ul&gt;<br>    {{ each notes as note }}<br>        &lt;li&gt;&lt;a href=&quot;/view/{{note._id}}&quot;&gt;<br>        {{ word note.body 0 5 }}<br>        &lt;/a&gt;&lt;/li&gt;<br>    {{ / }}<br>&lt;/ul&gt;</p>
+<p>					1234567</p>
+<p>						&lt;ul&gt;    {{ each notes as note }}        &lt;li&gt;&lt;a href=&quot;/view/{{note._id}}&quot;&gt;        {{ word note.body 0 5 }}        &lt;/a&gt;&lt;/li&gt;    {{ / }}&lt;/ul&gt;</p>
+<p>{{ word }} 這個樣板標籤，會擷取主要內容的前五個字出來。我們透過網址 /view/&lt;id&gt;. note 連上未完成的頁面。_id 則為內建的唯一識別碼 (Identifier)。</p>
+<p><img src="../../assets/5629/wp-content/uploads/Screen-Shot-2014-03-21-at-3.09.57-PM-1024x416.png" alt="Screen-Shot-2014-03-21-at-3.09.57-PM" loading="lazy"></p>
+<p>在「index」頁面中添加上述程式碼</p>
+<h4>建立筆記</h4>
+<p>在針對筆記而建立 view 頁面之前，先做一個可建立筆記的新頁面。建立新的頁面並稱之為 create。新增下列 HTML：</p>
+<p>&lt;form action=&quot;/data/notes?goto=/&quot; method=&quot;post&quot;&gt;<br>    &lt;div&gt;&lt;textarea name=&quot;body&quot;&gt;&lt;/textarea&gt;&lt;/div&gt;<br>    &lt;div&gt;&lt;select name=&quot;sharing&quot;&gt;<br>        &lt;option value=&quot;private&quot;&gt;Private&lt;/option&gt;<br>        &lt;option value=&quot;public&quot;&gt;Public&lt;/option&gt;<br>    &lt;/select&gt;&lt;/div&gt;<br>    &lt;button type=&quot;submit&quot;&gt;Create Note&lt;/button&gt;<br>&lt;/form&gt;</p>
+<p>					12345678</p>
+<p>						&lt;form action=&quot;/data/notes?goto=/&quot; method=&quot;post&quot;&gt;    &lt;div&gt;&lt;textarea name=&quot;body&quot;&gt;&lt;/textarea&gt;&lt;/div&gt;    &lt;div&gt;&lt;select name=&quot;sharing&quot;&gt;        &lt;option value=&quot;private&quot;&gt;Private&lt;/option&gt;        &lt;option value=&quot;public&quot;&gt;Public&lt;/option&gt;    &lt;/select&gt;&lt;/div&gt;    &lt;button type=&quot;submit&quot;&gt;Create Note&lt;/button&gt;&lt;/form&gt;</p>
+<p>真簡單！如上面說過的，現在可透過 HTTP 介面檢索並修改所有資料。也就是說，我們可透過簡單的 HTML 表單建立新的筆記。而 goto 這個查詢參數會把使用者重新導向到該網址。</p>
+<p>因為這是新的頁面，所以我們應該建立新的路徑，讓使用者能順利存取此頁面。一組 <a href="https://getsproute.com/docs/routes">route</a> 即屬於請求網址的一種格式 (pattern)，只要網址的格式符合就隨即描繪頁面。而 index 頁面早已有一組路徑。只要點擊 Routes 就可透過下列方式建立新的路徑：</p>
+<p>Route: /create, Page: create.</p>
+<p><img src="../../assets/5629/wp-content/uploads/Screen-Shot-2014-03-21-at-3.08.44-PM-1024x232.png" alt="Screen-Shot-2014-03-21-at-3.08.44-PM" loading="lazy"></p>
+<p>前往「create」頁面的新路徑</p>
+<h4>使用者登入與註冊</h4>
+<p>使用者帳戶均建構至 Sproute 內，但我們仍必須建立「Register and Login」的頁面。還好這裡同樣有簡單 HTML 表單可用，所以就建立一個 users 的新頁面，並新增以下：</p>
+<p>&lt;h2&gt;Login&lt;/h2&gt;<br>&lt;form action=&quot;/api/login?goto=/&quot; method=&quot;post&quot;&gt;<br>    &lt;label&gt;<br>        &lt;div&gt;Username:&lt;/div&gt;<br>        &lt;input type=&quot;text&quot; name=&quot;name&quot; /&gt;<br>    &lt;/label&gt;<br>    &lt;label&gt;<br>        &lt;div&gt;Password:&lt;/div&gt;<br>        &lt;input type=&quot;password&quot; name=&quot;pass&quot; /&gt;<br>    &lt;/label&gt;<br>    &lt;button type=&quot;submit&quot;&gt;Login&lt;/button&gt;<br>&lt;/form&gt;</p>
+<p>					123456789101112</p>
+<p>						&lt;h2&gt;Login&lt;/h2&gt;&lt;form action=&quot;/api/login?goto=/&quot; method=&quot;post&quot;&gt;    &lt;label&gt;        &lt;div&gt;Username:&lt;/div&gt;        &lt;input type=&quot;text&quot; name=&quot;name&quot; /&gt;    &lt;/label&gt;    &lt;label&gt;        &lt;div&gt;Password:&lt;/div&gt;        &lt;input type=&quot;password&quot; name=&quot;pass&quot; /&gt;    &lt;/label&gt;    &lt;button type=&quot;submit&quot;&gt;Login&lt;/button&gt;&lt;/form&gt;</p>
+<p>只要複製登入表單，並將「action」屬性取代為 /api/register，就能在相同頁面上添增註冊表單。另透過下列建立兩組新路徑：</p>
+<ul><li>Route: /login , Page: users</li></ul>
+<ul><li>Route: /register , Page: users</li></ul>
+<h4>檢視並更新筆記</h4>
+<p>之前是建立一組連結，以利檢視某一筆記。接著要讓使用者修改筆記。先建立新頁面並稱之為 view，添增下列：</p>
+<p>{{ get /data/notes/_id/:params.id?single=true admin as note }}</p>
+<p>{{ if note.sharing eq private }}<br>    {{ if note._creator neq :session.user._id }}<br>        {{ error This note is private }}<br>    {{ / }}<br>{{ / }}</p>
+<p>&lt;form action=&quot;/data/notes/_id/{{params.id}}?goto=/&quot; method=&quot;post&quot;&gt;<br>    &lt;div&gt;&lt;textarea name=&quot;body&quot;&gt;{{note.body}}&lt;/textarea&gt;&lt;/div&gt;<br>    &lt;div&gt;&lt;select name=&quot;sharing&quot;&gt;<br>       &lt;option value=&quot;private&quot; selected&gt;Private&lt;/option&gt;<br>       &lt;option value=&quot;public&quot;&gt;Public&lt;/option&gt;<br>    &lt;/select&gt;&lt;/div&gt;<br>    &lt;button type=&quot;submit&quot;&gt;Update Note&lt;/button&gt;<br>&lt;/form&gt;</p>
+<p>					12345678910111213141516</p>
+<p>						{{ get /data/notes/_id/:params.id?single=true admin as note }} {{ if note.sharing eq private }}    {{ if note._creator neq :session.user._id }}        {{ error This note is private }}    {{ / }}{{ / }} &lt;form action=&quot;/data/notes/_id/{{params.id}}?goto=/&quot; method=&quot;post&quot;&gt;    &lt;div&gt;&lt;textarea name=&quot;body&quot;&gt;{{note.body}}&lt;/textarea&gt;&lt;/div&gt;    &lt;div&gt;&lt;select name=&quot;sharing&quot;&gt;       &lt;option value=&quot;private&quot; selected&gt;Private&lt;/option&gt;       &lt;option value=&quot;public&quot;&gt;Public&lt;/option&gt;    &lt;/select&gt;&lt;/div&gt;    &lt;button type=&quot;submit&quot;&gt;Update Note&lt;/button&gt;&lt;/form&gt;</p>
+<p>針對已傳送進網址 (透過 params 物件) 的筆記，我們再透過請求而取得筆記資料。查詢參數 single=true 只會回傳單一物件，而非包含單一物件的集合。admin 另將根據特定的使用者類型而執行請求。接著要檢查此筆記是否為私人筆記。如果使用者並非建立者，就會丟出錯誤訊息。</p>
+<p>更新表單可輕鬆建立表單。只要 _id 符合網址中的筆記，我們只需更改 action 以更新該筆記即可。</p>
+<p>此頁面需要較複雜的路徑。我們應於路徑中使用替代字串 (placeholder)，讓 /view/anything 仍能符合 view 頁面的路徑格式，並將 anything 儲存於變數之中。</p>
+<p>以下可建立路徑：</p>
+<ul><li>Route: /view/:id , Page: view</li></ul>
+<p>現在你可知道 params.id 是從哪來的。param 物件將包含路徑中符合替代字串的所有匹配值。</p>
+<h4>權限</h4>
+<p>Sproute 最後一個重要概念就是<a href="https://getsproute.com/docs/permissions">權限 (Permission)</a>。權限就如同路徑，其中有請求的網誌必須符合格式；而並非指向網頁。權限將檢驗必要的<a href="https://getsproute.com/docs/permissions#user-types">使用者類型</a>。</p>
+<p>點擊權限並添增下列：</p>
+<ul><li>Method: GET , Route: /data/notes , User: Owner</li></ul>
+<ul><li>Method: GET , Route: /data/notes *, User: Owner</li></ul>
+<p>如此可確保系統只會列出特定使用者 (如筆記擁有人) 所建立的筆記。基於第二權限，我們必須執行 {{ get }} 請求為 admin；否則即使是公開筆記，也會對所有人 (除了管理人員與筆記建立者) 丟出錯誤訊息。</p>
+<p><img src="../../assets/5629/wp-content/uploads/Screen-Shot-2014-03-21-at-3.23.16-PM-1024x428.png" alt="Screen-Shot-2014-03-21-at-3.23.16-PM" loading="lazy"></p>
+<p>新增權限以檢索筆記</p>
+<h4>Firefox OS 支援情形</h4>
+<p>Sproute 可於 Firefox OS 上輕鬆支援<a href="https://developer.mozilla.org/en-US/Marketplace/Publishing/Publish_options#Hosted_apps">架設/托管式 (Hosted) App</a>。只要用 <a href="https://developer.mozilla.org/zh-TW/Apps/Developing/Manifest/Manifest-840092-dup">manifest 檔案的 JSON 資料</a>建立頁面，並設定路徑為 /manifest.webapp 即可。</p>
+<p>建立新頁面並稱之為 manifest：</p>
+<p>{<br>    &quot;name&quot;: &quot;{{self.name}}&quot;,<br>    &quot;description&quot;: &quot;A persistent notes app&quot;,<br>    &quot;launch_path&quot;: &quot;/&quot;,<br>    &quot;icons&quot;: {<br>        &quot;128&quot;: &quot;/absolute/path/to/icon&quot;<br>    }<br>}</p>
+<p>					12345678</p>
+<p>						{    &quot;name&quot;: &quot;{{self.name}}&quot;,    &quot;description&quot;: &quot;A persistent notes app&quot;,    &quot;launch_path&quot;: &quot;/&quot;,    &quot;icons&quot;: {        &quot;128&quot;: &quot;/absolute/path/to/icon&quot;    }}</p>
+<p>另以 /manifest.webapp 的格式建立路徑，以指向 manifest 頁面。</p>
+<p>這樣就完成了！只要在<a href="https://developer.mozilla.org/zh-TW/Firefox_OS/Using_the_App_Manager">應用程式管理員 (App Manager)</a> 中使用此 manifest 檔案的連結(<a href="https://notes.sproute.io/manifest.webapp">http://notes.sproute.io/manifest.webapp</a>)，即可進行測試。<a href="https://github.com/sproute/sproute">現已可於 GitHub 上找到開放源碼的《Sproute》</a>，並由 Mozilla Public License v2 授權使用。你可複製整個 repo 供私人架設。</p>
+<p>註：你會在「應用程式管理員」看到「manifest」中文翻譯為「安裝資訊檔」。</p>
+<p><img src="../../assets/5629/wp-content/uploads/Screen-Shot-2014-03-21-at-3.27.39-PM.png" alt="Screen-Shot-2014-03-21-at-3.27.39-PM" loading="lazy"></p>
+<p>因行動裝置寬度所呈現的筆記 App</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/03/building-a-persistent-notes-app-for-firefox-os/">Building a persistent Notes app for Firefox OS</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190825002545id_/https://blog.mozilla.com.tw/?p=5629">Wayback snapshot</a>
+              <span>Post ID: 5629</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

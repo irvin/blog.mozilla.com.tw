@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Firefox 49 可修復以 WebKit 所設計的網站，還有更多 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Firefox 49 可修復以 WebKit 所設計的網站，還有更多</h2>
+            <p class="entry-posted"><time datetime="2016-10-05" class="published"><span class="posted-month">10月</span><span class="posted-date">5</span><span class="posted-year">2016</span></time></p>
+          </header>
+          <div class="entry-content"><p>我們之前提過 <a href="https://blog.mozilla.com.tw/posts/8934/">Web 開發者應重視跨瀏覽器相容性</a>的理由，另<a href="https://hacks.mozilla.org/category/a-web-for-everyone-interviews/">訪談了幾位 Web 開發者的秘訣</a>。說到 Web 內容的相容性，開發者以及瀏覽器廠商絕對扮演了重要角色。就透過本文為大家介紹數個<a href="https://developer.mozilla.org/en-US/Firefox/Releases/49#Compatibility">相容性的相關功能</a>，也說明目前 <a href="https://compat.spec.whatwg.org/">WHATWG 相容性標準</a>的進度。</p>
+<p>此版本有數項頗重要的變化，包含目前已支援多個 <br>			-webkit-  前綴，以及 WebKit 專屬介面。這些平台的特色就是尚未成為標準、極為普遍、受特定內容供應商所愛用。</p>
+<p>即便瀏覽器內容已經依照標準而設計，但是非標準、不相容的 CSS 卻仍會破壞整個版面。瀏覽器若不支援 <br>			-webkit-  前綴 (如 Firefox 48 或更低版本)，瀏覽相關網站的網頁效果就不佳，且必須等到這些網站更新 CSS 之後才會有所改善。也因此 Firefox 49 透過以下變更來因應 WebKit 的特定內容：</p>
+<ul><li>支援 <a href="https://developer.apple.com/library/iad/documentation/AudioVideo/Reference/WebKitCSSMatrixClassReference/index.html">WebKitCSSMatrix()</a> 介面。</li></ul>
+<ul><li>支援 - webkit - gradient ( ) 。</li></ul>
+<ul><li>具有 - webkit - 前綴的屬性，可對應其同義的標準屬性。</li></ul>
+<ul><li>具有 - webkit - 前綴的舊版 flexbox 屬性，可直接對應為 - moz - 前綴的 flexbox 屬性。</li></ul>
+<ul><li>支援下列尚需前綴的 CSS 屬性： <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-text-fill-color">-webkit-text-fill-color</a></li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-text-stroke-color">-webkit-text-stroke-color</a></li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-text-stroke-width">-webkit-text-stroke-width</a></li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/-webkit-text-stroke">-webkit-text-stroke</a></li></ul>
+<h4>(非) 常見問題：</h4>
+<p>那對我代表了哪種意義？</p>
+<p>對使用者來說，專為 WebKit 瀏覽器所設計的網站 (特別是行動裝置)，即透過上述改動來提升相容性。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/okcupid-1024x745.png" alt="okcupid" loading="lazy"></p>
+<p>而開發者可能會想回頭將無前綴的對等屬性，新增到自己的 webkit 專用的 CSS 之上。理論上，我們總有一天會從 Web 平台上移除這類屬性。給你的專業建議：把無前綴的屬性永遠擺在最後面。</p>
+<p>這樣會破壞我的網站吧？</p>
+<p>我們當然希望不會！但你可透過下列設定來測試：</p>
+<p>about:config?filter=layout.css.prefixes.webkit</p>
+<p>					1</p>
+<p>						about:config?filter=layout.css.prefixes.webkit</p>
+<p>如果有「變得更糟」的情形，請立刻到 <a href="https://bugzilla.mozilla.org/">bugzilla.mozilla.org</a> 回報並隨信通知 <a href="mailto:mitaylor@mozilla.com">mitaylor@mozilla.com</a>；也可透過 <a href="https://webcompat.com/">webcompat.com</a> 回報。</p>
+<p>我應該從現在開始使用 -webkit- 前綴嗎？</p>
+<p>其實沒必要。但請你記得要使用 Web 標準，並在多款瀏覽器上持續測試即可。如果你必須使用 <br>			-webkit-  前綴 (與以前相比，現在使用的理由更少了)，請一定要把將這些前綴擺在你無前綴的屬性之前。</p>
+<p>更多詳情：Mike 會持續更新相容標準。<a href="https://github.com/whatwg/compat/issues/">如果你也想貢獻，也有很多可幫忙的地方</a>！</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2016/09/firefox-49-fixes-sites-designed-with-webkit-in-mind-and-more/">Firefox 49 fixes sites designed with WebKit in mind, and more</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>訪談了幾位 Web 開發者的秘訣</span><span>Firefox</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20200927103944id_/https://blog.mozilla.com.tw/?p=9235">Wayback snapshot</a>
+              <span>Post ID: 9235</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

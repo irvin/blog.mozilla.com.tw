@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>[ 行動 App 開發密技 ] Remote-debugger | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">[ 行動 App 開發密技 ] Remote-debugger</h2>
+            <p class="entry-posted"><time datetime="2013-01-24" class="published"><span class="posted-month">1月</span><span class="posted-date">24</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p>這幾天試了一下最近更新的 Firefox OS Simulator，發現現在的 Simulator 更新了，如果需要在上面使用 Remote debugger 還需要一番工夫，在這邊跟大家說明一下。</p>
+<p>如果你正在用 Remote debugger on Simulator 會發現原本慣用的 port 6000 就算打開了 remote debugger 選項也不會動了，主要的原因是因為為了避免跟其他系統開的 port 衝突的關係，目前 remote debugger 的 port 改成隨機的了。還好我們可以在 error console 裡面看到這個資訊。</p>
+<p>不過在這邊順便說明一下要怎麼啟用 remote debugger。</p>
+<ol><li>首先你要下載以及安裝 Firefox Nightly。</li></ol>
+<ol><li>接下來在你的 nightly 裡面安裝 Firefox OS Simulator</li></ol>
+<p>接下來進入 nightly 在網址列鍵入 about:config，並且搜尋 devtools.debugger.remote-enabled，把這個數值設成 true 並且重新啓動 nightly，做完這步後你的 Tools -&gt; Web Developer 就會出現 Connect… 的選項。</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/126.jpg"><img src="../../assets/1813/wp-content/uploads/126-1024x575.jpg" alt="" loading="lazy"></a></p>
+<p>這個時候我們先不急著打開 remote debugger，先按 Tools -&gt; Web Developer -&gt; Firefox OS Simulator，並且把旁邊的 switch 撥到 running…</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/28.jpg"><img src="../../assets/1813/wp-content/uploads/28-1024x577.jpg" alt="" loading="lazy"></a></p>
+<p>啓動之後，此時 remote debugger 也會隨著 simulator 跟著啟動了，現在我們需要得知 remote debugger 的 port number。這個時候請到 Tools -&gt; Web Developer -&gt; Error Console，並且在左下角的 Filter 裡面輸入 remoteDebuggerPort，這個時候就會過濾出 remote debugger port。</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/36.jpg"><img src="../../assets/1813/wp-content/uploads/36-1024x660.jpg" alt="" loading="lazy"></a></p>
+<p>這個時候到 Tools -&gt; Web Developer -&gt; Connect… 當中，保持 Host 為 localhost，並且把剛剛得知的 port 鍵入，選擇 shell.xul 你就可以開始使用 Remote Debugger 囉！有兩個分頁，第一個是 Web Console，第二個是 Javascript debugger：</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/46.jpg"><img src="../../assets/1813/wp-content/uploads/46-1024x748.jpg" alt="" loading="lazy"></a></p>
+<p>Enjoy!</p>
+<p>本文章由 Firefox OS 開發工程師 Yuren Ju 撰寫</p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=1813">Wayback snapshot</a>
+              <span>Post ID: 1813</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Marketplace：制定 App 的價格 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Marketplace：制定 App 的價格</h2>
+            <p class="entry-posted"><time datetime="2014-01-22" class="published"><span class="posted-month">1月</span><span class="posted-date">22</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>你是熱血的 Firefox OS 開發者，而且早已設計了許多 App 準備大展身手嗎？努力之後總需要對等的收穫來肯定自己。如果你想透過 Firefox Marketplace 推銷自己的 App，讓開發的心血能為自己另闢一項收入，就當然要了解如何為自己的 App 定價！</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/firefox-marketplace1.jpg" alt="firefox-marketplace" loading="lazy"></p>
+<p>本文將為開發者說明於 Firefox Marketplace 中制定 App 價格與收款的方法。因為開發者可能在 Firefox Marketplace 中制定不同的跨國價格，所以定價方式有點複雜。本文即提供相關資訊。</p>
+<h4>以「價格點數」定價</h4>
+<p>在 Firefox Marketplace 中，開發者必須透過固定的「價格點數 (Price point)」完成定價。只要先選取價格點數，就會套用為所有地區的等值價格。開發者可選擇任一價格點數，而該價格隨即套用為所有地區最通用貨幣的等值定價。而針對開發者所選定 App 或應用程式內部付費 (In-app Payments) 的販售地區，該定價隨即提供給該地區的消費者知道。價格點數範圍從 US$0.10 (點數 1) 到 US$49.99 (點數 140)。價格點數可設定 Firefox Marketplace 中的 App 與 In-app Payments。</p>
+<p>範例：若 App 設定為「10」的價格點數，則在通用美金的地區就是售價 US$0.99 (未含當地銷售稅)；通用歐元的地區就是售價 €0.89 (已含歐洲增值稅)；在哥倫比亞以電信帳單代繳的售價為 COP$2060.00 (包含哥倫比亞區的增值稅)，以信用卡繳款的售價則為 US$0.99。</p>
+<h4>價格點數表</h4>
+<p>注意：由於本表不定期發生變動，敬請直接透過 <a href="https://developer.mozilla.org/zh-TW/docs/Mozilla/Marketplace/Monetization/App_pricing">MDN 文內所提供的表格</a>系統了解最新變化。文中並將註明表格最後更新的時間。</p>
+<h4>制定產品價格</h4>
+<p>如果要為自己的 App 或 In-app 產品定價，就必須選擇價格點數與想要銷售的地區。對 App 來說，選擇銷售國家並不會限制其他國家的消費者購買 App，只會決定 App 所將上架的國家 (可能不只一個國家)。即使消費者身處其他國家，只要付款方式亦可用於 App 上架的國家，同樣可購買該 App。</p>
+<h4>價格點數表如何運作？</h4>
+<p>Marketplace 將針對各種幣別預先設定匯率，再轉換為美金以外的計價並四捨五入，更貼近市場友善的數字。四捨五入的價格與外幣匯率的波動，都代表美金以外的定價不會隨時等值於美金現價。除非考量到多國換匯之後的相對價格需進行調整，否則美金以外的定價均將保持不動。Mozilla 也不會刻意常常調整定價，且最快每六個月才會調價一次。價格點數一般均保持在美金定價的 1% ~ 2% 之內。而由於某些國家定價另納入了增值稅，因此可能超出此範圍。</p>
+<h4>含稅價與未稅價的價格點數</h4>
+<p>顯示於不同地區的價格可能含稅或未稅。含稅價代表該價格已含稅 (一般為增值稅，VAT) 並顯示給消費者知道。未稅價則代表稅額 (若有對應稅額) 將另外再加至顯示的價格中。</p>
+<p>各國家與地區的增值稅略不相同，但一般均依照 App 販售國家 (由電信營運商收取) 的增值稅率而定；或是在英國適用增值稅的地區以信用卡付款，則為 20% 增值稅率。一旦消費者確定付款之後，就會根據其付款資訊中登記地區的幣別，或目前所在地區的幣別計算。</p>
+<p>如果消費者所在地區顯示的是未稅價，則當地稅額與費用將再加入 App 售價之中。消費者可能要收到發票，或由銀行/電信營運商寄發對帳單之後，才會看到實際的稅額。</p>
+<h4>那又將如何拆帳？</h4>
+<p>在將自己設定為「開發者」的付款帳戶之後，即可選擇往後收款的幣別。目前支援的付款幣別包含美金 ($)、歐元 (€)、英鎊 (£)。若是含稅價格，則開發者在正常情況下會收到「消費者購買 App 金額扣除稅額與特定費用」的 70%。若是未稅價格，則會收到「消費者針對 App 定價表付款」的 70%；應付稅額另再加到消費者實際付款額之中。由於匯率浮動與增殖稅率的差異，各地區的實收金額也有所變動。</p>
+<p>而上述金額的另外 30%，將由 Mozilla、電信營運商、第三方支付供應商拆帳。其內包含商業交易程序的相關交易與服務費用。根據目前既定的分配方式，Mozilla 約將收取 5% ~ 7.5%。</p>
+<h4>付款方式 ─ 電信帳單代繳與信用卡</h4>
+<p>透過 Firefox Marketplace 販售自己 App 的絕佳優點之一，就是能直接讓消費者透過行動電話帳戶付款。對信用卡尚未普及的新興市場而言，此特色絕對是目前行動付款的重要媒介。</p>
+<p>目前為止，電信營運商必須與 Mozilla 簽訂合約之後，才能在所屬地區提供電信帳單代繳的服務。消費者必須申請該電信營運商的 SIM 卡並預繳特定金額，以順利支付 App 或 In-app Payment 的款項。當然，消費者亦可透過信用卡購買 App。</p>
+<p>針對客戶透過自己行動電話號碼付費的機制，某些電信營運商另設有最低與最高額度，而且各家營運商均有不同。若 App 定價超出該額度，則款項預設轉為信用卡支付；但又並非所有消費者均擁有信用卡。又有些地區並無法和營運商值接建立帳單服務，而必須透過信用卡付款，如此就限定需以美金、歐元、英鎊購買 App。</p>
+<p>針對信用卡部分，目前最低收費款項為 10 價格點數 (即美金 $0.99 元整)；而最高款項為美金 $30.00 元整。</p>
+<p>接受 Visa® 與 MasterCard® 信用卡。</p>
+<h4>慎防詐騙</h4>
+<p>第三方支付供應商已具備多種詐騙防止方式。為了減少詐騙行為，目前僅限消費者實際所在地銀行發行的信用卡，才能用以支付 App 購買款項。因此，消費者若持巴西境內銀行所發行的信用卡，就只能在巴西國內使用該信用卡，而不能跑到哥倫比亞境內購買 App。</p>
+<h4>取得自己的收益 ─ 設定收款帳戶</h4>
+<p>開發者若要能確實收到自己 App 或 In-app Payments 所創造的營收，必須先針對自己所選擇的 App 販售地區，開好當地支付供應商所提供的帳戶。各家支付供應商都具備服務條款，與 Mozilla 的服務條款不盡相同。開發者必須同意供應商的條款之後，才能透過 Firefox Marketplace 銷售自己的 App 或取得 In-app Payments 款項。</p>
+<p>你也可在 Firefox Marketplace 中設定開發者的收款帳戶。先找到 App 的「Compatibility &amp; Payments」之後，針對你所選擇的販售地區新增收款帳戶即可。</p>
+<p>Bango 則是 Firefox Marketplace 的支付供應商。</p>
+<h4>收取屬於自己的款項</h4>
+<p>開發者可直接與支付供應商往來，以順利取得屬於自己的款項。你會收到「自行對帳發票 (Self Billing Invoice，SBI)」，其中將列舉開發者銷售總額、消費者退費總額、開發者實際收取總額。若你的 App 販售地區可退增值稅，則總額也將包含增值稅額。</p>
+<p>你可透過自己在 Firefox Marketplace 中的開發者帳戶，找到支付供應商的付款入口網頁。由於各國電信營運商入帳時程各有不同，且消費法規也可能影響退款速度，所以帳戶的收款條件與時程也有所差異。請自行了解第三方支付供應商的相關條件與說明。</p>
+<h4>稅額</h4>
+<p>增值稅 (Value Added Tax，VAT)</p>
+<p>Bango 可針對當地的稅捐機關，處理增值稅 (VAT) 退稅問題。根據各個國家與地區的法律規定，相關徵稅與退稅的條件均有不同。開發者可向會計師或稅捐機關諮詢。而自行對帳發票 (SBI) 將根據增值稅稅前金額，開立發票給 Bango。開發者到時候觀看支付清單即可了解運作情形。如果開發者身處不屬於「販售者需支付增值稅」的地區，則應該會收到當地稅捐機關的退稅。相關細節請向會計師諮詢。</p>
+<p>預扣稅額與換匯費用</p>
+<p>Bango 可支付美金 ($)、歐元 (€)、英鎊 (£)，讓開發者自行選擇適合的幣別。Bango 可能會因法條規範，為開發者預扣或繳付當地稅額，因此會從支付帳款中扣除應付稅額。各國的預扣稅率均不相同，也可能必須支付換匯費用。在將當地貨幣換成等值的美金、歐元、英鎊時，就可能產生 1.9% ~ 2.5% 的換匯費用。這項費用對開發者並不算友善，而 Mozilla 也正研究是否有替代方案。</p>
+<h4>開發者的收益</h4>
+<p>因所在國家、當地貨幣、付款方式的不同，開發者販售 App 所獲得的收益也有所差異。可參閱<a href="https://developer.mozilla.org/en-US/Marketplace/Monetization/Payments_Status">付款狀態</a>以進一步了解各國的付款細節。</p>
+<p>Mozilla 開發者社群網站 (MDN) 原文連結：<a href="https://developer.mozilla.org/en-US/Marketplace/Monetization/App_pricing">App pricing</a></p>
+<p>你也可參閱中文版：<a href="https://developer.mozilla.org/zh-TW/docs/Mozilla/Marketplace/Monetization/App_pricing">制定 App 的價格</a>；並參閱 MDN 的更多 Firefox OS 或 Marketplace 相關文章。</p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=4793">Wayback snapshot</a>
+              <span>Post ID: 4793</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

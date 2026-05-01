@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>偵測觸碰事件：重點在「原因」而非「方法」─ 下篇 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">偵測觸碰事件：重點在「原因」而非「方法」─ 下篇</h2>
+            <p class="entry-posted"><time datetime="2013-04-22" class="published"><span class="posted-month">4月</span><span class="posted-date">22</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><h3>要用手指碰還是用滑鼠點？</h3>
+<p>那這種同時具備觸控與其他輸入方式的裝置，又有什麼解決方案呢？透過某些使用者的意見，已經有開發人員著手建構「觸碰」的偵測功能。如同其他許多網頁開發的案例，我們當然不可能完全了解使用者對網頁與 App 的互動方式，也不會知道使用者的輸入偏好。與其假設一大堆東西，到不如讓程式碼儘量滿足所有可能性。進一步來說，與其決定要以 click 或 touchend/touchstart 互動，乾脆就全部納入建構考量。</p>
+<p>當然，程式碼可能會長一點多一點，卻能讓 App 吸引更多使用者。若開發人員已經讓特定滑鼠的介面也能搭配鍵盤，那他們應該會覺得這個方法很熟悉：只要「交疊 (Double up)」事件接收器 (Listener) 即可。但同時應停止模擬的滑鼠事件，以避免在觸碰事件之後啟動，而造成雙重發動的狀態：</p>
+<p>blah.addEventListener(&#39;touchend&#39;, function(e) {<br>  /<em> prevent delay and simulated mouse events </em>/<br>  e.preventDefault();<br>  someFunction()<br>});<br>blah.addEventListener(&#39;click&#39;, someFunction());<br>如果你覺得這樣還不夠 DRY 的話，這裡還可以讓程式更漂亮。但僅能針對滑鼠點擊的動作而定義函式，接著再確實發動處理器 (Handler)，進而繞過延遲不管：</p>
+<p>blah.addEventListener(&#39;touchend&#39;, function(e) {<br>  /<em> prevent delay and simulated mouse events </em>/<br>  e.preventDefault();<br>  /<em> trigger the actual behavior we bound to the &#39;click&#39; event </em>/<br>  e.target.click();<br>})<br>blah.addEventListener(&#39;click&#39;, function() {<br>  /<em> actual functionality </em>/<br>});<br>最後的片段並不足以囊括所有可能的情況。若需要更完整的範例，可參閱 <a href="https://labs.ft.com/">FT labs</a> 所提供的 <a href="https://github.com/ftlabs/fastclick">FastClick</a> 指令碼。</p>
+<h3>兼顧所有輸入方式</h3>
+<p>觸控式裝置上的延遲功能，並不是開發人員與觸控功能奮戰的唯一理由。目前的相關討論 (如 Modernizr 中的 <a href="https://github.com/Modernizr/Modernizr/issues/869">detecting a mouse user</a> 一文) 已經談到是否該針對觸控功能，而提供與滑鼠/鍵盤截然不同的介面；其中也提到如懸浮觸控的特定裝置或瀏覽器。且除了 JavaScript 之外，類似的概念 (指示器與懸浮媒體功能) 也擴及到 <a href="https://dev.w3.org/csswg/mediaqueries4/">Media Queries Level 4</a>。但相關原理幾乎都一樣：現在多重輸入的裝置已經普及，使用者手上的裝置也幾乎不可能只支援觸控功能。</p>
+<p>只要 Microsoft 讓 Pointer Events 採用更多通用規格 ─ 其實已經著手建構如 Chrome 的瀏覽器 ─ 就代表他們朝著正確的方向前進 (但仍須另外滿足鍵盤愛好者的需求)。在此同時，開發人員應小心翼翼，避免錯估了觸控偵測功能的形勢，也避免忽略了愛好多重輸入的潛在人數。</p>
+<h3>更多鏈結</h3>
+<ul><li><a href="https://www.stucox.com/blog/the-good-and-bad-of-level-4-media-queries/">Level 4 Media Queries 的優缺點</a></li></ul>
+<ul><li><a href="https://blogs.msdn.com/b/ie/archive/2011/10/19/handling-multi-touch-and-mouse-input-in-all-browsers.aspx">讓所有瀏覽器都能處理多點觸控與滑鼠輸入</a></li></ul>
+<ul><li><a href="https://blogs.msdn.com/b/eternalcoding/archive/2013/01/16/hand-js-a-polyfill-for-supporting-pointer-events-on-every-browser.aspx">Hand.js：強化所有瀏覽器的指示器事件支援功能</a></li></ul>
+<ul><li><a href="https://www.html5rocks.com/en/mobile/touchandmouse/">觸控與滑鼠 ─ 首次的再度聚首</a></li></ul>
+<ul><li><a href="https://appendto.com/blog/2013/02/prototype-chromium-build-with-support-for-ms-pointer-events/">支援 MS Pointer Events 而建構 Chromium 的原型</a></li></ul>
+<ul><li><a href="https://webkrauts.de/artikel/2012/einfuehrung-touch-events">Webseiten zum Anfassen</a> (德文)</li></ul>
+<ul><li><a href="https://smus.com/mouse-touch-pointer/">讓跨裝置 (Cross-Device) 網頁能普及各種輸入方式</a></li></ul>
+<p>原文出處：https://hacks.mozilla.org/2013/04/detecting-touch-its-the-why-not-the-how/</p>
+<p>本文上篇：<a href="../../posts/2376/">http://blog.mozilla.com.tw/posts/2376</a>/</p></div>
+          <footer class="entry-footer">
+            
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824001316id_/https://blog.mozilla.com.tw/?p=2402">Wayback snapshot</a>
+              <span>Post ID: 2402</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>遊戲開發引擎 Flambe 現亦支援 Firefox OS | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">遊戲開發引擎 Flambe 現亦支援 Firefox OS</h2>
+            <p class="entry-posted"><time datetime="2014-03-26" class="published"><span class="posted-month">3月</span><span class="posted-date">26</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p><a href="https://github.com/aduros/flambe">Flambe</a> 即以 <a href="https://haxe.org/">Haxe</a> 程式語言為基礎所開發的跨平台開放源碼遊戲引擎。相關遊戲均編譯為 <a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 或 Flash，並可針對桌面版或行動版瀏覽器進行最佳化。HTML5 Renderer 雖預設使用 <a href="https://developer.mozilla.org/en-US/docs/Web/WebGL">WebGL</a>，但在較初階的手機上仍可改用 <a href="https://developer.mozilla.org/en-US/docs/HTML/Canvas">Canvas</a> 標籤並正常作業。Flash Rendering 則使用 <a href="https://www.adobe.com/devnet/flashplayer/stage3d.html">Stage 3D</a>，以及 <a href="https://get.adobe.com/air/">Adobe AIR</a> 所封裝的原生 Android 與 iOS App。</p>
+<p>Flambe 另提供多項功能：</p>
+<ul><li>可輕鬆載入資源</li></ul>
+<ul><li>場景管理</li></ul>
+<ul><li>支援觸控功能</li></ul>
+<ul><li>完整的物理函式庫</li></ul>
+<ul><li>可存取加速規 (Accelermeter)</li></ul>
+<p>Flambe 已開發出 <a href="https://nick.com/games">nick.com/games</a> 與 <a href="https://m.nick.com/games">m.nick.com/games</a> 上的多款 Nickelodeon 遊戲。要想了解其他遊戲大廠以此引擎開發的遊戲範例，可至 <a href="https://github.com/aduros/flambe/wiki/Showcase">Flambe Showcase</a>。</p>
+<p>最近幾週以來，開發者努力讓 Flambe 引擎能支援 <a href="https://developer.mozilla.org/en-US/Firefox_OS">Firefox OS</a>。而從 Flambe 4.0.0 版開始，只要有完整的 manifest 檔案，即可封裝 Flambe 遊戲為可發佈的 Firefox OS App。</p>
+<h4>Firefox Marketplace 上的遊戲</h4>
+<p>如果想知道 Flambe 引擎在 Firefox OS 平台上的能耐，則可參考最近提交到 Firefox <a href="https://marketplace.firefox.com/">Marketplace</a> 上的二款遊戲。第一款是由 Mark Knol 所撰寫的《<a href="https://marketplace.firefox.com/app/the-firefly">The Firefly Game</a>》。遊戲裡的螢火蟲必須躲開飢餓的小鳥。此遊戲有效使用了物理、聲音、觸控等特性。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/firefly.png" alt="firefly" loading="lazy"></p>
+<p>另一款則是《<a href="https://marketplace.firefox.com/app/shootem-down">Shoot’em Down</a>》空戰遊戲。玩家必須儘量擊落敵機同時躲避敵機砲火。此遊戲作者 Bruno Garcia 也是 Flambe 引擎的主要開發者。另可取得此引擎展示 App 之一的<a href="https://github.com/aduros/flambe-demos/tree/master/shmup">原始碼</a>。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/shootemup.png" alt="shootemup" loading="lazy"></p>
+<h4>以 Flambe 開發 Firefox OS App</h4>
+<p>在以 Flambe 引擎開發遊戲之前，請先安裝並設定以下軟體：</p>
+<ul><li>Haxe ─ 可至下載頁面取得 OSX、Windows、Linux 版本的自動安裝程式。</li></ul>
+<ul><li>Node.js ─ 用以建構專案。需 Version 0.8 或更高版本。</li></ul>
+<ul><li>Java runtime</li></ul>
+<p>在完成上述必要條件之後，即可執行下列指令以安裝 Flambe：</p>
+<h1>Linux and Mac may require sudo</h1>
+<p>npm install -g flambe <br>flambe update</p>
+<p>					123</p>
+<p>						# Linux and Mac may require sudonpm install -g flambe flambe update</p>
+<p>如此就會安裝 Flambe 引擎並能開始撰寫 App 了！</p>
+<p>看到這裡，你體內的遊戲熱血又沸騰起來了嗎？請繼續觀看原文更精采的內容，進一步了解更深入的程式碼吧！</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/03/flambe-provides-support-for-firefox-os/">Flambe Provides Support For Firefox OS</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=5247">Wayback snapshot</a>
+              <span>Post ID: 5247</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

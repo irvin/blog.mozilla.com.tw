@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>開發 App – Firefox OS：讓 HTML5 完全發揮的平台 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">開發 App – Firefox OS：讓 HTML5 完全發揮的平台</h2>
+            <p class="entry-posted"><time datetime="2013-07-26" class="published"><span class="posted-month">7月</span><span class="posted-date">26</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p>此為「Firefox OS – 讓 <a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 得以完全發揮的平台」系列的第三支影片 (可在這裡回顧<a href="https://hacks.mozilla.org/2013/06/firefox-os-for-developers-the-platform-html5-deserves/">第一支</a>與<a href="../../posts/3179/">第二支</a>影片)，將討論用以撰寫 Firefox OS App 的工具。</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/be-the-future1.png"><img src="../../assets/3277/wp-content/uploads/be-the-future1-300x194.png" alt="be-the-future" loading="lazy"></a></p>
+<p>本影片是由 Mozilla 的 Chris Heilmann (<a href="https://twitter.com/codepo8">@codepo8</a>)，與 <a href="https://blog.digital.telefonica.com/">Telefónica Digital</a>/ W3C 的 Daniel Appelquist (<a href="https://twitter.com/torgo">@torgo</a>) 所錄製，將帶領大家著手開發自己的第一款 HTML5 App。<a href="https://www.youtube.com/watch?v=8dvQe2orzvo&amp;feature=youtu.be">可到這裡觀看影片</a>。</p>
+<p>首先你一定要了解：其實你不是在撰寫 Firefox OS 所用的 App，而是撰寫在 Web 上執行的 HTML5 App。Firefox OS 可讓開發者透過 <a href="https://wiki.mozilla.org/WebAPI">Web API</a> 而存取行動電話的硬體。<a href="https://wiki.mozilla.org/WebAPI">Web API</a> 本身就是標準化 JavaScript API，可輕鬆且安全的存取硬體。</p>
+<p>也就是說，Web 開發者必須先入為主一個概念：Firefox OS 的 App 跟原本 Web 的開發方式並無任何差異。Web 沒有特定的軟體開發套件 (Software Development Kit，SDK) 需要你下載或安裝。你可隨意使用自己所熟悉的工具或編輯器，可能簡單如命令列上的 VI，或用來設計 Web 與其他程式語言的 Eclipse 亦可。Firefox OS 也跟 Web 一樣完全不需任何特定環境。即使如此，現在仍有人正嘗試建構 HTML5 的工具，而 Mozilla 當然也將持續注意相關消息，並積極洽談合作事宜。</p>
+<p>如果要著手建立 Firefox OS App，你只需開始在瀏覽器中撰寫 HTML5 App 即可。首波推出的 Firefox OS 裝置可達 320 x 480 像素，但你不需針對這個解析度修正自己的 App。歸功於 Web 本身的特性，只要透過適應性設計 (Responsive design) 的方式即可滿足解析度方面的考量。Mozilla 已經在 <a href="https://marketplace.firefox.com/developers/">Firefox OS 開發者交流中心(Developer hub</a>) 上蒐集了許多資訊，讓你能設計出絕佳的 HTML5 App。</p>
+<p>Firefox 開發者工具的重要功能之一，就是「適應性設計檢視模式 (Responsive Design View)」。只要啟動開發者工具並點選 <a href="https://blog.mozilla.com.tw/wp-content/uploads/responsivedesign.png"><img src="../../assets/3277/wp-content/uploads/responsivedesign.png" alt="responsivedesign" loading="lazy"></a> 圖示，即可使用此功能。瀏覽器會將目前顯示頁面轉為可調整尺寸的頁面，同時保留開發者工具，也不需重新設定視窗的尺寸：</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/responsive.gif"><img src="../../assets/3277/wp-content/uploads/responsive-241x300.gif" alt="responsive" loading="lazy"></a></p>
+<p>Firefox 並非唯一內建好用開發工具的瀏覽器。像是 Chrome 也能在非觸控裝置上模擬觸控事件。若要啟動 Chrome 的模擬觸控功能，只要在 Chrome 中找到「開發人員工具」→「Settings」，再進入「Overrides」分頁勾選「Emulate touch events」方塊即可。</p>
+<p>如果你要測試 Firefox OS 本身或 App 的執行情況 (包含安裝程序)，則可下載 <a href="https://addons.mozilla.org/en-US/firefox/addon/firefox-os-simulator/">Firefox OS 模擬器 (Firefox OS Simulator)</a>。此為 Firefox 附加元件，安裝之後亦不需重新啟動 Firefox 瀏覽器。</p>
+<p>一旦模擬器安裝完畢，就能透過 Dashboard 管理自己電腦上的 App，並啟動/關閉模擬器：</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/firefox-emulator-dashboard.png"><img src="../../assets/3277/wp-content/uploads/firefox-emulator-dashboard-300x191.png" alt="firefox-emulator-dashboard" loading="lazy"></a></p>
+<p>在啟動模擬器時，會先看到電腦執行簡潔的 Firefox OS 初始環境，視窗尺寸跟 Firefox OS 一樣。接著你就能試用 Firefox OS、安裝自己的 App，並體驗使用情形。</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/simulator.png"><img src="../../assets/3277/wp-content/uploads/simulator-185x300.png" alt="simulator" loading="lazy"></a></p>
+<p>若要進一步測試 App 的效能，就需要實體的 Firefox OS 裝置了。在以 USB 連接電腦與任何 Firefox OS 手機之後，即可透過模擬器直接將 App 送入手機中。</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/deviceconnected.png"><img src="../../assets/3277/wp-content/uploads/deviceconnected.png" alt="deviceconnected" loading="lazy"></a></p>
+<p>HTML5 App 的開發現已成為 Web 市場上最夯的話題之一。Mozilla 相信再過不久，就會出現更多更好的新工具，除了能輕鬆開發 HTML5 App 之外，也能讓開發者確實了解自己的需要。而目前只要使用瀏覽器的開發者工具並搭配 Firefox OS 模擬器，就能滿足約 90% 的開發需求。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2013/07/getting-started-with-apps-firefox-os-for-developers-the-platform-html5-deserves/">https://hacks.mozilla.org/2013/07/getting-started-with-apps-firefox-os-for-developers-the-platform-html5-deserves/</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824003748id_/https://blog.mozilla.com.tw/?p=3277">Wayback snapshot</a>
+              <span>Post ID: 3277</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>舊版 Sync 同步服務即將終止 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">舊版 Sync 同步服務即將終止</h2>
+            <p class="entry-posted"><time datetime="2015-08-05" class="published"><span class="posted-month">8月</span><span class="posted-date">5</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p>新版「Sync」同步服務是搭配強大好用的「Firefox Accounts」而成，也讓使用者的數量急遽成長。為因應此一現象，Mozilla 已於今年稍早時開始規劃讓<a href="../../posts/7088/">舊版 Sync 使用者轉用 Firefox Accounts</a>。隨著整個轉移作業順利進行，也該是為舊版服務畫下完美句點的時候了。</p>
+<p><img src="../../assets/7739/wp-content/uploads/fennec-sync-screen_English.png" alt="fennec-sync-screen_English" loading="lazy"></p>
+<h3>我們將於 2015 年 9 月 30 日關閉舊版的 Sync 同步服務</h3>
+<p>Mozilla 鼓勵舊版服務的使用者應全數升級到 Firefox Account。除了設定步驟更為精簡之外，新版服務更提升了實用性與穩定性。即便使用者遺失整台裝置，仍有機會恢復自己的資料。</p>
+<p>只要是 Firefox 37 或更高版本的使用者，都能透過轉移流程指南讓自己無縫接軌。若你使用較舊版本的 Firefox，亦將看到提示通知並可<a href="https://support.mozilla.org/zh-TW/kb/how-to-update-to-the-new-firefox-sync">手動升級</a>。若是自行架設 Sync 伺服器，或使用非 Mozilla 官方提供的 Sync 服務，都不會受到任何影響。</p>
+<p>我們希望能讓 Firefox 使用者儘量順利完成此轉換作業。若你有任何問題、意見，甚至有所顧慮，都歡迎透過 sync-dev@mozilla.org，或 Mozilla IRC 的 #sync 頻道聯絡我們。</p>
+<h4>FAQ</h4>
+<ul><li>2015 年 9 月 30 日當天將發生什麼事？</li></ul>
+<p>在 9 月 30 日過後，我們將關閉舊版 Sync 服務的硬體設備，並清除其內的所有資料。其對應的 DNS 名稱將重新導向至靜態的錯誤頁面，並提供適當訊息予尚未升級新服務的使用者。</p>
+<ul><li>為何這麼急？為何不能以維護模式繼續執行舊版服務就好？</li></ul>
+<p>沒有辦法。我們希望使用者不會遇上任何不便的情況。運作舊版 Sync 服務的硬體設備已經老舊不堪，且運行成本所費不貲。Mozilla 將無力負擔舊版服務在 9 月 30 日之後的維護費用。</p>
+<ul><li>延長支援版本 (Extended Support Release，ESR) 呢？</li></ul>
+<p>ESR 使用者現已可支援 Firefox Accounts 以及 Firefox 38 上的新 Sync 服務。之前的 ESR 版本均已於 8 月初結束產品週期。我們鼓勵所有使用者升級為最新版本。</p>
+<ul><li>我的資料會自動轉移到新伺服器上嗎？</li></ul>
+<p>不會。由於新、舊 Sync 系統均使用了高強度的加密功能，因此 Mozilla 不能自行將任何人的資料移植到新伺服器之上。只要你升級帳號完畢，Firefox 就會將你的資料重新上傳至新系統。也就是說，如果你之前就儲存了許多書籤，那請確保升級期間的網路連線夠穩定。</p>
+<ul><li>升級到新系統有沒有任何安全上的顧慮？</li></ul>
+<p>新、舊版 Sync 系統都使用領先業界的安全功能，所有同步資料均經過點對點 (End-to-end) 加密，並搭配只有你自己才知道的金鑰。</p>
+<p>舊版 Sync 同樣是透過複雜的配對 (Pairing) 流程，以於裝置之間轉移加密金鑰。我們另<a href="../../posts/5565/">根據既有的帳號密碼而安全轉換</a>出新金鑰，再於 Firefox Accounts 取代舊的金鑰機制。使用者只管設定高強度的密碼，就能確保只有自己才看得到自己的同步資料。</p>
+<ul><li>Mozilla 會使用我的同步資料對我進行推銷活動，或將資料販售給第三方嗎？</li></ul>
+<p>不會。我們遵照 Mozilla<a href="https://accounts.firefox.com/legal/privacy">隱私政策</a>管理所有人的資料。政策本身不允許類似的用途。此外，Sync 服務提供高強度的加密機制。就算我們真要如此，也無法使用你的同步資料。</p>
+<ul><li>新的 Sync 系統可相容 Firefox 的主密碼功能嗎？</li></ul>
+<p>當然可以。之前只要啟動了主密碼，舊版 Firefox 隨即會停止 Sync 運作。但此問題現已解決。Sync 服務可完全相容最新版 Firefox 的主密碼功能。</p>
+<ul><li>如果我正運作客製的 Sync 伺服器，或自行架設 Sync 伺服器呢？</li></ul>
+<p>這次的轉移作業，僅會影響由 Mozilla 架設的伺服器。如果你自行架設了伺服器，則 Sync 應該能繼續運作無虞，你也不會收到升級通知。</p>
+<p>但我們已不再負責維護 Firefox 之內的舊版 Sync 協定，且將於 2016 年完全移除。建議你考慮一併轉用新的協定。請參閱下題。</p>
+<ul><li>我能自行架設新系統嗎？</li></ul>
+<p>可以。不論要架設<a href="https://docs.services.mozilla.com/howtos/run-sync-1.5.html">單純的儲存伺服器</a>，或要跑<a href="https://docs.services.mozilla.com/howtos/run-fxa.html">完整 Firefox Accounts 軟體堆疊</a>均可。我們歡迎任何可簡化此流程的建議，要加入貢獻行列當然更好。</p>
+<ul><li>如果我使用比較非主流的瀏覽器 (如 SeaMonkey、Pale Moon……) 呢？</li></ul>
+<p>這類瀏覽器的供應商應該已經提供了替代架設方案。若尚未提供，你應該<a href="https://docs.services.mozilla.com/howtos/run-sync.html">架設自己的伺服器</a>以確保相關功能不致中斷。</p>
+<p>原文連結：<a href="https://blog.mozilla.org/services/2015/07/31/shutting-down-the-legacy-sync-service/">Shutting down the legacy Sync service</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Mozilla</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Mozilla</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190825010819id_/https://blog.mozilla.com.tw/?p=7739">Wayback snapshot</a>
+              <span>Post ID: 7739</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

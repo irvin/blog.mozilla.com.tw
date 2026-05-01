@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>淺談 Firefox 29 開發者工具 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">淺談 Firefox 29 開發者工具</h2>
+            <p class="entry-posted"><time datetime="2014-02-25" class="published"><span class="posted-month">2月</span><span class="posted-date">25</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><h3>支援 CSS 原始檔對應、網路效能分析，還有更多功能</h3>
+<p>Firefox 29 現已進入<a href="https://www.mozilla.org/en-US/firefox/aurora/">曙光版 (Aurora) 釋放頻道</a>了。依照慣例，讓我們來看看此版本的開發者工具有哪些重大變化吧！</p>
+<h4>更美觀的工具</h4>
+<p>除了新功能之外，這次也更新了暗 (Dark)、亮主題 (Light theme) 的外觀與視覺感受。我們徹底翻修過亮主題，並讓此二種主題在整個工具箱中達到更一致的設計。現在可透過<a href="https://developer.mozilla.org/en-US/docs/Tools_Toolbox#Settings">工具箱選項</a>更改目前的主題。<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=957117">(可參閱此開發討論記錄)</a></p>
+<p><a href="https://hacks.mozilla.org/wp-content/uploads/2014/02/theme-light-inspector.png"><img src="../../assets/5033/wp-content/uploads/theme-light-inspector-1024x334.png" alt="theme-light-inspector" loading="lazy"></a></p>
+<p><a href="https://hacks.mozilla.org/wp-content/uploads/2014/02/theme-dark-inspector.png"><img src="../../assets/5033/wp-content/uploads/theme-dark-inspector-1024x334.png" alt="theme-dark-inspector" loading="lazy"></a></p>
+<h4>網路監測器</h4>
+<p>網路監測器 (Network Monitor) 現可顯示瀏覽器載入頁面不同部位時所需的時間。如此不論是首次執行或已有快取的情況，均可協助測得 App 的網路效能。<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=946601">(可參閱此開發討論記錄)</a></p>
+<p><a href="https://hacks.mozilla.org/wp-content/uploads/2014/02/network-piechart.png"><img src="../../assets/5033/wp-content/uploads/network-piechart-1024x236.png" alt="network-piechart" loading="lazy"></a></p>
+<p>若要開啟效能分析工具，只要點選「網路 (Network)」面板中的碼錶圖示即可。若需更多相關資訊，可觀看下方短片或<a href="https://developer.mozilla.org/en-US/docs/Tools/Network_Monitor#Performance_analysis">參閱本篇MDN 文章</a>。</p>
+<p>現在也能以 Data URI 的格式複製圖片請求。只要對圖片請求按下滑鼠右鍵，在右鍵選單中點選「以Data URI 複製圖片 (Copy Image as Data URI)」，就可將 Data URI 複製到剪貼簿中。<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=964014">(可參閱此開發討論記錄)</a></p>
+<p><a href="https://hacks.mozilla.org/wp-content/uploads/2014/02/copy-as-data-uri-network.png"><img src="../../assets/5033/wp-content/uploads/copy-as-data-uri-network.png" alt="copy-as-data-uri-network" loading="lazy"></a></p>
+<h4>檢測器</h4>
+<p>我們<a href="https://hacks.mozilla.org/2014/01/upcoming-changes-to-the-firefox-developer-tools-node-picker/">更新了檢測器 (Inspector) 的內容強調行為</a>，讓更多工具都具備此強調功能。<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=916443">(可參閱此開發討論記錄)</a></p>
+<p>CSS 的 transform 屬性預覽工具提示功能，現已新增到 CSS 規則檢視之中了。現在只要將滑鼠游標停留在 CSS 的 transform 之上，就會看到工具提示並搭配 transform 的視覺呈現效果。快去下載 Firefox Nightly 或 Aurora 即可體驗某些<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transform#Live_examples">現成的 CSS transfom 範例</a>。<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=726427">( 可參閱此開發討論記錄 )</a></p>
+<p><img src="../../assets/5033/wp-content/uploads/css-transform-tooltip-only.png" alt="css-transform-tooltip-only" loading="lazy"></p>
+<p>CSS 規則檢視現支援一次貼上多個 CSS 宣告，例如</p>
+<p>background: #ccc; color: red</p>
+<p><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=913630">( 可參閱此開發討論記錄 )</a></p>
+<p>如同「網路」面板中的功能，開發者現可用 Data URI 的格式複製 &lt;img&gt; 元素。<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=964014">( 可參閱此開發討論記錄 )</a></p>
+<h4>樣式編輯器</h4>
+<p>樣式編輯器 (Style Editor) 現已新支援 CSS 原始檔對應功能 (Source map) <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=926014">( 可參閱此開發討論記錄 )</a>，且可於樣式編輯器中自動完成 CSS 屬性與數值。<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=717369">( 可參閱此開發討論記錄 )</a></p>
+<p>想了解更多相關資訊嗎？可參閱本篇《<a href="https://hacks.mozilla.org/2014/02/live-editing-sass-and-less-in-the-firefox-developer-tools/">Live Editing Sass and Less in the Firefox Developer Tools</a>》。</p>
+<p><a href="https://hacks.mozilla.org/wp-content/uploads/2014/02/style-editor-autocompletion.png"><img src="../../assets/5033/wp-content/uploads/style-editor-autocompletion.png" alt="style-editor-autocompletion" loading="lazy"></a></p>
+<h4>除錯器</h4>
+<p>除錯器 (Debugger) 中，我們在資源清單旁邊新增了典型的呼叫堆疊 (Call stack) 清單。<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=905981">(可參閱此開發討論記錄)</a></p>
+<p><a href="https://hacks.mozilla.org/wp-content/uploads/2014/02/debugger-call-stack-list.png"><img src="../../assets/5033/wp-content/uploads/debugger-call-stack-list.png" alt="debugger-call-stack-list" loading="lazy"></a></p>
+<p>除錯器現具備新的「啟用/停用所有中斷點 (Enable/disable all breakpoints)」按鈕，可一次啟用現有的全部中斷點，進而迅速切換一般用途或除錯作業。<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=815280">(可參閱此開發討論記錄)</a></p>
+<p><a href="https://hacks.mozilla.org/wp-content/uploads/2014/02/enable-disable-breakpoints.png"><img src="../../assets/5033/wp-content/uploads/enable-disable-breakpoints.png" alt="enable-disable-breakpoints" loading="lazy"></a></p>
+<p>現在也能在除錯器中強調並檢視 DOM 節點。如果將滑鼠游標置於變數清單中的 DOM 節點上，就會強調顯示網頁上的節點。如果點擊「檢測」圖示，隨即會在檢測器分頁中開啟該節點。現亦能在主控台的輸出結果中找到此功能。<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=952277">(可參閱此開發討論記錄)</a></p>
+<p><img src="../../assets/5033/wp-content/uploads/debugger-click-to-select.png" alt="debugger-click-to-select" loading="lazy"></p>
+<p>Pretty printing 現也可用於程式碼註解之上了。我們現在用上了開放源碼的 <a href="https://github.com/mozilla/pretty-fast">pretty-fast</a> 工具，所以很快就能獲得漂亮的畫面。因為此工具標榜了「快 (fast)」，如果你發現速度還是跟以前一樣慢，請別忘了通知我們。<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=921163">(可參閱此開發討論記錄)</a></p>
+<h4>主控台</h4>
+<p>我們強化過了 console.trace。此呼叫堆疊可將輸出結果整理到同區塊之內顯示，並包含連結以存取除錯器中的每一行。<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=790309">( 可參閱此開發討論記錄 )</a></p>
+<p><img src="../../assets/5033/wp-content/uploads/console-trace.png" alt="console-trace" loading="lazy"></p>
+<p>我們也強化了主控台物件輸出功能，可根據物件類型而顯示其他資訊。<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=843004">( 可參閱此開發討論記錄 )</a></p>
+<p><img src="../../assets/5033/wp-content/uploads/console-object-output.png" alt="console-object-output" loading="lazy"></p>
+<h4>程式碼編輯器</h4>
+<p>在如除錯器、程式碼速記本 (Scratchpad)、樣式編輯器 (Style Editor) 等所有工具之中，現在都能看到程式碼編輯器 (Code editor) 了。開發者可在此版本中看到其中幾項更新：</p>
+<ul><li>可於編輯器中摺疊程式碼。<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=734439">( 可參閱此開發討論記錄)</a></li></ul>
+<ul><li>程式碼編輯器現可提供 Emacs 與 VIM keybindings。若要啟動此二項功能，可開啟 about:config 並將「devtools.editor.keymap」設定為「vim」或「emacs」，最後重新啟動開發者工具即可。<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=941725">( 可參閱此開發討論記錄)</a></li></ul>
+<ul><li>現支援 ES6 語法強調功能 <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=960704">( 可參閱此開發討論記錄)</a></li></ul>
+<p><img src="../../assets/5033/wp-content/uploads/scratchpad-code-editing.png" alt="scratchpad-code-editing" loading="lazy"></p>
+<p>另外很感謝此版開發者工具共 43 位貢獻者！並可參閱 <a href="https://mzl.la/1jpYhzy">Firefox 29 開發者工具所修正的錯誤清單</a>。</p>
+<p>你有任何建議要讓我們知道？發現錯誤想回報？需要其他功能？或有任何問題嗎？當然歡迎你透過 <a href="https://twitter.com/firefoxdevtools">@FirefoxDevTools</a> 聯絡我們團隊。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/02/css-source-map-support-network-performance-analysis-more-firefox-developer-tools-episode-29/">CSS source map support, network performance analysis &amp; more – Firefox Developer Tools Episode 29</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824003950id_/https://blog.mozilla.com.tw/?p=5033">Wayback snapshot</a>
+              <span>Post ID: 5033</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

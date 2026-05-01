@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>深入 ES6 系列：介紹 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">深入 ES6 系列：介紹</h2>
+            <p class="entry-posted"><time datetime="2015-04-29" class="published"><span class="posted-month">4月</span><span class="posted-date">29</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p>歡迎觀看此系列新文。我們將概略介紹 JavaScript 的新版本「ECMAScript 6 (亦稱為 ES6)」。ES6 內含許多新功能，將使 JS 更強大且表現不俗。但在開始說明細節之前，先來簡單談談 ES6 的特性。</p>
+<p><img src="../../assets/7403/wp-content/uploads/es6-hiway-sign.png" alt="es6-hiway-sign" loading="lazy"><br>圖片出處：https://carlosazaustre.es/blog/ecmascript-6-el-nuevo-estandar-de-javascript/</p>
+<h4>ECMAScript 內含哪些東西？</h4>
+<p>JavaScript 程式語言，即由 ECMA (類似 W3C 的標準制定機構) 以「ECMAScript」為名完成標準化。而 ECMAScript 另外還定義了：</p>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar">語言語法</a> – 剖析規則、關鍵字、陳述式、宣告、運算子等等。</li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures">類型</a> – 布林值、數字、字串、物件等等。</li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain">原型與繼承</a></li></ul>
+<ul><li>內建物件與函式的<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects">標準函式庫</a> – <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON">JSON</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math">Math</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a> 函式、<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object introspection methods</a> 等等。</li></ul>
+<p>而 ECMAScript 的定義則完全未涉及 HTML 或 CSS 或<a href="https://developer.mozilla.org/en-US/docs/Web/API">Web API</a>，即如 DOM (Document Object Model)。上述這些都具備其各自的定義。ECMAScript 不僅另涵蓋了 JS 在瀏覽器中的概念，也包含如 <a href="https://nodejs.org/">node.js</a> 的非瀏覽器環境。</p>
+<h4>新標準</h4>
+<p>不過幾天前，Ecma General Assembly 收到了 ECMAScript 語言規格第六版最後草稿進行審核，這代表什麼意義呢？</p>
+<p>這代表今年夏天，就有核心 JavaScript 程式語言的新標準誕生了。</p>
+<p>對於並非每天產生新的 JS 語言標準來說，這當然是大新聞了。而上一版的 ES5 更能回溯到 2009 年時，且 ES 標準委員會從那時開始就著手建構 ES6 直到現在。</p>
+<p>ES6 將是 JS 語言的重要升級。ES6 即針對現有程式碼的最高相容性所設計，因此目前的 JS 程式碼當然可持續運作。其實多款瀏覽器都已經支援不同的 ES6 功能，且相關建構活動均正在進行。這代表你所有的 JS 程式碼，都在已內建某些 ES6 功能的瀏覽器中執行了！如果你現在都沒遇到相容性的問題，將來也不太可能發生。</p>
+<h4>慢慢數到 6</h4>
+<p>ECMAScript 標準之前的版號分別是 1、2、3、5。</p>
+<p>第四版發生什麼事了？本來規劃過 ECMAScript Edition 4 而且也已經完成了大部分的東西。但由於整個規模過於龐大，最後還是胎死腹中；例如其複雜的 opt-in 靜態型別系統，內含泛型 (Generics) 與型別推斷 (Type inference)。</p>
+<p>ES4 也頗有爭議。所以在標準委員會最後停止開發之時，委員同意將發佈相對較中庸的 ES5，並繼續著手更多新功能。此溝通過的新協議即稱為「Harmony」，也因此 ES5 規格述說了以下兩句：</p>
+<p>ECMAScript is a vibrant language and the evolution of the language is not complete. Significant technical enhancement will continue with future editions of this specification.</p>
+<p>ECMAScript 程式語言充滿活力，且其進化尚未完全。此規格的未來版本將繼續引領大幅進步。</p>
+<p>此一聲明亦可視為某種承諾。</p>
+<h4>兌現承諾</h4>
+<p>2009 年的 ES5 導入了 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create">Object.create()</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty">Object.defineProperty()</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get">getters</a> 與<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/set">setters</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode">strict mode</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON">JSON</a> 物件。我用過上述所有功能，也因此愛用 ES5。但如果要說這些功能大幅影響了我的 JS 程式碼撰寫方式，卻又有點太過。對我來說，最重要的創新之處大概就是新 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a> 函式：<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map">.map()</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter">.filter()</a> 等等。</p>
+<p>耗時多年開發的 ES6 很不一樣，且集結了新的語言與函式庫特色，可說是 JS 目前為止最重要的升級。新功能涵蓋大家都愛的便利性，如箭頭函式與簡易的字串插值 (String Interpolation)，以及新納入的「proxies」與「generators」概念。</p>
+<p>ES6 將改變你 JS 程式碼的撰寫方式。</p>
+<p>本系列文章將解釋 ES6 為 JavaScript 工程師所帶來的新功能，說明之所以改變撰寫方式的理由。</p>
+<p>我將先透過 JavaScript 近六年來的變化，從「大家朝思暮想的功能」開始聊聊。請和我們一起看看 ES6 的「Iterator」與 for-of 迴圈。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/04/es6-in-depth-an-introduction/">ES6 In Depth: An Introduction</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Mozilla</span><span>Web App</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20191113171028id_/https://blog.mozilla.com.tw/?p=7403">Wayback snapshot</a>
+              <span>Post ID: 7403</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

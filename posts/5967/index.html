@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>該如何寫出更好的軟體？─ 系列訪談之一 (下) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">該如何寫出更好的軟體？─ 系列訪談之一 (下)</h2>
+            <p class="entry-posted"><time datetime="2014-07-25" class="published"><span class="posted-month">7月</span><span class="posted-date">25</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>在看過《<a href="../../posts/5940/">該如何寫出更好的軟體？─ 系列訪談之一 (上)</a>》之後，你是否對工程師在撰寫程式之餘，所必須考量的各個面向有進一步的認識了呢？快跟著看完系列訪談之一的下篇吧！</p>
+<p><img src="../../assets/5967/wp-content/uploads/3899114449_84dd8a5c4e_o.jpg" alt="圖片作者：Marjan Krebelj" loading="lazy"><br>圖片作者：Marjan Krebelj</p>
+<h4>某些專案牽涉多重規範並有多家公司參與其中，此時通用標準 (如工具、設計指南、開發流程) 的重要性為何？</h4>
+<p>當談到軟體工程時，一般都認為「標準」極為重要。不管你要稱之為「SCRUM」或「KANBAN」或「SCRUMBAN」；不論你使用了「Git」或「Mercurial」工作流程；不論你使用了 Google 或 Mozilla 的 Javascript 風格指南。這些我都不管。但你絕對需要某些通用的程序與標準，尤其像是開放源碼的大型工程團隊，或 Mozilla 的一般開發作業更是如此。這些標準的界線比較模糊。我們很容易就耗掉太多時間去定義/辯護這些標準與通用程序的用途，卻忽略了真正的目標。所以我認為不要忘了「這些只是工具」。這些工具很重要，但畢竟只是協助我們的工具。我們應該要能看情況而靈活變通。</p>
+<p>我們針對程式碼風格進行了許多審查作業，但最後就是為了要發佈修正檔。如果你的程式碼風格有問題，我希望你能自己修正。但如果你又想快點發佈修正檔並進版，那就先直接進版並發送臭蟲報告，以利追蹤後續情況；審查人員若有時間也能代勞。</p>
+<h4>Firefox OS 是由 Gonk、Gecko、Gaia 所構成。而對新手來說，這些系統又龐大、又複雜、又嚇人。你定期提交修正檔到 Gecko 與 Gaia 中。你是什麼時候加入了現有專案，又是怎麼了解這個系統？</h4>
+<p>我想沒有特別的技巧或訣竅。我自己覺得好用的，別人也不見得適合。我只是儘量閱讀程式碼內外的相關說明文件。程式碼負責人可能忙到沒空或撰寫別的程式碼，所以我會看情況親自去詢問。我一開始都儘量不要逐行查看程式碼，且在深入程式碼的特定區段之前，都會先試著了解整個粗略的架構。我覺得只要時間久了，你累積的經驗也夠了，就能自己看出程式碼的模式和通用的架構，幫自己找到當前的問題。</p>
+<h4>在不熟悉的領域開始撰寫程式碼時，你怎麼確保你更改的部份不會對系統造成意外的影響？大部分都透過測試解決嗎？</h4>
+<p>是的，基本上都必須測試、測試，再測試；你想得到的各種測試都要做。當然，你主要應先根據審查人員的意見，而且你和審查人員之間也有某種程度的信任。在詢問品質管理或審查人員之後，也可自己額外進行其他測試。</p>
+<h4>換個角度看，如果你是審查人員，在你說「好，這程式碼可新加進此功能。那又怎麼確認不會影響到系統的其他部分？」的時候，你也會依賴測試作業嗎？</h4>
+<p>如果我覺得修正檔會造成任何影響，我就會進行測試。我都在測試用伺服器上執行程式，也會要求開發者自行測試。</p>
+<h4>換你當審查人員時，審查重點在哪？</h4>
+<p>我一般都先看整個程式碼的正確性。也就是說，「修正檔」應該要能確實修復其針對的問題，而且當然不能又造成更多副作用而拖累整個程式。如果時間允許，或是很重要的修正檔，我都會自行測試修正檔，以確實了解其運作情形，避免對系統造成負面影響。我也會注意該程式碼的效能與安全性。同樣的，如果我覺得程式碼是用於修正檔，我也會要求進行測試。最後，我都會注意程式碼的品質、流程、說明文件、編碼風格、貢獻成果、開發流程等正確性。</p>
+<h4>在將 Firefox Accounts 整合至 Firefox OS 時，我曾處理過一大部分的修正檔，也記得當時是你曾負責審查。我覺得你審查似乎極為強調一致性？</h4>
+<p>我們必須考量到整體程式碼的品質。在我進行審查時，像這類的評語我都會標記為 Mozilla 內部常用的「nit:」，代表「我想看看這部份更改之後會是什麼樣子。如果你沒有修改，我也還是會給你正面的審查評語。但我真的很想看看更改之後的結果。」</p>
+<h4>這個問題分成兩個部分。當你審查程式碼時，你怎麼讓開發者覺得你給的評語並未摻雜個人因素？反之，當你是開發者角色時，你又怎麼讓自己不會覺得審查人員對事不對人？</h4>
+<p>到目前為止，我自己也收過很多大改特改的審查結果，但我從未覺得有任何個人恩怨的因素。我一直把審查結果當做正面的學習經驗。我也知道大家都很忙，負責審查的人沒什麼多餘時間，也同樣必須寫程式碼。所以他們只是很快的寫下「這裡必須修改」，根本不會有多餘的時間去斟酌要不要寫一些不傷人的措詞。審查人員只會提出他們認為程式碼中「不正確」的部份；而不會特別講「正確」的地方。我想大家剛開始的時候都必須學著適應這一點。</p>
+<p>但只要你開始撰寫程式碼，你就會了解審查人員之所以不斟酌用詞的原因。而對我這種非以英文為母語的人又特別困難。有時候我想用最親切的方式表達意見，但又缺乏能加強表達審查結果的詞彙。所以我試著儘量加用一些笑臉符號。同樣的，我自己覺得「r-」不太客氣，所以也儘量避免。我會改用「feedback +」或其他標記。</p>
+<h4>你說過自己都當做是開發時的學習經驗。那在擔任審查人員時，你也會將審查作業都做另類的教學機會嗎？</h4>
+<p>當然是教學相長的概念。單單只是審查修正檔，就是絕佳的教學經驗。你等於向撰寫人員表達自己認為較正確的部份。有時候審查意見並沒有理論基礎，但我們仍應該解釋可能的理由，儘量讓整個流程更完善。</p>
+<h4>你是否有留任何程式碼片段 (自己或別人的都算)，是自己認為特別值得別人借鏡、學習的？</h4>
+<p>我對自己的程式碼很挑剔，所以我不覺得有任何程式碼片段漂亮到足以分享。但如果要我快速想一個自己看了很開心的範例，大概就是最近對 <a href="https://github.com/mozilla-b2g/gaia/blob/master/apps/communications/dialer/js/call_log_db.js">Gaia Dialer App</a> 撥號記錄資料庫的大幅度重構，或是最近建構的 <a href="https://mxr.mozilla.org/mozilla-central/source/services/mobileid/">Mobile Identity API</a>。</p>
+<h4>你現在想鼓勵大家加入哪個開放源碼專案，又要從何著手呢？</h4>
+<p>當然就是 Firefox OS！真的，我覺得 Firefox OS 讓軟體工程師有機會能參與絕佳的開放源碼社群。從初階到前端的程式碼，裡面有多倒數不清的技術難題等你挑戰。你們在如此開放的環境中，有機會深入瀏覽器與行動作業系統的底層。剛開始要加入整個流程與程式碼時，你可能會覺得有點困難，但現在 <a href="https://developer.mozilla.org/zh-TW/Firefox_OS">MDN 上已經提供豐富的Firefox OS 說明文件</a>，也有一堆人在 <a href="https://wiki.mozilla.org/IRC">IRC</a> (#b2g 與 #gaia)、<a href="https://lists.mozilla.org/listinfo">電子郵件群組</a> (dev-b2g 與 dev-gaia)、<a href="https://ask.mozilla.org/questions/">ask.mozilla.org</a> 上熱情相助。</p>
+<h4>大家要如何隨時知道你工作的最新情況？</h4>
+<p>我沒有部落格，但有公開的 <a href="https://github.com/ferjm">GitHub</a> 與 <a href="https://twitter.com/f_jimenez">Twitter</a> 帳號。</p>
+<h4>訪談逐字稿</h4>
+<p>感謝莫雷諾參與的訪談。可到 GitHub 上找到<a href="https://github.com/shane-tomlinson/devs-at-work-software-quality/blob/master/interviews/fernando-jimenez-moreno.txt">完整的逐字稿</a>。</p>
+<h4>下篇文章</h4>
+<p>下一篇訪談是雲端服務團隊的華納 (Brian Warner)。這位安全專家將分享安全概念、分析威脅、可供稽核的程式碼。</p>
+<p>另外一提，我其實很享受整個訪談的過程，也希望你能告訴我這個系列是否對你有所助益。我現在正想繼續訪談幾位 Mozillian。如果你想推薦某人甚至你自己，就快寄信到 <a href="mailto:stomlinson@mozilla.com">stomlinson@mozilla.com</a> 讓我知道吧！</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/07/how-can-we-write-better-software-interview-series-part-1/">How can we write better software? – Interview series, part 1</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Mozilla</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span><span>Mozilla</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190823235536id_/https://blog.mozilla.com.tw/?p=5967">Wayback snapshot</a>
+              <span>Post ID: 5967</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

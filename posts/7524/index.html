@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Trainspotting 系列文章：Firefox 38 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Trainspotting 系列文章：Firefox 38</h2>
+            <p class="entry-posted"><time datetime="2015-05-29" class="published"><span class="posted-month">5月</span><span class="posted-date">29</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p>〈Trainspotting〉系列文章將重點提示 Firefox 最新版本的已上線功能。Firefox 現固定每六個星期釋出新版本，而我們稱此種模式為「Release trains」。</p>
+<p>又已經六個禮拜了嗎？Firefox 38 已經正式上線了，而且還為 Web 平台新增了許多東西。下列是幾項重點：</p>
+<p>若要完整了解相關變化與元件，可參閱《<a href="https://www.mozilla.org/en-US/firefox/38.0/releasenotes/">Firefox 38 版本說明</a>》。</p>
+<h4>支援適應性圖像</h4>
+<p>Firefox 現可同時支援 &lt;picture&gt; 元素與 &lt;img srcset&gt; 了！另還有<a href="https://www.smashingmagazine.com/2014/05/14/responsive-images-done-right-guide-picture-srcset/">許多</a>其他<a href="https://demosthenes.info/blog/936/Responsive-Images-For-Designers-The-HTML5-picture-element">精采</a>的<a href="https://html5hub.com/html5-picture-element/">文章</a>可讓你熟悉新技術，開發者當然也能立刻享受<a href="https://scottjehl.github.io/picturefill/">自動補完函式庫 (Polyfill)</a>。但 Firefox 38 另有需要注意的地方 ─ 只要是使用正確的媒體查詢 (Media queries)，就會載入適應性圖像 (Responsive image)，但目前尚未能對應到 Viewport 的縮放。此問題現已提交到<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1135812">這裡</a>並持續追蹤，而且在 Firefox 的近期版本中就會解決。</p>
+<h4>可在 Web 的 Worker 中取得 WebSockets</h4>
+<p>Firefox 38 現在可於 Web 的 Worker 中執行程式碼，藉以開啟 WebSocket 連線。這對遊戲或其他協作式的 App 來說十分重要，即可於 UI 以外的獨立執行緒中，處理多人或即時的運算邏輯。</p>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/WebSockets">進一步了解 WebSockets</a></li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API">進一步了解 Web Workers</a></li></ul>
+<h4>支援 HTML5 的  標記結構</h4>
+<p><img src="../../assets/7524/wp-content/uploads/ruby-annotation.png" alt="ruby-annotation" loading="lazy"></p>
+<p>不再需要笨重的函式庫或擴充套件，只要透過 &lt;ruby&gt; 標記結構 (Markup)，就能讓中文與日文網站達到更好的排版效果。</p>
+<ul><li><a href="https://hacks.mozilla.org/2015/03/ruby-support-in-firefox-developer-edition-38/">進一步了解 HTML5 的 </a></li></ul>
+<h4>BroadcastChannel ─ 所有視窗都能 postMessage</h4>
+<p>如果你正用多個分頁或視窗建構 Web App，還要保持全部分頁或視窗同步，那麼一旦有任何事件與狀態改變，接收通知就很痛苦。BroadcastChannel 單純是用戶端的訊息傳遞 API，只要是在相同來源中執行的任何指令碼，都能透過此 API 傳遞訊息予其他的視窗或分頁。</p>
+<p>// one tab<br>var ch = new BroadcastChannel(&#39;test&#39;);<br>ch.postMessage(&#39;this is a test&#39;);</p>
+<p>// another tab<br>ch.addEventListener(&#39;message&#39;, function (e) {<br>    alert(&#39;I got a message!&#39;, e.data);<br>});</p>
+<p>// yet another tab<br>ch.addEventListener(&#39;message&#39;, function (e) {<br>    alert(&#39;Avast! a message!&#39; e.data);<br>});</p>
+<p>					12345678910111213</p>
+<p>						// one tabvar ch = new BroadcastChannel(&#39;test&#39;);ch.postMessage(&#39;this is a test&#39;); // another tabch.addEventListener(&#39;message&#39;, function (e) {    alert(&#39;I got a message!&#39;, e.data);}); // yet another tabch.addEventListener(&#39;message&#39;, function (e) {    alert(&#39;Avast! a message!&#39; e.data);});</p>
+<ul><li><a href="https://hacks.mozilla.org/2015/02/broadcastchannel-api-in-firefox-38/">進一步了解 BroadcastChannel API</a></li></ul>
+<h4>開發者工具</h4>
+<p>來自於 XMLHttpRequest 的網路請求，現均標記於網頁主控台 (Web Console) 之中：</p>
+<p><img src="../../assets/7524/wp-content/uploads/ajax-log-500x153.png" alt="ajax-log-500x153" loading="lazy"></p>
+<p>要取得網頁的數值嗎？你可發現網頁主控台現提供特殊的 copy 函式：</p>
+<p><img src="../../assets/7524/wp-content/uploads/consolecopy.gif" alt="consolecopy" loading="lazy"></p>
+<h4>還沒完呢！</h4>
+<p>我還沒機會談談 Firefox 38 另外許多提升的功能與修正的錯誤，直接來看 <a href="https://www.mozilla.org/en-US/firefox/38.0/releasenotes/">Firefox 38 版本說明</a>、<a href="https://developer.mozilla.org/en-US/Firefox/Releases/38">開發者版本說明</a>，或此版本修正的<a href="https://bugzilla.mozilla.org/buglist.cgi?j_top=OR&amp;f1=target_milestone&amp;o3=equals&amp;v3=Firefox%2038&amp;o1=equals&amp;resolution=FIXED&amp;o2=anyexact&amp;query_format=advanced&amp;f3=target_milestone&amp;f2=cf_status_firefox38&amp;bug_status=RESOLVED&amp;bug_status=VERIFIED&amp;bug_status=CLOSED&amp;v1=mozilla38&amp;v2=fixed%2Cverified&amp;limit=0">錯誤清單</a>。</p>
+<p>請繼續享受 Firefox 的絕妙經驗！</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/05/trainspotting-firefox-38/">Trainspotting: Firefox 38</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20191113171728id_/https://blog.mozilla.com.tw/?p=7524">Wayback snapshot</a>
+              <span>Post ID: 7524</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

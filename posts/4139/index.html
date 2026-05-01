@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>跨平台 Open Web App 開發報告 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">跨平台 Open Web App 開發報告</h2>
+            <p class="entry-posted"><time datetime="2013-11-06" class="published"><span class="posted-month">11月</span><span class="posted-date">6</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p>在 Mozilla Hacks 開發者部落格中，我們已有多篇<a href="https://hacks.mozilla.org/category/apps/">以 HTML、JS、CSS 撰寫 Firefox OS 的 App</a> 相關文章。現在就來看看這些 App 是否也能在 Android、Windows、Mac OS X、Linux 等裝置上執行。如果你的 App 能正確因應 CPU、螢幕尺寸、裝置功能等條件，就能透過 Open Web App 讓自己的 App 在各個平台上進行安裝、執行、退出、解除安裝等作業；就如同原生 App 一樣。</p>
+<p>只要是可執行 Gecko 的平台，也同樣能執行 Firefox OS 的 <a href="https://developer.mozilla.org/en/Apps">Open Web App</a>。下方短片將說明 App 的執行方式。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/1-fxos-1024x576.png" alt="1-fxos" loading="lazy"></p>
+<p>Firefox OS 就是 Open Web App 的基準平台。在 Firefox OS 上，使用者可到 Firefox Marketplace 中發掘自己喜歡的App，並直接安裝到手機的主畫面中。以我的 Shotclock App 為例 (此 Open Web App 可為戶外攝影師運算出太陽角度)，來試試看若安裝於其他平台上會有什麼樣的結果。</p>
+<h3>Android</h3>
+<p>Android 使用者可透過 Firefox for Android 瀏覽器，到 Firefox Marketplace 中尋找 App。Firefox Marketplace 已經審查通過了 Shotclock for Android，所以我們只要按下「Install」鈕即可；跟Firefox OS 上的程序完全相同。Firefox for Android 將重新封裝 Open Web App，使其使用行為與 Android 的原生 App 完全相同，讓使用者擁有 Open Web App的原生 App 經驗。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/2-droid-recent-apps-1024x576.png" alt="2-droid-recent-apps" loading="lazy"></p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/2-droid-drawer-1024x576.png" alt="2-droid-drawer" loading="lazy"></p>
+<p>因為是透過 Android 的 APK 安裝此 App，所以我們也能從最近的清單中管理此 App。我們可到 App Drawer 中找到Shotclock App；就與其他 App 一樣。</p>
+<h3>Windows</h3>
+<p>Windows 使用者可透過 Firefox 桌面版，進入 Firefox Marketplace 中尋找 App。Firefox Marketplace 也已經通過了 Shotclock for Windows 的審查，所以點選 Marketplace 的「Install」按鈕即可。同樣的，此處也會自動將 Open Web App 重新封裝，讓其使用行為就如同 Windows 的原生 App。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/3-windows-running-1024x576.png" alt="3-windows-running" loading="lazy"></p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/3-windows-startmenu-1024x576.png" alt="3-windows-startmenu" loading="lazy"></p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/3-windows-uninstall-1024x576.png" alt="3-windows-uninstall" loading="lazy"></p>
+<p>Shotclock 就如同真正的 App 在 Windows 上執行。而這裡所謂的「重新封裝」，代表使用者可透過 Windows 的「開始」選單啟動 Open Web App，也同樣從「檔案」選單關閉 App。當然，使用者同樣能進入「控制台」中解除安裝 App。</p>
+<h3>Mac OS X</h3>
+<p>Mac OS X 也是以 Firefox 桌面版進入 Firefox Marketplace。這裡同樣會將 Open Web App 自動重新封裝為 Mac OS X 的原生 App。在使用者點選「Install」按鈕之後，Shotclock 就會安裝到 Mac OS X 的「Applications」資料夾內。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/4-mac-controltab-1024x576.png" alt="4-mac-controltab" loading="lazy"></p>
+<p>現在不論是啟動或執行 Shotclock，都與真正的 App 無異。這裡所謂的原生封裝，代表使用者只要按下「Cmd-Tab」即可切換原生 App 或 Open Web App；同樣透過該 App 的主選單離開 App。而開發者是否需要重寫程式碼？完全不用。</p>
+<h3>Privileged App</h3>
+<p>上面提到的 App 都屬於無權限 (Unprivileged) 的 App。當然，上述所有平台同樣支援 Privileged App。接著我們利用「Kitchen Sink」App (用以測試 Firefox OS 的 Privileged API)，看看安裝在 Android 上會發生何事？</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/5-droid-KS-permissions-1024x576.png" alt="5-droid-KS-permissions" loading="lazy"></p>
+<p>Privileged App 的尋找與安裝過程，均如同 Android 既有的「於安裝期間為使用者呈現權限清單」程序。這些權限均從 Open Web App 的 manifest 檔案所複製。在完成安裝程序之後，App 即可存取手機硬體以供使用。</p>
+<h3>Linux 桌上型電腦</h3>
+<p>Firefox OS 所提供的電子郵件 App，就是以 Privileged App 搭配 Socket API 進行網路連線。我們的 Open Web App 實習工程師 Marco Castelluccio，就在自己的 Linux 電腦上執行該 App。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/6-mail-linux-1024x576.png" alt="6-mail-linux" loading="lazy"></p>
+<p>Marco 從 Gaia 複製了 App 封裝，並稍微修改了 App 的 manifest 檔案。因此，如果你比較喜歡 Firefox OS 手機上的App 並想在其他裝置上執行，則跨平台的 Open Web App 就能滿足你的需要。</p>
+<h3>iOS</h3>
+<p>我們也想為 iOS 裝置上支援 Open Web App，但 iOS 現並無法支援。目前需選擇安裝 Gecko 核心的 Web 瀏覽器，才能進一步支援 Open Web App。</p>
+<p>註：我們正與 Cordova 社群密切合作。除了要能不修改 Cordova 的 App 就能在 Firefox OS 上執行之外，也要讓Cordova 所封裝的 Open Web App 能於 iOS 上執行。若需要更多資訊，可參閱 <a href="https://wiki.mozilla.org/CordovaFirefoxOS">Cordova Firefox OS 專案頁面</a>與<a href="https://github.com/apache/cordova-firefoxos">Cordova Firefox OS 的 GitHub Repo</a>。</p>
+<h3>後續時程</h3>
+<p>桌上型電腦 — 桌上型與筆記型電腦只要執行 Firefox 16 或更高版本，即可安裝無權限 (Unprivileged) 的托管式(Hosted) App。而二個月後的 Firefox 每夜更新版 (Nightly) 即將支援 Privileged App。</p>
+<p>Android — 可透過 Firefox for Android 的曙光版 (Aurora) 安裝 App，但尚無法提供原生 App 的使用經驗。在今年 12月的Firefox for Android 每夜更新版 (Nightly) 即將提供原生 App 使用經驗。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2013/10/progress-report-on-cross-platform-open-web-apps/">https://hacks.mozilla.org/2013/10/progress-report-on-cross-platform-open-web-apps/</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>以 HTML、JS、CSS 撰寫 Firefox OS 的 App</span><span>Firefox OS</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=4139">Wayback snapshot</a>
+              <span>Post ID: 4139</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

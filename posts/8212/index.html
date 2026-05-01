@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>透過 WebExtensions 將 Chrome 的擴充套件移植到 Firefox 上使用 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">透過 WebExtensions 將 Chrome 的擴充套件移植到 Firefox 上使用</h2>
+            <p class="entry-posted"><time datetime="2015-12-15" class="published"><span class="posted-month">12月</span><span class="posted-date">15</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p>在我看過〈<a href="https://hacks.mozilla.org/2015/09/lets_write_a_webextension/">Let’s Write a Web Extension</a>〉一文之後，我就想要實際將附加元件移植到 WebExtension。而我又特別想把高人氣且開放源碼的 Chrome 版本「<a href="https://redditenhancementsuite.com/">Reddit Enhancement Suite</a> (RES)」移植成 Firefox 版本。以下就是我的一點心得，希望能讓大家能立刻準備移植自己的附加元件。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7-2015-11-30-%E4%B8%8A%E5%8D%8810.43.49-1024x658.png" alt="螢幕快照 2015-11-30 上午10.43.49" loading="lazy"></p>
+<p>附註：連 RES 的作者群都對 WebExtensions 有著高度興趣，也計畫要正式移植此附加元件。但重點是，如果你要使用 RES，就必須先到 <a href="https://addons.mozilla.org/en-US/firefox/addon/reddit-enhancement-suite/">AMO</a> 上安裝可支援的版本。</p>
+<p>首先，我要強調 <a href="https://developer.mozilla.org/Add-ons/WebExtensions">WebExtensions</a> 是多年的長期專案。首次釋出版本是以基礎架構、完整支援、可跨瀏覽器的 API 為主。這也代表在能支援特定瀏覽器功能的複雜附加元件之前，還有不算短的一段路要走。但我們一定會達到目標。</p>
+<p>由於目前進度仍早期的實驗性質，你必須搭配 Firefox 的「<a href="https://mozilla.com.tw/firefox/channel/#nightly">每夜更新版 (Nightly)</a>」才能繼續以下步驟。下列內容也僅限淺嚐即止，還不足以讓你著手佈署。</p>
+<p>簡單的說，如果你手上 Chrome 擴充套件或跨瀏覽器的附加元件，就能開始實驗 WebExtensions 並提供意見。任何人的寶貴建議，都能協助 Mozilla 儘早規劃高優先性的 API 及其支援功能。</p>
+<h4>準備移植</h4>
+<ul><li>需先行下載並安裝 Firefox <a href="https://mozilla.com.tw/firefox/channel/#nightly">每夜更新版 (Nightly)</a>。</li></ul>
+<ul><li>建立<a href="https://support.mozilla.org/kb/profile-manager-create-and-remove-firefox-profiles">新的設定檔</a>進行測試與開發。</li></ul>
+<ul><li>於網址列鍵入 about:config ，將 xpinstall.signatures.required 設定為「 false 」。</li></ul>
+<h4>宣稱 Firefox 的相容性</h4>
+<p>你必須先將 applications 鍵值加入 manifest.json 檔案，以明確標記自己的附加元件可相容於 Firefox。如下：</p>
+<p>&quot;applications&quot;: {<br>  &quot;gecko&quot;: {<br>    &quot;id&quot;: &quot;YOUR_ADDON_ID&quot;<br>  }<br>},</p>
+<p>					12345</p>
+<p>						&quot;applications&quot;: {  &quot;gecko&quot;: {    &quot;id&quot;: &quot;YOUR_ADDON_ID&quot;  }},</p>
+<p>將「YOUR_ADDON_ID」設定為像是捏造的字串格式，如「ext@example.org」。如果你計畫要讓你的使用者從現有 Firefox 附加元件升級為 WebExtension 版本附加元件，就要重複使用自己 package.json 檔案中的「id」欄位值。</p>
+<p>你手上有一堆好用的 Chrome 擴充套件，也想弄到 Firefox 上使用嗎？那還不快來試試強大的 WebExtensions？敬請<a href="https://hacks.mozilla.org/2015/10/porting-chrome-extensions-to-firefox-with-webextensions/">回到原文觀看</a>更多精采細節內容與範例程式碼。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/10/porting-chrome-extensions-to-firefox-with-webextensions/">Porting Chrome Extensions to Firefox with WebExtensions</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Web App</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190919103533id_/https://blog.mozilla.com.tw/?p=8212">Wayback snapshot</a>
+              <span>Post ID: 8212</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

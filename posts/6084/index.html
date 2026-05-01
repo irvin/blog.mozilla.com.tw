@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>用 mozjpeg 產生高效率的 JPEG | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">用 mozjpeg 產生高效率的 JPEG</h2>
+            <p class="entry-posted"><time datetime="2014-08-13" class="published"><span class="posted-month">8月</span><span class="posted-date">13</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>mozjpeg 最近釋出了 <a href="https://github.com/mozilla/mozjpeg/releases/tag/v2.1">2.1 版</a>，期待能針對現有編碼器而提升其 JPEG 編碼效率，也要能相容於目前主流的解碼器。</p>
+<p>接著要說明該如何減少 JPEG 檔案大小，並使用 mozjpeg 的「cjpeg」指令列公用程式。</p>
+<h3>建立 mozjpeg</h3>
+<p>目前尚無正式的 mozjpeg 可執行版本，所以必須從原始碼建構自己的專案。可先<a href="https://github.com/mozilla/mozjpeg/releases">下載 mozjpeg 最新版本的原始碼</a>，再依照 <a href="https://github.com/mozilla/mozjpeg/blob/master/BUILDING.txt">BUILDING.txt</a> 檔案中的說明逐步完成。</p>
+<p>在 Linux 與 OS X 上很簡單。但在 Windows 上就有點複雜；不過相對來說還是簡單。而我們也正考慮未來將提供 mozjpeg 專案的可執行版本。</p>
+<p>在建構 mozjpeg 時，就會產生所謂「cjpeg」的指令列工具，即是搭配 mozjpeg 的編碼程式；另外「djpeg」即解碼程式。</p>
+<h3>輸入圖像格式</h3>
+<p>cjpeg 工具可處理 targa、bmp、ppm、jpg 等輸入檔案類型。</p>
+<p>「將 JPEG 檔案作為輸入結果」屬於 mozjpeg 的新功能，且其他專案所提供的 cjpeg 工具仍尚未支援此功能。此功能是為了達到更簡易的重複壓縮作業。如果不想將 JPEG 轉換為 BMP 或其他格式並重新進行編碼，則直接將 JPEG 送入 cjpeg 編碼器即可。</p>
+<p>針對 cjpeg 並不支援的檔案類型，如果你仍想建立 JPEG 檔案的話，請參閱《<a href="https://imagemagick.com/">ImageMagick 工具</a>》。其內提供「convert」指令列公用程式，可來回轉換多種格式的圖像。</p>
+<h3>cjpeg 指令列工具的基本使用方式</h3>
+<p>許多人在使用「cjpeg」工具時，都是使用最簡易的形式：</p>
+<p>$ cjpeg -quality 80 foo.bmp &gt; bar.jpg</p>
+<p>					1</p>
+<p>						$ cjpeg -quality 80 foo.bmp &gt; bar.jpg</p>
+<p>這種方式將根據「foo.bmp」輸入檔案，建立所謂「foo.jpg」的 JPEG 檔案，並達到 80 品質水準。cjpeg 將直接輸出最後的 JPEG 檔案內容。如果還要將該檔案寫入至磁碟 (你可能已經這樣做了)，就必須透過「&gt;」將結果輸出為檔案。</p>
+<h3>選擇品質水準 (Quality Level)</h3>
+<p>圖素品質分為 0 ~ 100，數字越大品質越佳。大多數人需要的圖素品質都落在 60 ~ 90 之間。因為較低圖素品質只是產生較小尺寸的圖像，所以就算原圖的品質不高，仍可達到讓你滿意的圖素品質。</p>
+<p>下方圖像包含一幅原始圖檔，以及用 cjpeg 編碼而得的五幅不同品質水準圖檔。可點擊放大觀看。</p>
+<p><a href="https://hacks.mozilla.org/wp-content/uploads/2014/07/JPEG-Quality-Comparison.png"><img src="https://blog.mozilla.com.tw/wp-content/uploads/JPEG-Quality-Comparison-593x1024.png" alt="JPEG-Quality-Comparison" loading="lazy"></a>圖像出處：Soulmatesphotography, via Wikimedia, Creative Commons Attribution-Share Alike 3.0 Unported License</p>
+<p>下方是各幅圖像的連結：</p>
+<ul><li><a href="https://hacks.mozilla.org/wp-content/uploads/2014/07/016.bmp">原始圖像</a> (未壓縮)</li></ul>
+<ul><li><a href="https://hacks.mozilla.org/wp-content/uploads/2014/07/016-90.jpg">quality 90</a> (70KB)</li></ul>
+<ul><li><a href="https://hacks.mozilla.org/wp-content/uploads/2014/07/016-80.jpg">quality 80</a> (45KB)</li></ul>
+<ul><li><a href="https://hacks.mozilla.org/wp-content/uploads/2014/07/016-70.jpg">quality 70</a> (37KB)</li></ul>
+<ul><li><a href="https://hacks.mozilla.org/wp-content/uploads/2014/07/016-60.jpg">quality 60</a> (29KB)</li></ul>
+<p>其實很多人錯失能大幅縮減檔案容量的機會。大家往往認為：「品質水準 80 看起來就不錯了，而且聽說大部分的人都用 80，我也就跟著用就可以」。但如果你無法分辨 77 與 80 的差異，這時只要稍稍做出改變，就能大幅降低檔案容量卻又能兼顧圖素品質。</p>
+<h3>基本 (Baseline) 對上漸進式 (Progressive) JPEG</h3>
+<p>mozjpeg 版本的 cjpeg 即預設產生漸進式 (Progressive) 的 JPEG 檔案，且可較基本 (Baseline) 的 JPEG 減少約 4% 檔案容量。漸進式 JPEG 雖然是先顯示模糊的圖素，但卻能先呈現完整的圖素尺寸，再逐步完成下載作業以提供完整解析度。基本 JPEG 檔案就是從頭到腳逐一載入圖素。</p>
+<p>基本 JPEG：</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/jpeg-baseline.png" alt="jpeg-baseline" loading="lazy"></p>
+<p>漸進式 JPEG：</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/jpeg-progressive.png" alt="jpeg-progressive" loading="lazy"></p>
+<p>圖像出處：Soulmatesphotography, <a href="https://commons.wikimedia.org/wiki/File%3AClovisfest.jpg">via Wikimedia</a>, Creative Commons Attribution-Share Alike 3.0 Unported License</p>
+<p>如果想產生基本 JPEG，可如下處理：</p>
+<p>$ cjpeg -baseline -quality 80 foo.bmp &gt; bar.jpg</p>
+<p>					1</p>
+<p>						$ cjpeg -baseline -quality 80 foo.bmp &gt; bar.jpg</p>
+<h3>品質矩陣</h3>
+<p>cjpeg 的絕妙功能之一，就是能針對 PSNR、PSNR-HVS-M、SSIM、MS-SSIM 共四種特殊的品質矩陣進行最佳化。這些矩陣均屬於演算法，可比較原始圖檔而計算圖像的品質。更精確的說，就是用來計算失真率 (Distortion rate)。</p>
+<p>這些演算法定義品質的方式略有不同，因此只要針對其中一種矩陣最佳化，就會影響另一個矩陣的品質。可參閱 <a href="https://people.mozilla.org/~josh/lossy_compressed_image_study_july_2014/">Mozilla 於 2014 年 7 月提出的壓縮圖像失真報告</a>以進一步了解。</p>
+<p>由於微調可對所有矩陣達到不錯的效果，mozjpeg 已經預設會對 PSNR-HVS-M 進行微調。</p>
+<p>如果你或公司本來就慣用某個特定矩陣，你就知道 mozjpeg 的 cjpeg 工具絕對可以協助微調該矩陣。</p>
+<h3>結論</h3>
+<p>希望你看到這裡，已經能開始利用 mozjpeg 來最佳化自己的 JPEG 檔案。如果遇到任何問題，歡迎透過<a href="https://github.com/mozilla/mozjpeg/issues?state=open">github 上的 mozjpeg 問題討論區</a>回報。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/08/using-mozjpeg-to-create-efficient-jpegs/">Using mozjpeg to Create Efficient JPEGs</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Mozilla</span></div>
+            <div class="entry-tag-box">標籤：<span>2.1 版</span><span>Firefox</span><span>Mozilla</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190823235633id_/https://blog.mozilla.com.tw/?p=6084">Wayback snapshot</a>
+              <span>Post ID: 6084</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

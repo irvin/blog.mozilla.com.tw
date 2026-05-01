@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>透過 WebBluetooth 就能用瀏覽器控制無人機 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">透過 WebBluetooth 就能用瀏覽器控制無人機</h2>
+            <p class="entry-posted"><time datetime="2015-08-26" class="published"><span class="posted-month">8月</span><span class="posted-date">26</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p>我們周遭有太多的裝置，且整體數字還在攀升。其中具備連線功能的裝置也越來越多，從<a href="https://bluesmart.com/">登機箱</a>到<a href="https://www.parrot.com/usa/products/flower-power/">盆栽</a>，甚至冰箱裡面的<a href="https://www.amazon.com/Minder-Wink-App-Enabled-Smart-Tray/dp/B00GN92KQ4">蛋盒</a>都能連上你的手機！但這也造成新的問題：我們該如何找出四周的裝置，又該如何互動呢？</p>
+<p>目前的裝置互動作業，都交由智慧手機所執行的不同 App 處理。但這仍無法解決「可發現性 (Discoverability)」的問題。在我決定要安裝 App 之前，必須先知道周遭到底有哪些裝置。但站在<a href="https://blog.telenor.io/iot/2015/08/04/smart-meetingroom.html">會議室</a>門口時，其實我才不在乎要安裝哪個 App，甚至會議室的名稱或代碼也不重要。我只想儘快預定會議室，或知道現在到底有沒有人預約使用這個會議室？</p>
+<h4>藍牙</h4>
+<p>Google 的 <a href="https://twitter.com/scottjenson">Scott Jenson</a> 思考可發現性的問題已有一陣子，並想出了「<a href="https://google.github.io/physical-web/">Physical Web</a>」專案，希望達到「走上街就能使用所有東西」。此一概念就是要透過「<a href="https://www.bluetooth.com/Pages/Bluetooth-Smart.aspx">Bluetooth Smart</a>」這個藍牙的低耗電變體，將網址廣播出去。你的手機將拾取 advertisment 封包、進行解碼，再對使用者顯示某些資訊。輕輕點擊就會重新導至相關內容的網頁。如此就能應用於多種東西：</p>
+<ul><li>會議室可廣播其排程行事曆的網址。</li></ul>
+<ul><li>電影海報可廣播上映時間與預告片段的網址。</li></ul>
+<ul><li>處方藥品可廣播藥物治療與重新領藥的資訊網址。</li></ul>
+<ul><li>自己看看周遭是否還有任何等你發掘的使用範例。</li></ul>
+<p><img src="../../assets/7808/wp-content/uploads/bt4.png" alt="bt4" loading="lazy"></p>
+<p>但實際情況並非單行道那樣簡單，所以會造成問題。廣播網址當然有助於我獲得如電影放映時間等的資訊，但卻無法用手上裝置進一步互動。如果我想遙控<a href="https://www.parrot.com/usa/products/rolling-spider/">無人空拍機</a>，當然不能只是找到我附近的空拍機而已，也要能直接與空拍機互動。我們希望找出網頁和裝置的溝通方式。</p>
+<h4>感謝</h4>
+<p>感謝台北 WebBluetooth 團隊的<a href="https://github.com/dwi2">黃慈霖 (Tzu-Lin Huang)</a> 與<a href="https://github.com/weilonge">李瑋倫 (Sean Lee)</a> 建構了初始的無人機程式碼。而我針對 API 所發的抱怨，台北團隊 (特別是<a href="https://github.com/yrliou">劉晏如 (Jocelyn Liu)</a>) 都能迅速做出回應並提供修正檔。還有 <a href="https://twitter.com/voodootikigod">Chris Williams</a> 把無人空拍機放進我的 JSConf.us 禮物袋；<a href="https://twitter.com/scottjenson">Scott Jenson</a> 不厭其煩的回答我 Physical Web 問題；而且 <a href="https://telenordigital.com/">Telenor Digital</a> 公司還讓我玩無人機玩了兩個禮拜。</p>
+<p>另外再看到 <a href="https://www.w3.org/community/web-bluetooth/">Web Bluetooth W3C 團隊</a>的工作心血，其內就包含了 Mozilla <a href="https://wiki.mozilla.org/B2G/Bluetooth">藍牙團隊</a>要將 bluetooth API 帶入瀏覽器的作品。如果 Physical Web 讓我們能靠近任何裝置並取得 Web App 的網址，就能讓 WebBluetooth 接著使 Web App 連上裝置並反過來開始溝通。</p>
+<p>講到這裡，還是有一堆事情要完成。像是 bluetooth API 只能接觸 Firefox OS 上<a href="https://developer.mozilla.org/zh-TW/Firefox_OS/Security/Security_model">驗證過 (Certified) 的內容</a>，因此目前還未能存取一般的網頁內容。在<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1053673">真正解決</a>安全性的問題之前，還是得持續目前的狀態。第二個問題就是 Physical Web 將主導網址的廣播作業，那特定的網路資源要如何知道是哪個特定裝置廣播了網址呢？</p>
+<p>現在你就知道真的還有一堆事情等著完成了吧？既然這篇<a href="https://hacks.mozilla.org/2015/08/flying-a-drone-in-your-browser-with-webbluetooth/">原文文章登上了「Mozilla Hacks」部落格</a>，當然就是需要大家動手開發！</p>
+<p>如果你對上面描述的東西有著極高興趣，請別錯過<a href="https://hacks.mozilla.org/2015/08/flying-a-drone-in-your-browser-with-webbluetooth/">原文內所提的範例程式碼</a>，趕快動手打造自己想到的應用吧！說不定下個獲得市場共鳴的應用就是出自於你的手！</p>
+<h4>結論</h4>
+<p>Web 真是讓人驚喜不斷！隨著有越來越多裝置上線，我們應該要能輕鬆發現裝置並與之互動。透過 Physical Web 與 WebBluetooth 的整合，我們建構出順暢體驗，要讓使用者願意與實際應用＼新款裝置進行互動。雖然還有很長的一段路要走，但應該已經走上對的方向了。Mozilla 與 Google 正主動開發相關技術。我高度期待本文所提到的東西，在未來一年內都會變成極為普通的常識！</p>
+<p>如果一年的時間對你來說太長，那你也能直接開始把玩 Firefox OS 的實驗性版本。此版本已啟用了本文所提過的所有東西，並可於「<a href="https://developer.mozilla.org/en-US/Firefox_OS/Developer_phone_guide/Flame">Flame</a>」開發者裝置上執行。先升級到 <a href="https://developer.mozilla.org/en-US/Firefox_OS/Phone_guide/Flame/Updating_your_Flame">nightly_v3 base image</a> 再刷進<a href="https://rollingspider.xyz/bt-flame.zip">此版本</a>。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/08/flying-a-drone-in-your-browser-with-webbluetooth/">Flying a drone in your browser with WebBluetooth</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190825011727id_/https://blog.mozilla.com.tw/?p=7808">Wayback snapshot</a>
+              <span>Post ID: 7808</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

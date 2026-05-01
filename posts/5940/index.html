@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>該如何寫出更好的軟體？─ 系列訪談之一 (上) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">該如何寫出更好的軟體？─ 系列訪談之一 (上)</h2>
+            <p class="entry-posted"><time datetime="2014-07-22" class="published"><span class="posted-month">7月</span><span class="posted-date">22</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>你可曾看著程式碼然後<a href="https://www.osnews.com/story/19266/WTFs_m">嘴裡唸一串「搞什麼鬼」</a>？是的，我也會；而且還常常是對我自己寫的程式碼這樣唸。</p>
+<p>身為工程師，我一直試著寫出自豪的軟體。寫出「能跑」的軟體就已經很難；而能跑的軟體如果又要兼顧沒臭蟲、易於判讀、易於擴充、易於維護、高安全性等要求，就必須耗費更大的心力。</p>
+<p><img src="../../assets/5940/wp-content/uploads/3899114449_84dd8a5c4e_o.jpg" alt="圖片作者：Marjan Krebelj" loading="lazy"><br>圖片作者：Marjan Krebelj</p>
+<p>還好，我加入的社群是由業界的多名佼佼者所組成，囊括了開發、安全、品質管理 (QA) 等專業領域。透過如 <a href="https://webmaker.org/">Webmaker</a>、MDN、Firefox、Firefox OS 等專案，Mozillians 不斷證明自己的能耐。這些專案不僅複雜、規模龐大、耗時多年開發，而且更需要數百人的努力灌注才得以成功。</p>
+<p>這個社群讓人驚豔、具備技術規模，而且還有很多值得傳授的資源。</p>
+<h3>訪談與意見回饋</h3>
+<p>我以菜鳥的身分，向 Mozilla 的其中幾位佼佼者進行了一系列訪談：</p>
+<p>「作為開發者，我們該如何寫出更好的軟體？」</p>
+<p>要把軟體提供給數百萬人使用，必須牽涉的範圍極為廣泛，絕對不只是「把程式碼寫出來」而已。所以我從開發、安全性、品質管理的多個角度提了許多問題。</p>
+<p>本文的目標讀者就是撰寫軟體的工程師，不論其偏好使用的程式語言或經驗深淺。如果你在閱讀本篇文章，你也就是目標讀者之一！這裡大多數都屬於比較深入的問題，並可套用到任何程式語言。其他小部分則是有關工具或特定語言的功能。</p>
+<h3>問題</h3>
+<p>各次訪談都有特定的問題組合，但主要都是想了解以下問題的答案：</p>
+<ul><li>其他開發者是如何撰寫高品質、易於維護的軟體？</li></ul>
+<ul><li>如何界定「高品質、易於維護的軟體」？</li></ul>
+<ul><li>有哪些程序、標準、工具可使用？</li></ul>
+<ul><li>其他人如何審查程式碼？</li></ul>
+<ul><li>開發/安全/品質管理等部門是如何彼此支援？</li></ul>
+<ul><li>「安全」牽涉了哪些概念？安全審查/稽核作業必須著重哪些地方？</li></ul>
+<ul><li>「品質管理」牽涉了哪些概念？在發表某個正式版本之前，必須著重哪些地方？</li></ul>
+<ul><li>開發者該如何寫出絕佳軟體並簡化整個流程？</li></ul>
+<p>我每篇文章都會提出一到兩位訪談者的重點。每次訪談內容都有受訪者的簡介，接著就是相關問題與答案。</p>
+<p>另外也錄製了訪談音訊檔並提供連結。如果是透過電子郵件完成訪談，我也會提供原始郵件內容的連結。</p>
+<p>接著就開始來看看吧！</p>
+<h3>介紹 Fernando Jimenez Moreno</h3>
+<p><img src="../../assets/5940/wp-content/uploads/ferjm.jpg" alt="ferjm" loading="lazy"><br>第一場是莫雷諾 (Fernando Jimenez Moreno) 的訪談。莫雷諾是 Telefónica 的 Firefox OS 開發者。去年秋天，我正努力將 Firefox Accounts 整合進 Firefox OS，也因此和莫雷諾有了合作機會。我之所以對莫雷諾留下深刻印象，不只是因為他寫程式的技術不錯，更因為他統合了分處兩大洲的六個國家，共三家公司的員工努力完成一個目標。</p>
+<p>莫雷諾述說 Telefónica 是如何加入 Firefox OS 的陣容，又如何整合不同的團隊、通用的標準、程式碼審查作業，以順利進行整個流程。</p>
+<h4>你和你的團隊在 Telefónica 做些什麼？</h4>
+<p>我屬於所謂的「平台 (Platform)」，而在 Telefonica 又分成不同的團隊。其中之一負責 Gaia 的「前端 (Front end)」開發，另一個團隊就負責平台本身 (如 Gecko、Gonk、外部服務)。我們分屬 Firefox OS 的不同部分，從 Gecko 到 Gaia，乃至於 SimplePush 伺服器等服務。我個人負責像是 <a href="https://developer.mozilla.org/Firefox_OS/Platform/Architecture">Radio Interface Layer (RIL)</a>、付款、應用程式 API、其他 Web API 等等。而大部分的工作都必須從 Gecko 跳到 Gaia 再跳回去。最近我又開始著手 Firefox OS 的 WebRTC 服務。</p>
+<h4>Telefónica 又是從何與 Mozilla 合作？</h4>
+<p>說來話長。我們剛開始是負責類似 Firefox OS 的專案，但不是以 Gecko 為基礎，卻是以 WebKit 進行作業。所以我們同樣用 WebKit 建立了這個 Open Web 裝置的平台。當聽說 Mozilla 正用 Gecko 進行與我們相同的事情，我們就決定主動聯絡並持續進行。我們之前的建構作業，是以一個 WebKit 的封閉源碼版本為基礎，但其實很難用這種方式運作。但從那時開始，我每天的工作就與 Telefónica 的 Firefox OS 團隊成員一樣，我想也和 Mozilla 的 B2G 工程師極為類似。</p>
+<h4>你是小有名氣的開發者與公司協調人員。針對 Firefox OS 上的 Firefox Accounts，你統合了Telefónica、Telenor、Mozilla 等三方人馬。你覺得自己跨三家不同公司的工作挑戰為何？</h4>
+<p>真的蠻多挑戰的，特別是剛開始著手 Firefox OS 的那段時間。我們從 2011 年開始與 Mozilla 合作，而且花了一點時間才找出雙方都可配合的工作流程。我的意思是，像我熟悉的電信公司文化，就有許多是封閉或機密的東西，這恰恰與 Mozilla 注重的開放特性相反。有些人本來就在進行其他開放源碼的專案，所以很快就適應了開放的工作環境，而且也知道在公開討論區上的應對進退。但其他人就花了點時間才習慣新的工作與簡報方式。</p>
+<p>另外，當 Mozilla 還沒加入的時候，在 Telefónica 就已經有一套敏捷方法 (Agile methodology) 的規範了。所以我們也必須找出雙方能共通的工作流程。在這個耗時的過程當中，我們開了大大小小的管理會議並不斷討論。而談到和其他電信公司合作的結果，與 Telenor共事的經驗還挺不賴的。但因為這一切結束之後，我們就會回到競爭的關係，所以還是要特別注意彼此分享的資訊。不過這並未影響我們在共同專案上的合作效率，像是我們對 Firefox Accounts 就做得不錯。</p>
+<h4>在 Mozilla 與 Telefónica 開始合作時，雙方都必須有所改變。你如何決定要使用哪些共通的實務範例，又如何建立共通的文化？</h4>
+<p>我思考過上述的「敏捷方法」。因為 Gecko 已經具備為人所熟知的程序與開發方式，所以我們對「前端」部分投下較多心力。Gecko 本身的訓練機制就長達六週。而我們當時開始著手進行的 Gaia，又是尚沒有固定方式的新專案，因此「前端」團隊在共通作業流程上耗了最多功夫。</p>
+<p>我不確定是不是真的找到了最佳流程，但我們的工作進度還算順利。我的意思是，我們雖然採用敏捷方法，但最後仍必須專心進行 Gecko 的開發。因此我們也隨遇而安，改用了對方的方式完成工作。</p>
+<p>看到這裡，你是否能初步了解整個程式開發流程，以及龐大專案的合作情形了呢？可別錯過《<a href="../../posts/5967/">該如何寫出更好的軟體？─ 系列訪談之一 (下)</a>》。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/07/how-can-we-write-better-software-interview-series-part-1/">How can we write better software? – Interview series, part 1</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Mozilla</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span><span>Mozilla</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190823235536id_/https://blog.mozilla.com.tw/?p=5940">Wayback snapshot</a>
+              <span>Post ID: 5940</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

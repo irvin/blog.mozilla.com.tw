@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Web Activities 即可輕鬆存取硬體 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Web Activities 即可輕鬆存取硬體</h2>
+            <p class="entry-posted"><time datetime="2013-08-29" class="published"><span class="posted-month">8月</span><span class="posted-date">29</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p>此為「Firefox OS ─ 讓 <a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 得以完全發揮的平台」系列的第六支影片 (於此回顧<a href="https://hacks.mozilla.org/2013/06/firefox-os-for-developers-the-platform-html5-deserves/">第一支</a>、<a href="../../posts/3179/">第二支</a>、<a href="../../posts/3277/">第三支</a>、<a href="../../posts/3419/">第四支</a>、<a href="../../posts/3593/">第五支</a>影片)，讓開發者不需封裝自己的 App，即可透過 <a href="https://wiki.mozilla.org/WebAPI/WebActivities">Web Activities</a>存取硬體。</p>
+<p><img src="../../assets/3680/wp-content/uploads/be-the-future1.png" alt="be-the-future" loading="lazy"></p>
+<p>本影片是由 Mozilla 的 Chris Heilmann (<a href="https://twitter.com/codepo8">@codepo8</a>)，與 <a href="https://blog.digital.telefonica.com/">Telefónica Digital</a>/ W3C 的 Daniel Appelquist (<a href="https://twitter.com/torgo">@torgo</a>) 所錄製，為大家解說 Web Activities 的相關概念。<a href="https://youtu.be/DNVbxY70cIc">可於此觀看影片</a>。</p>
+<p><a href="https://wiki.mozilla.org/WebAPI/WebActivities">Web Activities</a> 可擴充 HTML5 App 的功能，不需詢問使用者的授權亦能存取硬體。換句話說，App 不會要求使用者允許存取相機或電話功能，而是由 App 直接要求圖片或撥打電話，再挑選最適合的 App 執行該作業。以尋找相片為例，使用者可從圖庫或桌布中挑選相片，甚至透過相機 App 拍攝新的相片。接著你就能取得 BLOB 格式的相片。而這組程式碼實在很簡單：</p>
+<p>var pick = new MozActivity({<br>   name: &quot;pick&quot;,<br>   data: {<br>       type: [&quot;image/png&quot;, &quot;image/jpg&quot;, &quot;image/jpeg&quot;]<br>    }<br>});</p>
+<p>					123456</p>
+<p>						var pick = new MozActivity({   name: &quot;pick&quot;,   data: {       type: [&quot;image/png&quot;, &quot;image/jpg&quot;, &quot;image/jpeg&quot;]    }});</p>
+<p>此程式碼可觸發「pick」Activity，列出所有必要的 MIME 類型以要求圖檔。在 Firefox OS 或執行 Firefox 的 Android 裝置中，這個程式碼將顯示下列對話框：</p>
+<p><img src="../../assets/3680/wp-content/uploads/activity-menu.png" alt="activity-menu" loading="lazy"></p>
+<p>所有的 Activities 均擁有成功/失敗處理器 (Handler)。在本範例中，若使用者成功取得來源圖檔，則可建立新的圖像；若使用者不允許拍照或圖檔為錯誤格式，則可顯示警示：</p>
+<p>pick.onsuccess = function () { <br>    // Create image and set the returned blob as the src<br>    var img = document.createElement(&quot;img&quot;);<br>    img.src = window.URL.createObjectURL(this.result.blob);</p>
+<p>    // Present that image in your app<br>    var imagePresenter = document.querySelector(&quot;#image-presenter&quot;);<br>    imagePresenter.appendChild(img);<br>};</p>
+<p>pick.onerror = function () { <br>    // If an error occurred or the user canceled the activity<br>    alert(&quot;Can&#39;t view the image!&quot;);<br>};</p>
+<p>					1234567891011121314</p>
+<p>						pick.onsuccess = function () {     // Create image and set the returned blob as the src    var img = document.createElement(&quot;img&quot;);    img.src = window.URL.createObjectURL(this.result.blob);     // Present that image in your app    var imagePresenter = document.querySelector(&quot;#image-presenter&quot;);    imagePresenter.appendChild(img);}; pick.onerror = function () {     // If an error occurred or the user canceled the activity    alert(&quot;Can&#39;t view the image!&quot;);};</p>
+<p>其他的 Web Activities 也都是以類似的方式運作。再舉個例子，下列指令碼可要求使用者撥號：</p>
+<p>var call = new MozActivity({<br>    name: &quot;dial&quot;,<br>    data: {<br>        number: &quot;+46777888999&quot;<br>    }<br>});</p>
+<p>					123456</p>
+<p>						var call = new MozActivity({    name: &quot;dial&quot;,    data: {        number: &quot;+46777888999&quot;    }});</p>
+<p>此程式碼將啟動使用者已定義的撥打電話 App，接著要求撥打號碼。一旦使用者掛斷電話，系統隨即回傳成功處理器的物件。</p>
+<p>Web Activities 還有多項優點：</p>
+<ul><li>可安全存取硬體 ─ 不會請求使用者再允許其他 App 使用相機，而是讓使用者相信的 Apps 直接使用相機。</li></ul>
+<ul><li>讓你的 App 成為使用者經驗的一部分 ─ 不需再建構相機介面，而是讓使用者透過熟悉的介面拍照</li></ul>
+<ul><li>讓 Apps 成為裝置上的生態系統 ─ 不用讓多個 App 做相同的事，而是讓各個 App 專精做好一件事</li></ul>
+<ul><li>讓使用者自行掌握 ─ 可隨時隨地提供使用者所需的相片，並根據 Apps 的功能而決定儲存位置；而不會儲存於裝置的其他資料庫中</li></ul>
+<p>另可參閱之前的《<a href="https://hacks.mozilla.org/2013/01/introducing-web-activities/">Introducing Web Activities</a>》文章以進一步了解。</p>
+<p>若想於 Firefox OS 裝置 (或模擬器)，或執行 Firefox 的 Android 手機上開始著手 Web Activities，最簡單的方式就是下載 <a href="https://github.com/robnyman/Firefox-OS-Boilerplate-App">Firefox OS Boilerplate App</a> 即可把玩 Activities 與程式碼：</p>
+<p><img src="../../assets/3680/wp-content/uploads/boilerplate.jpeg" alt="boilerplate" loading="lazy"></p>
+<p>如果想把 App 托管於自己的伺服器上，而且不需詢問使用者的授權即存取硬體，那麼 Web Activities 就是最快、最簡單的方式。針對 App 所需的資訊，你可讓使用者決定資訊的取得方式，並專心處理所獲得的資料。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2013/08/web-activities-firefox-os-the-platform-html5-deserves/">https://hacks.mozilla.org/2013/08/web-activities-firefox-os-the-platform-html5-deserves/</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824004607id_/https://blog.mozilla.com.tw/?p=3680">Wayback snapshot</a>
+              <span>Post ID: 3680</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

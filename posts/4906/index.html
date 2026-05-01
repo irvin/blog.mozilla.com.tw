@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>更好的 Firefox Sync 同步功能 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">更好的 Firefox Sync 同步功能</h2>
+            <p class="entry-posted"><time datetime="2014-02-10" class="published"><span class="posted-month">2月</span><span class="posted-date">10</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>Mozilla 很高興能發表新版 Firefox Sync 同步功能，現已能於 Firefox 曙光版 (Aurora) 上進行測試。現有 Firefox Sync 使用者當然愛用這項服務，但也反應說相關設定仍稍嫌繁瑣，要新增其他裝置並不是很輕鬆；若要從遺失的裝置恢復設定資料更是困難。我們聽到了這些意見，也設計出更簡單的方式，期待能在 Firefox 桌面版與行動版之間安全同步資料。</p>
+<p>新版 Firefox Sync 的初始設定更簡單，也可輕鬆添增其他裝置。如果想測試新的 Firefox Sync 功能，則只要在Windows、Mac，或 Linux 版 Firefox 中輸入電子郵件位址，再選用高強度又好記的密碼即可。接著就能輕鬆添增更多電腦或 Android 裝置進行同步。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/welcome-to-sync-1024x772.png" alt="welcome-to-sync" loading="lazy"></p>
+<h4>我要如何使用新的 Firefox S ync？</h4>
+<p>新的 Firefox Sync 功能現已可在 Firefox Aurora 上使用。若要進一步了解 Firefox Sync 的測試方式，可先參閱<a href="https://support.mozilla.org/en-US/kb/how-sync-works-old-version-firefox?as=u&amp;utm_source=inproduct">本篇 Sumo 文章</a>。</p>
+<h4>安全性更高</h4>
+<p>Mozilla 一直是以透明的流程獲得大家的信任。也因為如此，我們這次仍同樣透過開放的方式，開發新同步功能所需的強大安全系統。</p>
+<p>雖然 Firefox Sync 的設定與登入流程更為簡化，但對於使用者資料的安全性卻未曾妥協。新版同步功能具備與現有產品相同的端點對端點加密 (End to end encryption) 機制，但設定步驟更簡單。</p>
+<p>讓新版 Firefox Sync 更簡單易用的關鍵，即在於我們根據使用者自己所設定的密碼，將之抽取而成資料加密所用的金鑰。也就是說，使用者設定的密碼強度越高，對自己的保障也就越完整。Mozilla 再從三個方向強化此基本方法：</p>
+<p>第一，「Client side key stretching」這項技術可抵擋中間人攻擊 (man-in-the-middle attack，MITM)；就算 SSL 憑證遭到破解也能達到特定程度的防護效果。</p>
+<p>第二，即使 Mozilla 伺服器遭到入侵，端點對端點加密機制也讓人難以存取使用者的資料。</p>
+<p>第三，公開金鑰密碼系統 (Public key cryptography) 與 BrowserID 協定，可確實區隔出「驗證 (Authentication)」、「授權 (Authorization)」、「資料儲存 (Data storage)」伺服器，藉以減少經手驗證資料的伺服器數量並降低受攻擊的機會。</p>
+<p>另可參閱 <a href="https://github.com/mozilla/fxa-auth-server/wiki/onepw-protocol">Github 上的本篇技術文件</a>，以進一步了解新版同步功能的安全架構。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/onepw-create.png" alt="onepw-create" loading="lazy"></p>
+<p>如同前一版的 Firefox sync 同步功能，使用者仍可選擇保留自己的資料，並透過<a href="https://github.com/mozilla/fxa-auth-server">開放源碼的伺服端軟體</a>托管自己的同步服務。</p>
+<p>Mozilla 仍不斷透過此新的安全架構汲取更多經驗，相信很快就能兼顧安全性與便利性的資料存取作業。</p>
+<h4>接著下一步？</h4>
+<p>Mozilla 現正準備將新的 Firefox Sync 同步功能導入 Firefox 瀏覽器。緊接著就會讓 Firefox OS 整合此新的同步功能。</p>
+<p>最後，為了能更輕鬆設計出更多的 Firefox Sync 附加功能，我們也為 Firefox 使用者建立了完整的帳號系統。Mozilla 將積極透過此系統提供新的服務，讓 Firefox 使用者享受有趣的新功能。</p>
+<p>原文連結：<a href="https://blog.mozilla.org/services/2014/02/07/a-better-firefox-sync/">A Better Firefox Sync</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=4906">Wayback snapshot</a>
+              <span>Post ID: 4906</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>行動版 Firefox 24 已支援 WebRTC | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">行動版 Firefox 24 已支援 WebRTC</h2>
+            <p class="entry-posted"><time datetime="2013-09-24" class="published"><span class="posted-month">9月</span><span class="posted-date">24</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p>WebRTC 現跨足於 <a href="https://play.google.com/store/apps/details?id=org.mozilla.firefox">Firefox for Android (行動版)</a> 與 Firefox 桌面版！Firefox 24 已預設支援mozGetUserMedia、mozRTCPeerConnection、DataChannels。桌面版 Firefox 20 即具備 mozGetUserMedia；桌面版 Firefox 22 接著納入mozPeerConnection 與 DataChannels。現在我們很興奮的宣佈 Firefox 行動版正式加入桌面版的行列，同樣支援這些酷炫的新功能！</p>
+<h3>可用功能</h3>
+<p>啟動 WebRTC 之後，開發者即可：</p>
+<ul><li>只需透過 JavaScript，就能直接從 Firefox for Android 擷取相機或麥克風串流 (我們知道開發者期待此功能已久！)</li></ul>
+<ul><li>直接在瀏覽器之間進行通訊 (音訊或視訊電話均可)；請到 <a href="https://appspot.apprtc.com/">appspot.apprtc.com</a> 網站進行測試</li></ul>
+<ul><li>不需經過伺服器即可分享資料，進而啟動點對點 (Peer-to-peer) Apps；像是在通訊期間照樣玩遊戲、打字聊天、分享圖片</li></ul>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/Maire_Brina.jpg" alt="Maire_Brina" loading="lazy"></p>
+<p>我們期待開發者提出更多創新概念！</p>
+<h3>初期使用者與相關回饋意見</h3>
+<p>Mozilla 目前主要支援開發者與早期使用者，以期能獲得重要的回饋意見。工作團隊尚未完備規格，且仍待我們建構更多功能並提升品質。Mozilla 將先讓一對一的單方通話更臻完善，接著再專注提升多方通話作業。我們也歡迎你加入測試與實驗的行列。針對這些功能，請隨時回饋意見、回報錯誤，甚至動手建構新的 Apps。</p>
+<p>如果你還不知道從何下手，可參閱<a href="https://hacks.mozilla.org/category/webrtc/">已發佈的 WebRTC 相關文章</a>。特別一提，你可先從《<a href="https://hacks.mozilla.org/2013/07/webrtc-and-the-early-api/">WebRTC and the Early API</a>》、《<a href="https://hacks.mozilla.org/2013/07/the-making-of-face-to-gif/">The Making of Face to GIF</a>》、《<a href="https://hacks.mozilla.org/2013/07/peersquared-one-on-one-online-teaching-with-webrtc/">PeerSquared</a>》、《<a href="https://developer.mozilla.org/demos/detail/an-ar-game">An AR Game</a>》(此遊戲贏得我們的 getUserMedia Dev Derby 開發競賽)、《<a href="https://www.webrtc-experiment.com/">WebRTC Experiments &amp; Demos</a>》等文開始。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/prompt.jpg" alt="prompt" loading="lazy"></p>
+<p>以下為簡單的視訊幀像擷取範例 (將擷取約 15fps 的圖像)：</p>
+<p>navigator.getUserMedia({video: true, audio: false}, yes, no);<br>video.src = URL.createObjectURL(stream);</p>
+<p>setInterval(function () {<br>  context.drawImage(video, 0,0, width,height);<br>  frames.push(context.getImageData(0,0, width,height));<br>}, 67);</p>
+<p>					1234567</p>
+<p>						navigator.getUserMedia({video: true, audio: false}, yes, no);video.src = URL.createObjectURL(stream); setInterval(function () {  context.drawImage(video, 0,0, width,height);  frames.push(context.getImageData(0,0, width,height));}, 67);</p>
+<p>此程式碼片段取自於 nightly-gupshup 中的「Multi-person video chat」。你也可至 <a href="https://mozilla.github.io/webrtc-landing/">WebRTC 測試首頁</a>體驗；另可至 <a href="https://github.com/jesup/nightly-gupshup.git">GitHub</a> 取得完整程式碼。</p>
+<p>function acceptCall(offer) {<br>    log(&quot;Incoming call with offer &quot; + offer);</p>
+<p>    navigator.mozGetUserMedia({video:true, audio:true}, function(stream) {<br>    document.getElementById(&quot;localvideo&quot;).mozSrcObject = stream;<br>    document.getElementById(&quot;localvideo&quot;).play();<br>    document.getElementById(&quot;localvideo&quot;).muted = true;</p>
+<p>    var pc = new mozRTCPeerConnection();<br>    pc.addStream(stream);</p>
+<p>    pc.onaddstream = function(obj) {<br>      document.getElementById(&quot;remotevideo&quot;).mozSrcObject = obj.stream;<br>      document.getElementById(&quot;remotevideo&quot;).play();<br>    };</p>
+<p>    pc.setRemoteDescription(new mozRTCSessionDescription(JSON.parse(offer.offer)), function() {<br>      log(&quot;setRemoteDescription, creating answer&quot;);<br>      pc.createAnswer(function(answer) {<br>        pc.setLocalDescription(answer, function() {<br>          // Send answer to remote end.<br>          log(&quot;created Answer and setLocalDescription &quot; + JSON.stringify(answer));<br>          peerc = pc;<br>          jQuery.post(<br>            &quot;answer&quot;, {<br>              to: offer.from,<br>              from: offer.to,<br>              answer: JSON.stringify(answer)<br>            },<br>            function() { console.log(&quot;Answer sent!&quot;); }<br>          ).error(error);<br>        }, error);<br>      }, error);<br>    }, error);<br>  }, error);<br>}</p>
+<p>function initiateCall(user) {<br>    navigator.mozGetUserMedia({video:true, audio:true}, function(stream) {<br>    document.getElementById(&quot;localvideo&quot;).mozSrcObject = stream;<br>    document.getElementById(&quot;localvideo&quot;).play();<br>    document.getElementById(&quot;localvideo&quot;).muted = true;</p>
+<p>    var pc = new mozRTCPeerConnection();<br>    pc.addStream(stream);</p>
+<p>    pc.onaddstream = function(obj) {<br>      log(&quot;Got onaddstream of type &quot; + obj.type);<br>      document.getElementById(&quot;remotevideo&quot;).mozSrcObject = obj.stream;<br>      document.getElementById(&quot;remotevideo&quot;).play();<br>    };</p>
+<p>    pc.createOffer(function(offer) {<br>      log(&quot;Created offer&quot; + JSON.stringify(offer));<br>      pc.setLocalDescription(offer, function() {<br>        // Send offer to remote end.<br>        log(&quot;setLocalDescription, sending to remote&quot;);<br>        peerc = pc;<br>        jQuery.post(<br>          &quot;offer&quot;, {<br>            to: user,<br>            from: document.getElementById(&quot;user&quot;).innerHTML,<br>            offer: JSON.stringify(offer)<br>          },<br>          function() { console.log(&quot;Offer sent!&quot;); }<br>        ).error(error);<br>      }, error);<br>    }, error);<br>  }, error);<br>}</p>
+<p>					12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970</p>
+<p>						function acceptCall(offer) {    log(&quot;Incoming call with offer &quot; + offer);     navigator.mozGetUserMedia({video:true, audio:true}, function(stream) {    document.getElementById(&quot;localvideo&quot;).mozSrcObject = stream;    document.getElementById(&quot;localvideo&quot;).play();    document.getElementById(&quot;localvideo&quot;).muted = true;     var pc = new mozRTCPeerConnection();    pc.addStream(stream);     pc.onaddstream = function(obj) {      document.getElementById(&quot;remotevideo&quot;).mozSrcObject = obj.stream;      document.getElementById(&quot;remotevideo&quot;).play();    };     pc.setRemoteDescription(new mozRTCSessionDescription(JSON.parse(offer.offer)), function() {      log(&quot;setRemoteDescription, creating answer&quot;);      pc.createAnswer(function(answer) {        pc.setLocalDescription(answer, function() {          // Send answer to remote end.          log(&quot;created Answer and setLocalDescription &quot; + JSON.stringify(answer));          peerc = pc;          jQuery.post(            &quot;answer&quot;, {              to: offer.from,              from: offer.to,              answer: JSON.stringify(answer)            },            function() { console.log(&quot;Answer sent!&quot;); }          ).error(error);        }, error);      }, error);    }, error);  }, error);} function initiateCall(user) {    navigator.mozGetUserMedia({video:true, audio:true}, function(stream) {    document.getElementById(&quot;localvideo&quot;).mozSrcObject = stream;    document.getElementById(&quot;localvideo&quot;).play();    document.getElementById(&quot;localvideo&quot;).muted = true;     var pc = new mozRTCPeerConnection();    pc.addStream(stream);     pc.onaddstream = function(obj) {      log(&quot;Got onaddstream of type &quot; + obj.type);      document.getElementById(&quot;remotevideo&quot;).mozSrcObject = obj.stream;      document.getElementById(&quot;remotevideo&quot;).play();    };     pc.createOffer(function(offer) {      log(&quot;Created offer&quot; + JSON.stringify(offer));      pc.setLocalDescription(offer, function() {        // Send offer to remote end.        log(&quot;setLocalDescription, sending to remote&quot;);        peerc = pc;        jQuery.post(          &quot;offer&quot;, {            to: user,            from: document.getElementById(&quot;user&quot;).innerHTML,            offer: JSON.stringify(offer)          },          function() { console.log(&quot;Offer sent!&quot;); }        ).error(error);      }, error);    }, error);  }, error);}</p>
+<p>程式碼只要能在 Firefox 桌面版執行，也就同樣能在 Firefox for Android 執行，這也就是 <a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 美妙之處！但在讓 Firefox for Android 運作更完善的同時，你必須額外考量到裝置的螢幕尺寸與旋轉方向等問題。</p>
+<p>目前<a href="https://hacks.mozilla.org/2013/04/webrtc-update-our-first-implementation-will-be-in-release-soon-welcome-to-the-party-but-please-watch-your-head/">仍有許多問題尚待克服</a>，對行動裝置尤為如此。我們已經透過多個主要的 WebRTC 網站 (包含<a href="https://talky.io/">talky.io</a>、<a href="https://apprtc.appspot.com/">apprtc.appspot.com</a>、<a href="https://codeshare.io/">codeshare.io</a>)，來測試 Firefox for Android 對單方通話的支援程度。</p>
+<h3>目前已知問題</h3>
+<ul><li>需強化回音消除的功能。目前建議使用耳麥通話 (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=916331">Bug 916331</a>)</li></ul>
+<ul><li>偶爾會出現音訊/視訊無法同步，或是音訊發生嚴重延遲的問題。我們將於 Firefox 25 中修復問題並改善延遲 (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=884365">Bug 884365</a>)</li></ul>
+<ul><li>某些裝置在擷取視訊時，可能產生偶發性的當機情形。我們正積極找出問題所在 (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=902431">Bug 902431</a>)</li></ul>
+<ul><li>若使用較低階或連線品質較差的裝置，則在較高解析度視訊在達到高幀率時，可能產生解碼或傳送的問題</li></ul>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/Maire_Keira_funny.jpg" alt="Maire_Keira_funny" loading="lazy"></p>
+<p>將即時通訊功能帶入 Web 吧！你可建構自己的 Apps、提供你的意見、回報相關錯誤，甚至一同加入測試與開發。只要你能提供任何協助、想法、熱忱，都有助於讓 Web 更上層樓。</p>
+<p>原文鏈結：<a href="https://hacks.mozilla.org/2013/09/firefox-24-for-android-gets-webrtc-support-by-default/">https://hacks.mozilla.org/2013/09/firefox-24-for-android-gets-webrtc-support-by-default/</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>已發佈的 WebRTC 相關文章</span><span>Firefox</span><span>Firefox for Android</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Firefox for Android</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=3813">Wayback snapshot</a>
+              <span>Post ID: 3813</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>該如何寫出更好的軟體？─ 系列訪談之二 (下) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">該如何寫出更好的軟體？─ 系列訪談之二 (下)</h2>
+            <p class="entry-posted"><time datetime="2014-10-07" class="published"><span class="posted-month">10月</span><span class="posted-date">7</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>此為 Mozilla Hacks  部落格的新<a href="https://hacks.mozilla.org/category/interviews/">系列訪談</a>之二。如果你才剛看到這篇文章，當然不要錯過《<a href="../../posts/6413/">該如何寫出更好的軟體？─ 系列訪談之二 (上)</a>》與《<a href="https://blog.mozilla.com.tw/posts/6421/how-can-we-write-better-software-interview-series-part-2-2">(中)</a>》篇。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/web-security-1024x768.jpg" alt="網路安全是大家都應該注重的要點。(圖片來源：networkperformance.info)" loading="lazy"><br>網路安全是大家都應該注重的要點。(圖片來源：networkperformance.info)</p>
+<h3>Web 上有哪些常見問題違反了這些原則？</h3>
+<p>特別說到 Web 這個很有趣的環境。我們傾向使用記憶體安全的程式語言。</p>
+<h3>你指的是 Python 與JavaScript 嗎？</h3>
+<p>是的，我們想使用更物件導向、更獨立/隔離的東西。我在網路上發現的主要問題，就是沒有針對使用者的輸入進行驗證或清理；或沒有避免像是隱碼攻擊 (Injection attack) 的東西。</p>
+<h3>你已經算是程式碼審閱老手，例如「Persona」就曾由你負責審查。你自己在前、後端最常發現哪些問題？</h3>
+<p>大概就是跳脫特殊字元的部份 (escaping)、假設資料來源，還有一旦出現瑕疵，惡意駭客所能掌握的程度為何。</p>
+<h3>這也是你倡導能輕鬆追蹤系統內資料流向的理由嗎？</h3>
+<p>是的！如此能找出某部分的程式碼，透過背景執行的幾行簡易碼來看看一部分連線的元件，接著追蹤回實際上是由使用者所提交的參數。這樣不是很簡單明瞭嗎？你也可藉此知道駭客的掌握度，又能做到哪些出乎我們意料之外的事。當然，其簡易程度、透明/可見度、可追蹤的分析作業等都是關鍵。</p>
+<h3>要如何才能簡化資料流向的審查作業？</h3>
+<p>我想首先應該先把程式碼不同區塊之間的互動降至最低。讓各個區塊只負責小範圍的功能。</p>
+<h3>「多重防禦 (Defence in depth，DID)」到底是什麼？開發者又該如何在系統中使用？</h3>
+<p>只能說有點像是「皮帶與吊褲帶 (Belt and suspender)」的概念。如果一個地方出錯，至少還有其他部分可隨時頂上。但你如果同時穿著吊褲帶又繫著皮帶，看起來就有點傻。這兩樣東西雖然同樣是用來固定你的褲子，但其實是各自獨立的東西。有時候腰帶會斷；有時是吊褲帶脫落。不過這兩樣東西都能避免你當街出糗。所以 <a href="https://en.wikipedia.org/wiki/Defense_in_depth_%28computing%29">DID</a> 一般是用以提醒「不要只依靠周邊安全 (Perimeter security)」。</p>
+<h3>意思是你應該檢查整個系統的資料嗎？</h3>
+<p>效能成本 (或稱複雜度成本) 往往都有其判斷準則。如果你的程式碼滿是完整性檢查 (Sanity checking)，那麼閱讀你程式碼的人都會無法專心尋找真正產生功能的地方。如此將限制他們無法了解你的程式碼，也就無法正確使用程式碼並滿足需求。</p>
+<p>根據周邊安全的概念，你很容易在程式外圍畫地自限，然後宣稱「在外面的都是壞人，裡面的才是好人」，接著在界線上搭建所有必要的防禦系統，而內部卻沒有其他機制。我曾和其他人討論過這個情形，他們認為是生物學與社會學演進的結果。某個部落內的人們彼此之間都有著血親關係。假設一個部落共有一百人，且各個部落互相獨立且距離甚遠。那麼基本規則就是你會相信血親，而到其他沒有血緣關係的部落出草。</p>
+<p>這種情況可以相安無事一陣子，但你的社會結構必須保持一百人以內。我們把這個條件套用到電腦上：試想有「好人」與「壞人」，而我只要抵禦壞人。但我們並無法在網路上分辨這兩種人，而且好人偶爾也會犯錯。所以我們使用「最低權限 (Least authority) 原則」和「採用獨立軟體元件」的想法，再儘量限縮元件之間的互動。如果因為某人刻意毀損元件，或使元件進行意料之外的行為，或元件單純發生問題，就能夠控管傷害範圍。</p>
+<h3>你自己有特別可供他人觀摩學習的程式碼片段嗎？</h3>
+<p>我想可稍微拿出來炫耀的，應該就是我為 <a href="https://tahoe-lafs.org/trac/tahoe-lafs">Tahoe-LAFS</a> 所撰寫的 <a href="https://github.com/tahoe-lafs/tahoe-lafs/blob/bc6304ae701b90e7bccccc628afa42587fcd7fe5/src/allmydata/immutable/downloader/share.py#L245">core share-downloading</a> 迴圈吧。</p>
+<p>在 Tahoe，檔案均上載到許多部分冗餘 (Partially-redundant) 的「分享」檔案；這些檔案也分配到多組伺服器上。以後你如果要下載檔案，只要取得「分享」的子集就可；如此可容忍多組伺服器發生錯誤的情況。</p>
+<p>「分享」檔案包含許多保護完整性 (Integrity-protecting) 的「<a href="https://en.wikipedia.org/wiki/Merkle_tree">Merkle hash trees</a>」，可協助檢驗你下載中的資料。而這些雜湊的位置並無法提前知道 (我們並沒有明確指定配置方式，所以其他實作的排列也有所差異)。但我們想以最少的資料來回 (Round-trips) 達到快速下載，所以我們猜測其位置並提取 (Fetch) 之。如果猜錯了，我們就會猜第二次並提取更多資料。</p>
+<p>此程式碼很努力要提取最少的資料，因此使用壓縮過的資料 (bitmap，其中記錄了我們所要提取的位元組；希望這些就是正確的資料) 集合，也有我們真正需要或已經下載的位元組，並針對正確的位元組送出請求。</p>
+<p>這個演算法讓我知道的另一件事，就是它太聰明了。在我們釋出之後才發現它的速度，其實比它取代的初階程式碼還要慢。「幾個大型區塊 (即使你提取了超乎自己需要的更多資料)」的讀取速度，高於「多個小型區段 (即使包含網路與磁碟 I/O 負載)」的讀取速度。我另外執行一系列的效能測試想找出問題，也打算下次要設法測得新演算法的速度。</p>
+<h3>你想推薦大家參與哪個開放源碼專案呢？</h3>
+<p>我個人興趣在於安全通訊工具，所以也想推薦大家 (特別是設計師與 UI/UX 工程師) 能進一步了解「<a href="https://github.com/agl/pond">Pond</a>」、「<a href="https://github.com/WhisperSystems/TextSecure">TextSecure</a>」，還有我自己的「<a href="https://github.com/warner/petmail">Petmail</a>」等工具。我也很高興現在有像是「<a href="https://wiki.debian.org/FreedomBox">GNU FreedomBox</a>」，這種能讓你在家裡架設自己伺服器的系統。</p>
+<h3>大家要如何隨時了解你現正進行的事情呢？</h3>
+<p>你可隨時留意我在 <a href="https://github.com/warner">https://github.com/warner</a> 上的留言。我自己的東西幾乎都放在這上面了。</p>
+<h3>訪談逐字稿</h3>
+<p>Brian 和我發現單是一篇部落格文章，實在不足以提供所有素材。你也可到 GitHub 找到<a href="https://github.com/shane-tomlinson/devs-at-work-software-quality/blob/master/interviews/brian-warner.txt">完整逐字稿</a>，內含記憶體安全語言、撰寫 HTML 時的隱式型態轉換 (Implicit type conversion)，以及 Brian 他自己常用的 Python 工具。</p>
+<h3>接下來的內容</h3>
+<p>下一篇訪談將介紹 Yvan Boiley 與 Peter deHaan 兩位。Yvan 會繼續為我們解說安全方面的主題。他本人負責帶領 Cloud Services Security Assurance 團隊，並將討論該團隊的安全檢查方式，並介紹網站常見問題的自我檢核工具；。</p>
+<p>Peter 則是 Mozilla 的品質控管 (Quality Assurance，QA) 工程師之一，負責 Firefox Accounts 的運作無虞。Peter 將討論專案所使用的警告標示、程序、工具。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/08/how-can-we-write-better-software-interview-series-part-2-with-brian-warner/">How can we write better software? – Interview series, part 2 with Brian Warner</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>系列訪談</span><span>Firefox</span><span>Mozilla</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Mozilla</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=6429">Wayback snapshot</a>
+              <span>Post ID: 6429</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

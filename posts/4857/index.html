@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Firefox OS 適用的 WebGL 與 CreateJS (下) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Firefox OS 適用的 WebGL 與 CreateJS (下)</h2>
+            <p class="entry-posted"><time datetime="2014-02-06" class="published"><span class="posted-month">2月</span><span class="posted-date">6</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>你對 Firefox OS 的遊戲開發，特別是 WebGL 與 CreateJS 的繪圖功能感興趣嗎？那你絕對不能錯過《<a href="../../posts/4853/">Firefox OS 適用的 WebGL 與 CreateJS (上)</a>》。</p>
+<p>接著為大家介紹繪圖效能展示與小遊戲。</p>
+<h4>範例 1： Bunnymark</h4>
+<p>Web 圖形處理的高人氣 (但限於特定族群) 效能量測基準就是 Bunnymark。此基準將測試任一繪圖器在 60fps 時，所能處理最多數量的跳躍小兔點陣圖動畫 (測試之後約達五倍快)。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/bunny.jpg" alt="bunny" loading="lazy"></p>
+<ul><li><a href="https://createjs.com/Demos/EaselJS/bunnymarkEasel/?c2d=1">Canvas 2D Bunnymark</a></li></ul>
+<ul><li><a href="https://createjs.com/Demos/EaselJS/bunnymarkEasel/?c2d=0">WebGL Bunnymark</a></li></ul>
+<ul><li><a href="https://createjs.com/Demos/EaselJS/bunnymarkEasel/install.html">Firefox OS Installer</a></li></ul>
+<p>下表即常見 Context2D 繪圖器與新 WebGL 繪圖器的 Bunnymark 效能比較分數。數字越高代表效能越好。</p>
+<p>作業環境<br>Context2D<br>WebGL<br>變化量</p>
+<p>2012 Macbook Pro, Firefox 26<br>900<br>46,000<br>51x</p>
+<p>2012 Macbook Pro, Chrome 31<br>2,300<br>60,000<br>26x</p>
+<p>2012 Win 7 laptop, IE11 (x64 NVIDIA GeForce GT 630M, 1 GB VRAM)<br>1,900<br>9,800<br>5x</p>
+<p>Firefox OS 1.2.0.0-prerelease (early 1.2 device)<br>45<br>270<br>6x</p>
+<p>Nexus 5, Firefox 26<br>225<br>4,400<br>20x</p>
+<p>Nexus 5, Chrome 31<br>230<br>4,800<br>21x</p>
+<p>這些數字顯示的最高 sprites 都在 60fps，所以只要降低幀率 (Framerate) 都能大幅提升上面的數字。另外值得注意的是，我們手邊的 Firefox OS 裝置雖然只是搶鮮版的 Firefox OS 1.2 裝置 (採用相對較低的 GPU 功率)，但我們還是看到效能大幅提升。</p>
+<h4>範例 2： Sparkles Benchmark</h4>
+<p>這個簡單的展示頁面，即是在瀏覽器達到 24fps 的情況下，畫面所能顯示的最多顆粒數量。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/easelJS-1024x597.jpg" alt="easelJS" loading="lazy"></p>
+<ul><li><a href="https://createjs.com/Demos/EaselJS/sparklesBenchmark">Sparkles Benchmark</a></li></ul>
+<ul><li><a href="https://createjs.com/Demos/EaselJS/sparklesBenchmark/install.html">Firefox OS Installer</a></li></ul>
+<h4>範例 3： Planetary Gary</h4>
+<p>我們常透過 Planetary Gary 遊戲測試 CreateJS 函式庫的新功能。而針對本文所提到的要點，我們將現有遊戲翻新，以能順利使用新的 SpriteStage 與 SpriteContainer 類別，再於 WebGL 中繪製遊戲。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/gary.jpg" alt="gary" loading="lazy"></p>
+<ul><li><a href="https://createjs.com/Demos/EaselJS/planetaryGary/">Planetary Gary</a></li></ul>
+<p>整個過程只要修改三行程式碼或添增其他程式碼，真是出乎意料的簡單；而且確實展現新 API 的一致性、簡單易用等特色。此絕佳範例是以 Context2D 繪圖器的完整功能搭配 WebGL 繪圖器 (如遊戲本身) 的絕佳效能，進而架構出使用者介面的元素 (如開始畫面)。</p>
+<p>而且此遊戲的美術部分均屬於向量圖形，可於執行時間 (使用 EaselJS 的 <a href="https://www.createjs.com/Docs/EaselJS/classes/SpriteSheetBuilder.html">SpriteSheetBuilder</a>) 透過 Context2D 繪圖器畫為 sprites，接著再傳送到 WebGL 繪圖器。因此可調整圖形而達到最小檔案容量 (約傳輸 85kb 的容量)，獲得絕佳的效能！</p>
+<h3>未來規劃</h3>
+<p>我們已經把 WebGL 新繪圖器的<a href="https://github.com/CreateJS/EaselJS">公開預覽版</a>放上 GitHub，讓社群能盡情測試並<a href="https://community.createjs.com/discussions/easeljs">提供意見</a>。且不久之後就會納入下一個主要版本。</p>
+<p>請在推特上持續追蹤 <a href="https://twitter.com/createjs">@createjs</a> 與 <a href="https://twitter.com/gskinner">@gskinner</a>，跟我們說你的想法並獲得最新消息。感謝你閱讀本文！</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/01/webgl-createjs-for-firefox-os/">WebGL &amp; CreateJS for Firefox OS</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=4857">Wayback snapshot</a>
+              <span>Post ID: 4857</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

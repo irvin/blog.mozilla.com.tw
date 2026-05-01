@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>asm.js 在多家瀏覽器上的效能均有斬獲 (上) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">asm.js 在多家瀏覽器上的效能均有斬獲 (上)</h2>
+            <p class="entry-posted"><time datetime="2015-03-24" class="published"><span class="posted-month">3月</span><span class="posted-date">24</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p><a href="https://asmjs.org/">asm.js</a> 是可輕鬆最佳化的 JavaScript 子集，且不需外掛程式就能在所有瀏覽器中執行，也是移植 C/C++ 程式碼的絕佳工具。如「<a href="https://blogs.unity3d.com/2014/04/29/on-the-future-of-web-publishing-in-unity/">Unity 3D</a>」與「<a href="https://www.unrealengine.com/blog/unreal-engine-47-released">Unreal Engine</a>」等遊戲引擎，即透過 asm.js 進行移植。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/DT2-1024x642.png" alt="DT2" loading="lazy"></p>
+<p>想當然耳，如果遊戲開發者要使用 asm.js 移植遊戲，也就是想能橫跨所有瀏覽器執行遊戲。但因為各款瀏覽器具備不同的 JavaScript 引擎、不同的繪圖建構實作，所以其效能特性皆不相同。本文將重點說明 JavaScript 的執行速度，以及目前 asm.js 跨瀏覽器所能大幅提升的執行速度。現在先針對 4 款主要瀏覽器說明。</p>
+<h4>Chrome</h4>
+<p>Google 已於 2013 年<a href="https://blog.chromium.org/2013/11/announcing-octane-20.html">釋出 Octane 2.0</a>，即是其主要 JavaScript 效能基準套件的新版本，內含新的 asm.js 效能基準 ─「zlib」。效能基準可定義該款瀏覽器最佳化的程度。效能基準均已涵蓋可能影響效能的重要部分，接著就看各家瀏覽器競爭所達到的最佳效能分數。Google 將 asm.js 效能基準加入 Octane，也就代表 Google 同樣認為 asm.js 內容的最佳化甚為重要。</p>
+<p>為了進行更深入的開發作業，Google 最近剛<a href="https://groups.google.com/forum/#%21msg/v8-dev/ab8V5Z58_70/5-05DvysCt8J">釋出「 TurboFan 」</a>，就是針對 Chrome 的 JavaScript 引擎 v8 所開發的最佳化編譯器。TurboFan 具備「Sea of nodes」的編譯架構 (為 JavaScript 空間的新架構，已可成功用於其他地方，如 Java 伺服器的 VM 中)，並要能超越 CrankShaft (即 v8 的第一代最佳化編譯器) 的速度。</p>
+<p>雖然 TurboFan 尚未準備好能用於所有 JavaScript 的內容之上，<a href="https://code.google.com/p/v8/issues/detail?id=2599#c77">但 Chrome 41 已經啟用了 asm.js</a>。從 TurboFan 透過 asm.js 所獲得的優點來看，Chrome 團隊已經無法忽略 asm.js 最佳化的重要性。舉例來說，TurboFan 能加速<a href="https://emscripten.org/">Emscripten</a> 的 zlib 效能效能基準達 13%；而 fasta 效能基準則提高 24% 的速度。</p>
+<h4>Safari</h4>
+<p>Safari 的 JavaScript 引擎「JavaScriptCore」，剛於去年<a href="https://www.webkit.org/blog/3362/introducing-the-webkit-ftl-jit/">導入新的 JIT ( 即 Just In Time 編譯器 ) ，稱為「 FTL 」</a>。FTL 即代表「<a href="https://blog.llvm.org/2014/07/ftl-webkits-llvm-based-jit.html">Fourth Tier LLVM</a>」，就是在既有的前三層最佳化作業上再加上第四層；並以強大的開放源碼編譯器架構 <a href="https://llvm.org/">LLVM</a> 為基礎。讓人開心的是：LLVM 是最上層的一般編譯器，已擁有多年的最佳化成果，而且 Safari 也重新利用了所有效能。如同上方連結的文章所說，FTL 所提升的速度亦甚為顯著。</p>
+<p>今年由 Apple 進行的另一項有趣開發，就是導入了新的 JavaScript 效能基準「<a href="https://browserbench.org/JetStream/">JetStream</a>」，其內包含多項 asm.js 效能基準。其實有人發現：正當 Google 將 asm.js 效能基準加入 Octane 的同時，Apple 也將 asm.js 內容視為最佳化的重點。</p>
+<p>看到這裡，你應該又對 Mozilla 重點開發的「asm.js」有更深一層的認識了吧？請繼續閱讀《<a href="../../posts/7243/">asm.js 在多家瀏覽器上的效能均有斬獲 (下)</a>》，了解另外兩款瀏覽器對 asm.js 的開發進度。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/03/asm-speedups-everywhere/">asm.js Speedups Everywhere</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Mozilla</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Mozilla</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190825011841id_/https://blog.mozilla.com.tw/?p=7241">Wayback snapshot</a>
+              <span>Post ID: 7241</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

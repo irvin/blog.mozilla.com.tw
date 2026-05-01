@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Firefox OS App 開發入門 (1)：打造絕佳 HTML5 App 的要素 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Firefox OS App 開發入門 (1)：打造絕佳 HTML5 App 的要素</h2>
+            <p class="entry-posted"><time datetime="2014-04-01" class="published"><span class="posted-month">4月</span><span class="posted-date">1</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>你是熱血的開發者，而且早就想開發自己的 Firefox OS App 嗎？在《<a href="../../posts/5185/">Firefox OS App 開發入門 ─ 引言</a>》之後，這裡正式為大家帶來 Firefox OS App 系列影片之一：打造絕佳 HTML5 App 的要素 (中文字幕)。快來觀賞影片並讓自己儘快熟悉 Firefox OS，進而順利開發 App 吧！</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/fxos-makes-a-good-html5-app-1024x570.jpg" alt="fxos makes a good html5 app" loading="lazy"></p>
+<h4>不只是網站</h4>
+<p>Firefox OS App 就是 HTML5 App；其所使用的技術本質上也與網站技術相同。你可以先寫個網站，再提供 manifest 檔案 (你也會在「應用程式管理員 App Manager」看到中文翻譯為「安裝資訊檔」；可參閱《<a href="https://developer.mozilla.org/zh-TW/docs/%E6%87%89%E7%94%A8%E7%A8%8B%E5%BC%8F/Manifest-840092-dup#csp">App manifest</a>》進一步了解) 即可將網站轉為 App。這個動作就等於告知 Firefox OS 你在撰寫 App，並可讓你：</p>
+<ul><li>能把 App 發佈到 Marketplace 上</li></ul>
+<ul><li>可存取裝置的硬體，蒐集如<a href="https://developer.mozilla.org/en-US/docs/Web/API/Geolocation">地理位置資訊 (Geolocation)</a> 與<a href="https://developer.mozilla.org/en-US/Apps/Build/gather_and_modify_data/Keep_it_level_responding_to_device_orientation_changes">裝置方向 (Device Orientation)</a> 等資訊</li></ul>
+<ul><li>還有更多功能！</li></ul>
+<p>HTML5 App 其實是透過網站強化其功能，也同樣遵循相同的規則，如：</p>
+<ul><li>「Progressive enhancement」，亦即先撰寫可用的配置，再視情況套用適合的版面。</li></ul>
+<ul><li>因應當前的執行裝置環境。如透過 <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Media_queries">media queries</a> 與 <a href="https://developer.mozilla.org/en-US/Apps/app_layout/responsive_design_building_blocks#Responsive_images.2Fvideo">responsive images</a> 而最佳化 App，已配合不同的螢幕尺寸、解析度、可用網路的速度等。</li></ul>
+<ul><li>採用 <a href="https://developer.mozilla.org/en-US/docs/Web/HTML">HTML</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/CSS">CSS</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">JavaScript</a> 作為其核心技術。</li></ul>
+<p>若要將網頁轉為絕佳的 App，其中的差異就在於開發者就必須考量到行動裝置使用者。也代表 App 首先必須要能：</p>
+<ul><li><a href="https://developer.mozilla.org/en-US/Apps/Build/Offline">離線作業</a></li></ul>
+<ul><li>在讓使用者進行某個作業之餘，也要提供可輕鬆使用的介面</li></ul>
+<ul><li>妥善利用有限的電池容量、處理器的速度、可用的螢幕空間而能盡情把玩 App</li></ul>
+<p>在大多數的情況下，開發者必須稍微讓網頁「瘦身」並簡化介面。而使用者也確實能因此獲得更好的經驗。</p>
+<p>若要進一步設計出絕佳的 HTML5 App，可參閱 <a href="https://developer.mozilla.org/zh-TW/docs/%E6%87%89%E7%94%A8%E7%A8%8B%E5%BC%8F-840092-dup/Publishing/In-app_payments">MDN 上的《應用程式中心》</a>相關文章。</p>
+<p>看完影片，你是否對 Firefox OS App 有更深入的了解呢？請別錯過即將陸續發佈且完成中文化的系列影片。</p>
+<p>你也可以直接觀賞 MDN 上的原文系列影片《<a href="https://developer.mozilla.org/en-US/Firefox_OS/Screencast_series:_App_Basics_for_Firefox_OS">Screencast series: App Basics for Firefox OS</a>》。</p>
+<p>亦可欣賞中文版的《<a href="https://developer.mozilla.org/zh-TW/docs/Mozilla/Firefox_OS/Screencast_series:_App_Basics_for_Firefox_OS">系列影片：Firefox OS App 開發入門</a>》。我們將逐一完成影片的中文化，並隨時更新各影片所對應的文章內容。</p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=5275">Wayback snapshot</a>
+              <span>Post ID: 5275</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

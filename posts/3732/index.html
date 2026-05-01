@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>把 Firefox OS Web Apps 送進 ZTE Open 手機 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">把 Firefox OS Web Apps 送進 ZTE Open 手機</h2>
+            <p class="entry-posted"><time datetime="2013-09-05" class="published"><span class="posted-month">9月</span><span class="posted-date">5</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p>中興通訊 (ZTE) 針對開發者與初期使用者，發表了 Firefox OS 行動電話 ─ <a href="https://fxosphone.mozilla.com.tw/zteopen/">ZTE Open</a>。本篇文章將說明應如何設定桌面環境並連接手機，再透過 Firefox OS 模擬器 (Firefox OS Simulator) 將 Apps 送進 ZTE Open。</p>
+<h3>設定 ZTE Open</h3>
+<p>在將 Apps 送進 ZTE Open，或對 ZTE Open 內的 Apps 進行除錯之前，都必須先啟動手機上的遠端除錯 (Remote debugging) 功能。請進入手機的「Settings」App 再點選 Device information -&gt; More Information -&gt; Developer -&gt; Remote debugging 即可。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/simulatordebug.png" alt="simulatordebug" loading="lazy"></p>
+<h3>Windows 系統</h3>
+<p>若要在 Windows 系統中銜接模擬器與 ZTE Open，則需要特定的 USB 驅動程式。ZTE Open 手機已內建了執行檔，可安裝正確的驅動程式。另可透過<a href="https://devicedownload.zte.com.cn/cn/UpLoadFiles/product/270/soft/2013082714510868.zip">中興通訊的鏈結</a>下載此執行檔。</p>
+<p>先將 Zip 壓縮檔下載至自己熟悉的路徑之後並解壓縮，接著以隨附的 USB 纜線銜接手機與電腦，最後執行資料夾中的「ZTE_Handset_USB_Driver.exe」可執行檔。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/execname.png" alt="execname" loading="lazy"></p>
+<p>依照設定精靈的步驟安裝驅動程式即可。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/ztesetup.png" alt="ztesetup" loading="lazy"></p>
+<p>驅動程式安裝完畢，就能將 Apps 送進手機了。你亦可透過 Windows 的「裝置管理員」確認是否安裝妥善。列於「Android Phone」之下的「ZTE Kernel Debug Interface」就是 ZTE 手機。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/devicemgr.png" alt="devicemgr" loading="lazy"></p>
+<p>啟動 Firefox OS 模擬器，可看到 Dashboard 顯示「Push」按鈕與「Device connected」的訊息。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/browser-1024x520.png" alt="browser" loading="lazy"></p>
+<p>現在即可將自己的 Firefox OS Apps 添增至模擬器中，並以「Push」按鈕將 Apps 送進手機之中。</p>
+<h3>Linux 系統</h3>
+<p>若你是在 Linux 平台上開發 Apps，則必須新增 udev 規則才能銜接 ZTE Open 手機。請參閱 Android 開發文件《<a href="https://developer.android.com/tools/device.html">Setting up a Device for Development</a>》並完成其中的 3.a 與 3.b 步驟。ZTE Open 會將「19d2」作為 idVendor 屬性。該項規則如下所示：</p>
+<p>SUBSYSTEM==”usb”, ATTR{idVendor}==”19d2”, MODE=”0666”, GROUP=”plugdev”</p>
+<p>					1</p>
+<p>						SUBSYSTEM==”usb”, ATTR{idVendor}==”19d2”, MODE=”0666”, GROUP=”plugdev”</p>
+<p>完成上述變更之後，請重新啟動系統或 udev 服務：</p>
+<p>sudo service udev restart</p>
+<p>					1</p>
+<p>						sudo service udev restart</p>
+<p>如果模擬器的 Dashboard 並未出現「Push」按鈕，則請參閱此篇<a href="https://github.com/mozilla/r2d2b2g/issues/515">問題回報</a>。</p>
+<h3>Mac 系統</h3>
+<p>如果你是在 Mac 上執行模擬器，則不需額外設定即可啟動「Push」按鈕。</p>
+<h3>參考資料</h3>
+<p>若要透過模擬器將 Apps 送進裝置或除錯，可先參閱<a href="https://developer.mozilla.org/zh-TW/docs/Tools/Firefox_OS_Simulator">《 Firefox OS 模擬器》</a>內的相關資訊。</p>
+<p>原文鏈結：<a href="https://hacks.mozilla.org/2013/08/pushing-a-firefox-os-web-app-to-zte-open-phone/">https://hacks.mozilla.org/2013/08/pushing-a-firefox-os-web-app-to-zte-open-phone/</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=3732">Wayback snapshot</a>
+              <span>Post ID: 3732</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Web Workers 有多快？ | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Web Workers 有多快？</h2>
+            <p class="entry-posted"><time datetime="2015-07-08" class="published"><span class="posted-month">7月</span><span class="posted-date">8</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p>下一版的 Firefox OS 行動作業系統，即可完整利用其搭載裝置的多核心處理器，真正解放裝置的效能。JavaScript 本於單執行緒上執行，但 Web Workers 卻能平行執行程式碼。如此可避免瀏覽器的任何作業佔用到主執行緒，讓 UI 動畫更順暢。</p>
+<p><img src="../../assets/7647/wp-content/uploads/workers-feature.png" alt="workers" loading="lazy"><br>圖片來源：blog.teamtreehouse.com/</p>
+<h3>簡介 Web Worker</h3>
+<p>Web Worker 可分為：</p>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers">Web workers</a></li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/API/SharedWorker">Shared workers</a></li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorker_API">Service workers</a></li></ul>
+<p>這些 Worker 共用類似的設計，但各有其特別屬性。Worker 均以自有的獨立執行緒執行程式碼，並和主執行緒以及其他 Worker 平行執行。不同類型的 Worker 均具備相同介面。</p>
+<h3>Web worker</h3>
+<p>單純的 Web Worker 均是從主程序所建立，而且只能與該主程序溝通。</p>
+<h3>Shared worker</h3>
+<p>只要是在相同來源 (不同的瀏覽器分頁、iframe，或其他 Shared Worker) 上執行的程序，都能與 Shared Worker 溝通。</p>
+<h3>Service Worker</h3>
+<p>Service Worker 最近已獲得不少關愛的眼神，可透過程式設計的方式，在瀏覽器之中建構 Web 伺服器的代理伺服器，將特定內容傳送到「Requester (即如主執行緒)」。Service Worker 的使用案例之一，就是離線提供內容。Service Worker 屬於蠻新的 API，因此尚未實作於所有瀏覽器之中，本文也先略過不談。</p>
+<p>為了證實 Web Workers 能讓 Firefox OS 加快執行速度，我們必須先以效能基準測試其速度。</p>
+<h3>建立 Web Worker 的成本</h3>
+<p>本文將集中討論 Firefox OS，且所有量測作業均以中階硬體規格的 <a href="https://developer.mozilla.org/en-US/Firefox_OS/Phone_guide/Flame">Flame 裝置</a>進行。</p>
+<p>第一組效能基準就是 Web Worker 的建構時間。我們先設定指令碼以建立 Web Worker，再送出最小規模的訊息讓該 Worker 能立刻回覆。一旦主執行緒接收到回應就等於作業時間終止，接著此 Web Worker 就結束生命週期。接著重複執行此作業數次，直到算出可用 Web Worker 的平均建構時間。建立 Web Worker 就如同以下一樣輕鬆：</p>
+<p>// Start a worker.<br>var worker = new Worker(&#39;worker-script.js&#39;);</p>
+<p>// Terminate a worker.<br>worker.terminate();</p>
+<p>					12345</p>
+<p>						// Start a worker.var worker = new Worker(&#39;worker-script.js&#39;); // Terminate a worker.worker.terminate();</p>
+<p>亦可套用相同函式來建立 Broadcast channel：</p>
+<p>// Open a broadcast channel.<br>var channel = new window.BroadcastChannel(&#39;channel-name&#39;);</p>
+<p>// Close a broadcast channel.<br>channel.close();</p>
+<p>					12345</p>
+<p>						// Open a broadcast channel.var channel = new window.BroadcastChannel(&#39;channel-name&#39;); // Close a broadcast channel.channel.close();</p>
+<p>因為 Shared Worker 一旦建立 之後就持續存在，所以本文中並未比較 Shared Worker 的效能基準。瀏覽器可於建立 Shared Worker 之後隨時回應需求。所以我們不能任意透過建立＼結束 Shared Worker 的方式，來取得有意義的效能基準。</p>
+<p>Web worker 約需要 40 ms 建立且這段時間的變化不大，前後不過幾個微秒的誤差。但設定 Broadcast channel 一般只要 1 ms 之內就搞定。</p>
+<p>在正常狀態下，瀏覽器的 UI 都維持著 60 fps 的更新率。也就是說 JavaScript 程式碼的執行時間不應比幀像 (60 fps 即約 16.66 ms) 所需的時間還要長，否則你的 App 看起來就會很慢。</p>
+<p>建立 Web Worker 實體的效率頗高，但是單一幀像所分配的時間仍可能不夠用。所以應建立越少 Web Worker 越好，並要能儘可能重複使用。</p>
+<h3>訊息延遲</h3>
+<p>Web Worker 的重要面向之一，就是能在主執行緒與 Worker 之間進行高速溝通。而主瀏覽器執行緒另有兩種不同方式可與 Web Worker 溝通。</p>
+<h4>postMessage</h4>
+<p>此為預設 API。若要從 Web Worker 收發訊息，我們也建議使用此一 API。<a href="https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage">postMessage()</a> 簡單易用：</p>
+<p>// Send a message to the worker.<br>worker.postMessage(myMessage);</p>
+<p>// Listen to messages from the worker.<br>worker.onmessage = evt =&gt; {<br>  var message = evt.data;<br>};</p>
+<p>					1234567</p>
+<p>						// Send a message to the worker.worker.postMessage(myMessage); // Listen to messages from the worker.worker.onmessage = evt =&gt; {  var message = evt.data;};</p>
+<h4>Broadcast Channel</h4>
+<p>此為<a href="https://hacks.mozilla.org/2015/02/broadcastchannel-api-in-firefox-38/">新實作的 API</a>，且至本文截稿為止限用於 Firefox。只要是相同來源的所有內容，均可透過此 API 廣播訊息。相同來源的所有瀏覽器分頁、iframes、Worker 都能發送並接收訊息：</p>
+<p>// Send a message to the broadcast channel.<br>channel.postMessage(myMessage);</p>
+<p>// Listen to messages from the broadcast channel.<br>channel.onmessage = evt =&gt; {<br>  var message = evt.data;<br>};</p>
+<p>					1234567</p>
+<p>						// Send a message to the broadcast channel.channel.postMessage(myMessage); // Listen to messages from the broadcast channel.channel.onmessage = evt =&gt; {  var message = evt.data;};</p>
+<p>為了取得效能基準，我們用了上述的類似指令碼，但差別在於不會結束 Web Worker 的生命週期且每次作業均重複使用。由於這樣會取得來回一趟的反應時間，所以應將所測得的時間除以二。</p>
+<p>如你所預期的，簡易的 postMessage 速度極快，往往只要 0 ~ 1 ms 就能送出一則訊息到 Web 或 Shared Worker。而 Broadcast channel API 需時 1 ~ 2 ms。</p>
+<p>在一般情況下，用 Worker 交換訊息極快，所以這裡不用太擔心速度的問題。但越大量的訊息就耗時越久。</p>
+<h3>訊息的規模</h3>
+<p>共有兩種方法可將訊息傳送到 Web Worker：</p>
+<ul><li>複製訊息</li></ul>
+<ul><li>轉發訊息</li></ul>
+<p>第一種方式會讓訊息進行序列化、複製、送出等程序。第二種方式則是轉發資料。這也代表一旦訊息送出之後，原始的發送者 (Sender) 就再也不能使用該筆訊息。轉發資料幾乎是瞬間完成，所以沒有能實際當做效能基準的地方。但其實只有 ArrayBuffer 是可轉發的資料型別。</p>
+<p>如你所預估，資料的序列化、複製、解序等步驟，會對訊息傳遞產生大量的額外負擔。訊息量越大，其所需的傳送時間也就越長。</p>
+<p>量測基準將在這裡送出型別陣列 (Typed Array) 到 Web Worker，且每次迭代都會逐步增加其資料量。「訊息量」與「轉換時間」之間會呈線性相關。針對每次量測作業，我們可將資料量 (以 kilobytes 為單位) 除以時間 (以 milliseconds 為單位)，得到 KB/ms 的轉換速度。</p>
+<p>一般在 Flame 上，使用 postMessage 可達 45 KB/ms 的轉換速度；Broadcast channel 則可達 6 B/ms。也就是說，如果你要自己的訊息能吻合單一幀像的時間，則使用 postMessage 時的訊息必須不超過 350 MB；使用 Broadcast channel 時則不超過 50 MB。否則將造成 App 中的「掉格 (Frame drop)」情形。</p>
+<p>我們在這個效能基準中使用了型別陣列 (Typed array)，能精準以 kilobytes 為單位表示訊息的體積。你也可以轉發 JavaScript 物件，但序列化程序會耗時更久。這對小物件來說沒什麼差別，所以仍可將小物件序列化為二進制格式。你可使用類似「<a href="https://developers.google.com/protocol-buffers/">協定緩衝 (Protocol Buffer)</a>」的工具。</p>
+<h3>正確使用 Web Worker 以達極高速度</h3>
+<p>以下是 Web Worker 相關效能基準的簡易摘要，同樣是以 Flame 所測得：</p>
+<p>作業<br>時間</p>
+<p>建立 Web Worker<br>40 ms</p>
+<p>建立 Broadcast channel<br>1 ms</p>
+<p>使用 postMessage 的通訊延遲<br>0.5 ms</p>
+<p>使用 Broadcast channel 的通訊延遲<br>1.5 ms</p>
+<p>使用 postMessage 的通訊速度<br>80 kB/ms</p>
+<p>使用 Broadcast channel 的通訊速度<br>12 kB/ms</p>
+<p>使用 postMessage 的最大訊息量<br>1,300 kB</p>
+<p>使用 Broadcast channel 的最大訊息量<br>200 kB</p>
+<p>設立效能基準，是用來確認解決方案是否夠快的唯一方式，也能讓整個 Web 開發作業省去許多臆測性質的無效工作。</p>
+<p>如果你想在特定裝置上執行這些效能基準，這裡還有針對這些量測作業所開發的「<a href="https://github.com/gmarty/web-workers-benchmark">web workers benchmark</a>」開放源碼 App。當然也歡迎你貢獻其他新類型的效能基準。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/07/how-fast-are-web-workers/">How fast are web workers?</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824003942id_/https://blog.mozilla.com.tw/?p=7647">Wayback snapshot</a>
+              <span>Post ID: 7647</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

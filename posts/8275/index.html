@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>從 Game Jam 到行動裝置與 Firefox OS | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">從 Game Jam 到行動裝置與 Firefox OS</h2>
+            <p class="entry-posted"><time datetime="2015-12-28" class="published"><span class="posted-month">12月</span><span class="posted-date">28</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p><a href="https://www.wikiwand.com/en/Game_jam">遊戲開發活動「Game Jams」</a>即聚集了多位遊戲開發者，期能在極短時間內一同開發遊戲。我極愛參加此類活動。就我之前參加 Game Jam 所開發的〈Metal vs Hipsters〉遊戲來看，移植到行動 Web 與 Firefox OS 上實在是很酷。</p>
+<h4>移植到行動裝置</h4>
+<p>我剛開始是針對桌機打造 HTML5 遊戲，因此就會有解析度固定、透過鍵盤控制等特點。若要將之移植為行動裝置版本的遊戲，就必須進行小幅度 (當然也有大幅度！) 的調整。</p>
+<p><a href="https://belen-albeza.github.io/ldjam-32-fxos/"><img src="https://blog.mozilla.com.tw/wp-content/uploads/gaming.png" alt="gaming" loading="lazy"></a></p>
+<p>此遊戲使用了開放源碼的遊戲引擎「Phaser」，因此本文所提供的部份程式碼亦利用了 Phaser 的 API。</p>
+<p>你可在<a href="https://belen-albeza.github.io/ldjam-32-fxos/">這裡</a>確認並把玩最後的行動版本。</p>
+<h4>遊戲的視覺呈現</h4>
+<p>我所用的第一組工具，就是 Firefox 的「適應性設計檢視模式 (Responsive Design View)」。此工具可讓你切割畫面並模擬不同的螢幕尺寸。只要到 Firefox 瀏覽器上找到「工具 (Tools)」&gt;「網頁開發者 (Web Developer)」&gt;「適應性設計檢視模式 (Responsive Design View)」即可。</p>
+<p>另外一個工具就是實際的智慧型手機了！我先找到一支 Android 手機，並在其內安裝了多款瀏覽器。我先在 localhost 中執行遊戲，再將手機連上自己的 Wi-Fi 網路，就能用我的電腦 IP 存取遊戲了。</p>
+<p>當然接著就發生了第一個問題……</p>
+<h4>尺寸調整</h4>
+<p>適應性設計檢視模式中，這個遊戲在 320×480 解析度未加以調整的畫面如下：</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/unscaled.png" alt="unscaled" loading="lazy"></p>
+<p>解決方法則是使用 Phaser 的 ScaleManager 來調整遊戲解析度，使其能切合整個螢幕 (依需要也可使用寬螢幕模式)：</p>
+<p>var BootScene = {<br>  init: function () {<br>    // make the game occuppy all available space, but respecting<br>    // aspect ratio – with letterboxing if needed<br>    this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;<br>    this.game.scale.pageAlignHorizontally = true;<br>    this.game.scale.pageAlignVertically = true;<br>  },<br>  // ...<br>};</p>
+<p>					12345678910</p>
+<p>						var BootScene = {  init: function () {    // make the game occuppy all available space, but respecting    // aspect ratio – with letterboxing if needed    this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;    this.game.scale.pageAlignHorizontally = true;    this.game.scale.pageAlignVertically = true;  },  // ...};</p>
+<p>你參與過遊戲開發活動「Game Jam」嗎？你自己是不是已經有一些桌機遊戲，想要再更進一步將遊戲移植成手機就能開啟的 Web/HTML5 遊戲，藉以接觸到更多消費者呢？如果你對上述三個問題的答案都是肯定的，那就更不能錯過<a href="https://hacks.mozilla.org/2015/12/from-game-jam-to-mobile-and-firefox-os/">原文</a>內的範例程式碼與移植心得喔！</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/12/from-game-jam-to-mobile-and-firefox-os/">From game jam to mobile and Firefox OS</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Web App</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20191019115049id_/https://blog.mozilla.com.tw/?p=8275">Wayback snapshot</a>
+              <span>Post ID: 8275</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

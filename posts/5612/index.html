@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>HTML 在瀏覽器之外的延伸應用 (上) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">HTML 在瀏覽器之外的延伸應用 (上)</h2>
+            <p class="entry-posted"><time datetime="2014-05-22" class="published"><span class="posted-month">5月</span><span class="posted-date">22</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>我的朋友幾乎都知道我是《星際大戰 (Star Wars)》的重度阿宅粉絲。我長期使用的網路代號是「cfjedimaster」；也就是「cf」與「絕地大師 (Jedi master)」的組合。是的，我熱愛的另一樣東西就是「ColdFusion」。我工作的房間堆滿了星際大戰玩具，還在身上弄了兩個有關星際大戰的刺青。而目前對我職涯影響最深的電影，就必須提到《創：光速戰記 (Tron)》。</p>
+<p><img src="../../assets/5612/wp-content/uploads/Tron_poster-250x373.jpg" alt="Tron_poster-250x373" loading="lazy"></p>
+<p>我之前就對電腦很有興趣，但要到《創》這部電影才真正讓我的想法具體化。我突然幻想著自己是個程式設計師，建立智慧型程式並開始控制整個網格。對啦！我知道你看到這心裡會想著：「又在講宅言宅語了」。</p>
+<p>我大學時代主修電腦科學 (Comp Sci) 時，就發現自己心中的夢想撞上了「現實」這面牆。首先，一開始修《微積分 (三)》時，本來以為自己數學程度有多好根本都是假相。其次，我發現自己其實對「哪個的效能比較好」沒那麼感興趣，結果我雖然改主修英文 (往往是很好的策略)，但沒完全放掉電腦的相關課程。我也正好在這段期間遇上「Mosaic」瀏覽器和早期剛萌芽的 Web。</p>
+<p>我很快的又一頭栽進網路。說得直接一點，我發現寫程式比之前要簡單許多。我還對「LiveScript」有印象，也記得我的第一組 Perl CGI 指令碼。這當然不是在寫《創》中的光輪，但在當時來說已經比較簡單、有趣，而且走在時代尖端了。我當 Web 開發者的時間還不算短，而且我還抱著「Web 屬於原始環境」的錯覺，但對我 (還有其他許多人) 來說已經是不錯的環境了。我更期待能看到 Web 能持續進化到哪種地步。</p>
+<p>說到最有趣的現象之一，就是 Web 技術都在網路以外的地方發展茁壯。透過這篇文章，我要談談可在非網路環境中重新使用的網路技術 (如 HTML、JavaScript、CSS)。如果要說一個人完全不用再學其他技術，或說網路標準可用在任何情境或任何條件下，其實都有點荒謬。我自己認為：網路背後的技術，其實就是要開放給許多不同領域的人所用 ─ 就算你沒唸到電腦科學博士應該也能運用自如！</p>
+<h4>行動裝置</h4>
+<p>一般文章到這裡應該要先討論行動裝置的重要性，但現在都已經 2014 年了，重要性應該不需要我多提。目前行動裝置主要在 Java (Android) 或 Objective-C (iOS) 上發展。當然，開發者也能用 Web 標準建立原生 App，而其中一個解決方案就是 <a href="https://cordova.apache.org/">Apache Cordova</a>；也就是 PhoneGap。</p>
+<p>Cordova 是以原生 App 來包裝一個 Web view，讓開發者能建構出所謂的「混合式 (hybrid)」應用程式。而Cordova 除了可輕鬆將 HTML 轉為 App 之外，也具備多樣的外掛程式。讓你能執行一般網頁在行動裝置上所達不到的功能。以下範例就能讓你輕鬆存取相機：</p>
+<p>navigator.camera.getPicture(onSuccess, onFail, { quality: 50,<br>    destinationType: Camera.DestinationType.DATA_URL<br>});</p>
+<p>function onSuccess(imageData) {<br>    var image = document.getElementById(&#39;myImage&#39;);<br>    image.src = &quot;data:image/jpeg;base64,&quot; + imageData;<br>}</p>
+<p>function onFail(message) {<br>    alert(&#39;Failed because: &#39; + message);<br>}</p>
+<p>					123456789101112</p>
+<p>						navigator.camera.getPicture(onSuccess, onFail, { quality: 50,    destinationType: Camera.DestinationType.DATA_URL}); function onSuccess(imageData) {    var image = document.getElementById(&#39;myImage&#39;);    image.src = &quot;data:image/jpeg;base64,&quot; + imageData;} function onFail(message) {    alert(&#39;Failed because: &#39; + message);}</p>
+<p>你當然也能搭配 GPS、加速規、檔案系統、聯絡人資訊，還有更多功能。Cordova 另提供一組 JavaScript API，可於後端和原生程式碼溝通。另外最棒的一點，就是相同一組程式碼就能建構不同平台的原生 App (<a href="https://hacks.mozilla.org/2014/02/building-cordova-apps-for-firefox-os/">Cordova 與 PhoneGap 現也支援 Firefox OS</a>)。</p>
+<p>說得明白點，這裡可不是封裝個現成網站而已。從定義上來說，行動 App其實與一般單純的網站完全不同。但因為開發者可運用現有的 Web 知識，所以一開始就擁有優勢。</p>
+<p>另一個本站讀者應該已經很熟悉的範例就是 <a href="https://www.mozilla.org/en-US/firefox/os/">Firefox OS</a>。與 Cordova 不同的是，開發者不需將自己的 HTML 包裝到 Web view 之中。整個 Firefox OS 都是以 Web 標準為架構。讓 Firefox OS 更迷人的一點，就是可支援架設/托管式 (Hosted) App。目前 Firefox OS 仍屬於新平台，所以使用者還不是很多。但有了架設/托管式 App，我能針對 Firefox OS 裝置輕鬆支援安裝作業，同時又能以傳統 URL 提供 App 的服務。</p>
+<p>這裡用我建構的簡易《<a href="https://ineedit.raymondcamden.com/">INeedIt</a>》做示範。如果你用 Chrome 瀏覽，<a href="https://ineedit.raymondcamden.com/">INeedIt</a> 應用程式就會平順執行；用Android 或 iOS 的行動瀏覽器也是一樣運作。但如果是用 Firefox，就會觸發程式碼並詢問你是否要安裝 App。以下就是可處理此作業的程式碼。</p>
+<p>if(!$rootScope.checkedInstall &amp;amp;&amp;amp; (&quot;mozApps&quot; in window.navigator)) {</p>
+<p>    var appUrl = &#39;http://&#39;+document.location.host+&#39;/manifest.webapp&#39;;<br>    console.log(&#39;havent checked and can check&#39;);<br>    var request = window.navigator.mozApps.checkInstalled(appUrl);</p>
+<p>    //silently ignore<br>    request.onerror = function(e) {<br>        console.log(&#39;Error checking install &#39;+request.error.name);<br>    };</p>
+<p>    request.onsuccess = function(e) {<br>        if (request.result) {<br>            console.log(&quot;App is installed!&quot;);<br>        }<br>        else {<br>            console.log(&quot;App is not installed!&quot;);<br>            if(confirm(&#39;Would you like to install this as an app?&#39;)) {<br>                console.log(&#39;ok, lets try to install&#39;); <br>                var installRequest = window.navigator.mozApps.install(appUrl);</p>
+<p>                installRequest.onerror = function() {<br>                    console.log(&#39;install failure: &#39;+this.error.name);<br>                    alert(&#39;Sorry, install failed.&#39;);    <br>                };</p>
+<p>                installRequest.onsuccess = function() {<br>                    console.log(&#39;did it&#39;);<br>                    alert(&#39;Thanks, app installed!&#39;);    <br>                };<br>            }<br>            $rootScope.checkedInstall=true;<br>        }<br>    };</p>
+<p>} else {<br>    console.log(&#39;either checked or non compat&#39;);                <br>}</p>
+<p>					1234567891011121314151617181920212223242526272829303132333435363738</p>
+<p>						if(!$rootScope.checkedInstall &amp;amp;&amp;amp; (&quot;mozApps&quot; in window.navigator)) {     var appUrl = &#39;http://&#39;+document.location.host+&#39;/manifest.webapp&#39;;    console.log(&#39;havent checked and can check&#39;);    var request = window.navigator.mozApps.checkInstalled(appUrl);     //silently ignore    request.onerror = function(e) {        console.log(&#39;Error checking install &#39;+request.error.name);    };     request.onsuccess = function(e) {        if (request.result) {            console.log(&quot;App is installed!&quot;);        }        else {            console.log(&quot;App is not installed!&quot;);            if(confirm(&#39;Would you like to install this as an app?&#39;)) {                console.log(&#39;ok, lets try to install&#39;);                 var installRequest = window.navigator.mozApps.install(appUrl);                 installRequest.onerror = function() {                    console.log(&#39;install failure: &#39;+this.error.name);                    alert(&#39;Sorry, install failed.&#39;);                    };                 installRequest.onsuccess = function() {                    console.log(&#39;did it&#39;);                    alert(&#39;Thanks, app installed!&#39;);                    };            }            $rootScope.checkedInstall=true;        }    }; } else {    console.log(&#39;either checked or non compat&#39;);                }</p>
+<p>看起來真的很簡單對吧？我之所以喜歡這組程式碼，就是因為它在 Firefox OS 以外的平台上就會完全被忽略，但又可提供給 Firefox OS 使用者運用。我不用冒任何風險，就能在裝置螢幕上提示消費者決定是否下載我的 App。</p>
+<p><img src="../../assets/5612/wp-content/uploads/Firefox_OS_Simulator.png" alt="Firefox_OS_Simulator" loading="lazy"></p>
+<p>看到這裡，是否讓你對 HTML 有更深一層的認識了呢？接著會跟大家說明桌機上的延伸應用。可別錯過《<a href="../../posts/5617/">HTML 在瀏覽器之外的延伸應用 (下)</a>》。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/04/html-out-of-the-browser/">HTML out of the Browser</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190825002545id_/https://blog.mozilla.com.tw/?p=5612">Wayback snapshot</a>
+              <span>Post ID: 5612</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

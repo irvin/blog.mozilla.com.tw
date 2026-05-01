@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Mozilla 將提供 Firefox 延長支援版 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Mozilla 將提供 Firefox 延長支援版</h2>
+            <p class="entry-posted"><time datetime="2012-01-11" class="published"><span class="posted-month">1月</span><span class="posted-date">11</span><span class="posted-year">2012</span></time></p>
+          </header>
+          <div class="entry-content"><p>Firefox 4 之後，Mozilla 的開發方式改為所謂的「快速開發週期」，每六週固定推出一個正式版。好處是大家可以更快在正式版裡使用到最新科技，但相對來說也有些新的問題要面 對。<a href="https://www.facebook.com/note.php?note_id=273303252729074">先前提過 的附加元件更新</a>是一例，另外還有一個則是企業內部署 Firefox 碰上的困難。</p>
+<p>一般來說， 企業內要全面推行某個軟體時，會先由資訊管理人員測試該軟體是否能正常與其他必備軟體合作運行，升級時也同樣要測試一輪，確保新版不會出什麼差 錯。但碰上了 Firefox 每六週更新一版的快速開發週期，雖然改版幅度不大，但在企業內測試的工作可少不了，這造成了不少麻煩。</p>
+<p>為了回應企業單位資訊人員的需求，Mozilla 今天正式將討論已久的 <a href="https://wiki.mozilla.org/Enterprise/Firefox/ExtendedSupport:Proposal">Firefox ESR（Extended Support Release，延長支援版）方案</a>定了下來。如前文所述，ESR 版主要是為了企業、公家機關、學校法人等組織而設，這類組織一般由資訊人員在測試後決定電腦軟體升級與否，因而常停用 Firefox 內建的更新機制。ESR 預定從月底推出的 Firefox 10 開始提供，玆列資訊管理人員會關心的重點如下：</p>
+<ul><li>Firefox 10 預計將有第一版的 ESR，與一般的桌機版 Firefox 將用不同的名稱區分，但使用相同的 GUID（若您的企業有自定的附加元件，就會用到）。</li></ul>
+<ul><li>ESR 的版號會跟著當時推出的 Firefox 跑，例如目前計劃會用 Firefox 10 為基礎推出第一版 ESR，那版號也就是 10。</li></ul>
+<ul><li>依循快速開發週期，Firefox 每六週出一個新版，而新版中列為重大或高度危險的安全性修正，會補回當時支援的 ESR 版，並推出一個 0.0.1 版的安全更新。也就是說，Firefox 11 推出時，其中的重大安全修正會補回 ESR 10 版，推出 ESR 10.0.1。 當然，依循 Mozilla 安全修補超快速的傳統，若有其他重大安全性修補，也可能不定期推出安全更新。</li></ul>
+<ul><li>但 ESR 版的更新並不會有新功能 — 就單純是安全更新，以確保部署軟體的企業單位不必又為了新功能相容問題從頭測試一次。</li></ul>
+<ul><li>因為只提供重大安全更新，因此 ESR 版不建議一般個人使用者使用，Mozilla 也不贊成使用 ESR 版的單位自行散佈 ESR 版給大眾 。</li></ul>
+<ul><li>每個 ESR 版的支援期間目前預定為 9 個開發週期（也就是 54 週）。支援到期前 2 個開發週期（12 週）將推出新的 ESR 版，中間重疊的時間可以讓資訊人員作為測試、部署的緩衝期。</li></ul>
+<p>一般的桌機版 Firefox 以及 ESR 版的推出與更新週期狀況，可以由下面這張表中看出來：</p>
+<p><a href="../../posts/157/"><img src="../../assets/157/wp-content/uploads/Esr-release-overview.png" alt="" loading="lazy"></a></p>
+<p>依據目前的計劃，第一版 ESR 將在 Firefox 10 時一起推出，並支援到 2013 年的 2 月；在 2012 年 11 月底時，將跟著 Firefox 17 推出第二個 ESR 版，並留下 12 週的緩衝期讓企業資訊人員決定是否升級到下一個 ESR 版，又或是更換為其他軟體。圖中還有一個重大訊息：Firefox 3.6 將在第一版 ESR 版推出的 2 個開發週期（12 週）後停止支援，屆時將建議所有使用者升級。以目前的計劃來說，就是 2012 年 4 月 24 日。</p>
+<p>本文僅列出 ESR 的重點，建議企業資訊人員評估採用 ESR 版前，先行閱讀 <a href="https://wiki.mozilla.org/Enterprise/Firefox/ExtendedSupport:Proposal">Mozilla Wiki 上 ESR 計劃的完整文件</a>，包括 Mozilla 安全更新的評估層級、ESR 版部署的注意事項等等，也歡迎採用 ESR 版的資訊人員<a href="https://wiki.mozilla.org/Enterprise#How_to_Participate_and_Post">加入 Mozilla 企業工作小組（Mozilla Enterprise Working Group）</a>提供回饋，一起評估、討論 ESR 版所帶來的成效，作為日後改進的依據。</p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20160325222337id_/https://blog.mozilla.com.tw/?p=157">Wayback snapshot</a>
+              <span>Post ID: 157</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

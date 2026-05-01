@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Firefox Marketplace：設立自己的 App 商店 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Firefox Marketplace：設立自己的 App 商店</h2>
+            <p class="entry-posted"><time datetime="2014-03-11" class="published"><span class="posted-month">3月</span><span class="posted-date">11</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>你是熱血的 Firefox OS 開發者，而且早已設計了許多 App 準備大展身手嗎？開發者除了能在 <a href="https://marketplace.firefox.com/">Firefox Marketplace</a> 上推銷自己的 App 之外，其實也能自己設立 App 商店。如果你想在自己的市集上推銷自己的 App，可先來看看這一篇概略說明，並讓自己的開發作業更順利。</p>
+<p><a href="https://marketplace.firefox.com/"><img src="https://blog.mozilla.com.tw/wp-content/uploads/marketplacesubmit-1024x574.jpg" alt="marketplacesubmit" loading="lazy"></a></p>
+<p>任何 Web 網站若具備豐富的圖片與互動經驗，則 Web 瀏覽器可透過 Mozilla 的 App 專案平台，將這類網站識別為「Web App」，進而能跨裝置安裝並同步這些網站。開發者現可透過此項特性，將已發佈的 App 整理到目錄與商店中。接著說明相關步驟。</p>
+<p>###</p>
+<h3>與瀏覽器整合</h3>
+<p>App 平台即提供「<a href="https://developer.mozilla.org/en-US/docs/Web/API/navigator.mozApps">navigator.mozApps</a>」這個 JavaScript 物件，可作為商店與瀏覽器之間的溝通橋樑。</p>
+<p>Web App 是根據其網域所辨識而得。而一個來源網域就只會有一個 App。針對目錄或商店，開發者可透過 <a href="https://developer.mozilla.org/en-US/Apps/Developing/JavaScript_API">App Installation API 與 App Management API</a>，讓瀏覽器觸發 <a href="https://developer.mozilla.org/en-US/docs/Web/API/apps.install">apps.install</a> 函式並提示 App 的安裝作業，另提供 App 的 manifest 檔案網址，以及任何想要補充的後設資料 (metadata)。開發者可存取此筆後設資料，以查閱消費者的購買資訊、確認單一登入狀態 (SSO)，或其他服務。</p>
+<h4>使用 getInstalled()</h4>
+<p>只要 App 是根據你的網域而安裝於目前的瀏覽器上，均可透過 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Apps.getInstalled">navigator.mozApps.getInstalled()</a> 函式取得此類 App 的清單。另請注意，開發者不會看到其他網域所安裝的 App，只會看到放在自己網域中的 App。</p>
+<p>開發者可透過此函式而了解消費者安裝的 App 是否符合你的預期。即使消費者是以新帳戶登入你的網站，亦可透過「resync」功能而再次安裝既有的 App。</p>
+<p>###</p>
+<h3>到底該不該托管？</h3>
+<p>針對托管式 App，商店只需該網站的 manifest 網址，即可觸發 App 的安裝作業 (<a href="https://developer.mozilla.org/en-US/docs/Web/API/apps.install">apps.install</a>)。該 App 檔案不一定要儲存於商店或目錄之下。</p>
+<p>如果 App 沒有伺服器的邏輯元件 (也就是完全以用戶端 JavaScript、HTML、CSS 所建構的 App)，開發者就可能會想建構出托管功能。此時必須為各 App 指派不同的網域名稱，並針對各 App 的 manifest 檔案建構伺服邏輯，才能使用托管功能。</p>
+<p>如果你現在正自行托管 App 邏輯，則可輕鬆維護和消費者之間的會話 (Session)，進而追蹤消費者的喜好、購買證明，或其他服務。如果你要針對遠端網站提供服務，就必須完成額外作業，才能支援分散式的認證系統。</p>
+<p>注意：<a href="https://firefox-marketplace-api.readthedocs.org/en/latest/">Firefox Marketplace API</a> 內含的功能，讓開發者只耗費最小程度的心血，即可迅速設立自己的 App 商店。</p>
+<p>Mozilla 開發者社群網站 (MDN) 原文連結：<a href="https://developer.mozilla.org/en-US/Marketplace/Publishing/Creating_a_store">Creating your own store</a></p>
+<p>你也可參閱中文版《<a href="https://developer.mozilla.org/zh-TW/docs/Mozilla/Marketplace/Publishing/Creating_a_store">設立自己的 App 商店</a>》；並參閱 MDN 的更多 Firefox OS 或 Marketplace 相關文章。</p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=5130">Wayback snapshot</a>
+              <span>Post ID: 5130</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

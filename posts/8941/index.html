@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>讓 Web 為所有人運轉 (下) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">讓 Web 為所有人運轉 (下)</h2>
+            <p class="entry-posted"><time datetime="2016-08-01" class="published"><span class="posted-month">8月</span><span class="posted-date">1</span><span class="posted-year">2016</span></time></p>
+          </header>
+          <div class="entry-content"><p>我們在〈<a href="https://blog.mozilla.com.tw/posts/8934/web-works-for-all-1">Web 為所有人運轉 (上)</a>〉說明過 Web 普及化的難題，其中之一就是跨瀏覽器的不相容；〈<a href="../../posts/8938/">(中)</a>〉則點出不相容的多個因素。最後就要讓開發者知道相關的開發工具，除了要讓開發過程更順利之外，也希望吸引更多開發者加入 Mozilla 的行列，一同推動 Web 持續向前邁進。</p>
+<p>舉例來說，微軟 (Microsoft) 曾要求使用者在 2016 年 1 月 12 日之前改用新版瀏覽器，但直到 2016 年 3 月為止，IE 使用者仍超過 1/3 繼續在用過期且再無安全更新檔的版本。<a href="https://gs.statcounter.com/#desktop-browser_version_partially_combined-ww-monthly-201506-201605-bar">從 2015 年 6 月到 2016 年 5 月的這一年裡</a>，還有 2.07% 的使用者在用已停止更新的 IE8；同一年裡超過 3/4 的時間，還有 1.59% 的人在使用 IE9。而 IE10 在全年為 10.95% 的市佔率。另外值得一提的，從 3 月開始，這些瀏覽器的使用率已經大幅度下滑。</p>
+<p>不順暢的 Web 經驗絕對會趕走使用者。如果網站有一半流量是來自於不同的瀏覽器，而你也想維持這些流量，當然就應該用此款瀏覽器測試自己的網站。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/webcompat_blog_graphics_600x800-04-768x1024.jpg" alt="webcompat_blog_graphics_600x800-04" loading="lazy"><br>簡易圖說：至少有 43% 網民使用的瀏覽器，與開發者所偏好的相異。而且不同國家所愛用的瀏覽器也大異其趣。</p>
+<p>####</p>
+<h4>相容性 === 你自己的功力</h4>
+<p>建構 Web 內容需要非常專業的技術，可不像簡單的打掃環境而已。我們都自豪於作品、不斷磨練自己的技術，企圖展現自己的專精程度。因此必須：</p>
+<ul><li>隨時關注最新的技術與框架。</li></ul>
+<ul><li>仔細測試並建構跨瀏覽器＼平台的 App，也要為功能尚未齊備的瀏覽器找出解決之道。相關經驗又是否為人所接受？</li></ul>
+<ul><li>確認身心障礙者也能輕鬆讀取自己的 Web 內容。</li></ul>
+<ul><li>確保一般讀者樂於接收你的內容，也要能滿足自己＼客戶的需求。</li></ul>
+<p>因此，身為 Web 開發者，你所成功發佈的網站也就代表你自己的履歷。你的使用者、同事同儕、目前與未來的老闆，都會在乎是否能享有絕佳體驗。</p>
+<p>但往往時間與業務上的限制而無法盡善盡美。你必須先滿足交件期限；你老闆可能只在乎 iPad 上是否能正常顯示網站，根本沒聽過「網站親和度」或「可存取性」。你在期限內根本無暇修正 IE 錯誤。即使無法達到最理想的狀態，也應當在時間內儘力完成。</p>
+<p>期限逼近時，你會希望自己所用的框架也能測試跨瀏覽器相容性，這樣可幫你省下許多功夫。但你的網站並非純粹的框架程式碼，而且你必須全權負責。跨瀏覽器相容性的測試作業應腳踏實地，不能想著要抄捷徑去完成。</p>
+<p>寫程式碼必須努力堅持；為需要的人提供資訊；所建立的豐富功能也要能讓所有人享受。這些都是優秀 Web 開發者的終極目標。</p>
+<h4>許多新工具都能幫上忙</h4>
+<p>現在你知道「重視自家網站相容性」的理由了，但要怎麼做呢？</p>
+<ul><li>如果在別人的網站上發現錯誤，就到 <a href="https://webcompat.com/?utm_source=hacks&amp;utm_medium=blog-post&amp;utm_campaign=compat">webcompat.com</a> 提報吧！如果你在為自己的網站除錯，就應該常上去看看。</li></ul>
+<ul><li>用不同的瀏覽器測試自己的網站，並站在使用者的角度瀏覽整個網站。透過瀏覽器開發者工具的主控台尋找錯誤。目前主流的桌機版瀏覽器均已內建強大的開發者工具，可協助找出除錯問題，甚至可用於行動版之上： <a href="https://developer.mozilla.org/en-US/docs/Tools?utm_source=hacks&amp;utm_medium=blog-post&amp;utm_campaign=compat">Firefox dev tools</a></li></ul>
+<ul><li><a href="https://developers.google.com/web/tools/chrome-devtools/">Chrome dev tools</a></li></ul>
+<ul><li><a href="https://developer.microsoft.com/en-us/microsoft-edge/platform/documentation/f12-devtools-guide/">IE/Edge dev tools</a></li></ul>
+<ul><li><a href="https://developer.apple.com/safari/tools/">Safari dev tools</a></li></ul>
+<ul><li><a href="https://www.opera.com/developer">Opera dev tools</a></li></ul>
+<ul><li>如果找到的問題並非發生在自己的網站上，就可能是瀏覽器出錯了！立刻回報錯誤，以利該款瀏覽器的開發者儘速修正： <a href="https://bugzilla.mozilla.org/">Mozilla Bugzilla</a></li></ul>
+<ul><li><a href="https://bugs.chromium.org/p/chromium/issues/list">Chrome issue tracker</a></li></ul>
+<ul><li><a href="https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/">IE/Edge</a></li></ul>
+<ul><li><a href="https://webkit.org/reporting-bugs/">Safari/Webkit</a></li></ul>
+<ul><li><a href="https://bugs.opera.com/wizard/desktop">Opera</a></li></ul>
+<ul><li>若能在自己的佈署過程中整合常用的跨瀏覽器測試工具，就能測試得更順利： <a href="https://www.browserstack.com/">BrowserStack</a></li></ul>
+<ul><li><a href="https://saucelabs.com/">Sauce Labs</a></li></ul>
+<ul><li><a href="https://www.browserling.com/">Browserling</a></li></ul>
+<ul><li>在自己的網站上使用某個 Web 功能之前，先確認有哪些瀏覽器已經實作： <a href="https://caniuse.com/">Caniuse</a></li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Web?utm_source=hacks&amp;utm_medium=blog-post&amp;utm_campaign=compat">MDN</a> 的相容性表格</li></ul>
+<ul><li><a href="https://kangax.github.io/compat-table">Kangax</a> 的 ECMAScript 相容性表格</li></ul>
+<ul><li>先了解程式碼撰寫工具，可提升跨瀏覽器的相容性： <a href="https://github.com/postcss/autoprefixer">Autoprefixer</a>、<a href="https://cssnext.io/">CSSNext</a>、<a href="https://github.com/jonathantneal/oldie">Oldie</a>，及其他 <a href="https://github.com/postcss/postcss#readme">PostCSS</a> 外掛程式，都能寫出純粹、新版 CSS 且不會在舊版瀏覽器中斷行 (Break)。</li></ul>
+<ul><li><a href="https://modernizr.com/">Modernizr</a> 可協助找出瀏覽器之間的實作差異並處理之 (可用以取代 UA sniffing)</li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@supports?utm_source=hacks&amp;utm_medium=blog-post&amp;utm_campaign=compat">@supports</a> 協助你為 Web 經驗建構<a href="https://developer.mozilla.org/en-US/docs/Glossary/Progressive_Enhancement?utm_source=hacks&amp;utm_medium=blog-post&amp;utm_campaign=compat">更進步的強化功能</a>，用於更多功能更強的瀏覽器</li></ul>
+<ul><li>請多了解 Web 的諸多功能與小秘訣。知道越多就會越愛 Web： <a href="https://developer.mozilla.org/en-US/docs/Web?utm_source=hacks&amp;utm_medium=blog-post&amp;utm_campaign=compat">MDN</a></li></ul>
+<ul><li><a href="https://developers.google.com/web/">Google Developers</a></li></ul>
+<ul><li><a href="https://www.w3.org/developers/">W3C Developers</a></li></ul>
+<p>完成 Web 對大家的允諾</p>
+<p>Web 希望任何人都能透過任何裝置上的任一款瀏覽器，隨時存取豐富內容。且此一允諾包含了某些人類最偉大的渴望：自我肯定、自由、教育、發掘。重視跨瀏覽器的相容性，亦將為你帶來最多讀者與市場機會，強化你對工具的掌握度，也可視為高尚的舉措。</p>
+<p>新裝置與瀏覽器的消長也帶來更多挑戰，而新工具也不斷提供解決方案。現有超過 30 億人口正等著瀏覽你的網頁。你自己準備好了嗎？</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2016/07/make-the-web-work-for-everyone/">Make the Web Work For Everyone</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Mozilla</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20191212130850id_/https://blog.mozilla.com.tw/?p=8941">Wayback snapshot</a>
+              <span>Post ID: 8941</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

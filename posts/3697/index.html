@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>翻譯 Firefox OS Apps (下集) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">翻譯 Firefox OS Apps (下集)</h2>
+            <p class="entry-posted"><time datetime="2013-08-30" class="published"><span class="posted-month">8月</span><span class="posted-date">30</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p><a href="../../posts/3689/">《</a><a href="../../posts/3689/">可於此觀看上集</a><a href="../../posts/3689/">》</a></p>
+<h3>L10n 指令碼</h3>
+<p>Firefox OS 大多數的預設 Apps，均使用類似下列指令碼的標籤而載入 L10n.js 函式庫：</p>
+<p>&lt;script defer src=&quot;/shared/js/l10n.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</p>
+<p>					1</p>
+<p>						&lt;script defer src=&quot;/shared/js/l10n.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</p>
+<p>若要在自己的 Apps 中使用此函式庫，則必須將 l10n.js 檔案複製到本端專案並更改來源屬性。</p>
+<p>載入完畢後，L10n.js 函式庫隨即具備「navigator.mozL10n」物件，讓用戶端順利進行翻譯作業。</p>
+<p>mozL10n 最常用的函式與屬性另列於下。</p>
+<h3>get 函式</h3>
+<p>「get」函式可針對目前語言而取得已翻譯的字串。此函式將使用 1 組鍵值參數與 1 組選填的 args 參數。鍵值參數將指定語系檔所定義的鍵值。</p>
+<p>navigator.mozL10n.get(&quot;mylabel&quot;)</p>
+<p>					1</p>
+<p>						navigator.mozL10n.get(&quot;mylabel&quot;)</p>
+<p>針對內含參數的字串，則 args 參數可傳送 1 組 JSON 格式的參數。</p>
+<p>//properties file<br>welcome = Welcome {{user}}!</p>
+<p>//JavaScript<br>alert( navigator.mozL10n.get(“welcome”,  { user: &quot;Martin&quot; }));</p>
+<p>					12345</p>
+<p>						//properties filewelcome = Welcome {{user}}! //JavaScriptalert( navigator.mozL10n.get(“welcome”,  { user: &quot;Martin&quot; }));</p>
+<h3>localize 函式</h3>
+<p>「localize」函式可添加翻譯屬性，以動態方式建立內容。此函式將使用 id 參數、元素參數、選填的 args 參數。元素參數將指定應翻譯的元素。id 參數則指定 L10n-based 的屬性 id，以利指派至元素。選填的 args 參數則可建立 data-l10n-args 屬性並設定其 JSON 值。</p>
+<p>var button2 = document.querySelector(&quot;#button2&quot;);<br>if (button2) { <br>    button2.onclick = function () {<br>        var myElement = document.createElement(&#39;span&#39;);<br>        var lblTxt =document.createTextNode(&quot;My Label&quot;);<br>        myElement.appendChild( lblTxt );<br>        navigator.mozL10n.localize(myElement, &#39;label3&#39;{ arg: &quot;myarg&quot; });<br>        document.body.appendChild(myElement);<br>    }<br>};</p>
+<p>					12345678910</p>
+<p>						var button2 = document.querySelector(&quot;#button2&quot;);if (button2) {     button2.onclick = function () {        var myElement = document.createElement(&#39;span&#39;);        var lblTxt =document.createTextNode(&quot;My Label&quot;);        myElement.appendChild( lblTxt );        navigator.mozL10n.localize(myElement, &#39;label3&#39;{ arg: &quot;myarg&quot; });        document.body.appendChild(myElement);    }};</p>
+<p>如此將形成下列 HTML：</p>
+<p>&lt;span data-l10n-id=&quot;label3&quot; data-l10n-args=&quot;{&quot;arg&quot;:&quot;myarg&quot;}&quot;&gt; My Label&lt;/span&gt;</p>
+<p>					1</p>
+<p>						&lt;span data-l10n-id=&quot;label3&quot; data-l10n-args=&quot;{&quot;arg&quot;:&quot;myarg&quot;}&quot;&gt; My Label&lt;/span&gt;</p>
+<p>另可立刻翻譯其他文字。</p>
+<h3>ready 函式</h3>
+<p>在目前文件翻譯完畢之後，可用「ready」函式定義回呼 (Callback)。</p>
+<p>var button1 = document.querySelector(&quot;#button1&quot;);<br>if (button1) { <br>    button1.onclick = function () {                <br>        navigator.mozL10n.language.code = &quot;fr&quot;;<br>        navigator.mozL10n.ready( function() {<br>            alert(navigator.mozL10n.get(&quot;button1&quot;));<br>        });        <br>    }<br>};</p>
+<p>					123456789</p>
+<p>						var button1 = document.querySelector(&quot;#button1&quot;);if (button1) {     button1.onclick = function () {                        navigator.mozL10n.language.code = &quot;fr&quot;;        navigator.mozL10n.ready( function() {            alert(navigator.mozL10n.get(&quot;button1&quot;));        });            }};</p>
+<h3>language 屬性</h3>
+<p>「language」屬性包含 1 組語言代碼所用的 Getter 與 Setter，且同樣有 1 組 Getter 可支援由右至左 (阿拉伯文與希伯來文) 與由左至右的語言。</p>
+<p>var mycode = navigator.mozL10n.language.code;<br>navigator.mozL10n.language.code = &quot;fr&quot;;<br>navigator.mozL10n.language.direction //returns rtl or ltr</p>
+<p>					123</p>
+<p>						var mycode = navigator.mozL10n.language.code;navigator.mozL10n.language.code = &quot;fr&quot;;navigator.mozL10n.language.direction //returns rtl or ltr</p>
+<h3>L10n_Date 指令碼</h3>
+<p>針對日期與時間的調整，Gaia 應用程式則透過 l10n_date.js 函式庫而延伸了 L10n.js 的功能。就 l10n.js 函式庫來說，其建置的某些功能並無法相容於所有瀏覽器。你同樣可到 Gaia 的<a href="https://github.com/mozilla-b2g/gaia/blob/master/shared/js/l10n_date.js">原始碼</a>中找到此函式庫，並使用本文 L10n.js 段落所提過的相同屬性結構。只要是使用此函式庫的 Gaia Apps，均必須透過共享的語系檔集合與 date.ini 檔案，才能匯入特定語言的語系檔。Gaia 的<a href="https://github.com/mozilla-b2g/gaia/blob/master/shared/js/l10n_date.js">原始碼</a>也提供此 date.ini 檔案；另可至 <a href="https://github.com/mozilla-b2g/gaia/tree/master/shared/locales/date">https://github.com/mozilla-b2g/gaia/tree/master/shared/locales/date</a> directory 找到特定語言的語系檔。針對一個禮拜是以哪天起算、簡短日期的格式、各月份的名稱等，均是透過這些語系檔所定義。若要在自己的 Apps 中使用這些函式庫，則需將所有檔案複製到特定專案中。而 ini 與指令碼檔案均以類似方式載入到 L10n.js 函式庫。</p>
+<p>&lt;link rel=&quot;resource&quot; type=&quot;application/l10n&quot; href=&quot;locales/date.ini&quot; /&gt;<br>&lt;script defer src=&quot;js/l10n_date.js&quot;&gt;&lt;/script&gt;</p>
+<p>					12</p>
+<p>						&lt;link rel=&quot;resource&quot; type=&quot;application/l10n&quot; href=&quot;locales/date.ini&quot; /&gt;&lt;script defer src=&quot;js/l10n_date.js&quot;&gt;&lt;/script&gt;</p>
+<p>若使用的函式為 L10n_date 函式庫的格式，語系檔中的字串即可使用標準的 C++ 日期/時間<a href="https://www.cplusplus.com/reference/ctime/strftime/">格式程式碼</a>。若以此為範例來檢查 Gaia Clock App 的語系檔，則該檔案在 en-US 語言中，應包含下列 dateFormat 的輸入項。</p>
+<p>dateFormat = %A, %B %e</p>
+<p>					1</p>
+<p>						dateFormat = %A, %B %e</p>
+<p>若使用 L10n_Date 函式庫中的 formatLocale 函式，就會回傳：</p>
+<p>“Full Weekday Name” “Full Month Name” “Day of the Month” (Thursday January 29)。此語系檔的法文版本將以下列順序定義相同的鍵值：</p>
+<p>dateFormat = %A %e %B</p>
+<p>					1</p>
+<p>						dateFormat = %A %e %B</p>
+<p>如此將產生：</p>
+<p>“Full Weekday Name” “Day of the Month” “Full Month” (jeudi 25 janvier)。</p>
+<p>只要納入 L10n_Date 函式庫，mozL10n 物件 (navigator.mozL10n.DateTimeFormat()) 即可使用新的函式。一旦將此物件實體化 (Instantiated) 之後，就有多個可翻譯日期的函式。最好用的函式如下：</p>
+<h3>localeFormat 函式</h3>
+<p>「localeFormat」函式將使用 1 組日期物件參數與 1 組格式參數，且將回傳符合指定格式的日期。此函式應搭配 L10N.js 的 get 函式，形成翻譯日期的格式。</p>
+<p>button3.onclick = function () {<br>    navigator.mozL10n.language.code = &quot;fr&quot;;<br>    navigator.mozL10n.ready( function() {<br>        var d = new Date();<br>        var f = new navigator.mozL10n.DateTimeFormat();<br>        var format = navigator.mozL10n.get(&#39;dateFormat&#39;);<br>        var formatted = f.localeFormat(d, format);<br>        alert( formatted );<br>    });    <br>}</p>
+<p>					12345678910</p>
+<p>						button3.onclick = function () {    navigator.mozL10n.language.code = &quot;fr&quot;;    navigator.mozL10n.ready( function() {        var d = new Date();        var f = new navigator.mozL10n.DateTimeFormat();        var format = navigator.mozL10n.get(&#39;dateFormat&#39;);        var formatted = f.localeFormat(d, format);        alert( formatted );    });    }</p>
+<h3>localeDateString、localeTimeString、localeString 函式</h3>
+<p>這 3 組函式屬於 localeFormat 函式的變化。localeFormat 函式將根據日期語系檔中的下列鍵值，進而回傳既定的日期格式：</p>
+<p>//en-US<br>//localeString returns<br>dateTimeFormat_%c = %a %b %e %Y %I:%M:%S %p<br>//localeDateString returns<br>dateTimeFormat_%x = %m/%d/%Y<br>//localeTimeString rerturns<br>dateTimeFormat_%X = %I:%M:%S %p</p>
+<p>					1234567</p>
+<p>						//en-US//localeString returnsdateTimeFormat_%c = %a %b %e %Y %I:%M:%S %p//localeDateString returnsdateTimeFormat_%x = %m/%d/%Y//localeTimeString rerturnsdateTimeFormat_%X = %I:%M:%S %p</p>
+<h3>fromNow 函式</h3>
+<p>「fromNow」函式將使用 1 組日期/時間參數，並回傳 1 組特定語言格式的字串，藉以呈現「目前的日期/時間」與「參數所傳入的日期/時間」的時間差。而此字串將使用日期語系檔中定義的格式。例如：</p>
+<p>//Executed on 7/25/2013 12:11:00<br>var d = new Date(&quot;July 25, 2013 11:13:00&quot;);<br>var f = new navigator.mozL10n.DateTimeFormat();<br>alert( f.fromNow(d));</p>
+<p>					1234</p>
+<p>						//Executed on 7/25/2013 12:11:00var d = new Date(&quot;July 25, 2013 11:13:00&quot;);var f = new navigator.mozL10n.DateTimeFormat();alert( f.fromNow(d));</p>
+<p>若是 en-US 語言，將會發出「58 Minutes Ago」的警示。字串另將依照日期語系檔中的「minutes-ago-long」格式而定。</p>
+<p>minutes-ago-long={[ plural(value) ]}<br>minutes-ago-long[zero] = just now<br>minutes-ago-long[one] = a minute ago<br>minutes-ago-long[two] = {{value}} minutes ago<br>minutes-ago-long[few] = {{value}} minutes ago<br>minutes-ago-long[many] = {{value}} minutes ago<br>minutes-ago-long[other] = {{value}} minutes ago</p>
+<p>					1234567</p>
+<p>						minutes-ago-long={[ plural(value) ]}minutes-ago-long[zero] = just nowminutes-ago-long[one] = a minute agominutes-ago-long[two] = {{value}} minutes agominutes-ago-long[few] = {{value}} minutes agominutes-ago-long[many] = {{value}} minutes agominutes-ago-long[other] = {{value}} minutes ago</p>
+<h3>快來加入我們！</h3>
+<p>若要進一步了解翻譯實例，可參閱 Mozilla 開發者社群網站 (Mozilla Developer Network，MDN) 中的《<a href="https://developer.mozilla.org/en-US/docs/Web_Localizability/Creating_localizable_web_applications">Creating localizable web applications</a>》一文。</p>
+<p>在你翻譯自己的 Firefox OS Apps 之後，會不會想協助 Firefox OS 的翻譯呢？快<a href="https://developer.mozilla.org/en-US/docs/Localizing_Firefox_OS">從這裡取得相關的貢獻資訊</a>。</p>
+<p>原文鏈結：<a href="https://hacks.mozilla.org/2013/08/localizing-firefox-os-apps/">https://hacks.mozilla.org/2013/08/localizing-firefox-os-apps/</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824004607id_/https://blog.mozilla.com.tw/?p=3697">Wayback snapshot</a>
+              <span>Post ID: 3697</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

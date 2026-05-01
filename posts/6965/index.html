@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>運用 Emscripten 移植遊戲 (下) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">運用 Emscripten 移植遊戲 (下)</h2>
+            <p class="entry-posted"><time datetime="2015-01-09" class="published"><span class="posted-month">1月</span><span class="posted-date">9</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p>你是資深的 App 開發者，手上已有一堆酷炫遊戲等著要接觸更多消費者嗎？在看完《<a href="../../posts/6956/">運用 Emscripten 移植遊戲 (上)</a>》與《<a href="https://blog.mozilla.com.tw/posts/6963/">(中)</a>》之後，當然應該把全文看完，讓自己更了解 Emscripten 這個強大的移植工具！如果你剛加入這系列文章，也歡迎透過上方兩篇文章的連結，閱讀完整的遊戲移植撇步喔！</p>
+<h3>Part 2 ： Emscripten 本身</h3>
+<p>所以現在連上線了。但在瀏覽器中載入遊戲時，整個畫面暫停不動，沒多久之後瀏覽器告知指令碼暫停並刪除。</p>
+<h4>出了什麼問題？</h4>
+<p>桌機版遊戲具有一組事件迴圈，可進行輪詢輸入 (Poll input)、模擬狀態、繪製場景，直到中斷迴圈為止。而到瀏覽器上時，則是交由瀏覽器以回呼 (Callback) 進行同樣作業。因此若要讓遊戲運作，就必須將迴圈重構成回呼。而 Emscripten 中可用「<a href="https://kripken.github.io/emscripten-site/docs/api_reference/emscripten.h.html#c.emscripten_set_main_loop">emscripten_set_main_loop</a>」函式完成設定。還好在大多數條件下都能輕鬆完成轉換。最簡單的方式，就是將迴圈的主體重構成為「helper」函式，接著在桌機版遊戲的迴圈中呼叫該函式，並在瀏覽器中設定該函式為回呼。或者你用的是 C++11，也能使用「lambda」並將之儲存於 std::function 之中。接著就能新增小型的「wrapper」以呼叫之。</p>
+<p>但如果你有多個獨立迴圈 (如載入畫面) 就會發生問題。這種情況必須 1). 重構這些迴圈成單一迴圈，或是 2). 逐一呼叫這些迴圈、設定一組新的迴圈，再以 emscripten_cancel_main_loop 刪除之前的迴圈。但這兩種方法都很複雜，而且須大幅更動你的程式碼。</p>
+<p>現在遊戲可執行了，但你會收到找不到外部檔案的一堆錯誤訊息。下一步就是把你的外部檔案添加到封包裡面。最簡單的方法就是重新載入。若將 --preload-file &lt;filename&gt; 這個開關添加到連結選項中，Emscripten 就會將該檔案加入到某個 .data 檔，並自動在「main」之前就預先載入此 .data 檔案。後續可用標準 C/C++ 的 IO 呼叫來存取這些檔案。Emscripten 則會負責必要的程序。</p>
+<p>但如果你的外部檔案很多，上述方法就會發生更多問題，像是必須先載入整個封包再啟動程式。但如此會耗上很長的載入時間。這時可以串流某些外部檔案 (如音樂或影片) 來避免此情形。</p>
+<p>如果你的桌機版程式碼已經具備了「非同步載入」的機制，則可重複使用。Emscripten 具備 emscripten_async_wget_data 函式，可非同步載入資料。但請記得其中的差異在於：Emscripten 的非同步呼叫必須在載入完畢之後，才知道外部檔案的大小；而桌機版只要開啟檔案之後隨即知道。為了得到最佳結果，應該將程式碼重構成「載入此檔案之後，就必須進行某項作業」。而 C++11 lambdas 在這裡就很有用了。不論情況如何，桌機版的除錯作業簡單很多，因此你應該比對桌機版的程式碼。</p>
+<p>針對用來處理非同步載入的主要迴圈，必須在主迴圈末端添增呼叫。但最好不要非同步載入太多東西，否則速度會變慢，如果要載入多個小型檔案尤應注意。</p>
+<p>現在遊戲執行了一會兒但當機了，跑出來「超過記憶體限制」的訊息。因為 Emscripten 是以 JavaScript 陣列模擬記憶體，所以這些陣列的大小就很重要。預設的陣列很小且無法擴充。只要透過 -s ALLOW_MEMORY_GROWTH=1 連結就能擴充陣列。這方法還是很慢且可能讓 asm.js 無法最佳化，但對除錯作業大抵還算有效。若要發佈最後版本，你應該找出可用的記憶體限制，並使用 -s TOTAL_MEMORY=&lt;number&gt;。</p>
+<p>如上述，Emscripten 並沒有記憶體分析器 (Profiler)。可在 Linux 上使用 Valgrind massif 工具，找出記憶體到底用到哪裡去了。</p>
+<p>如果遊戲還是當機，則可試試看 JavaScript 除錯器與原始碼對映 (Map) 工具，但這兩種工具也不見得可妥善運作。也因此 Sanitizers 就很重要了。printf 或其他記錄工具也是除錯的好方式。另外 -s SAFE_HEAP=1 也能在連結階段找到某些記憶體錯誤。</p>
+<p><img src="../../assets/6965/wp-content/uploads/osmos-test-1024x772.jpg" alt="「Osmos」在 Emscripten 測試網頁上的測試版本。" loading="lazy"><br>《Osmos》在 Emscripten 測試網頁上的測試版本。</p>
+<h4>存檔與偏好設定</h4>
+<p>存檔作業不像桌機版那樣簡單。首先必須找出所有儲存＼載入使用者資料的程式碼，而且所有存取資料的程式碼都必須放在同一地方，或透過同一 wrapper 存取。如果達不到這些條件，就必須先在桌機上重構完畢才能繼續。</p>
+<p>最簡單的方法，就是設定本端儲存空間。Emscripten 已具備設定作業所需的程式碼，並可模擬類似標準 C 語言的檔案系統介面，所以你不用再另行更改。</p>
+<p>你可在 HTML 的 preRun，或「main」的開頭，加進以下：</p>
+<p>FS.createFolder(&#39;/&#39;, &#39;user_data&#39;, true, true)<br>FS.mount(IDBFS, {}, &#39;/user_data&#39;);<br>FS.syncfs(true, function(err) {<br>              if(err) console.log(&#39;ERROR!&#39;, err);<br>              console.log(&#39;finished syncing..&#39;);<br>            }</p>
+<p>					123456</p>
+<p>						FS.createFolder(&#39;/&#39;, &#39;user_data&#39;, true, true)FS.mount(IDBFS, {}, &#39;/user_data&#39;);FS.syncfs(true, function(err) {              if(err) console.log(&#39;ERROR!&#39;, err);              console.log(&#39;finished syncing..&#39;);            }</p>
+<p>接著在你撰寫檔案之後，你必須要求瀏覽器將之同步。添增的新函式之內必須有下列：</p>
+<p>static void userdata_sync()<br>{<br>    EM_ASM(<br>        FS.syncfs(function(error) {<br>            if (error) {<br>                console.log(&quot;Error while syncing&quot;, error);<br>            }<br>            });<br>        );<br>}</p>
+<p>					12345678910</p>
+<p>						static void userdata_sync(){    EM_ASM(        FS.syncfs(function(error) {            if (error) {                console.log(&quot;Error while syncing&quot;, error);            }            });        );}</p>
+<p>並在關閉檔案之後呼叫此函式。</p>
+<p>但這樣雖可運作，仍會遇到「檔案儲存於本端」的問題。因為玩家知道檔案會儲存在自己的電腦上，所以對桌機版遊戲來說不是問題。但對 Web 遊戲來說，玩家會希望自己的存檔可用於任何電腦上。而針對〈<a href="../../posts/6521/">Mozilla Bundle</a>〉的遊戲，「Humble Bundle」則設計了 CLOUDFS 函式庫，可如同 Emscripten 的 IDBFS 一樣運作，而且還可抽換後端實作。開發者必須使用 Emscripten 的 GET 與 POST 這兩種 API，建立自己的後端實作。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/osmos-humble-1024x772.jpg" alt="「Osmos」在 Mozilla Bundle 網頁上的展示。" loading="lazy"><br>《Osmos》在 Mozilla Bundle 網頁上的展示。</p>
+<h4>加快速度</h4>
+<p>現在你的遊戲可以跑但速度不快。怎麼加快速度呢？</p>
+<p>如果是在 Firefox 上，首先應檢查是否啟用了 asm.js。可以開啟網路主控台 (Web console) 並找到「已成功編譯 asm.js (Successfully compiled asm.js)」的訊息。如果沒有，則錯誤訊息將告訴你是哪裡出錯。</p>
+<p>接著就是檢查你最佳化的程度。在編譯與連結的當下，Emscripten 都需要適當的 -O 選項。因為桌機不常需要 -O，所以連結階段就很容易忘記 -O。請測試不同的最佳化程度，並參閱其他編譯選項的相關 Emscripten 說明文章。另特別說明，OUTLINING_LIMIT 與 PRECISE_F32 也可能影響執行速度。</p>
+<p>你也可以添增 --llvm-lto &lt;n&gt; 選項，來啟用連結時期的最佳化作業。但請先注意，目前已知有臭蟲會產生錯誤的程式碼，而且只能等 Emscripten 以後升級成較新的 LLVM 才能修正。又因為 Emscripten 目前仍尚未完備，你可能也會遇到正常 Optimizer 中的臭蟲。所以請謹慎測試自己的程式碼，一旦發現臭蟲就回報給 Emscripten 開發團隊。</p>
+<p>Emscripten 的奇怪特性，就是會由瀏覽器剖析 (Parse) 任何預先載入的資源。因為我們不是要用瀏覽器顯示這些資源，其實往往不需要這種作業。如果想停止這種情形，可添增下列程式碼來達到如同 --pre-js 選項一樣的功能：</p>
+<p>var Module;<br>if (!Module) Module = (typeof Module !== &#39;undefined&#39; ? Module : null) || {};<br>// Disable image and audio decoding<br>Module.noImageDecoding = true;<br>Module.noAudioDecoding = true;</p>
+<p>					12345</p>
+<p>						var Module;if (!Module) Module = (typeof Module !== &#39;undefined&#39; ? Module : null) || {};// Disable image and audio decodingModule.noImageDecoding = true;Module.noAudioDecoding = true;</p>
+<p>接下來：不要猜到底哪裡太慢，只管分析吧！用 --profiling 選項 (編譯與連結階段都是) 編譯你的程式碼，讓編譯器能輸出程式中的命名 (named symbol)。再用瀏覽器內建的 JavaScript 效能分析器 (Profiler) 看看哪個部分太慢。另請注意，某些版本的 Firefox 並無法分析 asm.js 程式碼，所以看你要 1). 升級瀏覽器，或是 2). 手動從已產生的 JavaScript 移除 use asm 陳述式，進而暫時停用 asm.js。另因為 Firefox 與 Chrome 的效能特性各不相同，而且分析器運作方式也有些許差異，所以你也該同時分析此兩款瀏覽器。特別一提，Firefox 應該不致於影響 OpenGL 函式而拖慢速度。</p>
+<p>像是 glGetError 與 glCheckFramebuffer 這種在桌機上比較慢的東西，到了瀏覽器上就更是悲劇。如果呼叫 glBufferData 或 glBufferSubData 太多次也會變慢。你應該重構程式碼以避免過多呼叫，或單一次呼叫就儘量取得足夠的資料。</p>
+<p>另外必須注意的，你用來撰寫遊戲的指令語言可能本身速度就慢。這種情況就比較棘手了。如果你用的程式語言就有分析工具，則可透過這類工具設法加速。不然就是拿「即將編譯為 asm.js 的原生程式碼」來取代你的指令碼。</p>
+<p>如果你正在做物理模擬，或其他可利用 SSE 最佳化的作業，你應該會注意到目前 asm.js 尚未支援 SSE，但很快即將納入此功能。</p>
+<p>如果想為最終版本省下一點空間，你應該徹底檢查程式碼與第三方函式庫，並停用實際上根本用不到的功能。特別像是 SDL2 與 freetype 這類函式庫，就包含許多大多數程式都用不到的東西。請參閱函式庫的說明文件來停用這些用不到的功能。Emscripten 目前無法找出哪些程式碼佔了最多空間，但如果你有 Linux 版本 (所以再次強調，你應該弄個 Linux 版本) 的話，就能使用：</p>
+<p>nm -S --size-sort game.bin</p>
+<p>					1</p>
+<p>						nm -S --size-sort game.bin</p>
+<p>找到佔去最多空間的程式碼。另須注意，Emscripten 與原生程式佔去最多空間的程式碼不盡相同。但大部分情況下均極為相近。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/dusforce-1024x584.jpg" alt="《Dustforce》中的掃落葉遊戲。" loading="lazy"><br>《Dustforce》中的掃落葉遊戲。</p>
+<h4>結論</h4>
+<p>總的來說，透過 Emscripten 移植遊戲時，須移除任何封閉原始碼的第三方函式庫與執行緒、視窗管理與輸入作業部分改用 SDL2、圖形處理部分改用 OpenGL ES、音效部分改用 OpenAL 或 SDL2。你應該先將手邊的遊戲移植到其他平台 (如 OS X 與行動裝置)，至少也應該移植成 Linux 版本。如此有助於找出潛在問題，並能輕鬆利用多樣的除錯工具。以 Emscripten 移植的遊戲最少須更改主要迴圈、外部檔案處理、使用者資料儲存等作業。你也必須特別針對自己的程式碼進行最佳化，以能於瀏覽器中順利運作。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/11/porting-to-emscripten/">Porting to Emscripten</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Firefox OS</span><span>Web App</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190919102237id_/https://blog.mozilla.com.tw/?p=6965">Wayback snapshot</a>
+              <span>Post ID: 6965</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

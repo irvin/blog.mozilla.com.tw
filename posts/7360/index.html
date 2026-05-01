@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Pixel Perfect 2：Firefox 開發者工具擴充套件 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Pixel Perfect 2：Firefox 開發者工具擴充套件</h2>
+            <p class="entry-posted"><time datetime="2015-04-15" class="published"><span class="posted-month">4月</span><span class="posted-date">15</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p><a href="https://github.com/firebug/pixel-perfect/wiki">Pixel Perfect</a> 本身為 Firefox 擴充套件，可讓 Web 開發者以半透明的圖像 (圖層) 覆蓋於網頁之上，接著可微調網頁內容直到確實符合該圖層為止。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/logo_64x64.png" alt="logo_64x64" loading="lazy"></p>
+<p>此擴充套件本於 2008 年時透過 Firebug 釋出，但已有數年未妥善維護。許多愛用者要求 Mozilla 能精進其功能，而<a href="https://getfirebug.com/wiki/index.php/Firebug_Working_Group">Firebug Working Group</a> 則把握機會，以 Firefox 所內建的「Remote Debugging Protocol」，再次從頭打造此擴充套件。這也讓我們能支援如<a href="https://developer.mozilla.org/en-US/Firefox/Multiprocess_Firefox">多程序 (Multiprocess) Firefox</a> 與<a href="https://developer.mozilla.org/en-US/docs/Tools/Remote_Debugging">遠端除錯</a>等的新功能，同時亦整合了<a href="https://github.com/firebug/firebug.next">Firebug 3</a> (也就是 Firebug.next)，但 Firebug 並非必備環境。</p>
+<p>我們為了兩個目標而打造此擴充套件：</p>
+<ul><li>再次提供 Pixel Perfect 功能與特色</li></ul>
+<ul><li>要以 Remote Debugging Protocol 與其他 Firefox API 為基礎，建構實際的擴充套件</li></ul>
+<p>本文將概述其相關功能。如果你就是擴充套件的開發者，想進一步使用最新的 Firefox API 寫出開發者或設計者工具，則可參閱其<a href="https://www.softwareishard.com/blog/extension-architecture/pixel-perfect-2-developer-tool-extension-architecture">內部架構</a>。</p>
+<h4>Pixel Perfect 2 入門</h4>
+<p>你必須先安裝 Firefox 36 或更高版本，才能從 <a href="https://addons.mozilla.org/en-US/firefox/addon/pixel-perfect/">addons.mozilla.org</a> 安裝最新版本的 Pixel Perfect 2 (PP2)。安裝完畢後，就能在 Firefox 主工具列上看到新的選項，其左邊為按鈕；右邊為箭頭。</p>
+<p>點擊按鈕即可開啟 PP2；點擊箭頭則會顯示選單以連接線上資源。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/start-button.png" alt="start-button" loading="lazy"></p>
+<p>如果你也安裝了 Firebug 3 (目前為<a href="https://github.com/firebug/firebug.next/releases">封閉測試版</a>)，就能從「樣式編輯器 (Style Editor)」面板上開啟 PP2。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/firebug-integration.png" alt="firebug-integration" loading="lazy"></p>
+<p>PP2 的使用者介面 (UI) 包含一組浮動視窗，可用以新增＼移除圖層。即如上圖所示。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/empty-panel.png" alt="empty-panel" loading="lazy"></p>
+<p>若要新增第一圖層，則點擊「Add Layer」按鈕即可從硬碟選擇圖檔。</p>
+<p>接著就能從浮動的彈出型視窗中看到此圖層，當然亦可在網頁中看到。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/layer-form-panel.png" alt="layer-form-panel" loading="lazy"></p>
+<p>接著可變更其屬性，如位置與「透明度 (Opacity)」。亦可於頁面中直接拖曳圖層。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/layer-form-page.png" alt="layer-form-page" loading="lazy"></p>
+<p>此截圖所顯示的頁面，包含「Form Editor: Contact Us」文字以及一組圖層 (即以藍色虛線框住)，呈現目前頁面的顯示方式。現在即可透過開發者工具箱調整頁面，以達到最佳的呈現效果。</p>
+<p>─ By Jan ‘Honza’ Odvarko</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/03/pixel-perfect-2-extension-for-firefox-developer-tools/">Pixel Perfect 2: extension for Firefox Developer Tools</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20191113180146id_/https://blog.mozilla.com.tw/?p=7360">Wayback snapshot</a>
+              <span>Post ID: 7360</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

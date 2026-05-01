@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>深入 ES6 系列：迭代器與 for-of 迴圈 (上) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">深入 ES6 系列：迭代器與 for-of 迴圈 (上)</h2>
+            <p class="entry-posted"><time datetime="2015-05-21" class="published"><span class="posted-month">5月</span><span class="posted-date">21</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p>歡迎觀看此系列新文。我們將概略介紹 JavaScript 的新版本「ECMAScript 6」，亦稱為「ES6」。</p>
+<p>本文重點在於可巡訪各個元素的 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of">for – of</a> 迴圈，另外還有後半段繼續介紹迭代器 (Iterator)。</p>
+<p><img src="../../assets/7487/wp-content/uploads/es6-hiway-sign.png" alt="es6-hiway-sign" loading="lazy"><br>圖片出處：https://carlosazaustre.es/blog/ecmascript-6-el-nuevo-estandar-de-javascript/</p>
+<p>你都如何巡訪陣列上的每一元素？在 JavaScript 於二十年前剛出現時，你必須如下處理：</p>
+<p>for (var index = 0; index &lt; myArray.length; index++) {<br>  console.log(myArray[index]);<br>}</p>
+<p>					123</p>
+<p>						for (var index = 0; index &lt; myArray.length; index++) {  console.log(myArray[index]);}</p>
+<p>而從 ES5 開始，你可使用內建的 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach">forEach</a> 函式：</p>
+<p>myArray.forEach(function (value) {<br>  console.log(value);<br>});</p>
+<p>					123</p>
+<p>						myArray.forEach(function (value) {  console.log(value);});</p>
+<p>這樣雖然有變短一點，但還是有個缺點：你無法用 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/break">break</a> 陳述式中斷此迴圈，也不能使用 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/return">return</a> 陳述式從封閉函式取得回傳值。</p>
+<p>如果能有 for– 迴圈語法可巡訪陣列的元素，不就太好了嗎？</p>
+<p>那試試 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in">for – in</a> 迴圈如何？</p>
+<p>for (var index in myArray) {    // don&#39;t actually do this<br>  console.log(myArray[index]);<br>}</p>
+<p>					123</p>
+<p>						for (var index in myArray) {    // don&#39;t actually do this  console.log(myArray[index]);}</p>
+<p>但這麼做有幾個缺點：</p>
+<ul><li>指派到此程式碼 index 的值，都是 “ 0 “、&quot; 1 “、&quot; 2 &quot; 等字串而非實際數字。如果你不想要字串運算 ( &quot;2&quot; + 1 == &quot;21&quot; )，這個特性就不算方便。</li></ul>
+<ul><li>迴圈主體不僅會執行陣列元素，也會執行其他人所添增的<a href="https://developer.mozilla.org/en-US/docs/Glossary/Expando">expando</a> 屬性。舉例來說，如果你的陣列具備 myArray.name 這種可列舉的屬性，則此迴圈將搭配 index == &quot;name&quot; 額外執行一次。即使是在陣列的原型鏈 (Prototype chain) 上的屬性也會巡訪過。</li></ul>
+<ul><li>最讓人訝異的，就是此程式碼在某些情況下，其巡訪陣列元素的順序可能和你預測的不一樣。</li></ul>
+<p>簡單來說，for–in 是為了能在純粹的舊 Object 上，針對字串鍵值的運作所設計。所以對 Array 來說就沒那麼好用。</p>
+<h4>強大的 for-of 迴圈</h4>
+<p>記得<a href="../../posts/7403/">上一篇介紹文</a>提到，ES6 將繼續相容現有的 JS 程式碼。因為有數百萬個網站都在使用 for–in，有些網站也的確用在陣列上。所以若要「修正」for–in 在陣列上的行為，就能達到絕佳的改進效果。而 ES6 要改善此問題的唯一方式，就是添增某些新的迴圈語法：</p>
+<p>for (var value of myArray) {<br>  console.log(value);<br>}</p>
+<p>					123</p>
+<p>						for (var value of myArray) {  console.log(value);}</p>
+<p>在上述都齊備了之後，看來似乎也沒那麼讓人印象深刻的地方。我們可以先看看 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of">for – of</a> 是否真的這麼有戲？簡單來說：</p>
+<ul><li>若要巡訪陣列元素，這是目前最簡單、直接的語法</li></ul>
+<ul><li>其可避免 for – in 的所有陷阱</li></ul>
+<ul><li>與 forEach() 不同，<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of">for – of</a> 可搭配 break 、 continue 、 return</li></ul>
+<p>for–in 迴圈用以巡訪物件屬性；for–of 迴圈則是純粹巡訪資料 (Data)，如陣列中的值。</p>
+<p>但不止於此。</p>
+<h4>可支援 for-of 的其他集合 (Collection)</h4>
+<p>for–of 不僅用於陣列，亦可用於大多數類似陣列的物件，如同 DOM 的 <a href="https://developer.mozilla.org/en-US/docs/Web/API/NodeList">NodeList</a>。</p>
+<p>亦可用於字串上，將字串當做 Unicode 字元的序列：</p>
+<p><img src="../../assets/7487/wp-content/uploads/unicode-code-1024x168.jpg" alt="unicode code" loading="lazy"></p>
+<p>這也能用在 Map 與 Set 物件上。</p>
+<p>啥？你沒聽過 Map 與 Set 物件？這兩個是 ES6 中的新物件。我們會再透過另一篇專文說明。如果你已經在使用其他程式語言的 Map 與 Set，應該就不會太驚訝了。</p>
+<p>舉例來說，Set 物件可削減複製的次數：</p>
+<p>// make a set from an array of words<br>var uniqueWords = new Set(words);</p>
+<p>					12</p>
+<p>						// make a set from an array of wordsvar uniqueWords = new Set(words);</p>
+<p>一旦你取得 Set，也許就會想在其內容之上建構迴圈。很簡單：</p>
+<p>for (var word of uniqueWords) {<br>  console.log(word);<br>}</p>
+<p>					123</p>
+<p>						for (var word of uniqueWords) {  console.log(word);}</p>
+<p>Map 就有點不同了。Map  中的資料是以鍵值對 (Key-value pair) 所構成，所以你可透過解構 (Destructuring) 將「key」與「value」拆成獨立的變數：</p>
+<p>for (var [key, value] of phoneBookMap) {<br>  console.log(key + &quot;&#39;s phone number is: &quot; + value);<br>}</p>
+<p>					123</p>
+<p>						for (var [key, value] of phoneBookMap) {  console.log(key + &quot;&#39;s phone number is: &quot; + value);}</p>
+<p>「解構」也是 ES6 的新功能，我們亦將以另一篇文章介紹。要寫的太多了，都必須筆記一下以免忘了。</p>
+<p>你看到這裡應該有點概念了：JS 已經具備極為不同的集合類別，而且還越來越多。for–of 則是要當做吃苦耐勞的迴圈陳述式，要讓開發者能順利用在這些類別上。</p>
+<p>for–of 並無法搭配純粹的舊 Object。但如果你想迭代某一物件的屬性，則可使用 for–in (也就是其功能) 或內建的 Object.keys()：</p>
+<p>// dump an object&#39;s own enumerable properties to the console<br>for (var key of Object.keys(someObject)) {<br>  console.log(key + &quot;: &quot; + someObject[key]);<br>}</p>
+<p>					1234</p>
+<p>						// dump an object&#39;s own enumerable properties to the consolefor (var key of Object.keys(someObject)) {  console.log(key + &quot;: &quot; + someObject[key]);}</p>
+<p>看到這裡，你應該已經初步了解強大的 for–of 迴圈了吧？可別錯過《<a href="../../posts/7491/">深入 ES6 系列：迭代器與 for-of 迴圈 (下)</a>》，跟大家一起看完新的「迭代器 (Iterator)」。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/04/es6-in-depth-iterators-and-the-for-of-loop/">ES6 In Depth: Iterators and the for-of loop</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>未分類</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20191019122947id_/https://blog.mozilla.com.tw/?p=7487">Wayback snapshot</a>
+              <span>Post ID: 7487</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

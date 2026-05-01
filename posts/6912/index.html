@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>愛立信 (Ericsson) 現讓 OpenWebRTC 與 Firefox 可互相溝通 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">愛立信 (Ericsson) 現讓 OpenWebRTC 與 Firefox 可互相溝通</h2>
+            <p class="entry-posted"><time datetime="2014-12-30" class="published"><span class="posted-month">12月</span><span class="posted-date">30</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>愛立信 (Ericsson) 公司甫<a href="https://www.ericsson.com/research-blog/context-aware-communication/openwebrtc-bowser-interop-firefox/">宣佈可成功於其 OpenWebRTC 用戶端與 Firefox 交互操作</a>。Mozilla 對此一成就感到特別開心。不論是對 Firefox 或 WebRTC 規格來說，這件事都代表多個重要的里程碑。</p>
+<p>愛立信以本身的 OpenWebRTC 實作打造出「Bowser」，不僅代表 WebRTC 領域可相互溝通的第三款瀏覽器，也是第一款完全獨立的實作。Firefox 與 Chrome 的 WebRTC 協定大部分的程式碼，雖然是全然不同的團隊所開發，但仍共用小部分的媒體處理程式。此共用的部份雖然不多，卻也令人懷疑 IETF 與 W3C 規格是否已完善到足以達成真正的互通？而 Ericsson 在這方面的努力，證明只要使用既定的 WebRTC 規格，就能達到所需的互通性。</p>
+<p>而愛立信的此一成果，正為 WebRTC 規格的互通性扮演了無比重要的角色。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/Ericsson.png" alt="Ericsson" loading="lazy"></p>
+<p>這個時間點很巧：IETF 與 W3C 同時開始衝刺本身 WebRTC 的相關作業，並將於未來數個月內發佈最終規格。多個獨立的實作有利於我們發現規格不足之處。如果任兩組團隊認為已經完整實作了單一標準，卻仍無法一同作業，這就代表可能必須調整規格本身。所以最好能在規格正式底定之前，先行修正這類錯誤。</p>
+<p>除了基本的 WebRTC 互通性之外，愛立信此舉也代表獨立開發的 H.264 實作，可和思科 (Cisco) 的 <a href="https://andreasgal.com/2014/10/14/openh264-now-in-firefox/">OpenH264</a> (現已納入至 Firefox 的 WebRTC 實作之中) 互相溝通。雖然 H.264 已是經過妥善測試的成熟技術，但 Firefox 與之整合的 Gecko Media Plugin (GMP) 新架構卻只有與自身對測過。此外，Firefox 對 H.264 這類格式資料的其他實作，如 RTP 封包化 (Packetization)、參數協商 (Parameter negotiation)、丟包處理 (Packet loss handling)，也僅於 Firefox 之間完成對測。在愛立信成功以 H.264 影像格式與 Firefox 互通之後，也代表 OpenH264 編碼、Mozilla 相關媒體處理與訊號產生功能、GMP 架構等的可用性。</p>
+<p>最後，有了第二種可交互溝通的通用 WebRTC 函式庫 (除了 <a href="https://www.webrtc.org/">WebRTC.org</a> 之外)，就能達到更多元的函式庫實作，避免獨佔性的軟體影響了標準的互通性。若某兩組系統均採用單一實作，就可能發生錯誤而不自知。更重要的是，後進的開發者將難以寫出與主流實作互通的軟體。此外，若能有一個以上的函式庫，就能讓實作者更「誠實」，避免有人因私慾而不遵守既有規格；因為此舉將會喪失與其他實作的互通性。</p>
+<p>Mozilla 感謝愛立信協助強化 WebRTC 標準，並擴展整個生態系統。很榮幸看到愛立信選用了 Firefox 作為參考的建構實例並測試互通性。我們期盼能看到更多以 OpenWebRTC 函式庫為基礎的開放源碼專案。</p>
+<p>─ Adam Roach, Principal Platform Engineer</p>
+<p>原文連結：<a href="https://blog.mozilla.org/futurereleases/2014/12/04/ericsson-interops-openwebrtc-with-firefox/">Ericsson Interops OpenWebRTC with Firefox</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Mozilla</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190919110902id_/https://blog.mozilla.com.tw/?p=6912">Wayback snapshot</a>
+              <span>Post ID: 6912</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

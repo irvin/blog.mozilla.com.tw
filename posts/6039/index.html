@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>HTML5 遊戲開發資源 (下) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">HTML5 遊戲開發資源 (下)</h2>
+            <p class="entry-posted"><time datetime="2014-08-06" class="published"><span class="posted-month">8月</span><span class="posted-date">6</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>在看完《<a href="../../posts/6031/">HTML5 遊戲開發資源 (上)</a>》所介紹 HTML5 遊戲開發可用的圖像與音訊工具之後，快來看看 Firefox 所提供的其他開發者工具吧！</p>
+<h3>網路監測器 (Network Monitor)</h3>
+<p>在開發 HTML5 遊戲時，網路速度往往影響甚鉅；若要針對行動裝置開發，其對開發成本的影響更是明顯。網路監測器則可視覺化所有的網路請求，如定位、操作所花的時間、檔案的類型與大小。</p>
+<p><img src="../../assets/6039/wp-content/uploads/networkmon-1024x601.png" alt="networkmon" loading="lazy"></p>
+<p>除此之外，如果你想分析 App 在快取與未快取情況之下的效能，亦可透過網路監測器呈現相關結果。</p>
+<p><img src="../../assets/6039/wp-content/uploads/networkcache-1024x601.png" alt="networkcache" loading="lazy"></p>
+<p>可參閱網路監測器的 <a href="https://developer.mozilla.org/en-US/docs/Tools/Network_Monitor">MDN 文章</a>。</p>
+<h3>WebIDE</h3>
+<p>在著手開發遊戲時的諸多選擇之一，就是必須先選出要用的編輯器 (如Sublime、Eclipse、Dreamweaver、vi 等)。在大多數情況下，開發者往往已經有自己最愛用的編輯器了。如果你想在瀏覽器中開發遊戲，請參考最近發佈於 Firefox 每夜更新版 (Nightly) 中的 WebIDE。</p>
+<p><img src="../../assets/6039/wp-content/uploads/webide-1024x549.png" alt="webide" loading="lazy"></p>
+<p>WebIDE 專案不僅將提供全功能的編輯器，亦可作為多款本端/遠端平台的發佈媒介、除錯器、範本框架、應用管理器等。除此之外，此專案的框架所提供的 API，亦可讓其他編輯器使用該工具的功能。可參閱<a href="https://hacks.mozilla.org/2014/06/webide-lands-in-nightly/">本篇部落格文章</a>以進一步了解。</p>
+<p>如果要隨時獲得 Firefox 開發者工具的最新資訊，請注意「Hacks」部落格的<a href="https://hacks.mozilla.org/2014/06/toolbox-inspector-scratchpad-improvements-firefox-developer-tools-episode-32/">系列文章</a>。另外可在 <a href="https://developer.mozilla.org/en-US/docs/Tools">MDN</a>上找到開發者工具的相關說明文件。</p>
+<h3>API</h3>
+<p>MDN 的 Games Zone 列出豐富的 API 與<a href="https://developer.mozilla.org/en-US/docs/Games/Introduction">文章</a>，可協助開發者入門。</p>
+<p><img src="../../assets/6039/wp-content/uploads/apis.png" alt="apis" loading="lazy"></p>
+<p>除了這些資源以外，當然還有許多文章有利於你的開發作業。</p>
+<p>如果你想透過 WebRTC 或 WebSockets，讓遊戲支援多重玩家的功能，就應該先了解 Together.js 是如何提供 Web App 的協作 (Collaborative) 功能。可參閱《<a href="../../posts/4025/">TogetherJS 介紹 (上)</a>》與《<a href="../../posts/4036/">(下)</a>》。</p>
+<p>許多遊戲也需要儲存功能，而可透過 <a href="https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API">IndexedDB</a> 處理這些需要。可參閱《<a href="https://hacks.mozilla.org/2014/06/breaking-the-borders-of-indexeddb/">Breaking the Borders of IndexedDB</a>》進一步了解 <a href="https://developer.mozilla.org/en/IndexedDB">IndexedDB</a> 的延伸功能。另外，<a href="https://github.com/mozilla/localForage">localForage</a> 可跨瀏覽器支援簡易的儲存功能。參閱《<a href="https://hacks.mozilla.org/2014/02/localforage-offline-storage-improved/">localForage: Offline Storage, Improved</a>》進一步了解。</p>
+<h3>遊戲最佳化</h3>
+<p>現今 HTML5 遊戲已能為開發者提供許多強大功能。許多目前在行動裝置上執行的遊戲，將來勢必能追趕上桌機版遊戲的效能。如果你規劃讓自己的遊戲未來能成功跨平台，就必須最佳化自己的程式碼。這篇《<a href="https://hacks.mozilla.org/2013/05/optimizing-your-javascript-game-for-firefox-os/">Optimizing your JavaScript Game for Firefox OS</a>》則提及了許多技巧，能協助你撰寫的遊戲能在初階行動裝置上順利運行。</p>
+<h3>本地化</h3>
+<p>為了讓自己的遊戲能觸及更多消費者，你應該試著讓遊戲也擁有不同的語言，因此可將本地化的功能帶入遊戲之中。Mozilla 現正努力招聘譯者，要協助大家翻譯自己的遊戲。可參閱<a href="https://hacks.mozilla.org/2014/05/introducing-translationtester-and-localization-support-for-open-web-apps/">本篇文章</a>以進一步了解。</p>
+<h3>要聽見你的聲音</h3>
+<p>Mozilla 本身就是開發者與使用者所組成的社群，同時需要大家的協助與意見。如果你想為產品建議特殊功能，歡迎透過 <a href="https://wiki.mozilla.org/IRC">irc.mozilla.org</a> 或<a href="https://lists.mozilla.org/listinfo/">郵件群組</a>和大家討論；也可以到 <a href="https://bugzilla.mozilla.org/">bugzilla.mozilla.org</a> 提交問題。另外還有 <a href="https://ffdevtools.uservoice.com/forums/246087-firefox-developer-tools-ideas">DevTools</a> 與 <a href="https://openwebapps.uservoice.com/forums/258478-open-web-apps">Open Web Apps</a> 意見反應管道。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/07/resources-for-html5-game-developers/">Resources for HTML5 game developers</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190825003535id_/https://blog.mozilla.com.tw/?p=6039">Wayback snapshot</a>
+              <span>Post ID: 6039</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

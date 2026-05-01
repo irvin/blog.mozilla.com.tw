@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Firefox Sync 的新安全模式 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Firefox Sync 的新安全模式</h2>
+            <p class="entry-posted"><time datetime="2014-05-13" class="published"><span class="posted-month">5月</span><span class="posted-date">13</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p><a href="https://blog.mozilla.org/press/2014/04/mozilla-introduces-the-most-customizable-firefox-ever-with-an-elegant-new-design/">Firefox 29</a> 提供<a href="https://blog.mozilla.org/services/2014/02/07/a-better-firefox-sync/">全新的 Firefox Sync 同步功能經驗</a>。除了更簡單易用之外，更保留了 Mozilla 既有的高標準安全性與開放性。</p>
+<p>所以新舊 Sync 功能有何差異呢？讓我們繼續看下去！</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/welcome-to-sync-1024x772.png" alt="welcome-to-sync" loading="lazy"></p>
+<h4>Sync 1.0</h4>
+<p>從 2010 年在 Firefox 4 首次登場以來，「Firefox Sync」同步功能就使用了無密碼的獨特加密機制，以專屬的金鑰進行所有資料的加/解密。若要取得相關資料，唯一方式就是必須知道此金鑰。即使是儲存資料的 Mozilla 伺服器，也無法對這些內容解密。</p>
+<p>在設定新裝置時，正常都是透過所謂的「配對 (Pairing)」方式，所以使用者 (幾乎) 不會看到此專屬金鑰 (即所謂的「恢復金鑰」)。當你設定新裝置時，就會看到只使用一次的 12 字元「配對碼 (Pairing code)」，讓你稍後能鍵入其他裝置。而透過某些<a href="https://en.wikipedia.org/wiki/Password_Authenticated_Key_Exchange_by_Juggling">加密機制</a>，只要是用來設定 Sync 所必須的恢復金鑰，以及其他一切資訊，都會安全複製到新裝置之中，確保所有裝置已獲得安全金鑰，並進一步傳送書籤與其他資料。</p>
+<h4>Sync 的問題</h4>
+<p>其實最近四年來發現不少問題，其中最主要就是：因為要至少兩組 (或以上) 裝置才能進行「配對」，如果使用者只有一部裝置，Sync 似乎就無法發揮太大效果。而且只要把僅有的一部裝置也遺失了，就等於一起丟了安全金鑰的唯一備份。沒了金鑰，也就沒辦法恢復自己的 Sync 資料了。</p>
+<p>「配對」作業也有點使用上的問題。使用者必須就近操作兩部裝置才能設定 Sync 功能。另外，許多人將配對碼誤認為是電腦產生的密碼而試著要牢記起來。</p>
+<h4>新的 Firefox Sync 同步功能</h4>
+<p>Mozilla 服務開發團隊在今年所發表的新「Firefox Accounts」，就使用了傳統的電子郵件與密碼；即和大家所熟悉的許多帳戶系統相同。</p>
+<p>新 Firefox Sync 是第一個使用 Firefox Accounts 的功能，而對安全的要求也毫不妥協。除了使用嚴密的隨機金鑰之外，Mozilla 伺服器同樣無法解密任何資料。相較於之前的配對機制，新的 Firefox Sync 則是透過使用者的密碼，將金鑰包裝 (Wrapped) 起來並儲存在 Firefox Account 中。也就是說，即便一口氣丟掉了所有裝置，也還是可以恢復所有資料。只要輸入 Firefox Account 的電子郵件與密碼，就能設定新的裝置。</p>
+<p>這對舊版的 Firefox Sync 是一大變化。使用者資料的安全就託付在使用者自己的密碼上。如果你的密碼很好猜，就可能被他人連上你的帳號並解密資料。所以最好能隨機產生自己的密碼。</p>
+<p>為了強調密碼的重要性，我們是以「Mozilla 相關服務永遠無法解讀你密碼的明碼 (Clear text)」的概念來設計 Firefox Accounts。反之，Firefox 會先透過 <a href="https://en.wikipedia.org/wiki/PBKDF2">PBKDF2</a> 進行「Client-side stretching」以強化密碼，再以 <a href="https://en.wikipedia.org/wiki/HKDF">HKDF</a> 取得多組特定用途的金鑰。不論是你自己的密碼，或是取得的「未包裝」金鑰，都不會傳送到 Mozilla 端。可參閱 <a href="https://github.com/mozilla/fxa-auth-server/wiki/onepw-protocol">GitHub 上的技術說明</a>以進一步了解此協定。</p>
+<p>Mozilla 希望你會喜歡，也贊成 Sync 的新發展方向。<a href="https://www.mozilla.org/firefox/">立刻體驗</a>並提供意見給我們！</p>
+<p>特別鳴謝 Brian Warner 撰寫本文。</p>
+<p>原文連結：<a href="https://blog.mozilla.org/services/2014/04/30/firefox-syncs-new-security-model/">Firefox Sync’s New Security Model</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=5565">Wayback snapshot</a>
+              <span>Post ID: 5565</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

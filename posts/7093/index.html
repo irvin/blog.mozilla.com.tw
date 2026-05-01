@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>簡介 node-firefox (上) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">簡介 node-firefox (上)</h2>
+            <p class="entry-posted"><time datetime="2015-02-11" class="published"><span class="posted-month">2月</span><span class="posted-date">11</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p>你已經是 App 開發的老鳥，手邊早累積了一堆自己愛用且慣用的 App 開發工具嗎？在轉而開發 Open Web App 時，是否覺得有點難度或障礙呢？快來看看新的「node-firefox」能如何協助你！</p>
+<p>我們在剛結束的「自由與開放源碼軟體開發者歐洲會議 (Free and Open Source Developers’ European Meeting，FOSDEM)」上，發表了此專案。但不是所有人都能親臨比利時的會議現場，所以我們想透過本文簡介「<a href="https://github.com/mozilla/node-firefox">node-firefox</a>」並幫助大家增強 Firefox OS App 的開發功力！</p>
+<p>Mozilla 努力簡化開發者的生活。在聽到 App 開發者「入門撰寫 <a href="https://developer.mozilla.org/Apps/Quickstart/Build/Intro_to_open_web_apps">Open Web App</a> 很痛苦」的意見時，我們就致力讓「<a href="https://developer.mozilla.org/en-US/Firefox_OS/Using_the_App_Manager">應用程式管理員 (App Manager)</a>」成為更友善的入門環境，即轉而為「<a href="https://developer.mozilla.org/en-US/docs/Tools/WebIDE">WebIDE</a>」。此工具簡化許多之前緩慢又乏味的步驟，像是建立新的 App、下載＼安裝模擬器、執行＼除錯 App。</p>
+<p>但還是有部分功力深厚的開發者不滿意，甚至覺得他們自己遭冷落了！這些人都已經有自己愛用的 node.js 架構工具，並搭配如靜態檔案最佳化 (Asset optimisation)、程式碼提示 (Code hinting)、執行測試 (Test running) 等作業。他們也常使用如<a href="https://browserify.org/">Browserify</a> 的工具，且可能根本沒使用 JavaScript，而愛用如 CoffeeScript 的東西代替。但這些好東西都需要你先弄好 App 或網站，再將這些東西推送到裝置或重新載入瀏覽器。</p>
+<p>基本上，我們希望這些開發者能離開自己所熟悉的指令列 (或編輯軟體的快捷鍵)，嘗試 WebIDE 的滑鼠點擊大法並佈署 App，再回到自己愛用的編輯軟體。而這些人全都回答：「但我們不喜歡用滑鼠點點點，我們就是喜歡在終端機畫面上敲鍵盤！」</p>
+<h4>如何更有效率？</h4>
+<p>開發者不喜歡的原因，主要是工作無法在終端機內一氣呵成，還要切到 WebIDE 手動完成佈署。這種行為很沒有效率。我們工程師除了打造新東西之外，最喜歡的大概就是對工作流程進行最佳化了。</p>
+<p>既然我們都已經寫好指令碼了，要將 App 丟上執行環境 (Runtime) 的最後一步就是佈署，這也是 WebIDE 的主要用途。所以問題就在於：我們能否讓程式執行 WebIDE 所進行的佈署作業？</p>
+<h4>伺服器與「Actor」</h4>
+<p>Firefox 所有執行環境都有所謂的<a href="https://developer.mozilla.org/en-US/docs/Tools/Remote_Debugging">遠端除錯伺服器 (Remote debugger server)</a>。此功能基於安全理由是預設關閉的。但只要開啟之後，終端即可連接並利用多樣功能，如 App 安裝、存取主控台等。而這些就是 WebIDE 於<a href="https://mxr.mozilla.org/mozilla-central/source/toolkit/devtools/apps/app-actor-front.js#235">內部運作</a>的作業。</p>
+<p>這些功能均是由一組「Actor」所進行。假設我們想列出已安裝的 App，就要：</p>
+<ul><li>先找到「 webApps 」這個 Actor</li></ul>
+<ul><li>執行 getAll 指令</li></ul>
+<ul><li>最後獲得 App 清單</li></ul>
+<p>另外再拿封裝式 (Packaged) App 為例，應該：</p>
+<ul><li>透過你愛用的函式庫或任何方法，先壓縮 App 內容</li></ul>
+<ul><li>取得「 webApps 」這個 Actor</li></ul>
+<ul><li>以 ZIP 檔案的內容，於「 webApps」 中呼叫 uploadPackage 指令</li></ul>
+<ul><li>此呼叫的結果則成為「 File 」這個 Actor</li></ul>
+<ul><li>以回傳的「 File 」，於「 webApps 」中呼叫 install 指令</li></ul>
+<ul><li>完成！</li></ul>
+<p>因此安裝 App 的所有流程，都不是在 WebIDE 之內，卻是在伺服器內發生的！我們另可透過程式設計來利用此流程，但若要從頭開始建構終端，就必須建構 TCP 連線並剖析 (Parsing) 封包。不過你主要應該想寫 App 並送入裝置，而不會想做上面這些「雜事」吧？</p>
+<p>還好有<a href="https://github.com/mozilla/node-firefox">node-firefox</a> 可幫你省下這些事情。node-firefox 可不單只是程式碼而已，更是一系列的 node.js 模組，且各自執行不同的作業，架設於自己獨立的 Repo 之上，並如模範公民般幫你將模組發佈到<a href="https://www.npmjs.com/">npm registry</a>。你可在自己的指令碼或作業執行環境中儘量使用，最後不須離開終端機介面也能編譯並執行自己 App。</p>
+<p><img src="../../assets/7093/wp-content/uploads/example1.gif" alt="example1" loading="lazy"></p>
+<p>說了這麼多，你應該很想看看實際的範例程式碼吧？可別錯過《<a href="../../posts/7098/">簡介 node-firefox (下)</a>》，讓自己能順利加入 Firefox OS App 的開發行列，並讓自身功力突飛猛進。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/02/introducing-node-firefox/">Introducing node-firefox</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Web App</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20200805155540id_/https://blog.mozilla.com.tw/?p=7093">Wayback snapshot</a>
+              <span>Post ID: 7093</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>TogetherJS 介紹 (下) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">TogetherJS 介紹 (下)</h2>
+            <p class="entry-posted"><time datetime="2013-10-29" class="published"><span class="posted-month">10月</span><span class="posted-date">29</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p>接著要大家解決《<a href="../../posts/4025/">TogetherJS 介紹 (上)</a>》所遇到的問題。還沒看過上篇的人先去複習一下吧！</p>
+<h3>添增 TogetherJS</h3>
+<p>TogetherJS 亦具備「交換中心 (Hub)」，可在作業期間處理所有人之間的訊息。此交換中心不會解讀這些訊息，而是來回傳遞所有人的訊息，甚至可交換不同頁面上的訊息。TogetherJS 亦可讓 App 傳送自訂訊息，例如：</p>
+<p>TogetherJS.send({<br>  type: &quot;message-type&quot;, <br>  ...any other attributes you want to send...<br>})</p>
+<p>					1234</p>
+<p>						TogetherJS.send({  type: &quot;message-type&quot;,   ...any other attributes you want to send...})</p>
+<p>可傳送訊息 (所有訊息均必備其 type) 並可監聽：</p>
+<p>TogetherJS.hub.on(&quot;message-type&quot;, function (msg) {<br>  if (! msg.sameUrl) {<br>    // Usually you&#39;ll test for this to discard messages that came<br>    // from a user at a different page<br>    return;<br>  }<br>});</p>
+<p>					1234567</p>
+<p>						TogetherJS.hub.on(&quot;message-type&quot;, function (msg) {  if (! msg.sameUrl) {    // Usually you&#39;ll test for this to discard messages that came    // from a user at a different page    return;  }});</p>
+<p>訊息的資料型態必須位於命名空間 (Namespace) 之內，如此 App 的訊息才不致於意外覆蓋 TogetherJS 的訊息。</p>
+<p>為了同步所有人的繪圖作品，我們必須觀看所有描繪出來的線條，再將這些線條傳送給其他人：</p>
+<p>function move(e) {<br>    var mouse = {<br>        x: e.pageX - this.offsetLeft,<br>        y: e.pageY - this.offsetTop<br>    };<br>    draw(lastMouse, mouse);<br>    if (TogetherJS.running) {<br>        TogetherJS.send({type: &quot;draw&quot;, start: lastMouse end: mouse});<br>    }<br>    lastMouse = mouse;<br>}</p>
+<p>					1234567891011</p>
+<p>						function move(e) {    var mouse = {        x: e.pageX - this.offsetLeft,        y: e.pageY - this.offsetTop    };    draw(lastMouse, mouse);    if (TogetherJS.running) {        TogetherJS.send({type: &quot;draw&quot;, start: lastMouse end: mouse});    }    lastMouse = mouse;}</p>
+<p>傳送這些線條之前，先確認 TogetherJS 是否正實際運作 (TogetherJS.running)。而我們傳送的訊息應該具備完整資訊。</p>
+<p>接著就監聽這些訊息：</p>
+<p>TogetherJS.hub.on(&quot;draw&quot;, function (msg) {<br>    if (! msg.sameUrl) {<br>        return;<br>    }<br>    draw(msg.start, msg.end);<br>});</p>
+<p>					123456</p>
+<p>						TogetherJS.hub.on(&quot;draw&quot;, function (msg) {    if (! msg.sameUrl) {        return;    }    draw(msg.start, msg.end);});</p>
+<p>由於 TogetherJS 只有在執行狀態才能呼叫 Listener，因此在註冊此 Listener 時，不需顧慮 TogetherJS 是否執行中。</p>
+<p>這樣就能顯示大家的繪圖作品並共同合作了。不過目前還有個問題必須解決：如果在我開始畫圖之後，你才加入我的繪圖區，就會變成你只能看到我剛畫出來的線條，而看不到加入之前我已經畫過的線條。</p>
+<p>要解決這個問題就必須監聽 togetherjs.hello 訊息。只要用戶端首次抵達新的頁面，就會送出此 togetherjs.hello 訊息。在我們看到該訊息之後，就接著將繪圖區的畫面傳送給其他人：</p>
+<p>TogetherJS.hub.on(&quot;togetherjs.hello&quot;, function (msg) {<br>    if (! msg.sameUrl) {<br>        return;<br>    }<br>    var image = canvas.toDataURL(&quot;image/png&quot;);<br>    TogetherJS.send({<br>        type: &quot;init&quot;,<br>        image: image<br>    });<br>});</p>
+<p>					12345678910</p>
+<p>						TogetherJS.hub.on(&quot;togetherjs.hello&quot;, function (msg) {    if (! msg.sameUrl) {        return;    }    var image = canvas.toDataURL(&quot;image/png&quot;);    TogetherJS.send({        type: &quot;init&quot;,        image: image    });});</p>
+<p>現在只要監聽此新的 init 訊息即可：</p>
+<p>TogetherJS.hub.on(&quot;init&quot;, function (msg) {<br>    if (! msg.sameUrl) {<br>        return;<br>    }<br>    var image = new Image();<br>    image.src = msg.image;<br>    context.drawImage(image, 0, 0);<br>});</p>
+<p>					12345678</p>
+<p>						TogetherJS.hub.on(&quot;init&quot;, function (msg) {    if (! msg.sameUrl) {        return;    }    var image = new Image();    image.src = msg.image;    context.drawImage(image, 0, 0);});</p>
+<p>只要有 TogetherJS 的幾行程式碼，就能設計出即時繪畫的 App。我們還是必須自行撰寫其中某些程式碼，但 TogetherJS 可幫我們處理下列事情：</p>
+<ul><li>提供 URL 以利使用者開始工作階段並相互分享 <img src="https://blog.mozilla.com.tw/wp-content/uploads/screenshot-invite.png" alt="screenshot-invite" loading="lazy"></li></ul>
+<ul><li>建立 WebSocket 連線並連至我們的「<a href="https://github.com/mozilla/togetherjs/blob/develop/hub/server.js">交換中心伺服器</a>」，以能在用戶端之間來回傳遞訊息</li></ul>
+<ul><li>讓使用者設定自己的名稱與頭像，並能看到參與此工作階段的其他人 <img src="https://blog.mozilla.com.tw/wp-content/uploads/screenshot-name-avatar.png" alt="screenshot-name-avatar" loading="lazy"></li></ul>
+<ul><li>時時追蹤是誰在線上、是誰已離線、是誰閒置離開</li></ul>
+<ul><li>同樣提供簡易又必備的功能，如打字交談 <img src="https://blog.mozilla.com.tw/wp-content/uploads/screenshot-chat.png" alt="screenshot-chat" loading="lazy"></li></ul>
+<ul><li>TogetherJS 亦將處理工作階段的初始化與追蹤作業</li></ul>
+<p>此範例尚未達到的功能：</p>
+<ul><li>我們使用了固定尺寸的繪圖區，所以不需要考慮 2 個用戶端使用不同解析度的情況。一般情況下，TogetherJS 可處理不同的用戶端，且排版方式可適用不同的解析度，甚至可搭配適應性設計 (Responsive design)。要修正此問題的方法之一，就是使用固定的長寬比例，而所有繪圖定位均使用高度/寬度的百分比顯示方式。</li></ul>
+<ul><li>現在的繪圖工具還不夠好玩！如果我正在畫 1 隻灰色兔子，你應該也要能畫 1 隻棕色獅子！繪圖的色彩功能尚待加強。</li></ul>
+<ul><li>例如「清除繪圖區」的功能尚未同步。</li></ul>
+<ul><li>我們並未儲存或載入任何現成圖片。一旦儲存並載入繪圖應用程式，你可能就必須深入思考所應該同步的功能。如果我完成了一幅圖畫、儲存完畢，再將圖畫轉入網站並加入你的工作階段，你的圖畫會不會覆蓋我的圖畫呢？若能將各幅圖畫置於專屬網址，就能清楚知道大家目前要一起編輯的圖畫。</li></ul>
+<h3>想了解更多？</h3>
+<ul><li>想進一步了解 TogetherJS 的架構嗎？可參閱<a href="https://togetherjs.com/docs/#technology-overview">技術簡介</a>。</li></ul>
+<ul><li><a href="https://jsfiddle.net/">到 jsFiddle 上體驗 TogetherJS</a></li></ul>
+<ul><li>按下<a href="https://togetherjs.com/docs/">此說明網頁中的「Get Live Help」按鈕</a>，即可和我們開始 TogetherJS 工作階段。</li></ul>
+<ul><li>另可至 irc.mozilla.org，透過 #togetherjs 加入<a href="https://togetherjs.com/docs/#getting-help">我們的 IRC</a>。</li></ul>
+<ul><li>歡迎使用 <a href="https://github.com/mozilla/togetherjs">GitHub 上的程式碼</a>。如果有任何問題或功能需求，均請<a href="https://github.com/mozilla/togetherjs/issues/new">踴躍回報</a>，千萬別害羞。Mozilla 隨時留意多樣的回饋意見：任何想法、可能的使用情形 (或在這些使用情況下形成的挑戰)、說明頁面所無法回答的問題 (也代表說明文件未考量到的部份)，甚至告訴我們你想到深具潛力的協作 App。</li></ul>
+<ul><li>加入我們的 Twitter：<a href="https://twitter.com/togetherjs">@togetherjs</a>。</li></ul>
+<p>你想到任何適用 TogetherJS 的網站嗎？快提供意見給我們！</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2013/10/introducing-togetherjs/">https://hacks.mozilla.org/2013/10/introducing-togetherjs/</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Mozilla</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Mozilla</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824002835id_/https://blog.mozilla.com.tw/?p=4036">Wayback snapshot</a>
+              <span>Post ID: 4036</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

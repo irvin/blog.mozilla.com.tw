@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>【破解 Firefox 迷思】Firefox 很慢？記憶體吃很兇？ | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">【破解 Firefox 迷思】Firefox 很慢？記憶體吃很兇？</h2>
+            <p class="entry-posted"><time datetime="2012-09-27" class="published"><span class="posted-month">9月</span><span class="posted-date">27</span><span class="posted-year">2012</span></time></p>
+          </header>
+          <div class="entry-content"><p>Firefox 或許不是地表最快瀏覽器，但要說它「慢」總也該有點依據。程式的速度受到很多因素影響，包括：</p>
+<ul><li>電腦配備，你可以視其為「資源」</li></ul>
+<ul><li>同時間啟動的程式、分頁等。畢竟同一份資源拿來同時做一件事情跟做 20 件事情，總是有點差別。</li></ul>
+<ul><li>網頁使用的技術，越複雜牽涉的就越多</li></ul>
+<ul><li>是否裝了會影響網頁編排、解析網頁內容的附加元件？有的話必然多少耗點速度。</li></ul>
+<ul><li>程式的問題。要做一件事情有快的方法也有慢的方法，程式邏輯上也是如此。</li></ul>
+<ul><li>還有超多因素，不及備載。</li></ul>
+<p>每隔一陣子，就會有文章拿各種測量數據來評比各瀏覽器的速度，而由於瀏覽器的大廠日日進步，每次結果也不盡相同。有件事情大家應該先了解：測量數據不代表你的感覺。每種 Benchmark 都為了特定目的存在，有的測試 A 項目多點、有的測試 B 項目多點，這些目的很顯然都為網頁引擎的開發而來 — 否則，也不需要用到毫秒這種人類無法感覺的單位來檢視。對使用者真正最有用的部份，會在作業流程的整體速度，這牽扯到啟動、UI 反應、與現有工作的整合等。</p>
+<p>在 Firefox 4 的開發期間，Mozilla 就已經針對以前較為人詬病的啟動速度與記憶體使用量做了不少改善；這些改進讓 Firefox 獲得好評，不過我們的腳步依然沒有停止：在進入快速開發週期以後，Mozilla 啟動了「<a href="https://wiki.mozilla.org/Performance/Snappy">Snappy</a>」專案，<a href="../../posts/79/">從各種角度全面地試圖增加 Firefox 的反應速度</a>。在過去幾個版本內，Snappy 專案至少改善了上百個大小問題，讓 Firefox 從裡到外、一版比一版快。這點似乎也有不少鄉民<a href="https://www.ptt.cc/bbs/Browsers/M.1338639304.A.DA1.html">有感覺</a>：</p>
+<p><a href="../../posts/1051/"><img src="../../assets/1051/wp-content/uploads/faster15.png" alt="" loading="lazy"></a></p>
+<p>而 Firefox 即將上場的 JavaScript 加速機制 IonMonkey 還會讓許多網頁跑起來更快一些！JavaScript 引擎的小組有個網站「<a href="https://arewefastyet.com/">are we fast yet</a>」，每日比較 JavaScript 引擎開發進度與速度，從這個網站可以看到加上 IonMonkey 後，在 3 種測試中的兩種都確實有超過 10% 的顯著進步。由於 Firefox 程式的介面也有很多地方以 JavaScript 撰寫，所以改善 JavaScript 引擎可以一舉提升網頁及程式介面速度，更是令人期待。</p>
+<p><a href="../../posts/1051/"><img src="../../assets/1051/wp-content/uploads/arewefastyet-300x189.png" alt="" loading="lazy"></a></p>
+<p>那記憶體問題呢？除了 Snappy 之外，Mozilla 也有另一個專案名喚 <a href="https://wiki.mozilla.org/Performance/MemShrink">MemShrink</a>，正為記憶體相關問題而來。使用記憶體首重效率，當然我們不會要求要馬兒好又要馬兒不吃草，不過若能在顯示同一網頁時使用較少記憶體、且看完還能有效釋放記憶體，那就最好了。MemShrink 試圖處理過去舊版 Firefox 記憶體使用上的缺陷，這個小組也建了一個「<a href="https://areweslimyet.com/">are we slim yet</a>」 – 姑且稱為「啊是還不夠瘦嗎？」網站，記錄每段期間各種記憶體使用測試的結果。從表上可以發現，從去年三月到現在，有許多部份也持續改善中，特別是 <a href="../../posts/872/">Firefox 15 的記憶體回收能力，顯然有非常大幅的改善</a>。</p>
+<p><a href="../../posts/1051/"><img src="../../assets/1051/wp-content/uploads/areweslimyet.png" alt="" loading="lazy"></a></p>
+<p>剛巧在前幾天也有人貼了測試文章，<a href="https://techlogon.com/2012/09/21/review-of-firefox-chrome-and-ie-memory-usage-2012/">比較部份瀏覽器的記憶體使用與回收能力</a>。Firefox 表現頗為出色，真該給 MemShrink 團隊鼓鼓掌！</p>
+<p>所以，如果你對 Firefox 的印象還停留在「很慢」、「記憶體怪獸」的時代，別忘了<a href="https://mozilla.com.tw/">再回來試試看</a>，相信能有全新感受。</p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Mozilla</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Mozilla</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190715200805id_/https://blog.mozilla.com.tw/?p=1051">Wayback snapshot</a>
+              <span>Post ID: 1051</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

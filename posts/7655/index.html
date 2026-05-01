@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>淺談 Firefox 41 開發者工具 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">淺談 Firefox 41 開發者工具</h2>
+            <p class="entry-posted"><time datetime="2015-07-09" class="published"><span class="posted-month">7月</span><span class="posted-date">9</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><h3>於分頁中檢視原始碼、截圖元素、HAR 檔案，還有更多</h3>
+<p>我們在幾個禮拜前剛介紹了<a href="../../posts/7600/">新的「Performance」效能工具</a>，也談到 Firefox 開發者工具團隊花了許多心力在使用者所提供的意見之上，其中包含在 <a href="https://mzl.la/devtools">UserVoice 意見反饋管道</a>與 <a href="https://bugzilla.mozilla.org/enter_bug.cgi?product=Firefox&amp;component=Developer%20Tools">Bugzilla</a> 所獲得的建議。即使 Firefox 41 版本釋出週期極為短暫，我們仍持續專注於使用者的反饋意見。社群另提出多項新功能並希望能及時加入此一版本。以下是相關簡介：</p>
+<h4>可針對檢測器 (Inspector) 中選定的節點進行截圖</h4>
+<p>新貢獻者 Léon McGregor 在 <a href="https://ffdevtools.uservoice.com/forums/246087-firefox-developer-tools-ideas/suggestions/6060256-add-screenshot-of-selected-element-to-inspector">UserVoice</a> 上提出了有趣建議。雖然之前早已能透過 Graphical Command Line Interface (GCLI) 的「screenshot」指令使用此功能，但現在將該功能加入滑鼠右鍵的選單之後，更進一步提高了使用率。而在截圖完成之後，Firefox 就會將之複製到你所設定的下載目錄中。</p>
+<p><a href="https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/files/2015/07/screenshot-element.gif"><img src="../../assets/7655/wp-content/uploads/screenshot-element-1024x576.gif" alt="screenshot-element" loading="lazy"></a>對目前所選定的元素進行截圖</p>
+<ul><li><a href="https://ffdevtools.uservoice.com/forums/246087-firefox-developer-tools-ideas/suggestions/6060256-add-screenshot-of-selected-element-to-inspector">UserVoice</a></li></ul>
+<ul><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=991045">Bugzilla</a></li></ul>
+<h4>於分頁中檢視原始碼</h4>
+<p>從 Firefox 41 開始，只要你按下滑鼠右鍵並點選「檢視原始碼 (View Page Source)」，就會在分頁中開啟 html 原始碼檢視視窗，而不會另外再開啟新的視窗。在許多人的關切之下，我們也希望能儘早推出此一功能，但這個看起來簡單的變化其實牽涉甚廣。請參閱下方 Bugzilla 的連結以了解細節。重要的是，我們確保此功能是從 Firefox 的快取獲得原始碼，而不需再重載新的版本。</p>
+<p><a href="https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/files/2015/07/view-source-in-tab.gif"><img src="../../assets/7655/wp-content/uploads/view-source-in-tab-1024x576.gif" alt="view-source-in-tab" loading="lazy"></a>「檢視原始碼」現在均以分頁形式開啟</p>
+<ul><li><a href="https://ffdevtools.uservoice.com/forums/246087-firefox-developer-tools-ideas/suggestions/5895550-view-source-in-a-tab">UserVoice</a></li></ul>
+<ul><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1067325">Bugzilla</a></li></ul>
+<h4>「新增規則」按鈕</h4>
+<p>在檢視器中工作的同時，若能直接新增規則就再方便不過。使用者透過 Firebug 提出此功能的需求已有一段時間。在此版本釋出之前，我們另外花了一點持間強化此一實作。除了在滑鼠右鍵選單加入此指令之外，也在 UI 之上提供了方便的按鈕。</p>
+<p><a href="https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/files/2015/07/add-rule-button.gif"><img src="../../assets/7655/wp-content/uploads/add-rule-button-1024x576.gif" alt="add-rule-button" loading="lazy"></a>檢視器中新增了按鈕，讓你能迅速新增 css 規則</p>
+<ul><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1136101">Bugzilla</a></li></ul>
+<h4>「Copy as HAR」與「Save all as HAR」</h4>
+<p>另有許多人透過 Firebug 所要求的功能，就是能匯出目前頁面的 <a href="https://dvcs.w3.org/hg/webperf/raw-file/tip/specs/HAR/Overview.html">HAR 備份檔案</a>。</p>
+<p><a href="https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/files/2015/07/copy-har.gif"><img src="../../assets/7655/wp-content/uploads/copy-har-1024x627.gif" alt="copy-har" loading="lazy"></a>現可從「網路監測器 (Network Monitor)」直接匯出 HAR 備份檔案</p>
+<ul><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=859058">Bugzilla</a></li></ul>
+<h4>其他重要變更</h4>
+<p>從 6 月 1 日起算，我們總共修正了 140 筆開發者工具的錯誤。除了團隊的努力之外，也要感謝提報錯誤、測試修正檔、耗時改善此 Firefox 開發者版本的所有人。特別感謝以下修正錯誤的貢獻者：edoardo.putti、fayolle-florent、15electronicmotor、veeti.paananen、sr71pav、sjakthol、ntim、MattN、lemcgregor3、indiasuny000 等人。謝謝大家！</p>
+<ul><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1164210">Bug 1164210</a> – $$() should return a true Array</li></ul>
+<ul><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1077339">Bug 1077339</a> – Display keyboard shortcuts when hovering panel tabs</li></ul>
+<ul><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1163183">Bug 1163183</a> – Show HTML5 Forms pseudo elements in the rule view</li></ul>
+<ul><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1165576">Bug 1165576</a> – Netmonitor theme refresh</li></ul>
+<ul><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1049888">Bug 1049888</a> – Make the storage actor work in e10s and Firefox OS</li></ul>
+<ul><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=987365">Bug 987365</a> – Add pseudo-class lock options to rule view</li></ul>
+<ul><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1059882">Bug 1059882</a> – Frame selection command button should be visible by default</li></ul>
+<ul><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1143224">Bug 1143224</a> – Opening the netmonitor slows down requests on the page</li></ul>
+<ul><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1119133">Bug 1119133</a> – Keyboard shortcut to toggle devtools docking mode between last two positions</li></ul>
+<ul><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1024693">Bug 1024693</a> – Copy CSS declarations</li></ul>
+<ul><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1050691">Bug 1050691</a> – Click on a function on the console should go to the debugger</li></ul>
+<p><a href="https://mzl.la/1JQwR0o">立刻下載 Firefox 開發者版本 41</a>。讓我們知道你對未來版本的想法，告訴我們<a href="https://mzl.la/devtools">應添增哪些功能</a>。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/07/developer-edition-41-view-source-in-a-tab-screenshot-elements-har-files-and-more/">Developer Edition 41: View source in a tab, screenshot elements, HAR files, and more</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190825004121id_/https://blog.mozilla.com.tw/?p=7655">Wayback snapshot</a>
+              <span>Post ID: 7655</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>在 WebIDE 中執行 Firefox OS/Gaia 自訂版本 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">在 WebIDE 中執行 Firefox OS/Gaia 自訂版本</h2>
+            <p class="entry-posted"><time datetime="2014-11-25" class="published"><span class="posted-month">11月</span><span class="posted-date">25</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>Mozilla 繼「應用程式管理員 (App Manager)」之後，再度提供新的 App 開發工具 ─ WebIDE，要讓開發者能更順利提供自己的作品。如果想先了解 WebIDE，可先參閱之前的《<a href="https://blog.mozilla.com.tw/posts/6442/webide-1">淺談新開發工具 WebIDE</a>》共兩篇文章。</p>
+<p>Firefox OS 模擬器 (Firefox OS Simulator) 已於 2014 年 2 月新增功能，可執行自訂的 B2G 執行環境及/或 Gaia 設定檔 (Profile)。本文將說明相關設定方式，並透過 <a href="https://developer.mozilla.org/en-US/docs/Tools/WebIDE">WebIDE</a> 執行模擬器。</p>
+<p>注意：在本文發表之時，滑鼠事件尚未能正確對應觸控事件。例如回到主畫面鈕並無法回應滑鼠點擊的動作。但只要使用 B2G Desktop 鍵盤指令，即可解決此問題。可參閱「<a href="https://developer.mozilla.org/en-US/Firefox_OS/Using_the_B2G_desktop_client">Using the B2G Desktop client</a>」。</p>
+<p>注意：如果你能提交 Try 版本，則可在各個 B2G 桌面平台的版本路徑中產生模擬器附加元件。如此可讓模擬器搭配自訂的 Gecko，或搭配對 Gaia 上進行的修改。在某些使用條件下可選用此較簡易的方式。</p>
+<h3>必要條件</h3>
+<p>要在模擬器內執行自訂版本，必須齊備相關工具。</p>
+<ul><li>安裝 Firefox 並確定其內有 <a href="https://developer.mozilla.org/en-US/docs/Tools/WebIDE">WebIDE</a> (工具 &gt; 網頁開發者 &gt; WebIDE)。</li></ul>
+<ul><li>安裝最新版 <a href="https://nightly.mozilla.org/">B2G Desktop Nightly</a>，或<a href="https://developer.mozilla.org/en-US/Firefox_OS/Using_the_B2G_desktop_client#Building_the_desktop_client">建構自己的版本</a>。</li></ul>
+<ul><li>安裝<a href="https://ftp.mozilla.org/pub/mozilla.org/labs/fxos-simulator/">最新版 Firefox OS 模擬器</a>套 件，即 7.0pre7.20140113 或更高版本。或可將 FXOS_SIMULATOR=1 添增到自己的 mozconfig，並使用 ./mach build &amp;&amp; ./mach package，從自己的 B2G Desktop 原始碼來建構。</li></ul>
+<ul><li>用 SIMULATOR=1 flag 建立 Gaia 設定檔。舉例來說，你可在自己的 Gaia 路徑中執行 make SIMULATOR=1 PROFILE_FOLDER=profile-b2g profile-b2g 指令 (請參閱 <a href="https://developer.mozilla.org/en-US/Firefox_OS/Platform/Gaia/Hacking#Make_options">Hacking Gaia</a> 進一步了解)。</li></ul>
+<h3>設定自己的模擬器</h3>
+<p>你必須完成某些設定，才能讓模擬器找到你的 B2G Desktop 與自訂的 Gaia。</p>
+<ul><li>打開附加元件管理分頁 (工具 &gt; 附加元件；或在網址列中輸入 about:addons )。</li></ul>
+<ul><li>點擊「擴充套件 (Extensions)」分頁，可列出現已安裝的套件。</li></ul>
+<ul><li>在清單中找到新的 Firefox OS 模擬器擴充套件。應該會顯示如 Firefox OS 1.3 Simulator 7.0pre.7.20140113 。</li></ul>
+<ul><li>點擊此擴充套件內的「選項 (Preferences)」按鈕。 <img src="../../assets/6808/wp-content/uploads/about-addon-1024x51.png" alt="about-addon" loading="lazy"></li></ul>
+<ul><li>如果你要使用自訂的可執行檔 (最新的 B2G Desktop 版本)，以利於 WebIDE 中執行 Firefox OS，則點擊「 Select a custom runtime executable 」旁邊的「 Browse… 」按鈕，在檔案選擇介面中找到自己的 B2G Desktop 可執行檔。如果是 Windows/Linux 環境就很好找；而在 Mac 環境中，只要安裝於 Applications 路徑下，就可於 /Applications/B2G.app/Contents/MacOS/b2g 找到。</li></ul>
+<ul><li>你也能在 WebIDE 中執行自訂的 Gaia 設定檔。同樣點擊「 Select a custom Gaia profile directory 」旁邊的「 Browse… 」按鈕，找到自訂的設定檔路徑 (應該是 gaia/profile-b2g )。</li></ul>
+<ul><li>如果要回到非自訂的模擬器，只要重新設定組態值即可。但 不能 單純的刪除再重新安裝模擬器附加元件。你必須開 啟新的分頁，在網址列中輸入「about:config」，繼續在該頁的搜尋欄位中輸入「fxos」或「simulator」，找到如 「extensions.fxos_2_0_simulator@mozilla.org.customRuntime」，或 「extensions.fxos_2_0_simulator@mozilla.org.gaiaProfile」。這時按下滑鼠右鍵並點選 「Reset」。最後重新啟動模擬器版本，就能使用非自訂版本的模擬器。</li></ul>
+<h3>使用自訂的模擬器</h3>
+<p>最後說明該如何使用自訂的模擬器。</p>
+<ul><li>啟動 <a href="https://developer.mozilla.org/en-US/docs/Tools/WebIDE">WebIDE</a> (工具 &gt; 網頁開發者 &gt; WebIDE)；或可按下「Shift + F8」。</li></ul>
+<ul><li>點擊右上方的按鈕，開啟「Runtime」選單。</li></ul>
+<ul><li>點擊「Firefox OS 1.3」按鈕 (或你安裝的任何最新版本)。即使你的 B2G desktop/Gaia 版本比較新，仍建議點選 Firefox OS 1.3 版。</li></ul>
+<ul><li>接著就會啟動模擬器，將載入 B2G Desktop 並執行你的 B2G Nightly 版本與自訂 Gaia！</li></ul>
+<p><img src="../../assets/6808/wp-content/uploads/b2g-desktop.png" alt="b2g-desktop" loading="lazy"></p>
+<p>Mozilla 開發者社群網站 (MDN) 原文連結：<a href="https://developer.mozilla.org/en-US/Firefox_OS/Running_custom_builds_in_the_App_Manager">Running custom Firefox OS/Gaia builds in WebIDE</a></p>
+<p>你也可閱讀中文版的《<a href="https://developer.mozilla.org/zh-TW/Firefox_OS/Running_custom_builds_in_the_App_Manager">在 WebIDE 中執行 Firefox OS/Gaia 自訂版本</a>》；並參閱 MDN 上的更多 Firefox OS 或 Marketplace 相關文章。</p>
+<p>原文文章將不定期有所增刪，我們也將儘快更新中文版本，以期讓開發者能隨時看到最新的內容。</p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Firefox OS</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Firefox OS</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824000700id_/https://blog.mozilla.com.tw/?p=6808">Wayback snapshot</a>
+              <span>Post ID: 6808</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

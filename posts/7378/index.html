@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>淺談 Firefox 39 開發者工具 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">淺談 Firefox 39 開發者工具</h2>
+            <p class="entry-posted"><time datetime="2015-04-22" class="published"><span class="posted-month">4月</span><span class="posted-date">22</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><h3>拖曳元素、主控台歷史記錄，還有更多</h3>
+<p>Firefox 39 現提供多項新或提升過後的功能，並修正了多個錯誤。立刻更新自己的<a href="https://www.mozilla.org/en-US/firefox/channel/#developer">開發者 (Developer)</a> 或<a href="https://nightly.mozilla.org/">每夜更新 (Nightly)</a> 版本並體驗之！</p>
+<h4>檢測器 (Inspector)</h4>
+<p>在<a href="https://developer.mozilla.org/en-US/docs/Tools/Page_Inspector">檢測器 (Inspector)</a> 上，只要<a href="https://developer.mozilla.org/en-US/docs/Tools/Page_Inspector/How_to/Examine_and_edit_HTML#Drag_and_drop">拖曳</a>即可搬移元素。用滑鼠按著任一元素不放，接著就能拖曳到你想要的位置。此功能是由 Mahdi Dibaiee 所貢獻。</p>
+<p>早在 <a href="https://hacks.mozilla.org/2014/07/event-listeners-popup-media-sidebar-cubic-bezier-editor-more-firefox-developer-tools-episode-33/">Firefox 33</a> 時，就已經將工具提示功能加到「規則 (Rule)」的檢視畫面上，以編輯 CSS 動畫的貝茲曲線 (Bézier curve)。而到 Firefox 39 的開發者版本上，我們又大幅強化了工具提示的使用者經驗，新增多個標準曲線以利使用者立刻嘗試，也讓整個介面更為美觀。此項強化功能是由 John Giannakos 所貢獻。</p>
+<p><a href="https://hacks.mozilla.org/files/2015/04/cubic.gif"><img src="https://blog.mozilla.com.tw/wp-content/uploads/cubic-1024x658.gif" alt="cubic" loading="lazy"></a></p>
+<p>而從<a href="https://blog.mozilla.com.tw/posts/7021/">開發者版本 37</a> 起所導入的 CSS 動畫面板，現更加入了時間軸功能。你可回播＼快轉動畫，並設定其目前時間。</p>
+<h4>主控台 (Console)</h4>
+<p>之前只要關閉開發者工具的主控台，則<a href="https://developer.mozilla.org/en-US/docs/Tools/Web_Console">主控台 (Console)</a> 的歷史記錄也就全部遺失。現在<a href="https://developer.mozilla.org/en-US/docs/Tools/Web_Console">主控台</a>的歷史記錄將可跨工作階段 (Session) 而保留。不論是在其他分頁或重新啟動 Firefox，你最近輸入的指令都會保留到下次開啟工具箱為止。此外，我們也新增了clearHistory 指令，可重設已儲存的指令清單。</p>
+<p>新增 $_ 成為<a href="https://developer.mozilla.org/en-US/docs/Tools/Web_Console">主控台</a>中的最新執行結果。舉例來說，如果你執行了表示式而並未將結果儲存為變數，則可透過 $_ 而迅速取得最新結果。</p>
+<p>現在也格式化了結構類似陣列的物件，使其就如同<a href="https://developer.mozilla.org/en-US/docs/Tools/Web_Console">主控台</a>輸出中的陣列一般。這樣可讓此類物件如同真正的陣列，以更輕鬆的追蹤並檢測之。此功能是由 Johan K. Jensen 所貢獻。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/pseudo-array.png" alt="pseudo-array" loading="lazy"></p>
+<h4>WebIDE 與行動裝置</h4>
+<p>現亦加入了 Firefox OS 的 WiFi 除錯功能。現在不需 USB 連接線，<a href="https://developer.mozilla.org/en-US/docs/Tools/WebIDE">WebIDE</a> 亦可透過區域 WiFi 網路而連上 Firefox OS 裝置。請期待後續專文進一步討論此功能。</p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Tools/WebIDE">WebIDE</a> 新支援了 Cordova 架構的專案。如果你正以 Cordova 撰寫行動 App，則<a href="https://developer.mozilla.org/en-US/docs/Tools/WebIDE">WebIDE</a> 就會自行為裝置建立所能支援的專案，再不需額外設定。</p>
+<h4>其他更新</h4>
+<ul><li>變更屬性時，只會重新整理 <a href="https://developer.mozilla.org/en-US/docs/Tools/Page_Inspector/How_to/Examine_and_edit_HTML">Markup View</a> 中所變更的屬性，而不會擴及整個元素。</li></ul>
+<ul><li><a href="https://hacks.mozilla.org/2014/03/introducing-the-canvas-debugger-in-firefox-developer-tools/">Canvas 除錯器</a>現可支援動畫的 setTimeout 。</li></ul>
+<ul><li><a href="../../posts/7351/">Box model 的 Inline 強調功能</a>。</li></ul>
+<ul><li>按下快捷鍵「Cmd-Opt-Shit-I」或「Ctrl-Alt-Shift-I」，即可開啟<a href="https://developer.mozilla.org/en-US/docs/Tools/Browser_Toolbox">瀏覽器的工具箱</a>。</li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Tools/Network_Monitor">網路監測器 (Network Monitor)</a> 現可顯示遠端伺服器的 IP 位址與通訊埠。</li></ul>
+<ul><li>在<a href="https://developer.mozilla.org/en-US/docs/Tools/Page_Inspector">檢測器</a>中強調元素時，現可用鍵盤方向鍵的「左鍵」強調目前元素的母元素。若按下「右鍵」，則可 1). 強調其第一子元素，2). 或沒有子元素的情況下，強調其緊鄰元素，3). 或在沒有緊鄰元素的情況下，強調樹狀圖中的下個節點。只要某一元素及其母元素佔據畫面上的相同空間，只用滑鼠就很難選擇其中的元素。這時此功能就特別有用。</li></ul>
+<p>若需要更完整的清單，可參閱 Firefox 39 開發期間所<a href="https://mzl.la/1GiJGQm">解掉的全部 200 個錯誤</a>。</p>
+<p>感謝下列開發者第一次貢獻此版本的開發者工具：</p>
+<ul><li>Anush</li></ul>
+<ul><li>Brandon Max</li></ul>
+<ul><li>Geoffroy Planquart</li></ul>
+<ul><li>Johan K. Jensen</li></ul>
+<ul><li>John Giannakos</li></ul>
+<ul><li>Mahdi Dibaiee</li></ul>
+<ul><li>Nounours Heureux</li></ul>
+<ul><li>Wickie Lee</li></ul>
+<ul><li>Willian Gustavo Veiga</li></ul>
+<p>一如往常，如果你有任何問題、反饋意見、功能需求、臭蟲回報，都能透過 <a href="https://twitter.com/FirefoxDevTools">Twitter 上的</a><a href="https://twitter.com/FirefoxDevTools">@FirefoxDevTools</a> 聯絡我們。也可以到 <a href="https://mzl.la/devtools">UserVoice 上提出想法或投票。</a></p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/04/drag-elements-console-history-and-more-firefox-developer-edition-39/">Drag Elements, Console History, and more – Firefox Developer Edition 39</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20191113171146id_/https://blog.mozilla.com.tw/?p=7378">Wayback snapshot</a>
+              <span>Post ID: 7378</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

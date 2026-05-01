@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>提升 JPEG 圖像編碼作業 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">提升 JPEG 圖像編碼作業</h2>
+            <p class="entry-posted"><time datetime="2014-07-18" class="published"><span class="posted-month">7月</span><span class="posted-date">18</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>編按：Mozilla 首席技術長 Andreas Gal 同樣在<a href="https://andreasgal.com/2014/07/15/improving-jpeg-image-encoding/">自己的部落格</a>上發表本篇文章，說明 Mozilla與甫發表的 mozjpeg 2.0，以及 Facebook 支援的 JPEG 編碼器。</p>
+<p>在瀏覽網站時，圖片往往佔了瀏覽器載入資料的絕大部分，所以圖片壓縮技術越好，就能越快顯示網站的內容。過去幾年來，不斷有人在討論是否該開發新的圖像格式，以取代目前普及的 JPEG 而達到更好的圖像資料壓縮效果。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/Mozjpeg-Encorder-untuk-Mempercepat-Mozilla-Firefox.jpg" alt="Mozjpeg-Encorder-untuk-Mempercepat-Mozilla-Firefox" loading="lazy"><br>圖片來源：hdwallsource.com</p>
+<p>在<a href="https://blog.mozilla.org/research/2013/10/17/studying-lossy-image-compression-efficiency/">去年的一篇報告</a>中，我們比較了 JPEG 與多種新的圖像格式 (包含 WebP)。且從那時開始，我們也不斷擴充並更新這篇研究。而與 JEPG 相較，WebP 或其他免費使用的格式並沒有顯著的提升。且一旦將新的圖像格式加入 Web，也代表著更高的維護成本。</p>
+<p>因此我們研究團隊最近開始改良最新的 JPEG 編碼器，並發佈了強化過的 <a href="https://github.com/mozilla/mozjpeg/releases/tag/v2.0">《mozjpeg》─ JPEG 編碼器 2.0 版</a>。針對基本 (Baseline) 或漸進式 (Progressive) 壓縮模式 JPEG 檔案，mozjpeg 平均可再縮減 5% 的檔案容量，而且許多圖像可達更高的壓縮幅度。</p>
+<p>Facebook 亦宣佈現正測試 mozjpeg 2.0 用於 <a href="https://facebook.com/">facebook.com</a> 圖像時的壓縮效能。且 Facebook 同時資助了六萬美金，以協助開發下一版的 mozjpeg 3.0。</p>
+<p>Facebook 軟體工程經理 Stacy Kerkela 說：「Facebook 支持 Mozilla 目前對 JPEG 編碼器的努力，在達到更小 JPEG 檔案的同時，也能兼顧圖片的品質。我們寄望 mozjpeg 2.0 的潛在優勢，讓大家透過 Facebook 分享並聯繫彼此的同時，能享有最佳化的圖片與更優質的使用經驗。」</p>
+<p>mozjpeg 除了提升圖像編碼功能之外，也能完全相容現有的 JPEG 解碼器。任何瀏覽器都能立刻享受強化之後的優點，而不需採用如 WebP 的新格式。</p>
+<p>原文連結：<a href="https://blog.mozilla.org/blog/2014/07/15/improving-jpeg-image-encoding/">Improving JPEG Image Encoding</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Mozilla</span></div>
+            <div class="entry-tag-box">標籤：<span>《mozjpeg》─ JPEG 編碼器 2.0 版</span><span>Mozilla</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=5927">Wayback snapshot</a>
+              <span>Post ID: 5927</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

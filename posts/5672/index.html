@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>用 TogetherJS 與 CreateJS 開發多人遊戲 (下) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">用 TogetherJS 與 CreateJS 開發多人遊戲 (下)</h2>
+            <p class="entry-posted"><time datetime="2014-05-30" class="published"><span class="posted-month">5月</span><span class="posted-date">30</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>你想開發遊戲類的 Web App 嗎？在看完了《<a href="../../posts/5663/">用 TogetherJS 與 CreateJS 開發多人遊戲 (上)</a>》與《<a href="../../posts/5668/">(中)</a>》之後，你當然應該看完《(下)》以獲得最完整的概念。</p>
+<p>接著稍微說明透過《<a href="https://www.createjs.com/#%21/Zoe">Zoë</a>》工具，直接輸出為 Sprite 或 JSON 檔案的方法。</p>
+<p><img src="../../assets/5672/wp-content/uploads/marisa.png" alt="marisa" loading="lazy"></p>
+<p>上圖 sprite 範例，就是我以 <a href="https://www.createjs.com/#%21/Zoe">Zoë</a> 所產生並用在遊戲中的動畫。原始圖檔來自於《東方緋想天 (Scarlet Weather Rhapsody)》遊戲。你可到 <a href="https://www.spriters-resource.com/">http://www.spriters-resource.com</a> 上找到。</p>
+<h3>用 TogetherJS 達到多人對戰功能</h3>
+<p>我第一輪撰寫遊戲的程式碼時，完全沒有想到多人對戰的功能。本來只想讓電腦操控的敵人隨機移動，寫個單人玩的躲子彈遊戲就好。結果我自己都撐不過 30 秒的無情「泡」火。所以我想如果支援多人對戰應該更好玩。</p>
+<p>在 Together.js 發表後不久，我就略有耳聞。這個 jsFiddle 專案就是由 Together.js 提供相關功能，而且之間的關係密不可分，因此我也把 Together.js 加入遊戲。很感謝 Mozilla 提供了預設的訊息伺服器 (Hub Server)，大大簡化了可多人對戰的 Web 遊戲。可參閱<a href="https://hacks.mozilla.org/2013/10/introducing-togetherjs/">本篇文章</a>以進一步了解 Together.js。</p>
+<p>我很輕鬆就把 Together.js 整合到遊戲之中，且運作起來就像是其他的事件 Dispatcher/Listeners 框架。</p>
+<p>透過 Together.js，我也建構了隨機與受邀的多人對戰模式。而在設計通訊協定時，我確實遇上幾個設計難題。</p>
+<p>首先，我假設雙方均有某程度的互信，所以沒加進防作弊程式碼。目前玩家的碰撞偵測都是在本端完成。所以理論上，如果你阻擋了反應訊息，你的角色就絲毫不會受傷。</p>
+<p>另外我動了一點手腳，就是讓對手角色的泡泡都是在本端隨機產生。也就是說，你看到自己角色所產生的泡泡，其實和你對手看到的泡泡不完全一樣。</p>
+<p>這些缺失都不致於影響遊戲的樂趣。不過我確實遇到 Together.JS 所造成的問題。</p>
+<ul><li>我沒辦法停用 Together.js 中的游標更新 (Cursor updating)。這功能對協作工具 (Collaborative tool) 很有用，但我的遊戲用不到。</li></ul>
+<ul><li>我是以「非對稱 (Asymmetric)」的方式使用 Together.js，所以雙方看自己都是穿紅裙子的角色 (她叫 Reimu)。這樣也讓玩家能簡單分辨自己的角色在畫面底部，對戰玩家則是在畫面頂端。當你看自己的紅裙子角色移動時，對方在自己畫面中會看到白裙子角色在移動。</li></ul>
+<h3>出錯的樂趣</h3>
+<p>遊戲中有兩項視覺效果達到出乎意料：</p>
+<ul><li>只要該回合結束，出現「You Win」或「You Lose」訊息時，整個畫面會暫停數秒鐘，看起來就是突然凍結一樣。</li></ul>
+<ul><li>如果你想集氣攻擊對方，則蒐集而得的子彈會環繞在角色周圍，再朝敵人飛去。</li></ul>
+<p>其實這些效果本來不是我想要的。我沒有要暫停遊戲，而且本來想讓集氣子彈會在角色身旁轉動。但這兩個錯誤卻還是有不錯的效果，所以就這麼保留了。</p>
+<h3>結論和未來規劃</h3>
+<p>學學新東西別有趣味。我喜歡能快速撰寫程式原型並實際呈現。我接著會加入更多形式的泡泡和音效，也會試著畫出更多背景圖片甚至加入動畫效果。</p>
+<p>在開發遊戲時，我發現如果要達到更成熟、更直覺的遊戲經驗，就必須下更多的功夫。這些也是我在玩其他遊戲時希望能享受到的東西。</p>
+<p>這個遊戲同樣開放源碼，所以請大家盡情取用。如果對遊戲或程式碼有任何建議，請別忘了留言給我。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/05/creating-a-multiplayer-game-with-togetherjs-and-createjs/">Creating a Multiplayer Game with TogetherJS and CreateJS</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190825002545id_/https://blog.mozilla.com.tw/?p=5672">Wayback snapshot</a>
+              <span>Post ID: 5672</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

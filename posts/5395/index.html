@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Rormix – 透過 Firefox OS 找到正夯的音樂影片 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Rormix – 透過 Firefox OS 找到正夯的音樂影片</h2>
+            <p class="entry-posted"><time datetime="2014-04-18" class="published"><span class="posted-month">4月</span><span class="posted-date">18</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p><a href="https://rormix.com/">Rormix</a> 平台可發掘目前正夯的音樂影片。這些影片都已依照各音樂類型或類似風格的暢銷歌手而分類，讓消費者能更輕鬆發現新的音樂影片。</p>
+<p>而「Rormix」應用程式即以 PhoneGap 所開發，目前已提供 <a href="https://ror.mx/ios">iOS</a> 與 <a href="https://ror.mx/android">Android</a> 版本。從寫下第一行程式碼直到讓 App 在商城上架，整個開發過程大概花了一個月。結果移植到 <a href="https://marketplace.firefox.com/app/rormix/">Firefox OS</a> 只要一天！</p>
+<p><img src="../../assets/5395/wp-content/uploads/remix1.jpg" alt="remix1" loading="lazy"></p>
+<p>接著來說說我們學到的幾個秘訣：</p>
+<h4>到底該針對哪個螢幕尺寸來開發？</h4>
+<p>在開發 Open Web 的應用程式之後，即可安裝到實際的桌面版和行動版 Firefox 瀏覽器，亦可安裝於 Firefox OS 裝置之上。</p>
+<p>如果單一 App 就要支援上述的所有 Firefox 系統，就必須採用「適應性設計 (Responsive design)」模式；開發者當然也可以限定想要支援的平台。<a href="https://www.mozilla.org/en-US/firefox/os/devices/">目前的 Firefox OS 智慧型手機</a>具備 320×480 解析度，另可達「1」像素密度 (Pixel density)；所以不需另外產生特殊尺寸的圖片。</p>
+<h4>「上一頁 (Back)」按鈕呢？</h4>
+<p>iOS 裝置並沒有「上一頁」按鈕；Android 裝置則提供硬體的「上一頁」按鈕。那 Firefox OS 又該怎麼做？Firefox OS 具備軟體的「上一頁」按鈕。開發者在建構 <a href="https://developer.mozilla.org/en-US/Apps/Build/Manifest#chrome">App 的 manifest 檔案</a> (你會在「應用程式管理員 (App Manager)」看到中文翻譯為「安裝資訊檔」) 時，就能選擇是否隱藏按鈕。按鈕可藏在畫面底部，但使用上可能有點難度。</p>
+<p>我建議開發者仍可為自己的 App 設計按鈕，並預設隱藏起來，讓消費者能輕鬆使用 App。</p>
+<p>//jQuery example<br>$(&#39;.backbutton&#39;).click(function(){<br>    history.go(-1);<br>});</p>
+<p>					1234</p>
+<p>						//jQuery example$(&#39;.backbutton&#39;).click(function(){    history.go(-1);});</p>
+<p>##</p>
+<h4>「Stateful」的設計</h4>
+<p>由於 Firefox OS 仍有「上一頁」按鈕，因此開發者所設計的 App 必須能儲存畫面狀態 (stateful)，讓使用者在點擊「上一頁」按鈕時，可回到先前儲存的畫面狀態。</p>
+<p>現有許多 JS 框架均透過段落識別碼 (Fragment identifier) 而載入不同的畫面狀態 (如 <a href="https://sammyjs.org/">Sammy JS</a>)。只要使用這類框架就能輕鬆建構此功能。</p>
+<p>//jQuery example</p>
+<p>//Sammy app<br>var app;</p>
+<p>$(function(){</p>
+<p>    app = Sammy(function() {<br>        this.get(&#39;#/&#39;, function() {<br>            //Load default content<br>        });<br>        this.get(&#39;#/trending&#39;, function() {<br>            //Get trending content<br>        });<br>        this.get(&#39;#/fresh&#39;, function() {<br>            //Get fresh content<br>        });<br>    });<br>});</p>
+<p>//Load the default content on app load<br>app.run(&#39;#/&#39;);</p>
+<p>//Go to fresh content<br>$(&#39;.freshbutton&#39;).click(function(){<br>    app.setLocation(&#39;#/fresh&#39;);<br>});</p>
+<p>					123456789101112131415161718192021222324252627</p>
+<p>						//jQuery example //Sammy appvar app; $(function(){     app = Sammy(function() {        this.get(&#39;#/&#39;, function() {            //Load default content        });        this.get(&#39;#/trending&#39;, function() {            //Get trending content        });        this.get(&#39;#/fresh&#39;, function() {            //Get fresh content        });    });}); //Load the default content on app loadapp.run(&#39;#/&#39;); //Go to fresh content$(&#39;.freshbutton&#39;).click(function(){    app.setLocation(&#39;#/fresh&#39;);});</p>
+<h4>建立選單</h4>
+<p>使用 CSS3 Transforms 不僅能快速為 Firefox OS 設計選單，而且也能儘量簡化選單，讓顯示選單時的重繪 (Redraw) 作業不致佔用過多資源。截至本文發表為止，Firefox OS 手機參考像素的寬度均與所有 iPhone 相同；而高度則與 iPhone 5 之前的型號相同。所以你的設計只要能用於 iOS 之上，就應該沒有問題。</p>
+<h4>加入 Firefox OS 的風格</h4>
+<p>其實已經有一系列的<a href="https://www.mozilla.org/en-US/styleguide/products/firefox-os/">設計指南</a>，可供開發者了解 Firefox OS 平台的色彩搭配等規則。另外也說明如 App 的圖示與字型等細節。</p>
+<p><img src="../../assets/5395/wp-content/uploads/remix2.jpg" alt="remix2" loading="lazy"></p>
+<h4>提交 App</h4>
+<p>在完成自己的 App 作品之後，可選擇 App 提交管道。開發者可將 App <a href="https://developer.mozilla.org/en-US/Apps/Publishing/Packaged_Apps">封裝</a>成 zip 壓縮檔：</p>
+<h6>zip -r package.zip *</h6>
+<p>接著把 zip 檔提交到 <a href="https://marketplace.firefox.com/developers/submit/">Marketplace</a>，或<a href="https://developer.mozilla.org/zh-TW/docs/Mozilla/Marketplace/Publishing/Publish_options">自行架設/托管該 App</a>。</p>
+<p>其實也可以簡單<a href="https://developer.mozilla.org/en-US/Marketplace/Publishing/Publish_options#Hosted_apps">將程式碼架設/托管為</a>網頁 (而不用壓縮)。透過<a href="https://developer.mozilla.org/en-US/Apps/Build/JavaScript_API#Installation_API">額外的小型 JS</a> 即可提示消費者將 App下載到自己的手機上。</p>
+<h4>同場加映：使用 PhoneGap / Cordova 搭配 HTML5</h4>
+<p>只要開發 Web App，也就能迅速且輕鬆的建構跨平台 App。好處還不只如此。只要透過適應性設計 (Responsive design) 的特性，甚至只要單一專案即可適用不同的尺寸或平台。而進階工具與工作流程 (如 <a href="https://sass-lang.com/">Sass</a> 與 <a href="https://yeoman.io/">Yeoman</a> 為例) 都能更輕鬆開發 App。</p>
+<p>PhoneGap / Cordova <a href="https://phonegap.com/blog/2014/03/04/phonegap-3-4-release/">3.4 版</a>起開始支援 Firefox OS。可參閱《<a href="https://hacks.mozilla.org/2014/02/building-cordova-apps-for-firefox-os/">Building Cordova apps for Firefox OS</a>》進一步了解。使用 PhoneGap 的最大優點在於，開發者只需支援單一的 Codebase 即可用於自己的全部 App。我們都知道瀏覽器之間均有些微的差異，而 PhoneGap 亦內建了整合 (Merge) 機制，可讓開發者從主程式碼中區隔出各平台專屬的程式碼，並在建構 App 時再次整合即可。</p>
+<p>PhoneGap 另具備<a href="https://plugins.cordova.io/">函式庫</a>，可存取<a href="https://docs.phonegap.com/en/3.4.0/cordova_plugins_pluginapis.md.html#Plugin%20APIs">手機的原生屬性</a> (例如原生的對話框)。此程式碼亦可跨平台所用，以儘量避免重複的程式碼。</p>
+<p>PhoneGap 最讚的地方，就是能讓開發者建立自己的外掛程式、以簡單的方式發揮行動裝置的功能，並能輕鬆轉換 JS 與原生碼。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/04/rormix-discover-emerging-music-videos-with-firefox-os/">Rormix – Discover Emerging Music Videos with Firefox OS</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190825004817id_/https://blog.mozilla.com.tw/?p=5395">Wayback snapshot</a>
+              <span>Post ID: 5395</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

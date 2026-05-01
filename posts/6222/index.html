@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>瀏覽器中的程式設計遊戲 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">瀏覽器中的程式設計遊戲</h2>
+            <p class="entry-posted"><time datetime="2014-09-04" class="published"><span class="posted-month">9月</span><span class="posted-date">4</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>程式設計遊戲屬於電腦遊戲，就是讓多個程式互相競爭。這種遊戲有哪些基本需求？又要如何在瀏覽器中執行呢？用 JavaScript 嗎？</p>
+<h3>四項基本要件</h3>
+<p>要讓程式互相競爭有四項基本要件：</p>
+<ul><li>必須獨立於主程式之外執行。</li></ul>
+<ul><li>必須先定義與主程式溝通的方式。</li></ul>
+<ul><li>必須平行執行。主程式與各小程式均互相平行執行。</li></ul>
+<ul><li>必須能輕鬆植入至遊戲環境。</li></ul>
+<p>傳統的 JavaScript 雖然好用，但因為本來就是同步執行，所以無法隔離子程式。隨著時代演變，新版 JavaScript 現已具備更多功能。而 <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Performance/Using_web_workers">Web Workers</a> 則是為了加快 JavaScript 的速度所設計，可於瀏覽器中執行繁重的計算作業，卻又不會影響使用者介面。還不只如此，Web Workers 更符合上述的程式設計遊戲的需求：可平行執行、可獨立於主程式之外執行、根據事件而和主程式溝通，且歸功於新的 File API，更可從用戶端植入程式。</p>
+<h3>WEB WORKER CONTEST</h3>
+<p>就這樣，要用 Web Workers 寫出程式設計遊戲實在很簡單。為了讓大家知道這個想法可行，我在 2014 年 5 月發表了 Web Workers 架構的簡易程式設計遊戲《<a href="https://www.webworkercontest.net/">WEB WORKER CONTEST</a>》。實際遊戲只是簡易的數學問題：該如何完整跑遍 100×100 的方塊區域。玩家會隨機從任一點開始，並以簡單的上、下、左、右佔領 100×100 的區域。</p>
+<p><img src="../../assets/6222/wp-content/uploads/game2.png" alt="game2" loading="lazy"></p>
+<p>程式只能佔領空白的地方；也就是說，只要敵對程式佔領過的地方就無法再搶奪。而雙方均不知道佔領區塊的資訊，只會知道自己選擇的上下左右移動是否可行。所以 Web Worker 是透過 postMessage() 送出新的行動；並根據其接收的 onmessage() 事件判斷行動是否可行 (就是簡單的 true 或 false)。主程式就正好相反：透過 onmessage() 接收行動並於方塊中移動，再以 postMessage() 傳送成功訊息。</p>
+<p>最後的程式碼如下所示：</p>
+<p>// - worker1.js -<br>// makeMove() calulates the next move</p>
+<p>onmessage = function (event) {<br>  var success = event.data.success;<br>  var direction = makeMove(success);<br>  postMessage({<br>    direction: direction<br>  });<br>};</p>
+<p>// - main program -<br>// makeMoveWorker1() executes the move</p>
+<p>var worker1 = new Worker(&#39;worker1.js&#39;);<br>worker1.onmessage = function(event) {<br>  var direction = event.data.direction;<br>  var success = makeMoveWorker1(direction);<br>  worker1.postMessage({<br>    success: success<br>  });<br>};</p>
+<p>					12345678910111213141516171819202122</p>
+<p>						// - worker1.js -// makeMove() calulates the next move onmessage = function (event) {  var success = event.data.success;  var direction = makeMove(success);  postMessage({    direction: direction  });}; // - main program -// makeMoveWorker1() executes the move var worker1 = new Worker(&#39;worker1.js&#39;);worker1.onmessage = function(event) {  var direction = event.data.direction;  var success = makeMoveWorker1(direction);  worker1.postMessage({    success: success  });};</p>
+<p>現在就開始遊戲：</p>
+<p>// analogously for a second worker</p>
+<p>woker1.postMessage({ <br>  success: true<br>});</p>
+<p>					12345</p>
+<p>						// analogously for a second worker woker1.postMessage({   success: true});</p>
+<p>立刻就能開戰了。</p>
+<p><a href="https://github.com/strenkel/wwc">可到 GitHub 上取得完整程式碼</a>。</p>
+<h3>主要難題：平均分配運算時間</h3>
+<p>用 Web Workers 撰寫程式設計遊戲的主要困難之處，就是該如何平均分配兩邊 Web Workers 的運算時間。主要可分成兩個時間問題，即載入階段與遊戲階段的時間。</p>
+<p>在開始遊戲之前，需先載入 (遠端或本端均可) 兩組 Web Workers；也就是必須等待 Web Workers 均完成載入才行。可惜 Web Workers 並沒有適用的 onload 事件。當然，我們可以在剛開始讓主程式送出「are-you-ready」訊息至執行的程式，等雙方程式均確認此訊息之後再開始遊戲。</p>
+<p>在一般情況下，機器分配給遊戲的運算資源不受主程式所控制；因此可能某一方可行動之前，另一方就已經偷跑。對瀏覽器引擎與作業系統來說，要讓雙方處於對等的狀態就已經是一大難題。另外也有可能由一方連續觸發 postMessage (使用迴圈) 而阻擋另一方。為了避免這類作弊情形，主程式將配合成功資訊一併送出隨機識別碼。任一方進行下一步行動時，均必須重新傳送此識別碼 (否則即視為不符規定)。在此限制之下，就能有效的平均分配運算資源。</p>
+<p><a href="https://www.youtube.com/channel/UCNqOUOlC8UOYYLdGHhFbY-Q">可至 YouTube 觀看更多影片</a></p>
+<h3>程式設計遊戲比賽</h3>
+<p>WEB WORKER CONTEST 還頗受歡迎，在四周內就有超過兩百名工程師提供七百個程式，努力要以最佳策略完整佔領方塊。</p>
+<p>瀏覽器一樣可執行此程式設計遊戲。我們能透過 Web Worker 技術體現此遊戲。而且只要瀏覽器就能執行的遊戲，也就不需要安裝遊戲環境，勢必可吸引更多人加入。現在就到網站上撰寫程式碼，立刻測試並上傳吧！</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/08/programming-games-in-the-browser/">Programming games in the browser</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190825004626id_/https://blog.mozilla.com.tw/?p=6222">Wayback snapshot</a>
+              <span>Post ID: 6222</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

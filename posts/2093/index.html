@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Firefox OS 模擬器 – 搶先預覽 3.0 版 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Firefox OS 模擬器 – 搶先預覽 3.0 版</h2>
+            <p class="entry-posted"><time datetime="2013-03-14" class="published"><span class="posted-month">3月</span><span class="posted-date">14</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p>不過 3 個月之前，我們才發表了 <a href="https://hacks.mozilla.org/2012/12/firefox-os-simulator-1-0-is-here/">Firefox OS 模擬器的 1.0 版</a>。期間我們不斷改善，大約 1 個月之前也就發表了 2.0 版，也是<a href="https://addons.mozilla.org/en-US/firefox/addon/firefox-os-simulator/">最新的官方版本</a>。邁開大步繼續往前，我們現在要讓大家搶先預覽即將發表的 3.0 版！</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/firefox-os-simulator-preview.png"><img src="../../assets/2093/wp-content/uploads/firefox-os-simulator-preview-1024x572.png" alt="" loading="lazy"></a></p>
+<p>我們內部先討論過到底要不要說明這個新版本。其實目前整個架構還稍嫌粗糙，但基於下面 2 個理由，我們還是決定先讓大家知道：</p>
+<ul><li>我們是 Mozilla，我們在開放的環境下工作，也樂於分享自己的進度。所以想讓你知道我們在忙些什麼事，同時讓大家能參與其中。</li></ul>
+<ul><li>在正式版本發表之前，你也能有機會加入測試、向我們回饋意見，甚至貢獻你自己所擅長的部分。</li></ul>
+<h2>新功能預覽</h2>
+<p>我們聽到了反應意見，也針對大家的需求而嘗試打造最熱門的功能。新功能包含：</p>
+<ul><li>Push to Device ─ 直接傳輸功能</li></ul>
+<ul><li>Rotation simulation ─ 旋轉模擬功能</li></ul>
+<ul><li>Basic geolocation API simulation ─ 基本地理位置定位 API 模擬功能</li></ul>
+<ul><li>Manifest validation ─ Manifest 驗證功能</li></ul>
+<ul><li>修正 App 安裝與更新作業的穩定性</li></ul>
+<ul><li>新版本 Firefox 亦將隨時更新引擎與 Gaia (即 Firefox OS 的 UI)</li></ul>
+<h3>直接傳輸 (Push to Device) 功能</h3>
+<p>如果你手上的裝置就能支援 Firefox OS，那只要透過 USB 連線，即可直接在裝置的 Firefox OS 模擬器上安裝 App。</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/firefox-os-simulator-device-connected.png"><img src="../../assets/2093/wp-content/uploads/firefox-os-simulator-device-connected-1024x368.png" alt="" loading="lazy"></a></p>
+<p>請注意：</p>
+<ul><li>需啟用裝置上的遠端除錯功能： Settings → Device information → More Information → Developer → Remote debugging</li></ul>
+<ul><li>在 Linux (至少要 Ubuntu) 上，必須建立 /etc/udev/rules.d/51-android.rules 作為「根」檔案。再如 <a href="https://developer.android.com/tools/device.html#setting-up">Android’s Setting up a Device for Development</a> 中所述，為裝置新增製造商指定的輸入項。以我們的測試裝置為例，必須輸入： SUBSYSTEM==”usb”, ATTR{idVendor}==” 19d2″, MODE=”0666″, GROUP=”plugdev”</li></ul>
+<ul><li>尚未完整支援 Windows。目前規劃最後發表的版本將可支援。</li></ul>
+<ul><li>確認你的裝置上具備最新版的 Firefox OS (特別注意如 <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=842725">bug 842725</a> 的最新修正)。</li></ul>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/firefox-os-simulator-remote.png"><img src="../../assets/2093/wp-content/uploads/firefox-os-simulator-remote.png" alt="" loading="lazy"></a></p>
+<h3>旋轉模擬 (Rotation simulation)</h3>
+<p>新功能將可旋轉模擬器、取得事件等，讓內容在橫縱切換的同時，亦可搭配人物相片與景觀照片，提供更好的閱讀經驗。可支援 mozorientationchange 事件。</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/firefox-os-simulator-rotation.png"><img src="../../assets/2093/wp-content/uploads/firefox-os-simulator-rotation.png" alt="" loading="lazy"></a></p>
+<h3>基本地理位置定位模擬 (Basic geolocation API simulation)</h3>
+<p>模擬器現可支援地理位置定位 (Geolocation)，所以你也可在自己的 App 中測試此功能，並能讀出經度、緯度等數值。</p>
+<p>敬請期待功能：後續將可指定地理位置定位！</p>
+<h3>Manifest 驗證 (Manifest validation)</h3>
+<p>一旦要為 Firefox OS 模擬器新增 App 時，模擬器隨即將針對錯誤與警告，快速檢驗你的 Manifest 檔案。其中的問題將包含：避免於模擬器中安裝 App、模擬器尚未模擬的 API (not all APIs in there yet)、為 Marketplace 或裝置所必備，卻遺失的屬性。</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/firefox-os-simulator-manifest-validation.png"><img src="../../assets/2093/wp-content/uploads/firefox-os-simulator-manifest-validation.png" alt="" loading="lazy"></a></p>
+<h2>下載預覽版本</h2>
+<p>我們的 <a href="https://ftp.mozilla.org/pub/mozilla.org/labs/r2d2b2g/">FTP 伺服器已具備所有版本的 Firefox OS 模擬器</a>，其檔案名稱為「r2d2b2g」。以下是安裝檔案的鏈結 (將安裝於 Firefox 中成為附加元件)</p>
+<ul><li><a href="https://ftp.mozilla.org/pub/mozilla.org/labs/r2d2b2g/r2d2b2g-windows.xpi">Firefox OS Simulator Preview for Windows</a></li></ul>
+<ul><li><a href="https://ftp.mozilla.org/pub/mozilla.org/labs/r2d2b2g/r2d2b2g-mac.xpi">Firefox OS Simulator Preview for Mac</a></li></ul>
+<ul><li><a href="https://ftp.mozilla.org/pub/mozilla.org/labs/r2d2b2g/r2d2b2g-linux.xpi">Firefox OS Simulator Preview for Linux</a></li></ul>
+<p>一旦安裝完畢，則可點選 Firefox 功能表的「工具 (Tools) → 網頁開發者 (Web Developer)」找到：</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/firefox-os-simulator-menu.png"><img src="../../assets/2093/wp-content/uploads/firefox-os-simulator-menu.png" alt="" loading="lazy"></a></p>
+<h2>提出建議給我們！</h2>
+<p>請<a href="https://github.com/mozilla/r2d2b2g/issues?state=open">到這裡給我們任何建議或填寫發現的 Bug</a>。希望你會喜歡未來所改善的功能，且提升的功能也將協助你開發 App！</p>
+<h2>入門 Firefox OS &amp; 並建立開放式 Web App</h2>
+<p>在開始之前，歡迎你到 Firefox OS 頁面找尋更多資料：</p>
+<ul><li><a href="https://mozilla.com.tw/firefoxos/">http://mozilla.com.tw/firefoxos/</a></li></ul>
+<p>你也可以到 Mozilla Hacks 去看先前的幾篇文章：</p>
+<ul><li><a href="https://hacks.mozilla.org/2013/02/getting-started-with-open-web-apps-why-and-how/">Getting started with Open Web Apps – why and how</a></li></ul>
+<ul><li><a href="https://hacks.mozilla.org/2013/02/using-webapis-to-make-the-web-layer-more-capable/">Using WebAPIs to make the web layer more capable</a></li></ul>
+<ul><li><a href="https://hacks.mozilla.org/2013/01/introducing-the-firefox-os-boilerplate-app/">Introducing the Firefox OS Boilerplate App</a></li></ul>
+<ul><li><a href="https://hacks.mozilla.org/2013/01/introducing-web-activities/">Introducing Web Activities</a></li></ul>
+<p>我們還有其他資源：</p>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Apps">Apps documentation on MDN</a></li></ul>
+<ul><li><a href="https://marketplace.firefox.com/developers/">Developer Hub on Firefox Marketplace</a></li></ul>
+<p>原文網址：https://hacks.mozilla.org/2013/03/firefox-os-simulator-previewing-version-3-0/</p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=2093">Wayback snapshot</a>
+              <span>Post ID: 2093</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>最新版 Firefox 提升的 asm.js 效能讓遊戲飛也似的執行！ | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">最新版 Firefox 提升的 asm.js 效能讓遊戲飛也似的執行！</h2>
+            <p class="entry-posted"><time datetime="2014-05-07" class="published"><span class="posted-month">5月</span><span class="posted-date">7</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p><a href="https://blog.mozilla.org/blog/2014/04/29/mozilla-introduces-the-most-customizable-firefox-ever-with-an-elegant-new-design/">甫發佈的最新版 Firefox</a> 除了更新使用者介面 (UI) 之外，也強化了如 Sync 同步的多項功能。此版本同樣提升了其他效能，最明顯的莫過於 asm.js 的最佳化。以下就是讓 Firefox 與其他現行版本瀏覽器執行 asm.js 程式碼所得的最新測量。</p>
+<h4>asm.js 加速的程度</h4>
+<p><a href="https://asmjs.org/">asm.js</a> 就是 JavaScript 的子集，可輕鬆最佳化並特別適合將 C/C++ 程式碼移植到 Web 之中。我們已經有相關文章說明 Firefox 是如何<a href="https://blog.mozilla.com.tw/posts/4735/">最佳化 float32 以拉近 asm.js 與原生碼之間的效能差異</a>。若搭配其他 asm.js 最佳化的成果，可使其拉近到僅 C/C++ 原生編譯時的 1.5 倍慢。雖然還達不到原生 App 的速度，但已經越來越逼近。在發佈上述文章時，這些最佳化作業原限於「每夜更新 (Nightly)」版本才能體驗，而現在已正式進入 Firefox 29 (也就是Firefox 的現行版本) 以供諸多使用者享受。</p>
+<p>另一項 asm.js 最佳化的重要特性，就是啟動速度。如同 <a href="https://blog.mozilla.org/luke/2014/01/14/asm-js-aot-compilation-and-startup-performance/">Luke 數個月前的撰文所述</a>，Firefox 可執行 Ahead of time (AOT) 編譯作業並對結果進行快取，因此可大幅加快遊戲的啟動速度。這些最佳化也已經透過 Firefox 29 呈現給使用者享受。</p>
+<h4>瀏覽器比較結果</h4>
+<p><a href="https://hacks.mozilla.org/wp-content/uploads/2014/05/BenchmarkGraph_windows.png"><img src="https://blog.mozilla.com.tw/wp-content/uploads/BenchmarkGraph_windows.png" alt="BenchmarkGraph_windows" loading="lazy"></a></p>
+<p>在 Firefox 29 都載入這些最佳化功能之後，就應該來看看各款最新版瀏覽器執行 asm.js 程式碼的結果了。上圖就是在 Windows 8.1 作業系統中，分別以最新版 Google Chrome、Internet Explorer、Firefox 執行 <a href="https://emscripten.org/">Emscripten</a> <a href="https://kripken.github.io/embenchen/">測試基準套件</a>的結果。數字越小代表效能越好，而且都是將實際 Codebases 編譯為 asm.js (可參閱圖表中的說明) 的結果。如同你所看到的數據，Firefox 中的 asm.js 執行效能高於其他瀏覽器。</p>
+<h4>Unity、Emscripten、asm.js</h4>
+<p>上面說過 asm.js 就是 JavaScript 的子集，也就是許多 JavaScript 的樣式之一。但 asm.js 卻代表更重要的使用條件。如同我們<a href="../../posts/5200/">在遊戲者開發大會 (GDC) 所發表</a>的《<a href="https://unity3d.com/">Unity</a>》，就是目前市場上最受歡迎的遊戲開發工具之一，也將<a href="https://blogs.unity3d.com/2014/04/29/on-the-future-of-web-publishing-in-unity/">使用 Emscripten 將本身引擎編譯為 asm.js 而支援 Web</a>。</p>
+<p>但是光看影片又怎麼能滿足呢？你現在就能在自己的瀏覽器中體驗 Unity 最近釋出的《<a href="https://beta.unity3d.com/jonas/DT2/">Dead Trigger 2</a>》與《<a href="https://beta.unity3d.com/jonas/AngryBots/">Angry Bots</a>》展示遊戲。如果你用最新版 <a href="https://www.mozilla.org/firefox">Firefox</a> 執行遊戲，就會看到上述的許多 asm.js 最佳化效果。舉例來說，如果你多次進入上面兩個遊戲，asm.js 的快取功能可避免重複編譯，而達到較快的啟動速度。</p>
+<p>如果能有效執行 asm.js 樣式的程式碼，可讓類似的遊戲同樣在 Web 上運作無虞，且不需其他專屬的、非標準的外掛程式。也因為如此，我們很高興能看到 Firefox 29 讓更多使用者能享受 asm.js 最佳化的效果。雖然有時測試結果看來只是一堆數字，但對特別著重效能的應用程式 (如遊戲) 來說，asm.js 卻能直接提升相關測試結果。</p>
+<p>(感謝 Marc Schifer 協助完成效能基準測試。)</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/05/asm-js-performance-improvements-in-the-latest-version-of-firefox-make-games-fly/">asm.js performance improvements in the latest version of Firefox make games fly!</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=5519">Wayback snapshot</a>
+              <span>Post ID: 5519</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

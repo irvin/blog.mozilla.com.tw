@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Firefox Marketplace 與其他選擇 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Firefox Marketplace 與其他選擇</h2>
+            <p class="entry-posted"><time datetime="2013-08-07" class="published"><span class="posted-month">8月</span><span class="posted-date">7</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p>「Firefox OS ─ 讓 <a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 得以完全發揮的平台」系列影片的第四集 (另可回顧<a href="https://hacks.mozilla.org/2013/06/firefox-os-for-developers-the-platform-html5-deserves/">第一集</a>、<a href="../../posts/3179/">第二集</a>、<a href="../../posts/3277/">第三集</a>) 中，我們將說明 App 提交至 Firefox Marketplace 的方法，以及其他發佈 App 的方式。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/be-the-future1.png" alt="be-the-future" loading="lazy"></p>
+<p>本影片是由 Mozilla 首席技術傳教士 Chris Heilmann <a href="https://twitter.com/codepo8">@codepo8</a>，以及 Firefox OS 業務開發團隊的 Desigan Chinniah<a href="https://twitter.com/cyberdees">@cyberdees</a> 共同錄製。將讓你輕鬆在 Firefox OS 上發佈自己的 App。你也可到 YouTube 觀看此影片。</p>
+<p>Firefox OS 與其他行動平台一樣擁有自己的 <a href="https://marketplace.firefox.com/">Marketplace</a>，可讓你依照名稱或分類找到自己想要的 App。</p>
+<p><a href="https://marketplace.firefox.com/"><img src="https://blog.mozilla.com.tw/wp-content/uploads/marketplace-294x300.jpg" alt="marketplace" loading="lazy"></a></p>
+<p>開發者若要將自己的 App 提交至 Marketplace，只需要建立一個 <a href="https://developer.mozilla.org/en-US/docs/Web/Apps/Manifest">manifest 檔案</a>並將之存放於你的 App 伺服器上 (需設定正確的 MIME 類型「application/x-web-app-manifest+json」) 即可。你必須在 manifest 檔案中定義 App 的名稱、提供 App 的圖示，並要求權限以存取 <a href="https://wiki.mozilla.org/WebAPI/WebActivities">Web Activities</a> 與其他功能。當然亦可<a href="https://marketplace.firefox.com/developers/validator">線上檢驗自己的 manifest 檔案</a>，避免後續的提交作業出錯。</p>
+<p>一旦放置好 manifest 檔案之後，即可<a href="https://developer.mozilla.org/en-US/docs/Web/Apps/Publishing/Submitting_an_app">提交自己的 App</a> 到 Marketplace。開發者可於 Marketplace 中提供 App 的截圖、影片，或更完整的說明。</p>
+<p>假設 App 是存放於開發者自己的伺服器上，基本上就可執行完整的 HTML5 功能，但是卻無法存取行動裝置的相機或聯絡人資訊。如果想存取相機或聯絡人資訊等功能，則必須將自己的 App 封裝並置放於 Marketplace。如需更多相關資訊，請<a href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox_OS/Security/Security_model#Trusted_and_Untrusted_Apps">至 Wiki 參閱不同的 App 權限</a>。</p>
+<p>如果你的 App 是純粹的 HTML5 App，則不需透過 Marketplace 下載而可直接從 Web 安裝，此亦代表在安裝過程你不需離開目前瀏覽中的網站。若裝置 (需搭載 Firefox OS，或已安裝 Firefox 的 Android 裝置) 支援<a href="https://developer.mozilla.org/en-US/docs/Web/Apps/JAVASCRIPT-BLOCKED-BLOCKED-BLOCKED_API">現處於標準化審核程序的 Open WebApp</a>，且鏈結可於裝置上觸發 App 安裝作業，則只要傳送鏈結予他人即可開始安裝 App。</p>
+<p>此標準化審核程序亦屬於 <a href="https://wiki.mozilla.org/WebAPI">WebAPI 標準化提案</a>的一部分。只要幾行程式碼即可建構「Install this App」的按鈕：</p>
+<p>if (navigator.mozApps) {<br>  function install() {<br>    var installapp = navigator.mozApps.install(manifestURL);<br>    installapp.onsuccess = function(data) {<br>      // App is installed<br>    };<br>    installapp.onerror = function() {          <br>      // Something went wrong,<br>      // information is in: installapp.error.name         <br>    };         	<br>  }<br>  var button = document.createElement(&#39;button&#39;);<br>  button.innerHTML = &#39;Install this app&#39;;<br>  button.addEventListener(&#39;click&#39;, install, false);<br>  document.body.appendChild(&#39;button&#39;);<br>}</p>
+<p>					12345678910111213141516</p>
+<p>						if (navigator.mozApps) {  function install() {    var installapp = navigator.mozApps.install(manifestURL);    installapp.onsuccess = function(data) {      // App is installed    };    installapp.onerror = function() {                // Something went wrong,      // information is in: installapp.error.name             };         	  }  var button = document.createElement(&#39;button&#39;);  button.innerHTML = &#39;Install this app&#39;;  button.addEventListener(&#39;click&#39;, install, false);  document.body.appendChild(&#39;button&#39;);}</p>
+<p>如此一來，你以搜尋引擎最佳化 (SEO) 所累積的多年成果，亦可繼續用以推廣自己的 App。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2013/08/firefox-marketplace-and-alternatives-firefox-os-for-developers-the-platform-html5-deserves/">https://hacks.mozilla.org/2013/08/firefox-marketplace-and-alternatives-firefox-os-for-developers-the-platform-html5-deserves/</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=3419">Wayback snapshot</a>
+              <span>Post ID: 3419</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

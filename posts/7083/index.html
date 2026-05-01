@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>BroadcastChannel API 現已進入 Firefox 38 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">BroadcastChannel API 現已進入 Firefox 38</h2>
+            <p class="entry-posted"><time datetime="2015-02-06" class="published"><span class="posted-month">2月</span><span class="posted-date">6</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Broadcast_Channel_API">BroadcastChannel API</a> 最近已經進入 Firefox 38。若網頁內容的來源及其所使用的瀏覽器均相同，則此 API 就能在瀏覽器的內容之間進行簡單的訊息傳遞作業。此 API 現已擴充到 Windows 與 Worker 之上，並可於 iframes、Worker、瀏覽器分頁的執行緒之間進行通訊。</p>
+<p>BroadcastChannel API 本來是想在 Web App 瀏覽器的內容之間，進行簡易的訊息通訊作業。舉例來說，只要使用者登入 App 的網頁之一，即可依其個人資訊而更新其他所有的內容 (如分頁或獨立視窗)。或是使用者將照片上傳到瀏覽器視窗，亦可一併傳送到該 App 之內所開啟的其他頁面。此 API 本不是為了處理複雜作業所設計。如鎖定已分享的資源，或透過伺服器同步多個用戶端等的複雜作業，則 Shared worker 還更適合。</p>
+<h3>API 概述</h3>
+<p>我們可用下列程式碼建立 BroadcastChannel 物件：</p>
+<p>var myChannel = new BroadcastChannel(&quot;channelname&quot;);</p>
+<p>					1</p>
+<p>						var myChannel = new BroadcastChannel(&quot;channelname&quot;);</p>
+<p>channelname 的大小寫有別。BroadcastChannel 實例包含兩組函式，即 postMessage 與 close。函式 postMessage 可寄送訊息到 channel。而訊息內容可為任何物件，包含圖片、陣列、物件陣列等的複雜物件。只要瀏覽器內容的來源、使用的瀏覽器、BroadcastChannel 的頻道名稱均相同，都會收到訊息。舉例來說，下列程式碼就會送出簡單字串：</p>
+<p>myChannel.postMessage(&quot;Simple String&quot;);</p>
+<p>					1</p>
+<p>						myChannel.postMessage(&quot;Simple String&quot;);</p>
+<p>任何頁面只要搭配 BroadcastChannel 物件的 onmessage 事件處理器來開啟頻道，都能處理所分派出的訊息。</p>
+<p>myChannel.onmessage = function(event) {<br>    console.log(event.data);<br>}</p>
+<p>					123</p>
+<p>						myChannel.onmessage = function(event) {    console.log(event.data);}</p>
+<p>另請注意，事件的資料屬性包含了訊息資料，且你也可能想了解事件的其他屬性。舉例來說，你可透過 event.origin 屬性，或 event.target.name 屬性中看到的頻道名稱來檢查 Web App 的來源。</p>
+<p>而 close 函式可關閉特定瀏覽器內容的頻道，只要以下程式碼即可呼叫：</p>
+<p>broadCastChannel.close();</p>
+<p>					1</p>
+<p>						broadCastChannel.close();</p>
+<h3>張貼 Blob 訊息</h3>
+<p>傳送字串或其他基本型別的資料都很簡單，但其實 BroadcastChannel API 仍可支援更複雜的物件。舉例來說，如果要將圖片傳送到另一組內容中，可使用下列程式碼：</p>
+<p>var broadcastExample = {};<br>broadcastExample.setupChannel = function() {<br>    if (&quot;BroadcastChannel&quot; in window) {<br>        if (typeof broadcastExample.channel === &#39;undefined&#39; ||<br>           !broadcastExample.channel) {<br>            //create channel<br>            broadcastExample.channel = new BroadcastChannel(&quot;foo&quot;);<br>        }<br>    }<br>}<br>broadcastExample.pMessage = function() {<br>    broadcastExample.setupChannel();<br>    //get image element<br>    var img = document.getElementById(&quot;ffimg&quot;);<br>    //create canvas with image<br>    var canvas = document.createElement(&quot;canvas&quot;);<br>    canvas.width = img.width;<br>    canvas.height = img.height;<br>    var ctx = canvas.getContext(&quot;2d&quot;);<br>    ctx.drawImage(img, 0, 0);<br>    //get blob of canvas<br>    canvas.toBlob(function(blob) {<br>        //broadcast blob<br>        broadcastExample.channel.postMessage(blob);<br>    });<br>}</p>
+<p>					1234567891011121314151617181920212223242526</p>
+<p>						var broadcastExample = {};broadcastExample.setupChannel = function() {    if (&quot;BroadcastChannel&quot; in window) {        if (typeof broadcastExample.channel === &#39;undefined&#39; ||           !broadcastExample.channel) {            //create channel            broadcastExample.channel = new BroadcastChannel(&quot;foo&quot;);        }    }}broadcastExample.pMessage = function() {    broadcastExample.setupChannel();    //get image element    var img = document.getElementById(&quot;ffimg&quot;);    //create canvas with image    var canvas = document.createElement(&quot;canvas&quot;);    canvas.width = img.width;    canvas.height = img.height;    var ctx = canvas.getContext(&quot;2d&quot;);    ctx.drawImage(img, 0, 0);    //get blob of canvas    canvas.toBlob(function(blob) {        //broadcast blob        broadcastExample.channel.postMessage(blob);    });}</p>
+<p>上列程式碼包含兩組函式，代表 BroadcastChannel 的傳送端。setupChannel 函式僅會開啟 BroadcastChannel，而 pMessage 函式則檢查頁面的圖素並將之轉換為 Blob。最後將 Blob 張貼到 BroadcastChannel。接收頁面必須已準備監聽 BroadcastChannel 完畢以利接收訊息，且可將接收頁面撰寫如下：</p>
+<p>var broadcastFrame = {};</p>
+<p>//setup broadcast channel<br>broadcastFrame.setup = function() {<br>    if (&quot;BroadcastChannel&quot; in window) {<br>        if (typeof broadcastFrame.channel === &#39;undefined&#39; || !broadcastFrame.channel) {<br>            broadcastFrame.channel = new BroadcastChannel(&quot;foo&quot;);<br>        }<br>        //function to process broadcast messages<br>        function func(e) {<br>            if (e.data instanceof Blob) {<br>                //if message is a blob create a new image element and add to page<br>                var blob = e.data;<br>                var newImg = document.createElement(&quot;img&quot;),<br>                    url = URL.createObjectURL(blob);<br>                newImg.onload = function() {<br>                    // no longer need to read the blob so it&#39;s revoked<br>                    URL.revokeObjectURL(url);<br>               };<br>                newImg.src = url;<br>                var content = document.getElementById(&quot;content&quot;);<br>                content.innerHTML = &quot;&quot;;<br>                content.appendChild(newImg);<br>            }<br>        };<br>        //set broadcast channel message handler<br>        broadcastFrame.channel.onmessage = func;<br>    }<br>}<br>window.onload = broadcastFrame.setup();</p>
+<p>					123456789101112131415161718192021222324252627282930</p>
+<p>						var broadcastFrame = {}; //setup broadcast channelbroadcastFrame.setup = function() {    if (&quot;BroadcastChannel&quot; in window) {        if (typeof broadcastFrame.channel === &#39;undefined&#39; || !broadcastFrame.channel) {            broadcastFrame.channel = new BroadcastChannel(&quot;foo&quot;);        }        //function to process broadcast messages        function func(e) {            if (e.data instanceof Blob) {                //if message is a blob create a new image element and add to page                var blob = e.data;                var newImg = document.createElement(&quot;img&quot;),                    url = URL.createObjectURL(blob);                newImg.onload = function() {                    // no longer need to read the blob so it&#39;s revoked                    URL.revokeObjectURL(url);               };                newImg.src = url;                var content = document.getElementById(&quot;content&quot;);                content.innerHTML = &quot;&quot;;                content.appendChild(newImg);            }        };        //set broadcast channel message handler        broadcastFrame.channel.onmessage = func;    }}window.onload = broadcastFrame.setup();</p>
+<p>此程式碼可從廣播訊息中取得 Blob 並建立圖素，再加入接收端頁面。</p>
+<h3>Workers 與 BroadcastChannel 訊息</h3>
+<p>BroadcastChannel API 亦可搭配專屬與共用的<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/basic_usage">workers</a>。先簡單假設現已啟動 worker，且已透過主要指令碼傳送一則訊息到該 worker，接著就會由 worker 廣播訊息到 BroadcastChannel。</p>
+<p>var broadcastExample = {};<br>broadcastExample.setupChannel = function() {<br>    if (&quot;BroadcastChannel&quot; in window) {<br>        if (typeof broadcastExample.channel === &#39;undefined&#39; ||<br>           !broadcastExample.channel) {<br>            //create channel<br>            broadcastExample.channel = new BroadcastChannel(&quot;foo&quot;);<br>        }<br>    }<br>}</p>
+<p>function callWorker() {<br>    broadcastExample.setupChannel();<br>    //verify compat<br>    if (!!window.Worker) {<br>        var myWorker = new Worker(&quot;worker.js&quot;);<br>        //ping worker to post to Broadcast Channel<br>        myWorker.postMessage(&quot;Broadcast from Worker&quot;);<br>    }<br>}</p>
+<p>//Worker.js<br>onmessage = function(e) {<br>    //Broadcast Channel Message with Worker<br>    if (&quot;BroadcastChannel&quot; in this) {<br>        var workerChannel = new BroadcastChannel(&quot;foo&quot;);<br>        workerChannel.postMessage(&quot;BroadcastChannel Message Sent from Worker&quot;);<br>        workerChannel.close();<br>    }<br>}</p>
+<p>					12345678910111213141516171819202122232425262728293031</p>
+<p>						var broadcastExample = {};broadcastExample.setupChannel = function() {    if (&quot;BroadcastChannel&quot; in window) {        if (typeof broadcastExample.channel === &#39;undefined&#39; ||           !broadcastExample.channel) {            //create channel            broadcastExample.channel = new BroadcastChannel(&quot;foo&quot;);        }    }} function callWorker() {    broadcastExample.setupChannel();    //verify compat    if (!!window.Worker) {        var myWorker = new Worker(&quot;worker.js&quot;);        //ping worker to post to Broadcast Channel        myWorker.postMessage(&quot;Broadcast from Worker&quot;);    }}  //Worker.jsonmessage = function(e) {    //Broadcast Channel Message with Worker    if (&quot;BroadcastChannel&quot; in this) {        var workerChannel = new BroadcastChannel(&quot;foo&quot;);        workerChannel.postMessage(&quot;BroadcastChannel Message Sent from Worker&quot;);        workerChannel.close();    }}</p>
+<p>接著就會依本文前述過的相同方式，於主頁面中處理該則訊息。</p>
+<p><img src="../../assets/7083/wp-content/uploads/workerbroadcast-1024x733.png" alt="workerbroadcast" loading="lazy"><br>以 Worker 廣播訊息至 iframe</p>
+<h3>更多資訊</h3>
+<p>如果要進一步了解該如何於 iframe 中使用，則可到<a href="https://github.com/JasonWeathersby/broadcastchannelexample">github</a> 找到本文所提的另一組範例程式碼。另可透過到<a href="https://html.spec.whatwg.org/multipage/comms.html#broadcasting-to-other-browsing-contexts">規格</a>、<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=966439">bugzilla 討論串</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/API/Broadcast_Channel_API">MDN</a> 進一步了解BroadcastChannel API。亦可到 gecko<a href="https://github.com/mozilla/gecko-dev/tree/master/dom/broadcastchannel">原始碼</a>找到此 API 的程式碼與測試頁面。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/02/broadcastchannel-api-in-firefox-38/">BroadcastChannel API in Firefox 38</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20200927090209id_/https://blog.mozilla.com.tw/?p=7083">Wayback snapshot</a>
+              <span>Post ID: 7083</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>檢測網站的安全性與隱私設定 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">檢測網站的安全性與隱私設定</h2>
+            <p class="entry-posted"><time datetime="2015-11-09" class="published"><span class="posted-month">11月</span><span class="posted-date">9</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><h4>檢測網站的內容安全性政策</h4>
+<p>Mozilla 從 Firefox 41 開始的開發者工具，就讓使用者能夠檢測網站的安全性設定。GCLI (Graphic Command Line Interface) 可用以檢驗網站的<a href="https://www.w3.org/TR/CSP/">內容安全性政策 (Content Security Policy，CSP)</a>。CSP 安全規範可供網站保護自己免受跨網站指令碼 (Cross-site scripting，XSS) 以及類似的攻擊。CSP 更可讓網站作者列出安全名單，確保能安全載入相關資源。瀏覽器可強制要求 CSP 標頭並讓網站僅載入安全名單之內的資源。只要在 CSP 檢測工具中鍵入「security csp」，即可列出所有的安全名單網站。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/%E8%9E%A2%E5%B9%95%E5%BF%AB%E7%85%A7-2015-11-04-%E4%B8%8B%E5%8D%882.22.01.png" alt="" loading="lazy"></p>
+<p>CSP 主要是用以保護網站免受 XSS 攻擊，但是防護機制又必須允許支援網站上的舊程式碼。舉例來說，在讓網站轉用 CSP 時，關鍵字「unsafe-inline」本用以支援舊的行內指令碼 (Inline script)。這組關鍵字將允許網站的所有行內指令碼，但同時也可能允許執行惡意指令碼，如此就讓 CSP 無法有效防範大多數的 XSS 攻擊行為。因此 CSP 開發工具不僅會列出所有安全資源，也將評比各組安全資源以明列防護等級。</p>
+<h4>檢測網站的參照位址政策</h4>
+<p>另從 Firefox 43 開始揭露了更多網站隱私設定，並讓使用者可檢視「參照位址政策 (Referrer Policy，RP)」中的「Security referrer」。參照位址政策可讓網站進一步控制瀏覽器的參照位址標頭。特別一提，此設定也能讓網站擁有者引導瀏覽器完全隱藏參照位址的資訊，並只有在相同網域上瀏覽時才會將之揭露。參照位址開發工具則提供範例，指出在瀏覽不同網站時所將使用的參照位址，讓使用者與開發者均可檢視在點下超連結之後送出了哪些資訊。</p>
+<p>說到為使用者提供某一網頁所使用的隱私設定，檢視 CSP 與 RP 只不過是最基礎的入門。我們希望未來能添增更多工具，讓使用者能進一步掌握網站的安全與隱私性。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/10/inspecting-security-and-privacy-settings-of-a-website/">Inspecting Security and Privacy Settings of a Website</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Privacy</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Privacy</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824010456id_/https://blog.mozilla.com.tw/?p=8084">Wayback snapshot</a>
+              <span>Post ID: 8084</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

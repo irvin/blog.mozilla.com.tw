@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>WebRTC 相關縮寫名詞簡介 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">WebRTC 相關縮寫名詞簡介</h2>
+            <p class="entry-posted"><time datetime="2013-07-25" class="published"><span class="posted-month">7月</span><span class="posted-date">25</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p>從我開始鑽研 WebRTC 以來，已經收錄了一堆專有名詞的縮寫，讓我想乾脆寫篇文章來說明別人向我提出的問題。我常開玩笑：如果你遇到任何你不知道意思的縮寫，可能只要先查網路通訊協定就找到答案了！</p>
+<h3>ICE 是什麼？</h3>
+<p><a href="https://en.wikipedia.org/wiki/Interactive_Connectivity_Establishment">互動式連結建立 (Interactive Connectivity Establishment，ICE)</a> 是可讓網路瀏覽器連上端點的框架。有很多原因會導致無法建立Peer A 與 Peer B 的直接連線。若連線遭遇到阻擋開放連線的防火牆，可透過 ICE 越過防火牆。在大多數情況下，你的裝置都沒有公用的 IP 位址，也能讓 ICE 提供專屬位址。如果你的路由器無法直接連上端點，同樣能藉由 ICE 讓中介伺服器轉發資料。ICE 會使用下列某些技術而達到相關功能：</p>
+<h3>STUN 是什麼？</h3>
+<p><a href="https://en.wikipedia.org/wiki/STUN">NAT 會話傳輸應用程序 (Session Traversal Utilities for NAT，STUN)</a> (縮寫之內還有縮寫) 屬於一種通訊協定，可找到你的公用位址，並判斷你的路由器是否會限制直接連上端點。</p>
+<p>用戶端將送出請求到 STUN 伺服器，而 STUN 伺服器會回傳用戶端的公用位址，並藉以得知路由器 NAT 背後的用戶端是否連上公用網路。</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/webrtc-stun.png"><img src="../../assets/3261/wp-content/uploads/webrtc-stun-205x300.png" alt="webrtc-stun" loading="lazy"></a></p>
+<h3>NAT 是什麼？</h3>
+<p><a href="https://en.wikipedia.org/wiki/NAT">網路位址轉換 (Network Address Translation，NAT)</a> 可為你的裝置提供公用 IP 位址。路由器具備公用 IP 位址，而連上路由器的所有裝置則具備私有 IP 位址。接著針對請求，從裝置的私有 IP 對應到路由器的公用 IP 與專屬的通訊埠。如此一來，各個裝置不需佔用專屬的公用 IP，亦可在網路上被清楚識別。</p>
+<p>即使透過 STUN 伺服器取得公用 IP 位址，也不一定能建立連線。某些路由器會限制我們連接這些裝置。這種情況就必須使用 TURN。</p>
+<h3>TURN 是什麼？</h3>
+<p>某些路由器會透過 NAT 佈署所謂的「Symmetric NAT」限制。也就是說，路由器只會接受你之前曾連線過的端點所建立的連線。</p>
+<p><a href="https://en.wikipedia.org/wiki/TURN">Traversal Using Relays around NAT (TURN)</a> 就是透過 TURN 伺服器開啟連線並轉送所有資訊，進而繞過 Symmetric NAT 的限制。你可透過 TURN 伺服器建立連線，再告知所有端點傳送封包至該伺服器，最後讓伺服器轉送封包給你。這個方法更耗時且更佔頻寬，因此在沒有其他替代方案時才會使用這個方法。</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/webrtc-turn.png"><img src="../../assets/3261/wp-content/uploads/webrtc-turn.png" alt="webrtc-turn" loading="lazy"></a></p>
+<h3>SDP 是什麼？</h3>
+<p><a href="https://en.wikipedia.org/wiki/Session_Description_Protocol">會話描述協定 (Session Description Protocol，SDP)</a> 屬於一種標準，用以描述連線所傳遞的多媒體內容 (如編碼、格式、加密、解析度等)。在傳輸資料前，可讓兩邊端點了解彼此的內容格式。因此 SDP 的內容為後設資料 (Metadata)，而非媒體內容。</p>
+<h3>Offer/Answer 與 Signal Channel 是什麼？</h3>
+<p>WebRTC 必須透過某種中介伺服器才能建立連線，而我們稱這種媒介為「訊號通道 (Signal Channel)」。也就是說，在建立連線之前，會先透過訊號通道交換建立連線所需的資訊。</p>
+<p>我們所要交換的資訊就是「Offer」與「Answer」，而其內容就是上述的 SDP。</p>
+<p>當 Peer A 設立連線時，就會建立 Offer。接著會透過選定的訊號通道將此 Offer 傳送給 Peer B。在 Peer B 收到訊號通道傳來的 Offer 之後，就會建立 Answer，並透過同樣的訊號通道將 Answer 回傳給 Peer A。</p>
+<h3>ICE Candidate 是什麼？</h3>
+<p>如上所述，Offer/Answer 與 SDP 用以交換多媒體的格式內容；ICE candidate 則用以交換網路連線的建立方式，並可說明端點溝通的方法 (直接通訊，或透過 TURN 伺服器通訊)。</p>
+<h3>圖解完整的交換作業</h3>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/webrtc-complete-diagram.png"><img src="../../assets/3261/wp-content/uploads/webrtc-complete-diagram-300x261.png" alt="webrtc-complete-diagram" loading="lazy"></a></p>
+<p>###</p>
+<p>原文鏈結：<a href="https://hacks.mozilla.org/2013/07/webrtc-and-the-ocean-of-acronyms/">https://hacks.mozilla.org/2013/07/webrtc-and-the-ocean-of-acronyms/</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Firefox OS</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Firefox OS</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824003748id_/https://blog.mozilla.com.tw/?p=3261">Wayback snapshot</a>
+              <span>Post ID: 3261</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

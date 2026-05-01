@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>該如何寫出更好的軟體？─ 系列訪談之二 (上) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">該如何寫出更好的軟體？─ 系列訪談之二 (上)</h2>
+            <p class="entry-posted"><time datetime="2014-10-02" class="published"><span class="posted-month">10月</span><span class="posted-date">2</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>此為 Mozilla Hacks  部落格的新<a href="https://hacks.mozilla.org/category/interviews/">系列訪談</a>之二。</p>
+<h3>「身為開發者，該如何寫出更好的軟體？」</h3>
+<p>這個看似簡單的問題，答案絕不簡單。即使已擁有多年開發經驗，要寫出好的程式碼也不容易。幸好，Mozilla 社群擁有多位優秀的開發、品管、安全工程師。</p>
+<p>此系列文章，即是我訪談了其中幾位 Mozilla 菁英而得。</p>
+<h3>介紹 Brian Warner</h3>
+<p>我的主管第一次跟我提到這個訪談專案時，我腦海裡首先就想到 Brian。他可能不知道自己算是我剛加入 Mozilla 時的非正式導師之一。他是傑出的老師，也對安全方面有著獨到的專業能力。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/warner-closeup.jpg" alt="warner-closeup" loading="lazy"></p>
+<p>Brian 在 Mozilla 設計出新、舊兩代「Firefox Sync」同步功能的協定，也負責 Persona 的安全性。而在 Mozilla 之外，他也共同建構了《<a href="https://tahoe-lafs.org/trac/tahoe-lafs/">Tahoe-LAFS</a>》專案，並建立了「<a href="https://buildbot.net/">Buildbot</a>」。</p>
+<h3>你在 Mozilla 的工作為何？</h3>
+<p>我是「Cloud Services」團隊的安全工程師，負責分析並以不同方式開發通訊協定，進而能安全的管理密碼與帳戶資料。我也要審閱他人的程式碼，並檢查外部專案以決定是否能妥善整合。我必須時時留意安全漏洞 (如 0-days) 與問題，以及大家可能會用到的工具與演算法，避免有太多人受到影響。</p>
+<h3>使用者經驗對決安全性：這種二分法錯了嗎？某些人就是有「顧到安全，介面就難用」的印象</h3>
+<p>我常在想有沒有折衷辦法，就像除了 X 與 Y 軸之外，還要找到不經過原點的第三軸。而這取決於你想下多少功夫、你自己夠不夠聰明、是否願意研究並實驗使用者的行為。工程師一般都不注重這些東西，但是使用者經驗 (User Experience，UX) 團隊與心理學家卻會重視。我相信如果真的下足功夫，就會同時找到安全又好用的東西；但前提必須真的付出心血。</p>
+<p>秘訣就是先了解使用者的想法，並嘗試向他們解釋所應抉擇的安全設定，接著加入一般的工作流程中。這就像是把自己家裡的鑰匙交給鄰居，請他們在你外出度假時幫忙澆水；而你自己也很清楚你到底交出哪些門的鑰匙。</p>
+<p>目前我們所熟知的氛圍都是「我覺得你不該打備用鑰匙。而只要我取回鑰匙之後，你也就沒辦法再擁有我之前給過的權限」。其實一般正常生活總有一些模式，也包含我們因為某些社交活動所培養 (與電腦毫不相關) 的行為。我的秘訣之一就是透過這些行為模式，設想大家可能進行的工作，再想辦法讓電腦相關的事物都更貼近這些模式。</p>
+<p>其中的問題在於：因為不容易設想或架構出更好的東西，我們往往要求大家去做些很不自然的事情。以「密碼」為例，密碼基於許多理由其實是很煩人的驗證技術。而最常見的情形 (要執行某項權利) 之一，就是用來證明自己就是那個「可獲得這項權利的人」。白話一點就是「我要向你證明我知道這個秘密」，然後系統就回答「好的，告訴我這個秘密吧」。這種機制也造成其他問題，像是「該如何正確識別這個當下想取得權利的人」，也要確保「沒有別人在旁邊偷聽」。</p>
+<p>除了上面的情形之外，最完善的密碼應該交由電腦隨機產生，且這種密碼相對來說會是比較長的密碼，只要硬背還是可以死記起來。但程式也因此必須做更多工作。</p>
+<p>但如果你只有一組這樣的密碼，而且也只能用在自己的手機上，那麼手機就成為你管理所有網路事務的媒介了。與其要求使用者花更多精神去管理密碼，還不如用這種方式還比較方便些。很明顯的，手機等於你某方面的延伸，且用手機記住事情更簡單。整個系統你只需要記住一組密碼就能啟動系統，這不是簡單又直覺嗎？</p>
+<p>有些人喜歡一組密碼打通關，也有些人在偶一為之的情況下喜歡多花功夫。你平日在網上做的事尋常不過，但只要不小心弄丟手機，就必須跑去辦複雜的手續。這就像是你習慣在口袋裡裝夠用的現金，突然必須跑去銀行寫取款條領錢。</p>
+<p>我覺得這樣容易造成惡性循環。不是責怪使用者粗心，就是在未提供充足資訊的情況下，要求使用者做出一大堆決定；而且這些決定對使用者也沒什麼意義。</p>
+<h3>你覺得很多使用者根本不了解他們所做的決定，與後續造成的優缺點？</h3>
+<p>沒錯！而且我覺得系統常常問了不適當的問題。這也是一種不對等。就只是硬把某個人放在不舒服的狀態下，然後直接問對方喜歡 A 或 B 哪一項。這還不算粗魯嗎？</p>
+<p>我想到的另一個例子就是許可對話框，Windows 的對話框可當做代表。這種對話框常常出現在很基本的作業裡。好像你正要做某件瘋狂的事情，逼得系統不斷問你「確定嗎」。這種對話框應該詢問使用者的許可，但卻完全不解釋內容、理由，或後續結果。根本不能算一個「問題」，還比較像某種命令或最後通牒。如果你回答「不要」，你就根本沒辦法做事。如果回答「好」，系統就告訴你可能會發生不好的事情，接下來就都是你一手造成的。</p>
+<p>我們應該先讓使用者能獲得充分資訊再下決定。而不是先恐嚇使用者，反過來責怪受害者：「早跟你說會發生不好的事情。因為是你點擊了『確定』，你自己必須負全部責任」。使用者根本沒有足夠資訊，系統也設計得不夠完善，不足以執行必要的作業而避開惡意攻擊。</p>
+<h3>前陣子終於發表了新的「Sync」同步功能，但是其通訊協定卻是公開在討論區中供大家觀看。這不是跟所謂的「安全性」背道而馳嗎？你本來期待能完成什麼？</h3>
+<p>我本來想從討論串中獲得不一樣的東西。我把所有該說明的、該討論的都丟上去給大家看，這就是 Mozilla 開發軟體、開放源碼的方式。而且老實說我想不到其他更好的方法。</p>
+<p>我自己特別希望能獲得反饋意見，也讓大家幫忙找出基本的設計瑕疵，進而放心使用相關的安全特性，尤其新的 Sync 也修改了其中某些屬性。相較於密碼比對的方式，我們正進行某些改變。我希望使用者有時間了解這些變化，以及我們之所以改變的理由。因此我們攤開設計準則與限制，讓大家都能看到我們正轉換著密碼的使用方式，並滿足所有需求。這是我們對現有密碼安全機制盡力改進的地方。</p>
+<p>透過這種公開討論，也能吸引到更多有經驗的工程師加入。另有助於我確認自己開發的是正確且難以破解的專案。</p>
+<p>看到這裡，你是否對某些既有的印象與概念有所轉變了呢？接著《<a href="https://blog.mozilla.com.tw/posts/6421/">該如何寫出更好的軟體 ─ 系列訪談之二 (中)</a>》與《<a href="../../posts/6429/">(下)</a>》篇，將繼續為大家介紹「安全性」的其他概念。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/08/how-can-we-write-better-software-interview-series-part-2-with-brian-warner/">How can we write better software? – Interview series, part 2 with Brian Warner</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>系列訪談</span><span>Mozilla</span></div>
+            <div class="entry-tag-box">標籤：<span>Mozilla</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=6413">Wayback snapshot</a>
+              <span>Post ID: 6413</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

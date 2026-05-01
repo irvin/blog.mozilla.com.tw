@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>快把自己的 ZTE Open 升級到 Firefox 1.1 或 1.2 (已啟動 fastboot) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">快把自己的 ZTE Open 升級到 Firefox 1.1 或 1.2 (已啟動 fastboot)</h2>
+            <p class="entry-posted"><time datetime="2014-02-20" class="published"><span class="posted-month">2月</span><span class="posted-date">20</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p><img src="../../assets/4977/wp-content/uploads/FoxLove.jpg" alt="FoxLove" loading="lazy"></p>
+<p>如果你手上有 ZTE Open，你可能已經<a href="../../posts/4730/">根據這篇文章</a>把手機升級到 Firefox OS 1.1 了吧？如果你真的完成升級，應該也已經知道 ZTE 釋出的 1.1 版本有個問題：fastboot 根本無法啟動。只要你是因為這個問題而暫時未升級，現在就到 ZTE 的網站上取得新版 1.1 吧。</p>
+<p>依照你所購買的手機版本，必須另外注意該使用美國版 (US) 或英國版 (UK，也是歐洲版)的 Firefox OS。請先到 ZTE 支援網站的<a href="https://www.ztedevices.com/support/smart_phone/b5a2981a-1714-4ac7-89e1-630e93e220f8.html">美國版</a>或<a href="https://www.ztedevices.com/support/smart_phone/cba40ed6-d3ab-44c0-bdee-3a15803dc187.html">英國版</a>之一，進入「Downloads」分頁即可下載檔案。所下載的壓縮檔案即內含軟體升級說明文件。或可參閱我們<a href="../../posts/4730/">之前提供的說明</a>。</p>
+<h3>升級到 Firefox 1.2</h3>
+<p>Mozilla 很高興宣佈 ZTE 日前也提供 Firefox OS 1.2 版本了。如果你想跟著升級到 1.2 版，就必須先安裝正確的 1.1 版 (就是正確啟動了 fastboot 的版本；或是正確啟動 fastboot 的舊版 OS 也可)。接著你必須確認能以 USB 建立手機與電腦之間的連線。<a href="../../posts/3732/">本篇文章</a>則說明應如何針對 USB 連線而設定 Windows、Linux、Mac 等裝置 (如果你想在開發期間將 App 送進手機，就必須完成特定幾項條件)。</p>
+<p>最後必須在自己的桌機上安裝 <a href="https://developer.android.com/sdk/index.html">Android Developer Toolkit</a>，並透過此工具包取得 fastboot。你不需安裝完整工具包，只要將 /platform-tools/ 資料夾下的 adb 與 fastboot 複製到 Linux 或Mac OS X 裡的 /usr/bin 下即可；或者將其他資料夾新增至 $PATH 之後，亦可將此二者複製到該資料夾下。</p>
+<p>在正確設定自己的手機與桌上型電腦之後，就用 USB 線銜接手機與電腦，並在主控台 (即Windows 的命令提示字元視窗) 中透過下列指令重新開機：</p>
+<p>fastboot reboot</p>
+<p>					1</p>
+<p>						fastboot reboot</p>
+<p>如果手機可自行重新開機，就能順利進行升級作業了。接著透過 ZTE 的 Dropbox 帳戶下載<a href="https://www.dropbox.com/sh/rnj3rja7gd54s98/32KXfFmedN/P752D04_DEV_US_20131212_v1.2.7z">美國版</a>或<a href="https://www.dropbox.com/sh/rnj3rja7gd54s98/_twgXEkMFH/P752D04_DEV_EU_20131212_v1.2.7z">英國版</a>。如果你正使用 Windows，亦可<a href="https://www.dropbox.com/sh/rnj3rja7gd54s98/6ZoJwmlRjn/Installation%20Instruction.docx">下載特定說明</a>以及<a href="https://www.dropbox.com/sh/rnj3rja7gd54s98/-fyi2XHFPG/upgrade_tool">升級工具</a>，讓自己輕鬆安裝新版作業系統。但本篇文章所提的步驟可適用於所有作業系統 ─ Linux、OS X、Windows，且不需其他的特殊工具。</p>
+<p>下載檔案之後，即可將檔案解壓縮並開啟主控台。請注意這些步驟均會清除你的個人資料，所以請確實先行備份，再找到上述檔案所在的資料夾。同樣請於主控台中鍵入以下指令：</p>
+<p>adb reboot bootloader</p>
+<p>					1</p>
+<p>						adb reboot bootloader</p>
+<p>這時等手機重新開機即可。在重新開機期間，可執行下列指令：</p>
+<p>fastboot flash boot boot.img<br>fastboot flash userdata userdata.img<br>fastboot flash system system.img<br>fastboot flash recovery recovery.img<br>fastboot erase cache<br>fastboot reboot</p>
+<p>					123456</p>
+<p>						fastboot flash boot boot.imgfastboot flash userdata userdata.imgfastboot flash system system.imgfastboot flash recovery recovery.imgfastboot erase cachefastboot reboot</p>
+<p><img src="../../assets/4977/wp-content/uploads/ZteOpen1.2.png" alt="升級之後即可看到軟體版號" loading="lazy"><br>升級之後即可看到軟體版號</p>
+<p>如果一切順利，那你的手機這時應該重新開機了。你可發現 ZTE 提供的 1.2 版還包含許多測試用 App。就依照自己的喜好決定是否留用吧。</p>
+<p>恭喜！現在你的手機已經執行 Firefox OS 1.2 版了！現在即可享受最新版 Firefox OS 所有已修復的錯誤、<a href="https://www.mozilla.org/en-US/firefox/os/notes/1.2/">給使用者的新功能</a>、<a href="https://developer.mozilla.org/en-US/Firefox_OS/Releases/1.2">給開發者的新功能</a>。</p>
+<p>如果你對升級作業有任何問題，歡迎到 <a href="https://stackoverflow.com/questions/tagged/firefox-os">StackOverflow Q&amp;A</a> 上提出你的疑問。你將享有數千名開發者的專業意見，包含我們的技術傳教士團隊在內都樂於為大家釋疑。</p>
+<h3>2014-02-05 更新</h3>
+<p>由於某些使用者在升級到 1.2 之後遇到開機問題，因此我們修改了特定步驟。也有使用者反應說 fastboot 測試 (fastboot 重新開機) 無法運作，但卻仍可執行指令碼；這點我就無法確認了。只能請大家多多嘗試並讓我們知道結果。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/01/upgrading-your-zte-open-to-firefox-1-1-or-1-2-fastboot-enabled/">Upgrading your ZTE Open to Firefox 1.1 or 1.2 (fastboot enabled)</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824003950id_/https://blog.mozilla.com.tw/?p=4977">Wayback snapshot</a>
+              <span>Post ID: 4977</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

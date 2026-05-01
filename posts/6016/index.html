@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>用 Firefox Hub 附加元件自創 Firefox for Android 分頁面板 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">用 Firefox Hub 附加元件自創 Firefox for Android 分頁面板</h2>
+            <p class="entry-posted"><time datetime="2014-07-30" class="published"><span class="posted-month">7月</span><span class="posted-date">30</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>Firefox for Android 首頁一般均供使用者找到自己最常用的網站、書籤、瀏覽記錄等，而附加元件可透過 Firefox Hub API 在 Firefox for Android 首頁上新增面板。這些 API 已於 Firefox 30 中登場，更在 Firefox 31 與 32 時添增了更多功能並修復錯誤。現可至 <a href="https://addons.mozilla.org/en-US/firefox/collections/leibovic/home-panels/">addons.mozilla.org 找到其中幾款附加元件</a>，另可透過 <a href="https://github.com/leibovic/hub-boilerplate">github 上的範例程式碼</a>協助自己入門。</p>
+<p><img src="../../assets/6016/wp-content/uploads/image01.png" alt="image01" loading="lazy"></p>
+<p><img src="../../assets/6016/wp-content/uploads/image00.png" alt="image00" loading="lazy"></p>
+<h4>概述</h4>
+<p>Firefox Hub 附加元件的開發作業主要可分為 1). 建構首頁面板，以及 2). 儲存資料以顯示於面板上。首頁面板是由不同的視圖 (View) 所組成，而各視圖呈現的資料均取自於已儲存的資料集。</p>
+<h4>建立新的首頁面板</h4>
+<p>要建立首頁面板，必須先透過 <a href="https://developer.mozilla.org/en-US/Add-ons/Firefox_for_Android/API/Home.jsm/panels">Home.panels API</a> 註冊面板。這裡需要一組面板識別碼，以及一組用以回傳設定值的回呼函式 (Options callback) 作為註冊 API 的參數。不論是安裝或更新面板，都將呼叫此回呼函式並動態產生一組設定值物件，如此即可支援動態切換語系。</p>
+<p>function optionsCallback() {<br>  return {<br>    title: &quot;My Panel&quot;,<br>    views: [{<br>      type: Home.panels.View.LIST,<br>      dataset: &quot;my.dataset@mydomain.org&quot;<br>    }]<br>  };<br>}</p>
+<p>Home.panels.register(&quot;my.panel@mydomain.org&quot;, optionsCallback);</p>
+<p>					1234567891011</p>
+<p>						function optionsCallback() {  return {    title: &quot;My Panel&quot;,    views: [{      type: Home.panels.View.LIST,      dataset: &quot;my.dataset@mydomain.org&quot;    }]  };} Home.panels.register(&quot;my.panel@mydomain.org&quot;, optionsCallback);</p>
+<p>任何起始頁上的現有面板都需要註冊。若是第一次要讓面板實際出現在使用者的首頁上 (例如剛安裝了附加元件時)，還必須明確呼叫安裝函式，以順利安裝面板。</p>
+<p>Home.panels.install(&quot;my.panel@mydomain.org&quot;);</p>
+<p>					1</p>
+<p>						Home.panels.install(&quot;my.panel@mydomain.org&quot;);</p>
+<p>另可修改上述的回呼函式，以自訂面板顯示資料的方式。舉例來說，你可選擇要以網格或清單的方式顯示資料；在無資料時，可自訂所要顯示的視圖；在使用者點選項目之一時，可啟動「intent (於 Android 內使用，可呼叫不同 App 的協定)」。</p>
+<h4>儲存面板的資料</h4>
+<p>若要在新的首頁面板顯示圖像，就必須透過 <a href="https://developer.mozilla.org/en-US/Add-ons/Firefox_for_Android/API/HomeProvider.jsm">HomeProvider API</a> 儲存資料。此 API 可非同步儲存或刪除資料；亦可註冊回呼，以利瀏覽器定期同步你的資料。</p>
+<p>HomeProvider API 亦可讓開發者存取 <a href="https://developer.mozilla.org/en-US/Add-ons/Firefox_for_Android/API/HomeProvider.jsm/HomeStorage">HomeStorage</a> 物件，以從既有的資料集內儲存或刪除資料。這些函式均是為了搭配 <a href="https://developer.mozilla.org/en-US/docs/Mozilla/JavaScript_code_modules/Task.jsm">Task.jsm</a> 所設計，可於工作 (Task) 中執行非同步交易 (Asynchronous transaction)。</p>
+<p>let storage = HomeProvider.getStorage(&quot;my.dataset@mydomain.org&quot;);<br>Task.spawn(function() {<br>  yield storage.save(items);<br>}).then(null, Cu.reportError);</p>
+<p>					1234</p>
+<p>						let storage = HomeProvider.getStorage(&quot;my.dataset@mydomain.org&quot;);Task.spawn(function() {  yield storage.save(items);}).then(null, Cu.reportError);</p>
+<p>Firefox 31 則擴充了儲存 API，可支援現有資料的取代作業，以定期重新整理開發者的資料集。</p>
+<p>function refreshDataset() {<br>  let items = fetchItems();<br>  Task.spawn(function() {<br>        yield storage.save(items, { replace: true });<br>  }).then(null, Cu.reportError);<br>}</p>
+<p>HomeProvider.addPeriodicSync(&quot;my.dataset@mydomain.org&quot;, 3600, <br>refreshDataset);</p>
+<p>					123456789</p>
+<p>						function refreshDataset() {  let items = fetchItems();  Task.spawn(function() {        yield storage.save(items, { replace: true });  }).then(null, Cu.reportError);} HomeProvider.addPeriodicSync(&quot;my.dataset@mydomain.org&quot;, 3600, refreshDataset);</p>
+<p>此程式碼片段可確實每隔 3600 秒 (亦即 1 小時) 重新整理資料集一次。</p>
+<h4>Firefox 32 測試版 (Beta) 的新功能</h4>
+<p>Firefox 32 除了修復錯誤之外，另針對 Firefox Hub API 集合而新增多項功能。</p>
+<h4>Refresh 處理器</h4>
+<p>除了可定期更新資料之外，現亦新支援「下拉以重新整理資料 (Pull to refresh)」，讓使用者能手動更新面板資料。只要將 onrefresh 屬性加到視圖的定義 (Declaration) 之中，即可使用此功能。</p>
+<p>function optionsCallback() {<br>  return {<br>    title: &quot;My Panel&quot;,<br>    views: [{<br>      type: Home.panels.View.LIST,<br>      dataset: &quot;my.dataset@mydomain.org&quot;,<br>      onrefresh: refreshDataset<br>    }]<br>  };<br>}</p>
+<p>					12345678910</p>
+<p>						function optionsCallback() {  return {    title: &quot;My Panel&quot;,    views: [{      type: Home.panels.View.LIST,      dataset: &quot;my.dataset@mydomain.org&quot;,      onrefresh: refreshDataset    }]  };}</p>
+<p>在添增這行程式碼之後，只要下拉面板就會觸發更新指示器 (Refresh indicator) 並呼叫 refreshDataset 函式。在針對該資料集做出 save 呼叫之後，更新指示器隨即消失。</p>
+<h4>認證視圖</h4>
+<p>Mozilla 另新支援了認證 (Authentication) 視圖，讓附加元件能更輕鬆使用需認證的資料。此視圖另為文字與圖像保留了空間，並有按鈕可觸發認證流程。只要將 auth 屬性添增到面板的定義之中，即可使用此功能。</p>
+<p>function optionsCallback() {<br>  return {<br>    title: &quot;My Panel&quot;,<br>    views: [{<br>      type: Home.panels.View.LIST,<br>      dataset: &quot;my.dataset@mydomain.org&quot;<br>    }],<br>    auth: {<br>     authenticate: function authenticate() {<br>        // … do some stuff to authenticate the user …<br>       Home.panels.setAuthenticated(&quot;my.panel@mydomain.org&quot;, true);<br>     },<br>     messageText: &quot;Please log in to see your data&quot;,<br>     buttonText: &quot;Log in&quot;<br>   }<br>  };<br>}</p>
+<p>					1234567891011121314151617</p>
+<p>						function optionsCallback() {  return {    title: &quot;My Panel&quot;,    views: [{      type: Home.panels.View.LIST,      dataset: &quot;my.dataset@mydomain.org&quot;    }],    auth: {     authenticate: function authenticate() {        // … do some stuff to authenticate the user …       Home.panels.setAuthenticated(&quot;my.panel@mydomain.org&quot;, true);     },     messageText: &quot;Please log in to see your data&quot;,     buttonText: &quot;Log in&quot;   }  };}</p>
+<p>依預設值，只要首次安裝面板之後，隨即就會出現認證視圖。且只要使用者按下視圖中的按鈕，就會呼叫認證函式。你可決定在使用者成功完成認證流程之後，呼叫 setAuthenticated(true)；或在使用者變成未認證的狀態 (如登出) 時，呼叫 setAuthenticated(false)。在 App 執行期間，此認證狀態均將保持不變。開發者另可依自己需要而重設該狀態。</p>
+<h4>未來規劃</h4>
+<p>我們已經在規劃擴充這些 API，也希望能得到大家的想法與意見！我們也在尋找能新加入Firefox for Android 的貢獻者，能<a href="https://wiki.mozilla.org/Mobile/Get_Involved">從撰寫修正檔入門</a>最好！</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/07/building-firefox-hub-add-ons-for-firefox-for-android/">Building Firefox Hub Add-ons for Firefox for Android</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox for Android</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox for Android</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824000326id_/https://blog.mozilla.com.tw/?p=6016">Wayback snapshot</a>
+              <span>Post ID: 6016</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

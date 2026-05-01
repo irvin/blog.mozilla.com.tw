@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>翻譯 Firefox OS Apps (上集) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">翻譯 Firefox OS Apps (上集)</h2>
+            <p class="entry-posted"><time datetime="2013-08-29" class="published"><span class="posted-month">8月</span><span class="posted-date">29</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p>Firefox OS Apps 現正於全世界刮起旋風 ─ 西班牙、波蘭、哥倫比亞、委內瑞拉，還有更多國家會跟進。所以你也該讓自己的 Apps 擁有不同語言了。本著Open Web 的開放特性，同樣有許多框架與技術可翻譯 Apps。像 <a href="https://slexaxton.github.io/Jed/">Jed</a> 提供的 Gettext-style 函式庫就是常見工具。而許多開發中的新翻譯平台亦可擴充現有函式庫的功能。Mozilla 現正執行 <a href="https://wiki.mozilla.org/L20n">Localization 專案</a>，將透過多樣的新編譯功能而延伸 L10n 的範圍。你可加入<a href="https://groups.google.com/forum/#%21forum/mozilla.tools.l10n">「Tools 群組」</a>進一步了解。</p>
+<p>本篇將透過目前已佈署於 <a href="https://github.com/mozilla-b2g/gaia">Gaia</a> 階段的函式庫，完成 Firefox OS Apps 的多語翻譯程序。由於 Gaia 已包含 Firefox OS 內建的所有 Web Apps，當然也包含電話撥號 (Dialer) 與聯絡人資訊管理 (Contacts Manager) 功能，因此 Gaia 就是絕佳的模擬模型。若要使用 Gaia 進行模擬，就必須先知道函式庫的某些功能並無法相容跨瀏覽器的環境 (例如 l10n_date.js 即使用非標準的 toLocaleFormat 函式)。當然，未來 Gaia 亦將朝 L20n 邁進。</p>
+<h3>L10n.js</h3>
+<p>目前 Firefox OS Gaia 則使用 Fabien Cazenave 提供的 <a href="https://github.com/fabi1cazenave/webL10n">L10n.js</a> 函式庫修改版本，可翻譯 Firefox OS 中的預設 Apps。另可於 Gaia 的<a href="https://github.com/mozilla-b2g/gaia/blob/master/shared/js/l10n.js">原始碼</a>中找到此函式庫。此函式庫是以屬性格式的鍵 (Key)/值 (Value) 為基礎。L10n.js 剖析器 (Parser) 亦可支援匯入規則，以利於用戶端選擇語言。預設 Gaia Apps 將以 ini 檔案指定翻譯檔案，並以鏈結標籤的方式載入 ini 檔案。</p>
+<p>這裡以檔案傳輸用的 Bluetooth App 為例，其語系檔 (Properties file) 的結構則如下圖所示：</p>
+<p><img src="../../assets/3689/wp-content/uploads/bluetooth.png" alt="bluetooth" loading="lazy"></p>
+<p>此 App 包含 4 種語言 (ar、en-US、fr、zh-TW) 的語系檔。而部分的 en-US 語系檔另列於下：</p>
+<p>bluetooth = Bluetooth<br>confirmation = Confirmation<br>bluetooth-status-description = Bluetooth is disabled<br>turn-bluetooth-on = Do you want to turn Bluetooth on?<br>cancel = Cancel<br>turn-on = Turn On</p>
+<p>					123456</p>
+<p>						bluetooth = Bluetoothconfirmation = Confirmationbluetooth-status-description = Bluetooth is disabledturn-bluetooth-on = Do you want to turn Bluetooth on?cancel = Cancelturn-on = Turn On</p>
+<p>如你所見，這些都是簡單的鍵/值語系檔，並包含可翻譯的字串。所有檔案均儲存於 Bluetooth App 的「locales」目錄中。此外，該資料夾亦具備 locales.ini 檔案，內容如下：</p>
+<p>@import url(bluetooth.en-US.properties)</p>
+<p>[ar]<br>@import url(bluetooth.ar.properties)</p>
+<p>[fr]<br>@import url(bluetooth.fr.properties)</p>
+<p>[zh-TW]<br>@import url(bluetooth.zh-TW.properties)</p>
+<p>					12345678910</p>
+<p>						@import url(bluetooth.en-US.properties) [ar]@import url(bluetooth.ar.properties) [fr]@import url(bluetooth.fr.properties) [zh-TW]@import url(bluetooth.zh-TW.properties)</p>
+<p>此 ini 檔案即根據 Apps 使用者的語言，指定所應載入的語系檔；且該 ini 檔案亦列出所有可支援的多國語言。且在此範例中，如果未提供使用者所屬的語言，則 en-US 語系檔將為預設語言。透過下列鏈結標籤的語法，即可載入此 ini 檔案。</p>
+<p>&lt;link rel=&quot;resource&quot; type=&quot;application/l10n&quot; href=&quot;locales/locales.ini&quot; /&gt;</p>
+<p>					1</p>
+<p>						&lt;link rel=&quot;resource&quot; type=&quot;application/l10n&quot; href=&quot;locales/locales.ini&quot; /&gt;</p>
+<p>若「rel」屬性設為「prefetch」，即可預先載入 ini 檔案而提升效能。</p>
+<h3>L10n 元素屬性</h3>
+<p>接著新增 1 組 data-l10n-id 屬性 (語系檔中所定義的鍵值)，藉以定義需翻譯的元素。若以需要翻譯的標頭為例，應如下列：</p>
+<p>&lt;h2 data-l10n-id=&quot;label1&quot;&gt;Label One&lt;/h2&gt;</p>
+<p>					1</p>
+<p>						&lt;h2 data-l10n-id=&quot;label1&quot;&gt;Label One&lt;/h2&gt;</p>
+<p>屬性「label1」的值，即作為語系檔中的鍵值。而透過參數替換 (Argument substitution) 與複數巨集 (Plural macro)，即可於語系檔中建立複雜字串。</p>
+<h3>參數替換</h3>
+<p>用雙大括弧包住參數 ─ 如 {{arg}} ─ 即完成參數替換。另透過如下的類似語法，亦可針對特定使用者而自訂訊息：</p>
+<p>loginmessage = Hello {{user}}, glad you decided to visit</p>
+<p>					1</p>
+<p>						loginmessage = Hello {{user}}, glad you decided to visit</p>
+<p>而透過 data-l10n-args 屬性，亦可設定參數的預設值。此屬性本為 JSON 格式的預設數值。在上述範例中，另可使用下列 HTML 設定使用者參數的預設值：</p>
+<p>&lt;h2 data-l10n-id=&quot;label1&quot; data-l10n-args=&#39;{ &quot;user&quot;: &quot;Guest&quot; }&#39;&gt;Label One&lt;/h2&gt;</p>
+<p>					1</p>
+<p>						&lt;h2 data-l10n-id=&quot;label1&quot; data-l10n-args=&#39;{ &quot;user&quot;: &quot;Guest&quot; }&#39;&gt;Label One&lt;/h2&gt;</p>
+<h3>複數巨集</h3>
+<p>根據參數值，可透過複數巨集來自訂訊息。此巨集將使用 1 組數字數值並回傳 zero、one、two、few、many、other 等值。根據傳入的數值與目前 <a href="https://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html">Unicode Plural Rules</a> 的不同，其回傳值亦將有所差異。舉例來說，針對 en-US 所自訂的郵件訊息可能如下：</p>
+<p>mailMessage = {[ plural(n) ]}<br>mailMessage[zero]  = you have no messages<br>mailMessage[one]   = you have one message <br>mailMessage[two]   = you have two messages <br>mailMessage[other] = you have {{n}} messages</p>
+<p>					12345</p>
+<p>						mailMessage = {[ plural(n) ]}mailMessage[zero]  = you have no messagesmailMessage[one]   = you have one message mailMessage[two]   = you have two messages mailMessage[other] = you have {{n}} messages</p>
+<p>&lt;h3 data-l10n-id=&quot;mailMessage&quot; data-l10n-args=&#39;{ &quot;n&quot;: &quot;1&quot; }&#39;&gt;Mail Message&lt;/h3&gt;</p>
+<p>					1</p>
+<p>						&lt;h3 data-l10n-id=&quot;mailMessage&quot; data-l10n-args=&#39;{ &quot;n&quot;: &quot;1&quot; }&#39;&gt;Mail Message&lt;/h3&gt;</p>
+<p>《未完待續》</p>
+<p>原文鏈結：<a href="https://hacks.mozilla.org/2013/08/localizing-firefox-os-apps/">https://hacks.mozilla.org/2013/08/localizing-firefox-os-apps/</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824004607id_/https://blog.mozilla.com.tw/?p=3689">Wayback snapshot</a>
+              <span>Post ID: 3689</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

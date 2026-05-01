@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Firefox OS 動畫原力的黑暗面 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Firefox OS 動畫原力的黑暗面</h2>
+            <p class="entry-posted"><time datetime="2015-05-07" class="published"><span class="posted-month">5月</span><span class="posted-date">7</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p>我每天使用 Firefox OS 已有數年 (真是時光飛逝)。而 Firefox OS 也確實透過如「<a href="https://blog.mozilla.com.tw/posts/7148">絲綢 (Silk)</a>」專案的努力，正穩定提升其效能。但我注意到使用者介面 (UI) 方面的進度似乎有點落後，可能是因為目前均未達到 Android 與 iOS 裝置都習以為常的「旗艦級硬體」吧？</p>
+<p>我在去年打造出 Firefox OS 的 Nexus 4 版本，而且也當做我日常的主力手機在用。我很快就發現：即使搭配較高階的硬體，就算某些不是很吃運算資源的小作業，有時還是得等待 Firefox OS 進行基本的互動。我又轉到 Nexus 5 與 Sony Z3 Compact (這兩款手機的硬體規格都比 Nexus 4 來得高) 上測試，也一樣得到相同的結果。</p>
+<p>時間過了，挫折感更重，莫名的恐懼也油然而生……</p>
+<h4>跑跑數字吧</h4>
+<p>拜讀了 <a href="https://twitter.com/i_am_ralpht">Ralph Thomas</a> 有關<a href="https://iamralpht.github.io/physics/">以物理模式建構動畫</a>的文章之後，我開始想能不能在 Firefox OS 中建構動畫，且又會牽涉哪些問題呢？所以我檢查了不同動畫實例的數量，並依照其動畫播放時間分組。我拿掉了進度指示器以及如開＼關機等的動畫。以下就是 Firefox OS 中的動畫轉換 (如縮放、開啟、關閉、滑動等轉換互動) 時間，其後是該播放時間的動畫數量：</p>
+<ul><li>0.1s: 15</li></ul>
+<ul><li>0.2s: 57</li></ul>
+<ul><li>0.3s: 79</li></ul>
+<ul><li>0.4s: 40</li></ul>
+<ul><li>0.5s: 78</li></ul>
+<ul><li>0.6s: 8</li></ul>
+<p>從這裡可以看出幾個特色。第一，動畫播放時間不一，觸及範圍算蠻廣的。其二，絕大多數的動畫長度都超過 300ms！</p>
+<p>其中約有超過 80 組動畫會讓使用者等待超過 0.5 秒。就是這些緩慢的動畫<a href="https://www.youtube.com/watch?v=dK_OKGELcn0&amp;t=140">拖慢了我們的時間</a>，也讓人感覺 Firefox OS 整體效能不佳。</p>
+<h4>怎麼會這樣？</h4>
+<p>Firefox OS 的使用者經驗 (UX) 與互動設計師，並沒有擠在一個房間內刻意打造緩慢的互動方式。當然也沒有動畫工程師會想「再放慢一點，這樣才比較所回應的感覺」。大家都想快一點。</p>
+<p>我自己的理解是：因為設計師每次都是建構單一的互動，所以在設計＼建構時根本不會有「慢」的感覺。而我在建構動畫時，會注重其流暢性、單一動作的美學、如何運用視覺效果來強化手上的工作，接著就是重複動畫一段時間，直到獲得正確的效果為止。</p>
+<p>下方截圖即是由 <a href="https://twitter.com/gordonbrander">Gordon Brander</a> 所撰寫，亦為我們現有 <a href="https://mozilla.app.box.com/s/aww17rx74k7fjds5vada">Firefox OS 反應性與使用者感知效果的指南</a> (點擊圖片可觀看較清楚的版本)。但此指南並未提及「因 (觸發動作)」、「果 (後續作業)」初期感知之間的間隔 (Sub-second period)，亦未提及使用者介面 (UI) 的下個可操作狀態。</p>
+<p><a href="https://hacks.mozilla.org/files/2015/04/Screenshot-2015-04-18-09.38.10.png"><img src="../../assets/7423/wp-content/uploads/Screenshot-2015-04-18-09.38.10.png" alt="Screenshot-2015-04-18-09.38.10" loading="lazy"></a></p>
+<p>與開發者＼設計師相較，使用者所得到的經驗又全然不同。不論是傳送文字訊息、透過相機擷取美妙片刻、輸入自己的使用者名稱與密碼，或是要一次上傳一堆圖像，都必須逐一完成我們的動畫流程。簡單來說，使用者就是要離開 A 地到 B 地，就是要完成某個作業……嗯，其實不只一個作業。根據英國 Tecmark 在去年十月所做的研究，大家每天都透過智慧型手機完成 <a href="https://www.tecmark.co.uk/smartphone-usage-data-uk-2014/">221 項作業</a> (加總整個流程中會遇到的所有動畫)。我蒐集了 <a href="https://developer.mozilla.org/en-US/Firefox_OS/Developing_Gaia">Gaia</a> 中長達 300ms 的共 203 組動畫，而再超過這時間就會造成我前面所說的緩慢感覺了。</p>
+<h4>讓整體感覺更快</h4>
+<p>所以我想將 Gaia 中的動畫時間縮短至 200ms，從而測試這項研究結果。後來呢？Firefox OS 的確感覺反應得更快了。光是切換各個作業並瀏覽 OS 內的選項，都感覺更快而不停頓。相機很快就進入可拍照狀態，打字更順暢無礙，啟動 App 也不再有一早拖著身子勉強起床的感覺。「Rocketbar」也更接近其名稱所應代表的特色 (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1050411">但我還是認為在啟動 Rocketbar 時，應該用動畫呈現鍵盤</a>)。</p>
+<p>我在下面用兩支「Flame」，分別呈現修正檔之前與之後的某些動畫：</p>
+<p>我們還能在 Gaia 中做到幾件事：</p>
+<ul><li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1143226">我提報了臭蟲，想讓這項改變真正落實到 Gaia 之上</a>。我們後續測試的第一步就是「200ms」的動畫長度。樂觀積極所造成的錯誤，也勝過什麼都不做的消極態度。在 16 名開發者看過這項改變之後，我們也獲得大多數人的正面肯定，現並與 UX 團隊密切合作中，要能實際達到縮減動畫的效果。<a href="https://twitter.com/kevining">Kevin Grandon</a> 則是<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1152591">新增了 1 組 CSS 變數，讓我們能跨 Gaia 所有版本</a>。在我們進一步熟悉之後，未來將可更輕鬆改變 OS 中的其他類似型態。</li></ul>
+<ul><li>我也正與 Firefox OS UX 團隊合作，要定義通用且一致的最佳動畫實作。這些指南當然不會一次全部到位，但至少可作為新動畫的建構基礎，讓某些預設值確實遵守先前的研究成果與經驗法則。</li></ul>
+<p>不論你是開發者或設計師，你自己的最佳動畫實作是什麼呢？在你 Web 專案中的動畫，又曾收到使用者的哪些反饋意見呢？歡迎隨時透過下方意見欄讓我們知道！</p>
+<p>─ By Dietrich</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/04/firefox-os-animations-the-dark-cubic-bezier-of-the-soul/">Firefox OS, Animations &amp; the Dark Cubic-Bezier of the Soul</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824002808id_/https://blog.mozilla.com.tw/?p=7423">Wayback snapshot</a>
+              <span>Post ID: 7423</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>更輕鬆使用自動補完函式庫 (Polyfill) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">更輕鬆使用自動補完函式庫 (Polyfill)</h2>
+            <p class="entry-posted"><time datetime="2014-11-26" class="published"><span class="posted-month">11月</span><span class="posted-date">26</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>自動補完函式庫 (即 Polyfill)，是讓舊版瀏覽器也能支援新程式碼的絕妙方法。但目前 polyfill 的使用方式實屬不易，我們《金融時報 (<a href="https://www.ft.com/">Financial Times</a>，FT)》則自行建構了新的服務，以期能更輕鬆的利用這類函式庫。希望你也能<a href="https://cdn.polyfill.io/">一同使用</a>，並<a href="https://github.com/Financial-Times/polyfill-service">協助改善</a>。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/unicorn.jpg" alt="unicorn" loading="lazy"><br>打個比方，一匹普通的馬裝上自動補完函式庫就成了獨角獸。</p>
+<h3>難題</h3>
+<p>我們想要解決的幾個問題：</p>
+<ul><li>開發者不一定知道需補完哪項功能。往往是一堆使用者照樣沿用舊版 IE 載入網站之後，才發現整個網站根本沒用。這時輪到你開始除錯，設法找出是哪項功能出了問題。問題起源有時明顯好找，但大多數情況下都很難發現；而且舊版瀏覽器也往往缺乏新的開發者工具。</li></ul>
+<ul><li>每一種功能往往有多個補完函式庫可用，但不容易知道哪個函式庫可達到最佳效益。</li></ul>
+<ul><li>某些補完函式庫需搭配開發者用不到的一堆函式庫，才能提供完整的功能集 (如 ES6)。若需要修正某些很簡單的東西，應該不用將這些程式碼全數加入瀏覽器。</li></ul>
+<ul><li>較新版的瀏覽器可能不需要補完函式庫，但一般補完函式庫可用於所有瀏覽器。若只為了要改善舊版瀏覽器的相容性，卻會影響新版瀏覽器的效能。我們不想因此對效能妥協。只有在瀏覽器缺乏某項功能的原生實作時，我們才會提供補完函式庫。</li></ul>
+<h3>我們的解決方案：自動補完函式庫當做一項服務</h3>
+<p>為了解決這些問題，我們建立了補完函式庫的服務。這個概念有點像驗光。先檢查你的眼睛，再針對視力問題配付合適的眼鏡。我們對瀏覽器執行類似的流程：</p>
+<ul><li>開發者先在自己的頁面中插入指令碼標籤  用來載入並執行此補完函式庫服務。</li></ul>
+<ul><li>該服務將分析瀏覽器的「user-agent」標頭，以及所需功能的清單 (或使用可補完的所有事項預設清單)，再列出此瀏覽器所需的補完函式庫清單。</li></ul>
+<ul><li>補完函式庫將透過拓撲排序，以根據相依性的次序完成排列。</li></ul>
+<ul><li>將此套件最小化並透過 CDN 提供 (感謝 Fastly 的支援)。</li></ul>
+<p>我們真的需要這種解決方案嗎？看看「<a href="https://modernizr.com/">Modernizr</a>」這個功能偵測大福袋是如何使用的吧！一般合理的情況都能透過自訂的 Modernizr 套件包解決。但是絕大部分的 Modernizr 使用者只用了預設版本，通常取自於 cdnjs.com 或 <a href="https://github.com/h5bp/html5-boilerplate/blob/master/src/index.html">html5boilerplate 的一部分</a>。如果你根本用不到 Modernizr 的功能偵測，又何必把整個東西裝進來呢？或許你誤解了函式庫的功能，也把 Modernizr 當做只是「修理工具」？我必須承認，第一次聽到這個函式庫的名稱時就是這樣想。而且當我發現 Modernizr 只是用來偵測瀏覽器功能的新舊，而非真正補強整個瀏覽器所缺乏的功能時，心裡很是失望。</p>
+<p>從另一個方面來看，補完函式庫的服務其實就是修理工具。如果你不想耗時間只是初步了解舊款瀏覽器的小缺點，那也情有可原。只要讓其他人找出這些小缺點，則我們不需又耗時費力去了解細節，就能承接前人的工作成果也不錯。</p>
+<p>看到這裡，你是否對自動補完函式庫感興趣呢？可參閱原文內所提供的程式碼進一步了解！</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/11/an-easier-way-of-using-polyfills/">An easier way of using polyfills</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=6824">Wayback snapshot</a>
+              <span>Post ID: 6824</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

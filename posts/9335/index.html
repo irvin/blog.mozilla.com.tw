@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>取消對 WoSign 與 StartCom 新簽發憑證的信任 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">取消對 WoSign 與 StartCom 新簽發憑證的信任</h2>
+            <p class="entry-posted"><time datetime="2016-10-25" class="published"><span class="posted-month">10月</span><span class="posted-date">25</span><span class="posted-year">2016</span></time></p>
+          </header>
+          <div class="entry-content"><p>Mozilla 發現中國的「沃通 (WoSign)」<a href="https://wiki.mozilla.org/CA:FAQ">憑證授權機構 (Certificate Authority；CA)</a> 發生許多<a href="https://wiki.mozilla.org/CA:WoSign_Issues">技術與管理上的錯誤</a>。最嚴重的一點，就是其他 CA 為安全性考量，已經自 2016 年 1 月 1 日起停止核發 SHA-1 SSL 憑證，但我們<a href="https://docs.google.com/document/d/1C6BlmbeQfn4a9zydVi2UvjBGv6szuSB4sMYUcVrR8vQ/edit?usp=sharing">竟然發現</a>沃通<a href="https://wiki.mozilla.org/CA:WoSign_Issues#Issue_S:_Backdated_SHA-1_Certs_.28January_2016.29">竄改</a>了該 SSL 憑證為較早日期，藉以規避此一<a href="https://mozillacaprogram.secure.force.com/Communications/CommunicationActionOptionResponse?CommunicationId=a04o000000M89RCAAZ&amp;Question=ACTION%20%233:%20After%20January%201,%202016">停止核發日期</a>。此外，我們<a href="https://groups.google.com/d/msg/mozilla.dev.security.policy/0pqpLJ_lCJQ/z69lmZ88DwAJ">還發現</a>在沃通併購同業「StartCom」並完整取得其經營權之後，也未依照 Mozilla 政策而公開揭露此一併購行為。在彙整相關有效資料證實我們所言非虛之前，沃通與 StartCom 的負責人更對上述情事一概否認。基於公司負責人展現的欺瞞行為，Mozilla 決定不再信賴此兩間公司的根憑證 (Root certificate)。</p>
+<p><img src="../../assets/9335/wp-content/uploads/data-breaches-notification-1024x657.jpg" alt="data-breaches-notification" loading="lazy"><br>圖片來源：http://www.cpapracticeadvisor.com/</p>
+<p>Mozilla 為此採取下列行動：</p>
+<ul><li>針對 2016 年 10 月 21 日之後所頒發的憑證，及其相同根憑證的憑證串鍊，現一律取消其信任。如果再發現其他日期竄改行為 (不論以何種方法造成) 欲規避此一控制方式，Mozilla 將立刻且永久撤銷受影響的根憑證。 此一改變將自<a href="https://wiki.mozilla.org/RapidRelease/Calendar">Firefox 51 版本起生效</a>。</li></ul>
+<ul><li>程式碼將透過下列<a href="https://en.wikipedia.org/wiki/X.500#X.500_data_models">主體唯一識別名稱 (Subject Distinguished Names)</a> 來識別根憑證，因此控制行為亦將套用到這些根憑證的<a href="https://en.wikipedia.org/wiki/X.509#Certificate_chains_and_cross-certification">互簽憑證 (Cross-certificates)</a>。 CN=CA 沃通根证书, OU=null, O=WoSign CA Limited, C=CN</li></ul>
+<ul><li>CN=Certification Authority of WoSign, OU=null, O=WoSign CA Limited, C=CN</li></ul>
+<ul><li>CN=Certification Authority of WoSign G2, OU=null, O=WoSign CA Limited, C=CN CN=CA WoSign ECC Root, OU=null, O=WoSign CA Limited, C=CN</li></ul>
+<ul><li>CN=StartCom Certification Authority, OU=Secure Digital Certificate Signing, O=StartCom Ltd., C=IL</li></ul>
+<ul><li>CN=StartCom Certification Authority G2, OU=null, O=StartCom Ltd., C=IL</li></ul>
+<ul><li>先前所發現與相關根憑證串連的<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1309707#c2">日期竄改 SHA-1 憑證</a>，均列入 <a href="https://blog.mozilla.org/security/2015/03/03/revoking-intermediate-certificates-introducing-onecrl/">OneCRL</a>。</li></ul>
+<ul><li>不再接受安永香港 (Ernst &amp; Young Hong Kong) 的稽核報告。</li></ul>
+<ul><li>未來將擇期自<a href="https://wiki.mozilla.org/CA:Overview">Mozilla 根憑證資料庫</a>中移除受影響的根憑證。如果沃通的新根憑證<a href="https://wiki.mozilla.org/CA:How_to_apply">達到可接受的標準</a>，Mozilla 可能根據沃通的規劃來調整移除憑證的確切日期，以利將其客戶整合至新的根憑證。否則 Mozilla 得以於 2017 年 3 月之後的任一時間移除根憑證。</li></ul>
+<ul><li>Mozilla 保留所有更進一步或其他替代行為的權利。</li></ul>
+<p>如果你在 2016 年 10 月 21 日之後，接收到此兩間 CA 之一所核發的憑證，則該憑證將於 Mozilla 產品 (如<a href="https://wiki.mozilla.org/RapidRelease/Calendar">Firefox 51 或以後的版本</a>) 中失效，直到此兩間 CA 以不同的主體唯一識別名稱提供新的根憑證為止。你可<a href="https://wiki.mozilla.org/CA:UserCertDB#Importing_a_Root_Certificate">手動匯入</a>憑證所串連的根憑證。在 Mozilla 的根憑證資料庫納入新的根憑證之前，貴網站的消費者亦必須手動匯入新的根憑證。</p>
+<p>如 <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1311824">Bug #1311824</a>、<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1311832">Bug #1311832</a> 分別對沃通以及 StartCom 所述，此兩間 CA 均可重新申請加入新的 (替代) 根憑證。</p>
+<p>我們認為相關回應動作與 Mozilla 政策甚為一致。若其他 CA 也透過類似的欺瞞手法，企圖規避<a href="https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/policy/">Mozilla 的 CA 憑證策略</a>、<a href="https://cabforum.org/baseline-requirements-documents/">CA/Browser Forum Baseline Requirements</a>，或是 Mozilla 負責人的直接詢問，我們均將採用相同的回應方式。</p>
+<p>─ Mozilla 安全團隊</p>
+<p>原文連結：<a href="https://blog.mozilla.org/security/2016/10/24/distrusting-new-wosign-and-startcom-certificates/">Distrusting New WoSign and StartCom Certificates</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Mozilla</span><span>Security</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20200927091734id_/https://blog.mozilla.com.tw/?p=9335">Wayback snapshot</a>
+              <span>Post ID: 9335</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

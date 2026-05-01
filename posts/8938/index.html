@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>讓 Web 為所有人運轉 (中) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">讓 Web 為所有人運轉 (中)</h2>
+            <p class="entry-posted"><time datetime="2016-07-26" class="published"><span class="posted-month">7月</span><span class="posted-date">26</span><span class="posted-year">2016</span></time></p>
+          </header>
+          <div class="entry-content"><p>在〈<a href="https://blog.mozilla.com.tw/posts/8934/web-works-for-all-1">讓 Web 為所有人運轉 (上)</a>〉裡，你約略知道了 Web 在 20 年前的情況。但發展得越快，相關問題也就越亟待解決。而 Mozilla 認為目前妨礙 Web 發展的嚴重問題之一，就是跨瀏覽器的相容性。接著就來了解不相容的常見原因。</p>
+<p>到底是哪些因素造成跨瀏覽器不相容呢？答案很複雜。以下是目前最常見的原因：</p>
+<ul><li>開發者用了某款瀏覽器的專屬功能 (如特定前綴)，以達到特殊效果。</li></ul>
+<ul><li>瀏覽器廠商在某功能標準化之前，就快速完成實作以供開發者所需。</li></ul>
+<ul><li>瀏覽器廠商在建構標準或修復錯誤的速度過慢。</li></ul>
+<ul><li>某些網站可能佈署了「辨識使用者瀏覽器 (User Agent Sniffing)」，以針對不同的瀏覽器傳送不同的內容。</li></ul>
+<ul><li>開發者可能過於依賴單一工具 (又可能僅支援單一瀏覽器)，因此忽略了跨瀏覽器相容性的錯誤。</li></ul>
+<ul><li>產業的成長力道吸引更多 Web 開發者加入，但也造成<a href="https://www.developereconomics.com/reports/developer-economics-state-of-developer-nation-q1-2016">開發者的平均經驗被拉低</a>。</li></ul>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/webcompat_blog_graphics_600x800-03-768x1024.jpg" alt="webcompat_blog_graphics_600x800-03" loading="lazy"><br>簡易圖說：其實 W3C 已經規範 12,106 組 API，但未有任何一款瀏覽器完全建置。而且開發者使用 Chrome 的比例失衡，遠超過使用者的比例。</p>
+<p>在 Web 發展初期就有某些挑戰等著我們去解決。當然，Web 的開發水準在這些日子來已有長足進步。許多實作與工具可幫助我們在所有瀏覽器上建構絕佳體驗。</p>
+<p>開發者應詳閱以下幾點並審慎思考，讓自己的下個網站能向所有人提供豐富內容。</p>
+<h4>使用其他瀏覽器的人比你想像的還多</h4>
+<p>許多開發者認為自己使用的瀏覽器，就是其他人所用的唯一瀏覽器，因此只針對該瀏覽器開發網站。根據<a href="https://www.w3schools.com/browsers/browsers_stats.asp">某些統計數字</a>指出， 70% 的 Web 開發者在桌機上使用 Chrome，但只有 45% 的網民是跨所有裝置都使用 Chrome，也只有 57% 的人在桌機上使用 Chrome。只在 Chrome 建構並測試網站，就忽略了<a href="https://gs.statcounter.com/">將近一半的全球使用者</a>。</p>
+<p>瀏覽器市佔率也依地理位置有所不同。Chrome、Firefox、IE/Edge 在許多地方都獨佔鰲頭，但使用者的比例不一。德國人較愛用 Firefox；日本人則常用 IE；不少澳洲人選用 Safari。<a href="https://gs.statcounter.com/#browser-VN-monthly-201505-201605">每 5 個越南人有超過 1 人</a>使用 Chromium 的旁枝「Cốc Cốc」瀏覽器。只對單一瀏覽器設計自己的內容，就會錯失這些較獨特的市場。</p>
+<p>最後，<a href="https://developer.microsoft.com/en-us/microsoft-edge/platform/catalog/">你愛用的瀏覽器功能，不一定適用於其他瀏覽器</a>。瀏覽器廠商對不同功能往往有不同的實作排程。所以可能一堆人無法享受某瀏覽器的新 API。</p>
+<p>這些因素往往會在意外狀況下一起發生：選用了所有瀏覽器不支援的 API，只用單一瀏覽器測試自己的網站，接著在該瀏覽器並不普及的市場中發佈了網站，結果就可能先喪失超過一半的潛在讀者，也就等於錯失了許多收益與客戶。我們當然應該多花點心力避免類似情況。</p>
+<h4>相容性將影響網站親和度</h4>
+<p>可跨瀏覽器相容的網站，代表必須針對未知的用戶端環境設計並撰寫程式碼，才能儘可能讓最多人接觸到網站內容。而讀者當然也可能是身心障礙人士，且相關人數可能超乎你的想像。如果你的網站能在所有瀏覽器上運作無虞，卻忽略了螢幕報讀軟體 (Screen reader)，也就又失去了可能的機會。</p>
+<p>身心障礙人士也是一個龐大的市場。舉例來說，<a href="https://www.interactiveaccessibility.com/accessibility-statistics">光是美國國內視力障礙的網民總人數，就超過全加拿大的上網人口</a>。最新的 Web 功能早足以滿足這類讀者的需要，就等開發者實際建構而已。</p>
+<p>關係網站親和度的存取技術，可不僅是對殘障人士有所幫助，舉例來說：</p>
+<ul><li>更適合報讀軟體執行的網頁，也就能更貼合搜尋引擎演算法。簡單的存取技術，如為圖片設定替代文字、在連結中使用敘述性的文字、僅 CSS 用於網頁風格、使用 HTML5 的語法標籤，都能提升整體網頁的搜尋引擎最佳化 (SEO)。</li></ul>
+<ul><li>影音內容的轉換，不僅對聽障人士有所助益，也有助於位處低頻寬地區 (無法下載完整影片) 的行動裝置使用者，亦能解決吵雜環境中聽不到影片聲音的情況。更多文字內容也有機會與關鍵字產生關連性。所以同樣和 SEO 息息相關。</li></ul>
+<h4>使用者不切換瀏覽器，只切換網站</h4>
+<p>你可能想說使用者會換瀏覽器再進入你的網站，但其實許多人不會換，或根本無法換瀏覽器。</p>
+<p>使用者對無法運作的東西沒什麼耐心，而是直接換去開發者競爭對手的網站就好。某個關鍵環節要是發生錯誤，就可能讓潛在客戶一去不回。根據 <a href="https://content.akamai.com/PG2920-Performance-Matters.html">Akamai</a> 的統計：</p>
+<ul><li>32% 的使用者只要在網站上遇到問題，幾乎就不會進行任何線上交易了。</li></ul>
+<ul><li>35% 的使用者更會對網站留下負面觀感。</li></ul>
+<ul><li>45％ 的人再也不會上你的網站。</li></ul>
+<ul><li>超過 22% 的人會離開網站找其他沒問題的網站。</li></ul>
+<p>不只如此，許多使用者根本不知道該如何安裝新的瀏覽器，甚至不知道什麼是瀏覽器；其實很多人不知道「網站」、「瀏覽器」、「搜尋引擎」之間的差異。</p>
+<p>即使知道可以、想要安裝新的瀏覽器，也可能沒辦法安裝。許多公司限制員工只能用某款瀏覽器，或是如圖書館中的公用電腦也無法安裝其他軟體。</p>
+<p>透過本文，你應該已經知道常見的不相容原因。接著請耐心等待〈讓 Web 為所有人運轉 (下)〉，找出有哪些好用的工具，可讓自己的網站達到更高親和度、被更多人看見，進而掌握更多潛在的商機！</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2016/07/make-the-web-work-for-everyone/">Make the Web Work For Everyone</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Mozilla</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Mozilla</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190825005925id_/https://blog.mozilla.com.tw/?p=8938">Wayback snapshot</a>
+              <span>Post ID: 8938</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

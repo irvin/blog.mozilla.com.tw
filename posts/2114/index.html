@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>在 Firefox OS 上建立付費 App | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">在 Firefox OS 上建立付費 App</h2>
+            <p class="entry-posted"><time datetime="2013-03-20" class="published"><span class="posted-month">3月</span><span class="posted-date">20</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p>第一眼看到 <a href="https://www.mozilla.org/en-US/firefoxos/">Firefox OS</a> 的 <a href="https://marketplace.firefox.com/">Firefox Marketplace</a> 時，會覺得與 Apple Store 或 Google Play Store 有些相似，但其中有個關鍵差異：Firefox Marketplace 不會要求你必須和 Mozilla，或和自己的 Firefox OS 手機綁定。透過 <a href="https://wiki.mozilla.org/Apps/WebApplicationReceipt">Receipt</a> 協議，只要是能在任何 Open Web 裝置上運作的 Web App，都能在 Marketplace 上銷售。只要建構出收據格式，任何不屬於 Mozilla <a href="https://developer.mozilla.org/en-US/docs/Apps/Creating_a_store">Marketplace</a> 的網路商店，亦可在 Firefox OS 上銷售 App。而使用者同樣可順暢執行該付費 App，不會感到任何差異。</p>
+<p>理論上，只要其他裝置也支援此 <a href="https://wiki.mozilla.org/Apps/WebApplicationReceipt">Receipt</a> 協議，使用者的任一款 App 僅需付費一次，即可在任何裝置上執行該 App。這裡當然也出現雞生蛋、蛋生雞的問題。Mozilla  希望擔任雞蛋的角色，能確實拓展這個「收據」的概念，並透過協議的方式將之落實。Mozilla 亦積極邀請廠商共襄盛舉而合作此收據驗證，讓付費 App 能夠達到更高的可攜性與網路化。</p>
+<p>App 開發者觀點</p>
+<p>所有付費 App 都必須<a href="https://developer.mozilla.org/en-US/docs/Apps/Publishing/Validating_a_receipt">驗證自己的收據</a>。如果你是 App 開發者，並想透過 Firefox OS 上銷售自己的 App，則這篇文章可協助你著手建構收據驗證。你也可能想建構相容的 Web Runtime (WRT) 或線上商城，那這篇文章應該也有幫助。</p>
+<p>屬於 JavaScript API 之一的 navigator.mozApps，可將裝置收據揭露給 App。最簡單的收據驗證方式，就是納入用戶端的函式庫 (如 <a href="https://github.com/mozilla/receiptverifier">receiptverifier.js</a>)，並使用收據中托管的驗證服務 URL。收據驗證器的相關文件可提供較多細節。其實在啟動此 App 時，就如同呼叫此 JavaScript 程式碼同樣簡單：</p>
+<p>mozmarket.receipts.Prompter({<br>  storeURL: &quot;https://marketplace.firefox.com/app/your-app&quot;,<br>  supportHTML: &#39;&lt;code&gt;&lt;a href=&quot;mailto:you@yourapp.com&quot;&gt;email you@yourapp.com&lt;/a&gt;&lt;/code&gt;&#39;,<br>  verify: true<br>});</p>
+<p>					12345</p>
+<p>						mozmarket.receipts.Prompter({  storeURL: &quot;https://marketplace.firefox.com/app/your-app&quot;,  supportHTML: &#39;&lt;code&gt;&lt;a href=&quot;mailto:you@yourapp.com&quot;&gt;email you@yourapp.com&lt;/a&gt;&lt;/code&gt;&#39;,  verify: true});</p>
+<p>這樣就可以了！透過這個高階捷徑，一旦收據遺失或無效，你的 App 畫面隨即會跳出提示框。驗證器相關文件亦將說明初階驗證的建構方式。</p>
+<p>這裡提供更完整的例子。你可檢查 <a href="https://github.com/kumar303/yacht/">Private Yacht</a> (我們常用此 App 進行測試) 中的程式碼。此 App 可透過 <a href="https://github.com/mozilla/receiptverifier">receiptverifier.js</a> 函式庫而檢查用戶端，亦可透過 node.js 檢查伺服端。我們也有 <a href="https://github.com/andymckay/receipts">Python 函式庫</a> (另有特別用於 <a href="https://github.com/andymckay/django-receipts/">Django</a> 的函式庫)，可在伺服端上驗證收據。</p>
+<p>此機制是如何運作的呢？各組收據均混搭了 <a href="https://openid.net/specs/draft-jones-json-web-token-07.html">JSON Web Tokens</a>。其屬性之一就是提供鏈結以銜接托管的驗證服務，並進一步檢查該收據。你也可以選擇離線驗證收據，但另需定期同步金鑰。另還有像退款與補發處理等的細節問題，目前尚未完整支援離線驗證功能。</p>
+<p>在 App <a href="https://developer.mozilla.org/en-US/docs/Apps/Manifest">manifest</a> 檔案中的 installs_allowed_from 參數，將載明所有商店的 URL。而依預設值，系統將僅允許來自於這些商店之一的收據。若你是開發者，就必須與所有商城建立明確的付款關係，也因此可自己選擇 App 的販售商城平台；就如同為自己的 App 建立收據清單。由於客戶端 JavaScript 的條件較為寬鬆，因此可驗證伺服器端 (也就是在自己的 App 伺服器上) 的收據，進而更嚴格控管此清單。</p>
+<p>Firefox Marketplace 的付費 App 機制尚未完備，但也不會拖得太久。如果你現在就先把收據驗證器整合到自己的 App 上，則一旦提交流程可支援付款作業時，就能立刻上線。</p>
+<p>防止詐欺機制</p>
+<p>Mozilla 針對開放 Web App 的願景之一，就是讓任一方均可於網路上販售 App。然而，想不致於過度集中收據，又要同時在沒有 DRM 的情況下保護 App 資產，確實有其難度。目前發現如 DNS 代理伺服器 (Proxy) 的用戶端受過攻擊，藉以存取付費 App。但在使用 <a href="https://www.w3.org/Security/wiki/Content_Security_Policy">CSP</a>、<a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a>、<a href="https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security">HSTS</a> (僅列舉其中 3 個解決方案) 之後，該情況已經有所改善。而今天在 iOS/Android 上的付費 App 並<a href="https://www.macworld.com/article/1167677/hacker_exploits_ios_flaw_for_free_in_app_purchases.html#_blank">沒有太大的差異</a>。這個開放性的問題，其實有助於<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=770666">達到更高效益的商城清單</a>。同時在更多商店與開發人員的參與之下，Mozilla 希望能進一步強化該系統。另說到簽章的<a href="https://developer.mozilla.org/en-US/docs/Apps/Packaged_apps">封裝式</a> App，雖可多提供一層資產保護機制，但需要更完備的設計以解決許可權限問題。</p>
+<p>最後同樣想提醒你：如果遇到任何問題，請隨時反應給我們！如果是 App 平台的錯誤，可選擇 <a href="https://bugzilla.mozilla.org/enter_bug.cgi?product=Core">Core</a> (component: DOM: Apps) 或選擇 <a href="https://bugzilla.mozilla.org/enter_bug.cgi?product=Marketplace">Marketplace</a> (component: Payments/Refunds)。</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/IMG_2703.jpg"><img src="../../assets/2114/wp-content/uploads/IMG_2703-1024x682.jpg" alt="" loading="lazy"></a></p>
+<p>英文原文：https://hacks.mozilla.org/2013/02/building-a-paid-app-for-firefox-os/</p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=2114">Wayback snapshot</a>
+              <span>Post ID: 2114</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

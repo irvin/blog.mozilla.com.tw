@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Firefox 44 已加入 Web 推播功能 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Firefox 44 已加入 Web 推播功能</h2>
+            <p class="entry-posted"><time datetime="2016-02-03" class="published"><span class="posted-month">2月</span><span class="posted-date">3</span><span class="posted-year">2016</span></time></p>
+          </header>
+          <div class="entry-content"><p>你是否曾想讓某個網站能在發生重要事件時通知你？即使你並未開啟該網站也一樣能收到通知？可能有人用 WebRTC 打電話給你、或是收到即時簡訊，又或是一則重大金融消息。也許你所居住的城市剛發出緊急街道除雪或清掃通知。</p>
+<p>反正有時候你就是會想知道某些事情發生的時間。</p>
+<p>這就是 Firefox 44 現在提供的 Web Push 功能。</p>
+<h4>Web Push 推播起來是什麼樣子？</h4>
+<p>只要你正讓瀏覽器運作中，即使並未開啟某個網站，也同樣能接收網站發出的通知。這代表你甚至可以關閉電子郵件分頁，卻隨時知道有新訊息進入信箱。這對記憶體、裝置效能、電池電量都極有助益。</p>
+<p>網站推播的通知與原生通知其實難以分辨。而 Mozilla 的「<a href="https://serviceworke.rs/">Service Worker Cookbook</a>」則提供多個現成示範讓你親眼看看。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/Screen-Shot-2016-01-25-at-00.23.03-500x232.png" alt="Screen-Shot-2016-01-25-at-00.23.03-500x232" loading="lazy"></p>
+<p>Web Push 的存取方式，與地理定位 (Geolocation) 或網路攝影機 (Webcam) 類似：在網站推播通知給使用者之前，Web Push 將明確要求可撤銷的許可。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/Screen-Shot-2016-01-25-at-00.20.13-500x216.png" alt="Screen-Shot-2016-01-25-at-00.20.13-500x216" loading="lazy"></p>
+<h4>隱私方面的考量呢？</h4>
+<p>Web Push 在運作時，需保持和 Push Service (像是訊息的中央轉接站) 之間的連線。各家瀏覽器都有自己的 Push Service 與其隱私防護設計：</p>
+<ul><li>為了避免跨網站關連性分析 (Cross-site correlation)，針對你所使用的瀏覽器，各個網站都會收到不同的匿名 Web Push 識別碼。</li></ul>
+<ul><li>為阻絕竊聽＼取行為，內容 (Payload) 均加密之後送至僅由瀏覽器所持有的公開＼私密金鑰。</li></ul>
+<ul><li>如果你主動訂閱了 Web Push，Firefox 也只會連至 Push Service；可能是某個網站，或如 Firefox Hello 或 Firefox Sync 的瀏覽器功能。</li></ul>
+<p>而且使用者完全掌握自己的控制權，隨時可選擇是否開啟推播通知功能。而且只要進入，亦可取消之前許可過的網站。只要進入<a href="https://support.mozilla.org/en-US/kb/page-info-window-view-technical-details-about-page">網頁訊息面板</a>，或找到「偏好設定」→「內容」→「通知」，都能取消之前許可過的網站。</p>
+<h4>Web Push 怎麼運作的？</h4>
+<p>在此之前，大家都是依賴 App、電子郵件、文字訊息本身所傳送的即時通知。但現在 Web 也能辦到了！</p>
+<p>Web Push 屬於 Service Worker 標準的延伸，也代表你能到 Mozilla 的 <a href="https://serviceworke.rs/">Service Worker Cookbook</a> 中找到 Web Push 的絕妙展示。MDN 亦提供 Web Push 的<a href="https://developer.mozilla.org/en-US/docs/Web/API/Push_API">相關說明文件</a>。當然，如果你想直接取得原始碼，也能<a href="https://w3c.github.io/push-api/">到 GitHub 上</a>找到最新的「編輯草案 (Editor’s Draft)」。</p>
+<p>去年 10 月時，另有一篇 Hacks 部落格文章<a href="https://blog.mozilla.com.tw/posts/8164/">介紹過 Web Push</a>，簡單解釋了 Service Worker 及其對 Push 的關係。這裡稍微複習一下：</p>
+<ul><li>任一網站將透過瀏覽器<a href="https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/register">註冊</a> 1 組 Service Worker。Service Worker 為小型 JavaScript 程式，卻可擷取網路請求，甚至在上層網站關閉時仍可運作。</li></ul>
+<ul><li>Service Worker <a href="https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration">註冊物件</a>將可存取 <a href="https://developer.mozilla.org/en-US/docs/Web/API/PushManager">pushManager 屬性</a>。</li></ul>
+<ul><li>使用 pushManager 的網站可<a href="https://developer.mozilla.org/en-US/docs/Web/API/PushManager/getSubscription">取得現有的訂閱</a>，甚或<a href="https://developer.mozilla.org/en-US/docs/Web/API/PushManager/subscribe">建立新的訂閱</a>。</li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Web/API/PushSubscription">訂閱物件</a>將存取訂閱的後設資料 (Metadata)，其中包含瀏覽器廠商 Push Service上的專屬<a href="https://developer.mozilla.org/en-US/docs/Web/API/PushSubscription/endpoint">終端 (Endpoint) 網址</a>。</li></ul>
+<p>不論網站的 POST 是何時抵達該終端，Push Service 均會傳送訊息到你的瀏覽器，讓正確的 Service Worker 接收<a href="https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerGlobalScope/onpush">推播事件</a>。Service Worker 接著可<a href="https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerRegistration/showNotification">顯示通知</a>或執行其他動作。</p>
+<p>Service Worker 的程式碼如下：</p>
+<p>self.addEventListener(&#39;push&#39;, function(event) {<br>  event.waitUntil(<br>    self.registration.showNotification(&#39;Example Notification&#39;, {<br>      body: &#39;Hello, world!&#39;,<br>    })<br>  );<br>})</p>
+<p>					1234567</p>
+<p>						self.addEventListener(&#39;push&#39;, function(event) {  event.waitUntil(    self.registration.showNotification(&#39;Example Notification&#39;, {      body: &#39;Hello, world!&#39;,    })  );})</p>
+<p>另外，用以註冊 Service Worker 並取得許可的程式碼如下：</p>
+<p>附註：此程式碼範例使用了 ES7 草稿中的 <a href="https://tc39.github.io/ecmascript-asyncawait/">async/await 語法</a>，也是目前看起來最整潔的範例。若要在正式運作的環境中使用此範例，請參閱<a href="https://github.com/mozilla/serviceworker-cookbook/blob/master/push-simple/index.js">同義的舊版 JavaScript 程式碼</a>。</p>
+<p>async function registerForPush() {<br>  // Register the Service Worker<br>  let registration = await navigator.serviceWorker.register(&#39;service-worker.js&#39;);</p>
+<p>  // Check if we already have a subscription<br>  let subscription = await registration.pushManager.getSubscription();</p>
+<p>  // If not, try to subscribe.<br>  if (!subscription) {<br>    subscription = await registration.pushManager.subscribe();<br>  }</p>
+<p>  // Save the subscription data on our website&#39;s backend.  <br>  await fetch(&#39;/save-push-endpoint&#39;, {<br>    method: &#39;post&#39;,<br>    headers: { &#39;Content-Type&#39;: &#39;application/json&#39; },<br>    body: JSON.stringify(subscription)<br>  });</p>
+<p>  // Done! Now our backend can send Push messages by POSTing to subscription.endpoint!<br>}</p>
+<p>					123456789101112131415161718192021</p>
+<p>						async function registerForPush() {  // Register the Service Worker  let registration = await navigator.serviceWorker.register(&#39;service-worker.js&#39;);    // Check if we already have a subscription  let subscription = await registration.pushManager.getSubscription();    // If not, try to subscribe.  if (!subscription) {    subscription = await registration.pushManager.subscribe();  }    // Save the subscription data on our website&#39;s backend.    await fetch(&#39;/save-push-endpoint&#39;, {    method: &#39;post&#39;,    headers: { &#39;Content-Type&#39;: &#39;application/json&#39; },    body: JSON.stringify(subscription)  });    // Done! Now our backend can send Push messages by POSTing to subscription.endpoint!}</p>
+<p>你同樣可到 <a href="https://serviceworke.rs/">Service Worker Cookbook</a> 上觀看其他展示與其原始碼。如果你有點搞混了，就先從這裡著手吧。</p>
+<h4>其他 FAQ</h4>
+<p>使用者的終端網址會不會改變？</p>
+<p>終端隨時都可能改變。雖然發生變化的情形並不常見，但你應隨時準備好處理 <a href="https://developer.mozilla.org/en-US/docs/Web/Events/pushsubscriptionchange">pushsubscriptionchange 事件</a>。另外只要發生 getSubscription() 或 subscribe()，也應檢查新的終端。</p>
+<p>瀏覽器支援的情形為何？</p>
+<p>截至本文發佈為止，Push 已可於 Firefox 桌面版上運作。在 Chrome 上<a href="https://developer.mozilla.org/en-US/docs/Web/API/Push_API/Using_the_Push_API#Extra_steps_for_Chrome_support">需要額外設定</a>，亦可達到部分支援。Microsoft 的 Edge 則將 Push 暫列為「<a href="https://dev.windows.com/en-us/microsoft-edge/platform/status/pushapi">考量中 (Under consideration)</a>」。可參閱〈<a href="https://caniuse.com/#feat=push-api">Can I Use?</a>〉進一步了解。</p>
+<p>該如何讓使用者取消訂閱 Push？</p>
+<p>使用 <a href="https://developer.mozilla.org/en-US/docs/Web/API/PushSubscription/unsubscribe">subscription.unsubscribe()</a> 函式即可。別忘了要更新自己的後端，才能停止寄送通知到舊的終端。</p>
+<p>在 subscribe() 實際發生之前，我能檢查是否提示了使用者以取得許可嗎？</p>
+<p>當然！只要呼叫 <a href="https://developer.mozilla.org/en-US/docs/Web/API/PushManager/permissionState">pushManager.permissionState()</a> 就會回傳 1 組 Promise，顯示你目前的許可狀態為「granted」、「denied」，或是「prompt」。</p>
+<p>若你對 Push API 有任何問題或建議，甚至要提報臭蟲，都隨時歡迎告訴我們。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2016/01/web-push-arrives-in-firefox-44/">Web Push Arrives in Firefox 44</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Web App</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20191113175626id_/https://blog.mozilla.com.tw/?p=8446">Wayback snapshot</a>
+              <span>Post ID: 8446</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

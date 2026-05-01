@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>淺談 Firefox 36 開發者工具 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">淺談 Firefox 36 開發者工具</h2>
+            <p class="entry-posted"><time datetime="2014-12-22" class="published"><span class="posted-month">12月</span><span class="posted-date">22</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><h4>「Promise」檢視功能、虛擬元素 (Pseudo element)、原始檔頭 (Raw header)，還有更多</h4>
+<p>Firefox 36 現已進入<a href="https://mozilla.com.tw/firefox/channel/#aurora">「開發者 (Developer) 」版本</a>釋出頻道，先來看看又新增了哪些重要的開發者工具。另外針對<a href="../../posts/6679/">開發者版本發表</a>之前不久一起釋出的 Firefox 35，也將一併說明其上的數項變化。</p>
+<h4>檢測器 (Inspector)</h4>
+<p>現在已可檢測「::before」與「::after」這兩種虛擬元素 (Pseudo element)。而這些元素在「標記結構樹狀檢視欄 (Markup tree)」與「檢測器」側邊欄中的呈現方式，均與其他元素相同 (版本 35 的<a href="https://bugzil.la/920141">開發討論記錄</a>)。</p>
+<p><img src="../../assets/6871/wp-content/uploads/before-after-inspection.png" alt="before-after-inspection" loading="lazy"></p>
+<p>標記結構樹狀檢視欄的右鍵選單現新增了「顯示 DOM 屬性 (Show DOM Properties)」(版本 35 的<a href="https://bugzil.la/992679">開發討論記錄</a>、MDN 上的<a href="https://developer.mozilla.org/en-US/docs/Tools/Page_Inspector#Element_popup_menu_2">本功能說明文件</a>)。</p>
+<p><img src="../../assets/6871/wp-content/uploads/show-dom-properties-1024x463.png" alt="show-dom-properties" loading="lazy"></p>
+<p>Box Model 的強調功能 (Highlighter) 現可用於遠端的目標元素上，因此不論是在 Firefox for Android 頁面或是 Firefox OS App 上除錯，都能有完整的強調功能 (版本 36 的<a href="https://bugzil.la/985597">開發討論記錄</a>，還有<a href="https://wiki.mozilla.org/DevTools/Highlighter">技術說明文章</a>可帶你建構自訂的強調器)。</p>
+<p>現在亦可於標記結構樹狀檢視欄中看到 Shadow DOM 內容。另請注意：開發者必須將 dom.webcomponents.enabled 設定為「true」，進而測試此功能 (版本 36 的<a href="https://bugzil.la/1079185">開發討論記錄</a>，並可參閱 <a href="https://bugzil.la/1053898">bug 1053898</a> 以了解相關資訊)。</p>
+<p>我們另外從 Firebug 借用了一項功能，只要對標記結構樹狀檢視欄中的節點按下滑鼠右鍵，就能獲得更多「貼上 (Paste)」的功能選項 (版本 36 的<a href="https://bugzil.la/1095521">開發討論記錄</a>、MDN 上的<a href="https://developer.mozilla.org/en-US/docs/Tools/Page_Inspector#Element_popup_menu_2">本功能說明文件</a>)。</p>
+<p><img src="../../assets/6871/wp-content/uploads/paste-options-500x258.png" alt="paste-options-500x258" loading="lazy"></p>
+<p>而 Firefox 35 與 36 中的檢測器另有更多變化：</p>
+<ul><li>在刪除節點後，會選擇前一個相鄰節點，而不會選到上層節點 ( 版本 36 的 <a href="https://bugzil.la/1094622">開發討論記錄</a>)</li></ul>
+<ul><li>在「M arkup view」 模式中，將滑鼠游標停於節點之上，將以更強烈的對比效果顯示 ( 版本 36 的 <a href="https://bugzil.la/1102084">開發討論記錄</a>) 。</li></ul>
+<ul><li>在「計算樣式 computed 」檢視分頁中，將滑鼠游標停於 CSS 選擇器之上，即可強調顯示網頁上符合該選擇器的所有節點 ( 版本 35 的 <a href="https://bugzil.la/1059360">開發討論記錄</a>) 。</li></ul>
+<h4>除錯器 (Debugger)＼主控台 (Console)</h4>
+<p>現在已可檢視 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">DOM Promises</a>，並能隨時檢視 Promises 的狀態與數值 (版本 36 的<a href="https://bugzil.la/1033153">開發討論記錄</a>)。</p>
+<p><img src="../../assets/6871/wp-content/uploads/promise-inspection-1024x249.png" alt="promise-inspection" loading="lazy"></p>
+<p>經過「eval」函式執行的程式碼，均可由除錯器辨識並搭配除錯 (版本 36 的<a href="https://bugzil.la/905700">開發討論記錄</a>)。</p>
+<p>「eval」函式執行的程式碼現支援 //# sourceURL=path.js 語法，使其於除錯器中，以及由 Error.prototype.stack 回報的呼叫堆疊中，均顯示為正常檔案。可參閱 <a href="https://fitzgeraldnick.com/weblog/59/">http://fitzgeraldnick.com/ weblog/59/</a> 以進一步了解 (版本 36 的<a href="https://bugzil.la/1107541">開發討論記錄</a>；<a href="https://bugzil.la/583083">更多討論記錄</a>)。</p>
+<p>主控台內的訊息除了顯示既有的「行」數之外，亦提供來源程式碼的「欄」數 (版本 36 的<a href="https://bugzil.la/684096">開發討論記錄</a>)。</p>
+<h4>WebIDE</h4>
+<p>開發者現可透過 WebIDE 連上 Firefox for Android。可參閱 MDN 上的《<a href="https://developer.mozilla.org/en-US/docs/Tools/Remote_Debugging/Debugging_Firefox_for_Android_with_WebIDE">debugging firefox for android</a>》以進一步了解 (版本 36 的<a href="https://bugzil.la/982890">開發討論記錄</a>)。</p>
+<p>另外進行數項修正，提升 WebIDE 的使用者經驗：</p>
+<ul><li>當選擇某執行環境 (Runtime) 的 App ＼分頁時，亦預設帶出開發者工具 ( 版本 35 的 <a href="https://bugzil.la/1055279">開發討論記錄</a>) 。</li></ul>
+<ul><li>若連接執行環境時，就會重新連上該環境中最近開啟過的 App 專案 ( 版本 35 的 <a href="https://bugzil.la/1055666">開發討論記錄</a>) 。</li></ul>
+<ul><li>如果找得到最近使用的執行環境，則會自動選擇並連線 ( 版本 35 的 <a href="https://bugzil.la/1045660">開發討論記錄</a>) 。</li></ul>
+<ul><li>可縮放字形大小 ( 版本 36 的 <a href="https://bugzil.la/1027817">開發討論記錄</a>) 。</li></ul>
+<ul><li>只要輸入網址 ( 如： <a href="https://example.com/">http://example.com</a>) ，即可新增托管＼ 架設式 (Hosted) App 專案，而不需再輸入 manifest.webapp 檔案的完整路徑 ( 版本 35 的 <a href="https://bugzil.la/913711">開發討論記錄</a>) 。</li></ul>
+<h4>網路監測器 (Network Monitor)</h4>
+<p>新增了純文字的請求＼回應檔頭 (Request/response header) 檢視模式，可輕鬆檢視並複製某一請求上的原始檔頭 (版本 35 的<a href="https://bugzil.la/859133">開發討論記錄</a>)。</p>
+<p><img src="../../assets/6871/wp-content/uploads/net-headers-raw.png" alt="net-headers-raw" loading="lazy"></p>
+<p>另列出<a href="https://mzl.la/1oltPdy">已解決的 Firefox 35 錯誤</a>，以及<a href="https://mzl.la/1tS0R2i">已解決的 Firefox 36 錯誤</a>。</p>
+<p>如果你有任何問題、意見、功能需求，甚或想回報錯誤，同樣都能在下方留言，<a href="https://mzl.la/devtools">到 UserVoice 填寫＼投票給某個意見</a>，也能<a href="https://twitter.com/FirefoxDevTools">到 Twitter 上聯絡 @FirefoxDevTools 團隊</a>。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/12/pseudo-elements-promise-inspection-raw-headers-and-much-more-firefox-developer-edition-36/">Pseudo elements, promise inspection, raw headers, and much more – Firefox Developer Edition 36</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Mozilla</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190919102909id_/https://blog.mozilla.com.tw/?p=6871">Wayback snapshot</a>
+              <span>Post ID: 6871</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

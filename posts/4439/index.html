@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Mozilla 開發者社群網站 (MDN) 全新面貌 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Mozilla 開發者社群網站 (MDN) 全新面貌</h2>
+            <p class="entry-posted"><time datetime="2013-12-10" class="published"><span class="posted-month">12月</span><span class="posted-date">10</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p>早在去年夏天，Mozilla 開發者社群網站 (Developer Network，MDN) 平台就開始醞釀大幅改版，目的在將托管於第三方的解決方案，轉移到我們自訂的 Django 應用。Mozilla 將本次平台改動專案稱為「<a href="https://github.com/mozilla/kuma">Kuma</a>」，是 MDN 後續重大升級的基礎。此外，完全重新設計的前端介面，除了新增多項功能之外，亦強化其可用性與簡單易用等特性。接著讓我們快速介紹 MDN 的新版介面，還有未來即將添增的新功能！</p>
+<h2>MDN 新功能</h2>
+<h3>強化搜尋功能</h3>
+<p>絕大多數的使用者在進入 MDN 首頁之後，會先尋找自己所需的說明文章。也因此，Mozilla 這次將搜尋功能改置於網頁的正中央：</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/MDNHomepage.png" alt="MDNHomepage" loading="lazy"></p>
+<p>我們同時為搜尋作業添增了篩選機制，讓使用者可根據自己的特殊需求，縮小可能的搜尋結果：</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/New_Search.png" alt="New_Search" loading="lazy"></p>
+<p>從技術面的角度來看，我們改以 Elasticsearch 引擎提供搜尋功能。除了持續強化檢索與篩選功能之外，並可隨時添增新的搜尋功能。Mozilla 也將根據所收到的反饋意見來微調搜尋功能，讓大家都能更快找到最適合自己需求的說明文件。</p>
+<h3>瀏覽更簡單</h3>
+<p>在前一代的 MDN 設計中，要從目前文件中再找出另一份文件極不容易，因此我們以二種方式修正了此情況。第一就是預先分為不同的內容區塊，第二再針對使用者輸入的主題來建立瀏覽方式。我們先依據 MDN 最重要的主題而分為六大內容：<a href="https://developer.mozilla.org/en-US/Persona">Persona</a>、<a href="https://developer.mozilla.org/en-US/Firefox">Firefox</a>、<a href="https://developer.mozilla.org/en-US/Firefox_OS">Firefox OS</a>、<a href="https://developer.mozilla.org/en-US/docs/Mozilla/Marketplace">Firefox Marketplace</a>、<a href="https://developer.mozilla.org/en-US/Add-ons">附加元件 (Add-ons)</a>、<a href="https://developer.mozilla.org/en-US/Apps">應用程式中心 (App Center)</a>。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/Firefox_OS.png" alt="Firefox_OS" loading="lazy"></p>
+<h4>內容分類專區 (ZONES)</h4>
+<p>新的 MDN 內容分類，將完整蒐集使用者所需主題的相關文章，其中涵蓋該主題的基本說明、API 詳細資訊，直到相關進階技術應有盡有。Mozilla 將先從下列分類開始逐漸擴增：</p>
+<h5><a href="https://developer.mozilla.org/en-US/Firefox_OS">Firefox OS</a></h5>
+<p>Firefox OS 分類之下再分為：</p>
+<ul><li>詳細平台指南</li></ul>
+<ul><li>建構與安裝細節</li></ul>
+<ul><li>協助開發 Firefox OS</li></ul>
+<ul><li>App 設計與開發</li></ul>
+<h5><a href="https://developer.mozilla.org/en-US/Marketplace">Firefox Marketplace</a></h5>
+<p>Marketplace 分類之下再分為：</p>
+<ul><li>App 提交與審查</li></ul>
+<ul><li>App 發佈與後續款項</li></ul>
+<ul><li>Marketplace API 資訊</li></ul>
+<h5><a href="https://developer.mozilla.org/en-US/Apps">應用程式中心 (App Center)</a></h5>
+<p>應用程式中心分類之下再分為：</p>
+<ul><li>快速入門指南</li></ul>
+<ul><li>設計與建構秘訣</li></ul>
+<ul><li>App 發佈指南</li></ul>
+<ul><li>API 參考</li></ul>
+<h5><a href="https://developer.mozilla.org/en-US/Persona">Persona</a></h5>
+<p>Persona 分類之下再分為：</p>
+<ul><li>在自己網站上使用 Persona 的相關說明</li></ul>
+<ul><li>成為身分識別服務供應者</li></ul>
+<ul><li>Persona 專案細節</li></ul>
+<h5><a href="https://developer.mozilla.org/en-US/Firefox">Firefox</a></h5>
+<p>Firefox 分類之下再分為：</p>
+<ul><li>Firefox 附加元件完整概述</li></ul>
+<ul><li>Firefox 內部機制資訊</li></ul>
+<ul><li>Firefox 開發與貢獻的詳細說明</li></ul>
+<h5><a href="https://developer.mozilla.org/en-US/Add-ons">附加元件 (Add-ons)</a></h5>
+<p>附加元件區塊之下再分為：</p>
+<ul><li>XUL 擴充套件資訊</li></ul>
+<ul><li>最佳實作秘訣</li></ul>
+<ul><li>佈景主題設計</li></ul>
+<ul><li>附加元件發佈指南</li></ul>
+<h4>「另請參閱 (See Also)」連結</h4>
+<p>任何 Wiki 形式的頁面，均可能出現 Mozilla 另外設計的「另請參閱 (See Also)」連結。此功能將根據使用者目前檢視中的文件，再提供可能的相關文章。</p>
+<p>各個區塊中的附屬瀏覽與「另請參閱」側邊欄，都是根據 Wiki 文件所列的基本連結所設立。只要你想為 MDN 貢獻任何內容，都可輕鬆添增連結並進行瀏覽。另外亦可透過 MDN 的巨集語言 ─ Kumascript ─ 建立這些連結列表。針對「另請參閱」連結的自動產生機制，Mozilla 撰文團隊另付出了許多心力，讓貢獻者不需手動操作也能找出其他相關文章。</p>
+<h4>頂層瀏覽 (Top level navigation)</h4>
+<p>使用者可於頂層瀏覽中看到五大區塊：</p>
+<ul><li>上述的內容分類「專區」</li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Web">Web 平台 (Web Platform)</a>，針對技術、參考、指南，提供更多資訊的相關連結</li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Developer_Program">Developer Program</a> ─ 為了協助開發者，並進一步建立長期的合作關係與管道，我們另外創立了 Mozilla 開發者方案 (Mozilla Developer Program)。我們還有許多能不斷延伸方案的酷炫計畫與想法，也期待你的加入！快來報名以獲得會員資格並訂閱電子報。往後你就可立即嘗鮮 Mozilla 所發佈的新功能</li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/docs/Tools">工具</a> ─ 進一步了解 Firefox 開發者工具與其功能</li></ul>
+<ul><li><a href="https://developer.mozilla.org/en-US/demos/">Demo</a>─ 直接連至 Demo Studio</li></ul>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/Dev_Program.png" alt="Dev_Program" loading="lazy"></p>
+<h3>強化 Kumascript 巨集功能</h3>
+<p><a href="https://github.com/mozilla/kumascript">Kumascript</a> 是 MDN 所使用的動態巨集語言，專為讀取外部 RSS 內容所配置。目前StackOverflow 與 Mozilla Hacks 部落格的文章，就是透過閱讀器功能而進一步推播到 MDN 上。你可參閱 <a href="https://developer.mozilla.org/en-US/docs/Template:mdn:common">MDN:Common macro</a> 並檢視 fetchJSONResource 與 fetchHTTPResource 函式 (用於 Wiki 文章中協助顯示 RSS 內容)。</p>
+<h2>未來功能</h2>
+<p>重新設計的 MDN 視覺外觀，不過是 Mozilla 要讓 MDN 更動態、更簡單易用的起頭而已。MDN 開發團隊與使用者經驗 (UX) 團隊另將於 2014 年推出更多新功能。接著簡述其中幾項讓你一睹為快！</p>
+<h3>動態搜尋篩選 (Dynamic Search Filtering)</h3>
+<p>為了提高搜尋效率，Mozilla 規劃建構「#」前綴字元的文字篩選機制，並將之添增到最基本的搜尋功能中。在使用者進入搜尋結果頁面之後，將可避免額外的篩選動作。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/hhabstritt_commandquery2.png" alt="hhabstritt_commandquery2" loading="lazy"></p>
+<p>Holly Habbstritt 在自己的<a href="https://hollyhabstritt.com/blog/">部落格</a>中<a href="https://hollyhabstritt.com/blog/2013/11/5/command-query-a-better-filter-and-search-for-developers-on-mdn">介紹此查詢系統</a>。可到她的部落格了解建構細節。</p>
+<h3>文件導覽器 (Docs Navigator)</h3>
+<p>假設你完成了某個搜尋作業，點擊頁面所列出來的第一個連結之後，你還想繼續往下觀看頁面中的其他文章。將來你不需要退回結果頁面再找其他文章，而能透過 Wiki 頁面 (如果使用者根據搜尋結果所導來) 顯示的文件導覽器，直接觀看上一個/下一個結果；使用者亦可透過原來的搜尋作業，檢視完整的結果清單。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/SearchNavigator.png" alt="SearchNavigator" loading="lazy"></p>
+<p>又是一個可讓你迅速找到自己所需主題的簡單方法！</p>
+<h3>重新設計的 Demo Studio 與 Dev Derby</h3>
+<p>緊接著將重新設計 MDN 上的 <a href="https://developer.mozilla.org/en-US/demos">Demo Studio</a> 與 Dev Derby。我們現在已經開始<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=925893">審核絕佳的設計外觀</a>，希望能在 2014 年初正式運作。</p>
+<p>如果你對新版 MDN 有任何建議或發現任何錯誤，<a href="https://bugzilla.mozilla.org/form.mdn">請儘快通知我們</a>。</p>
+<p>從 2014 年起，Mozilla 期待能提供更豐富的 MDN 內容。針對說明文件與 Web 技術的查閱、撰文、使用經驗等要素，MDN 平台將持續擴充並強化相關機制，為使用者提供更完整的資訊。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2013/12/the-mozilla-developer-network-has-a-new-face/">The Mozilla Developer Network has a New Face</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Mozilla</span></div>
+            <div class="entry-tag-box">標籤：<span>Mozilla</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=4439">Wayback snapshot</a>
+              <span>Post ID: 4439</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>淺談 Firefox 27 開發者工具 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">淺談 Firefox 27 開發者工具</h2>
+            <p class="entry-posted"><time datetime="2013-11-26" class="published"><span class="posted-month">11月</span><span class="posted-date">26</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><h3>以 HTML 編輯 (Edit as HTML)、Codemirror，還有更多</h3>
+<p>Firefox 27 現已進入<a href="https://www.mozilla.org/en-US/firefox/aurora/">曙光版 (Firefox Aurora) 釋出頻道</a>，又該來談談 Firefox 開發者工具新功能的時候了。接著簡單介紹幾項新功能。你也可參閱<a href="https://mzl.la/HbV06a">此版本針對開發者工具所解決的問題</a>。</p>
+<h3>JavaScript 除錯器 (JavaScript Debugger)：DOM 事件中斷點</h3>
+<p>現在不需手動設定中斷點，即可在不同的 DOM 事件上自動暫停。只要點選除錯器面板右上方的「展開窗格 (Expand Panes)」按鈕 (即位於搜尋框的右方)，接著找到「Events」分頁並勾選事件名稱。下次只要該事件再度發生，就會自動暫停。此處所顯示的事件，僅限目前於程式中受監聽的事件。如果你勾選其中一個標頭 (如「Mouse」或「Keyboard」)，則將連帶勾選所有的相關事件。</p>
+<h3>檢測器 (Inspector) 強化</h3>
+<p>Mozilla 聽到 Web 開發者所回饋的意見，針對檢測器進行多項強化：</p>
+<p>以 HTML 編輯 (Edit as HTML)</p>
+<p>目前在檢測器中，只要對某一元素按下滑鼠右鍵即可開啟編輯器，即可針對此元素而設定 outerHTML。</p>
+<p>選擇預設的色彩格式</p>
+<p>現在可於「工具箱選項 (Option)」面板中選擇「預設色彩單位 (Default color unit，暫譯)」：</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/dev-tools-default-color-format.png" alt="dev-tools-default-color-format" loading="lazy"></p>
+<p>色彩樣本預覽模式</p>
+<p>開發者工具如今也提供色彩樣本預覽模式，並顯示於「規則 (Rule)」分頁中：</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/dev-tools-color-swatch-preview.png" alt="dev-tools-color-swatch-preview" loading="lazy"></p>
+<p>針對背景圖相網址的圖像預覽功能</p>
+<p>在經過多人強烈建議之後，針對背景圖像的網址，我們提供了圖像預覽的功能：</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/dev-tools-image-previews-1024x427.png" alt="dev-tools-image-previews" loading="lazy"></p>
+<p>除了上述幾項功能強化之外，檢測器現在亦能強調變動過 (Mutated) 的 DOM 元素。</p>
+<p>請密切注意後續更多的<a href="https://groups.google.com/forum/#%21topic/mozilla.dev.developer-tools/de0xBvHmN4s">工具使用秘訣</a>。我們也隨時歡迎你提出任何建議！</p>
+<h3>Codemirror</h3>
+<p><a href="https://codemirror.net/">Codemirror</a> 是 <a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 架構的程式碼編輯器元件，並常用於網站中。開發者除了可自訂相關選項之外，亦可選用自己喜愛的主題。而 Firefox 開發者工具現亦使用了 CodeMirror，包含除錯器、檢測器 (以 HTML 編輯)、樣式編輯器、程式碼速記本等均具備。</p>
+<p>同樣在「工具箱選項」中，開發者可選擇使用「亮主題 (Light theme)」或「暗主題 (Dark theme)」。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/dev-tools-themes-716x1024.png" alt="dev-tools-themes" loading="lazy"></p>
+<h3>主控台 (WebConsole)：記錄「重新排版」</h3>
+<p>一旦版面配置 (Layout) 轉為無效 ─ 即 CSS 或 DOM 改變，則 Gecko 就必須重新運算某些節點的位置。這種重新運算作業並不會立刻進行，而是依據不同的情況才開始。舉例來說，如果開發者進行了「node.clientTop」，則 Gecko 此時就必須重新運算 ─ 即所謂的「重新排版 (Reflow)」。由於重新排版將佔用較多運算資源，因此若要提升回應速度，就應儘量避免重新排版作業。</p>
+<p>若要啟動重新排版的記錄功能，則可到「主控台 (Console)」分頁，勾選「CSS」功能表中的「記錄 (Log)」選項。以後只要是因 JavaScript 所觸發的重新排版作業，均將以此 JavaScript 函式為名稱而輸出記錄。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/dev-tools-reflow-logging-1024x885.png" alt="dev-tools-reflow-logging" loading="lazy"></p>
+<p>本篇文章先談到這裡了。希望你喜歡新的強化功能！</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2013/11/firefox-developer-tools-episode-27-edit-as-html-codemirror-more/">Firefox Developer Tools: Episode 27 – Edit as HTML, Codemirror &amp; more</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=4280">Wayback snapshot</a>
+              <span>Post ID: 4280</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

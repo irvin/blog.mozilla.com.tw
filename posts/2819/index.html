@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>寫好 Firefox OS 的 App 了嗎？快送進 Geeksphone 來玩玩吧！ | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">寫好 Firefox OS 的 App 了嗎？快送進 Geeksphone 來玩玩吧！</h2>
+            <p class="entry-posted"><time datetime="2013-06-10" class="published"><span class="posted-month">6月</span><span class="posted-date">10</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p>我們在發表 <a href="https://hacks.mozilla.org/2013/05/firefox-os-simulator-3-0-released/">Firefox OS Simulator</a> 3.0 版本時，就新增了「直接傳輸 (Push to Device)」功能。只要按下 Simulator Dashboard 中的按鈕，就可以把 Web App 送進已連線的裝置。在 <a href="../../posts/2447/">Geeksphone 開始販售 Firefox OS 開發者預覽手機</a>之後，已經引起許多人的興趣。這篇文章接著將說明 Geeksphone 的設定方法，並讓執行 Simulator 的電腦能銜接手機。</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/simulatoronmac1.png"><img src="https://blog.mozilla.com.tw/wp-content/uploads/simulatoronmac1.png" alt="" loading="lazy"></a></p>
+<h2>設定 Geeksphone 手機</h2>
+<p>如果要把 App 送進 Geeksphone Firefox OS 開發者預覽手機，必須先啟動「Remote debugging」。先找到手機內的「Settings」App，再點選 Device information -&gt; More Information -&gt; Developer -&gt; Remote debugging 就可以。接著就對執行 Simulator 的電腦下手。</p>
+<p>###</p>
+<h3>Windows 系統</h3>
+<p>Geeksphone 公司的團隊最近才發佈了一系列驅動程式，讓 Windows 可支援開發者預覽手機的 USB 通訊作業。<a href="https://www.geeksphone.com/downloads/fos/fos_usb_driver.zip">可到 Geeksphone 的網頁下載驅動程式 (會直接下載 ZIP 檔案)</a>。</p>
+<p>要安裝驅動程式，必須先下載 ZIP 壓縮檔到系統之後再解壓縮。透過手機本身提供的 USB 連接線，銜接手機與電腦。接著按下「開始」並找到「裝置管理員」。不然也可以到 Windows 的「控制台」裡面找到「裝置管理員」圖示。</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/devicemanagerbefore.png"><img src="https://blog.mozilla.com.tw/wp-content/uploads/devicemanagerbefore.png" alt="" loading="lazy"></a></p>
+<p>而連上線的手機應該會列在「其他裝置 (Other Devices)」裡面。對「Android」按下滑鼠右鍵，再點選「更新驅動程式軟體… (Update Driver Software…)」。</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/updatedriver1.png"><img src="https://blog.mozilla.com.tw/wp-content/uploads/updatedriver1.png" alt="" loading="lazy"></a></p>
+<p>在更新驅動程式軟體的對話框中，點選「瀏覽電腦上的驅動程式軟體」。</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/updatedriver2.png"><img src="https://blog.mozilla.com.tw/wp-content/uploads/updatedriver2.png" alt="" loading="lazy"></a></p>
+<p>在下載完畢的 Geeksphone 檔案裡面找到「usb_driver」資料夾，並記得勾選「Include subfolders」。接著按「下一步」。</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/updatedriver3.png"><img src="https://blog.mozilla.com.tw/wp-content/uploads/updatedriver3.png" alt="" loading="lazy"></a></p>
+<p>這時可能會看到系統蹦現安全警告對話框。當然一樣選擇要繼續安裝此驅動程式。</p>
+<p><a href="https://blog.mozilla.com.tw/wp-content/uploads/updatedriver4.png"><img src="https://blog.mozilla.com.tw/wp-content/uploads/updatedriver4.png" alt="" loading="lazy"></a></p>
+<p>接著就會安裝正確的 USB 驅動程式。而手機會在「裝置管理員」中列為「Geeksphone Device」。</p>
+<p>啟動 Firefox OS Simulator 之後，Dashboard 就會提供「Push」按鈕與「Device connected」的訊息。現在只要把自己撰寫的 Firefox OS App 加進 Simulator 裡面，就可以把 App 加入手機內。</p>
+<p>###</p>
+<h3>Linux 系統</h3>
+<p>如果是用Linux 執行 Simulator 軟體，就必須建立或修改「udev」規則檔案。你可以參閱「<a href="https://developer.android.com/tools/device.html">Setting up a Device for Development</a>」中的步驟 3.a 與 3.b。而Geeksphone Firefox OS 開發者預覽手機的 idVendor 屬性為「05c6」，所以這裡 android.rules 檔案包含的輸入項應該類似：</p>
+<p>SUBSYSTEM==”usb”, ATTR{idVendor}==”05c6”, MODE=”0666”, GROUP=”plugdev”</p>
+<p>					1</p>
+<p>						SUBSYSTEM==”usb”, ATTR{idVendor}==”05c6”, MODE=”0666”, GROUP=”plugdev”</p>
+<p>在完成上述修改之後，即可重新啟動系統，或重新開始 udev 服務：</p>
+<p>sudo service udev restart</p>
+<p>					1</p>
+<p>						sudo service udev restart</p>
+<p>如果完成上述修改之後，Simulator Dashboard 裡面還是看不到「Push」傳輸鈕，那可參閱<a href="https://github.com/mozilla/r2d2b2g/issues/515">其他解決方案</a>。</p>
+<p>###</p>
+<h3>Mac 系統</h3>
+<p>如果你是用 Mac 在執行 Simulator，那不需要任何設定就可使用直接傳輸功能。</p>
+<p>##</p>
+<h2>參考資訊</h2>
+<p>若需要更多 Firefox OS Simulator 的設定與使用資訊 (包含安裝、除錯、新增 App、使用直接傳輸功能)，都可以到 MDN 頁面參閱 <a href="https://developer.mozilla.org/en-US/docs/Tools/Firefox_OS_Simulator">Firefox OS Simulator</a>。</p>
+<p>原文鏈結：<a href="https://hacks.mozilla.org/2013/05/pushing-firefox-os-apps-to-the-geeksphone/">https://hacks.mozilla.org/2013/05/pushing-firefox-os-apps-to-the-geeksphone/</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox OS</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=2819">Wayback snapshot</a>
+              <span>Post ID: 2819</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

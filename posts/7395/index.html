@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>fxpay 讓 In-app payments 更簡單 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">fxpay 讓 In-app payments 更簡單</h2>
+            <p class="entry-posted"><time datetime="2015-04-23" class="published"><span class="posted-month">4月</span><span class="posted-date">23</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p>針對許多 <a href="https://www.mozilla.org/en-US/firefox/os/">Firefox OS</a> 或 <a href="https://www.mozilla.org/en-US/firefox/desktop/">Firefox 桌面版</a> Web App 的開發者，現可透過 Mozilla 的「<a href="https://developer.mozilla.org/en-US/Marketplace/Monetization/In-app_payments_section/fxPay_iap">fxpay</a>」函式庫而輕鬆支援付款服務。Mozilla 的付款系統除了接受信用卡付款之外，另已能讓多國消費者透過自己名下的電話費帳單支付款項，更符合行動商務的趨勢。</p>
+<p><a href="https://marketplace.firefox.com/"><img src="../../assets/7395/wp-content/uploads/apps-1024x641.png" alt="apps" loading="lazy"></a></p>
+<p><a href="https://hacks.mozilla.org/2014/09/introducing-fxpay-for-in-app-payments/">首次釋出的 fxpay</a> 函式庫已修正許多錯誤並納入新功能。而根據開發者的反饋意見，我們也決定打造可支援原生「<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promises</a>」(<a href="https://github.com/jakearchibald/es6-promise">已導入</a>較舊版的瀏覽器) 的靈活新介面，以更妥善的處理錯誤。本文將說明應如何透過收據來檢索產品、處理付款、恢復已購買的產品。</p>
+<p>如果你已經直接用 <a href="https://developer.mozilla.org/en-US/Marketplace/Monetization/In-app_payments_section/mozPay_iap">mozPay API 設定了應用程式內付款 (In-app payments)</a> 功能，則可考慮轉用 <a href="https://developer.mozilla.org/en-US/Marketplace/Monetization/In-app_payments_section/fxPay_iap">fxpay</a> 以享受由 Mozilla 服務所供應的產品，及其附加功能 (如桌機付款) 的便利性。不論你的決定為何，至少要確認自己的 <a href="https://jwt.io/#libraries">JWT 函式庫已針對最近的安全漏洞修正完畢</a>。</p>
+<p>先來動手試試吧！在<a href="https://developer.mozilla.org/en-US/Marketplace/Monetization/In-app_payments_section/fxPay_iap#Installation">安裝 fxpay 函式庫</a>之後，即可透過某些<a href="https://developer.mozilla.org/en-US/Marketplace/Monetization/In-app_payments_section/fxPay_iap#Working_with_Fake_Products">假產品</a>進行測試。</p>
+<p>fxpay.configure({fakeProducts: true});<br>fxpay.getProducts()<br>  .then(function(products) {<br>    products.forEach(function(product) {<br>      addBuyButtonForProduct(product);<br>    });<br>  })<br>  .catch(function(error) {<br>    console.error(&#39;error getting products: &#39; + error);<br>  });</p>
+<p>					12345678910</p>
+<p>						fxpay.configure({fakeProducts: true});fxpay.getProducts()  .then(function(products) {    products.forEach(function(product) {      addBuyButtonForProduct(product);    });  })  .catch(function(error) {    console.error(&#39;error getting products: &#39; + error);  });</p>
+<p>如此將檢索某些已預先設定的假產品，讓你能輕鬆把玩相關功能。一旦你在 Firefox Marketplace 的「開發者交流中心 (Developer Hub)」上<a href="https://developer.mozilla.org/en-US/Marketplace/Monetization/In-app_payments_section/fxPay_iap#Set_Up_Your_Products">設定實際產品</a>之後，就能移除此設定值以搭配實際產品。</p>
+<p>以上方的範例函式為例，你可為各個產品添增「購買」按鈕如下：</p>
+<p>function addBuyButtonForProduct(product) {<br>  var button = document.createElement(&#39;button&#39;);<br>  button.textContent = &#39;Buy &#39; + product.name;<br>  button.addEventListener(&#39;click&#39;, function () {</p>
+<p>    fxpay.purchase(product.productId)<br>      .then(function(purchasedProduct) {<br>        console.log(&#39;product purchased! &#39;, <br>                    purchasedProduct);<br>      })<br>      .catch(function(error) {<br>        console.error(&#39;error purchasing: &#39; + error);<br>      });</p>
+<p>  });<br>  document.body.appendChild(button);<br>}</p>
+<p>					1234567891011121314151617</p>
+<p>						function addBuyButtonForProduct(product) {  var button = document.createElement(&#39;button&#39;);  button.textContent = &#39;Buy &#39; + product.name;  button.addEventListener(&#39;click&#39;, function () {     fxpay.purchase(product.productId)      .then(function(purchasedProduct) {        console.log(&#39;product purchased! &#39;,                     purchasedProduct);      })      .catch(function(error) {        console.error(&#39;error purchasing: &#39; + error);      });   });  document.body.appendChild(button);}</p>
+<p>fxpay 函式庫將透過 <a href="https://firefox-marketplace-api.readthedocs.org/en/latest/topics/payment.html">Mozilla 的 Web 服務</a> ，於背景處理所有付款程序，所以一旦解決 Promise 問題之後，就能安全的供應產品。到時候 fxpay 亦將於消費者的裝置上安裝收據。即使消費者往後重新安裝同一 App，開發者也可檢查收據以恢復消費者已購買過的產品。</p>
+<p>下列則重寫了用以恢復已購買產品的程式碼：</p>
+<p>fxpay.getProducts()<br>  .then(function(products) {<br>    products.forEach(function(product) {</p>
+<p>      if (product.hasReceipt()) {<br>        product.validateReceipt()<br>          .then(function(restoredProduct) {<br>            console.log(&#39;restored product from receipt:&#39;, <br>                        restoredProduct);<br>          })<br>          .catch(function(error) {<br>            console.error(&#39;error validating receipt: &#39; + <br>                          error);<br>          });<br>      } else {<br>        addBuyButtonForProduct(product);<br>      }</p>
+<p>    });<br>  });</p>
+<p>					1234567891011121314151617181920</p>
+<p>						fxpay.getProducts()  .then(function(products) {    products.forEach(function(product) {          if (product.hasReceipt()) {        product.validateReceipt()          .then(function(restoredProduct) {            console.log(&#39;restored product from receipt:&#39;,                         restoredProduct);          })          .catch(function(error) {            console.error(&#39;error validating receipt: &#39; +                           error);          });      } else {        addBuyButtonForProduct(product);      }        });  });</p>
+<p>希望此新的介面可提供更簡易的 In-app payments 體驗。沒人知道自己的 App 到底適用哪種商業模式，所以何不多多嘗試其他概念呢？</p>
+<p>另可到 <a href="https://developer.mozilla.org/en-US/Marketplace/Monetization/In-app_payments_section/fxPay_iap">MDN 上找到完整的 fxpay 使用指南</a>。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2015/04/easier-in-app-payments-with-fxpay/">Easier in-app payments with fxpay</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Mozilla</span><span>Web App</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20191113172824id_/https://blog.mozilla.com.tw/?p=7395">Wayback snapshot</a>
+              <span>Post ID: 7395</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

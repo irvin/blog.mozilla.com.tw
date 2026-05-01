@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>Firefox Marketplace：提交作業檢查清單 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">Firefox Marketplace：提交作業檢查清單</h2>
+            <p class="entry-posted"><time datetime="2015-01-28" class="published"><span class="posted-month">1月</span><span class="posted-date">28</span><span class="posted-year">2015</span></time></p>
+          </header>
+          <div class="entry-content"><p>你是熱血的 App 開發者，而且早已累積許多 App 準備大展身手嗎？在將自己的 App 提交到 Firefox Marketplace 時，當然該確認是否已經滿足了相關條件。本文則提供檢查項目與相關資訊的連結。</p>
+<p><img src="../../assets/6646/wp-content/uploads/marketplacesubmit-1024x574.jpg" alt="marketplacesubmit" loading="lazy"></p>
+<h3>提交作業檢查清單</h3>
+<p>要完成 Firefox Marketplace 的提交程序，你需要：</p>
+<h4>針對<a href="https://developer.mozilla.org/en-US/Marketplace/Options/Packaged_apps">封裝式 (Packaged) App</a></h4>
+<ul><li>將 App 封裝為 zip 檔案，並將 <a href="https://developer.mozilla.org/en-US/Apps/Build/Manifest">manifest</a> 檔案至於根目錄中。</li></ul>
+<ul><li>於 <a href="https://developer.mozilla.org/en-US/Apps/Build/Manifest">manifest</a> 檔案中指定 <a href="https://developer.mozilla.org/en-US/docs/Web/Apps/Manifest#launch_path">launch_path</a> 。</li></ul>
+<h4>針對<a href="https://developer.mozilla.org/en-US/Marketplace/Options/Hosted_apps">架設/托管式 (Hosted) App</a></h4>
+<ul><li>可架設/托管 App 的網站。進一步資訊可參閱《<a href="https://developer.mozilla.org/en-US/Marketplace/Options/Hosted_apps#Options_for_hosting_your_app">Options for hosting your app</a>》。</li></ul>
+<ul><li>App 內 manifest 檔案的網址。進一步資訊可參閱《<a href="https://developer.mozilla.org/zh-TW/Apps/Developing/Manifest/Manifest-840092-dup#csp">App 的 Manifest 檔案</a>》。</li></ul>
+<p>在將 App 提交到 Firefox Marketplace 之前，可使用「<a href="https://marketplace.mozilla.org/developers/validator">測試應用程式驗證</a>」工具來測試 manifest 檔案的正確性。</p>
+<p>注意：你會在「應用程式管理員 (App Manager)」看到「manifest」中文翻譯為「安裝資訊檔」。</p>
+<h4>針對所有 App (必備)</h4>
+<p>架設/托管式、封裝式 App 的共通必要條件：</p>
+<ul><li>App 的<a href="https://developer.mozilla.org/en-US/Apps/Developing/Manifest#name">名稱</a>必須加進 manifest 檔案中，最多可達 128 個字元。在 App 上傳程序的 <a href="https://developer.mozilla.org/en-US/Marketplace/Submission/Submitting_an_app#Step_3.3A_Details">Step 3</a> 中，亦必須預先填入 Marketplace 的「Name」欄位。</li></ul>
+<ul><li>App 的 manifest 檔案必須有 App 的<a href="https://developer.mozilla.org/en-US/Apps/Developing/Manifest#description">相關敘述</a>，最多可達 1024 個字元。在 App 上傳程序的 <a href="https://developer.mozilla.org/en-US/Marketplace/Submission/Submitting_an_app#Step_3.3A_Details">Step 3</a> 中，亦必須預先填入 Marketplace 的「Description」欄位，並可後續進行編輯 (但如果是 Marketplace 的說明欄位，則沒有字元數的限制)。</li></ul>
+<ul><li>需提供 128 x 128px 的縮圖圖示，以於 Marketplace 上呈現。此為固定的圖示尺寸。若要進一步了解應如何將圖示加入 App 中，可參閱 <a href="https://developer.mozilla.org/en-US/Apps/Developing/Manifest#icons">manifest 圖示</a>。</li></ul>
+<ul><li>需提供 App 截圖，至少為 320 x 480px (可參閱 <a href="https://developer.mozilla.org/en-US/Apps/Publishing/Marketplace_screenshot_criteria">Marketplace 截圖準則</a>以進一步了解。若要添增或變更截圖，可於 <a href="https://developer.mozilla.org/en-US/Marketplace/Submission/Submitting_an_app#Step_4.3A_Next_Steps">Step 4</a> 中更新之)。</li></ul>
+<ul><li>App 的隱私權政策，或是隱私權政策網頁的網址。可參閱<a href="https://developer.mozilla.org/en-US/Marketplace/Publishing/Privacy_policies">隱私權政策指南</a>以進一步了解 (可於 <a href="https://developer.mozilla.org/en-US/Marketplace/Submission/Submitting_an_app#Step_3.3A_Details">Step 3</a> 時輸入)。</li></ul>
+<ul><li>提供 App 支援服務的電子郵件位址 (可於 <a href="https://developer.mozilla.org/en-US/Marketplace/Submission/Submitting_an_app#Step_3.3A_Details">Step 3</a> 時輸入)。</li></ul>
+<h4>針對付費 App 或應用程式內付款 (In-app payments)</h4>
+<ul><li>你必須找好付款服務商、銀行帳戶明細 (如帳號、SWIFT 代號、地址明細)、公司明細 (如 VAT 編號、公司統編、開業日期)。</li></ul>
+<ul><li>如果 App 使用 In-app payments，確認已於 manifest 檔案中提供了 origin。</li></ul>
+<h4>針對所有 App (非必備)</h4>
+<p>架設/托管式、封裝式 App 的建議條件：</p>
+<ul><li>最多可提交 6 張截圖來呈現 App 的主畫面。最好是涵蓋不同裝置規格的 App 截圖，且各有尺寸限制： 手機：建議 320 x 480px 或相對應的倍數。</li></ul>
+<ul><li>平板電腦：建議 1024 x 768px 或 1280 x 800px。</li></ul>
+<ul><li>桌上型電腦：建議 1280 x 800px 或 1440 x 900px。</li></ul>
+<ul><li>其他尺寸的圖示應透過 manifest 檔案指定，以於其他平台/網頁內容達到最佳顯示效果： 60 x 60px 圖示可於裝置螢幕上顯示。</li></ul>
+<ul><li>32 x 32px、90 x 90px、120 x 120px、256 x 256px 圖示，可於不同平台達到最佳顯示效果，如 Windows 7 與 Android。</li></ul>
+<ul><li>App 及其支援服務首頁的網址。根據你自己的需要，可為相同或不同的網址 (於 <a href="https://developer.mozilla.org/en-US/Marketplace/Submission/Submitting_an_app#Step_3.3A_Details">Step 3</a> 時輸入)。</li></ul>
+<ul><li>其他<a href="https://developer.mozilla.org/en-US/Apps/Developing/Manifest">manifest</a> 檔案的選填欄位。目前有 <a href="https://developer.mozilla.org/en-US/Apps/Developing/Manifest#name">name</a>、<a href="https://developer.mozilla.org/en-US/Apps/Developing/Manifest#description">description</a>、<a href="https://developer.mozilla.org/en-US/Apps/Developing/Manifest#icons">icons</a> 為必要欄位，另有許多選填欄位，例如： 如果你要提供多語言版本的 App，就必須填入 <a href="https://developer.mozilla.org/en-US/Apps/Developing/Manifest#locales">locales</a> 的資訊。</li></ul>
+<ul><li>如果有 locales 欄位，就必須一併提供 <a href="https://developer.mozilla.org/en-US/Apps/Developing/Manifest#default_locale">default_locale</a> 欄位。</li></ul>
+<ul><li>如果要在 App 中使用特定裝置的 API 或 Web Activity，也必須在 manifest 檔案中提供相關 <a href="https://developer.mozilla.org/en-US/Apps/Developing/App_permissions">App permissions</a> 或 <a href="https://developer.mozilla.org/en-US/docs/WebAPI/Web_Activities">activities</a> 欄位。</li></ul>
+<h4>另外還有……</h4>
+<p>……你應該：</p>
+<ul><li>在 Marketplace 審核通過你的 App 之後，預設將立刻讓 App 上架。如果你不想讓 App 立刻上架，則在提交 App 時要取消勾選「 Publish my app in the Firefox Marketplace as soon as it’s reviewed 」(於 <a href="https://developer.mozilla.org/en-US/Marketplace/Submission/Submitting_an_app#Step_2.3A_Submit">Step 2</a> 時勾選)。</li></ul>
+<ul><li>可參閱 <a href="https://developer.mozilla.org/en-US/docs/Web/Apps/Publishing/Marketplace_review_criteria">Marketplace 審查準則</a> (<a href="https://developer.mozilla.org/en-US/Marketplace/Submission/Submitting_an_app#Step_1.3A_Agreement">Step 1</a>)。</li></ul>
+<p>Mozilla 開發者社群網站 (MDN) 原文連結：<a href="https://developer.mozilla.org/en-US/Marketplace/Publishing/Submission_checklist">Submission checklist</a></p>
+<p>你也可閱讀中文版的《<a href="https://developer.mozilla.org/zh-TW/docs/Mozilla/Marketplace/Publishing/Submission_checklist">提交作業檢查清單</a>》；並參閱 MDN 上的更多 Firefox OS 或 Marketplace 相關文章。</p>
+<p>原文文章將不定期有所增刪，我們也將儘快更新中文版本，以期讓開發者能隨時看到最新的內容。</p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Firefox OS</span><span>Mozilla</span><span>Web App</span></div>
+            
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20200805164613id_/https://blog.mozilla.com.tw/?p=6646">Wayback snapshot</a>
+              <span>Post ID: 6646</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

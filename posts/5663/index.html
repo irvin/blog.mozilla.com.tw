@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>用 TogetherJS 與 CreateJS 開發多人遊戲 (上) | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">用 TogetherJS 與 CreateJS 開發多人遊戲 (上)</h2>
+            <p class="entry-posted"><time datetime="2014-05-27" class="published"><span class="posted-month">5月</span><span class="posted-date">27</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><p>《Bubble Hell Duel》是支援多人對戰的 <a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 遊戲。重點就是要躲避對手發出來的泡泡並設法反擊。此遊戲主要可讓大家學習如何寫出遊戲原型，並已經可<a href="https://github.com/coolwanglu/BubbleHellDuel">到 GitHub 上找到原始碼</a>。你現在就能<a href="https://coolwanglu.github.io/BubbleHellDuel/">在這裡</a>試玩單人或多人模式。目前尚未加入任何音效，但確實使用了 <a href="https://www.createjs.com/#%21/CreateJS">CreateJS</a> 與 <a href="https://togetherjs.com/">TogetherJS</a>。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/screenshot.png" alt="screenshot" loading="lazy"></p>
+<p>我會在本篇文章中分享某些遊戲開發經驗。如果你有任何建議，也歡迎隨時透過下方意見欄讓我知道。</p>
+<h3>遊戲引擎</h3>
+<p>若要開發 2D 遊戲，開發者除了撰寫自己的遊戲引擎之外，也有不錯的現成函式庫可利用。在花了幾天評估現有選擇之後，我選用了 CreateJS。因為我對 Flash 還算有點經驗，所以不用再花什麼時間去學 CreateJS，也蠻符合我現有的需要。我想用一部分的 Flash 動畫，而 CreateJS 又正好支援此功能。稍後也會提到動畫的部份。</p>
+<p>我自己是 C++ 開發者，認為「<a href="https://github.com/kripken/emscripten/wiki">emscripten</a>」是個好選擇。因為 emscripten 可將 C/C++ 程式碼編譯為 JavaScript 以利於瀏覽器中執行。如果要開發大型的程式庫，我認為靜態型別檢查 (Static type checking) 與編譯期最佳化 (Compile-time optimization) 都是絕佳資源。我之前就用過 emscripten 且運作順暢。而針對這個遊戲，我需要 JavaScript 可快速且方便撰寫原型的特性，也希望進一步拓展自己的 JavaScript 技術。</p>
+<p>另外還要講一下其他有趣的函式庫。《<a href="https://www.cocos2d-x.org/">Cocos2d-x</a>》現正在進行 emscripten 移植工作，並已可支援<a href="https://www.cocos2d-x.org/wiki/Cocos2d-JS">HTML5</a>。我也喜歡已具備 <a href="https://developer.mozilla.org/en/WebGL">WebGL</a> 繪圖器 (Renderer) 的《<a href="https://www.pixijs.com/">pixi.js</a>》；且萬一瀏覽器不支援 WebGL，亦可支援轉用 Canvas。</p>
+<h3>C++ 對決 JavaScript</h3>
+<p>我剛開始還有點擔心 JavaScript 的效能，也因此讓我難以抉擇 CreateJS 或 emscripten。但在跑過簡單的效能評比之後，我發現尚未最佳化的碰撞檢測 (Collision detection) 演算法足可處理畫面上的 400 顆泡泡，且能維持 40 fps 以上。這對我的簡單實驗已經足夠。</p>
+<p>我自己用 C++ 寫的程式碼比 JavaScript 寫的要多，我也喜歡能將自己的想法迅速轉為程式碼，並在多款瀏覽器上測試。另一方面，JavaScript 的除錯並不簡單；而 C++ 編譯器則是能輕鬆找出拼錯或其他導致 Runtime 問題的錯誤。雖然「use strict」指令以及其他機制 (如 Closure compiler) 都有各自的用途，但對我似乎沒什麼用，尤其遇上未定義的變數就更是如此。這時如果想找到錯誤發生的原因，相對來說就更難了。</p>
+<p>舉個難以除錯的例子：針對座標與其他幾何值 (如角度)，我當時採用了浮點數。這些數值會透過 TogetherJS.send 函式傳給玩家，以達到同步化的效果。</p>
+<p>var player = { x: 10.0, y: 10.0 };<br>TogetherJS.send({type:&#39;sync&#39;,x:player.x,y:player.y});<br>TogetherJS.hub.on(&#39;sync&#39;, function(msg){<br>    enemy.x = msg.x;<br>    enemy.y = msg.y;<br>});</p>
+<p>					123456</p>
+<p>						var player = { x: 10.0, y: 10.0 };TogetherJS.send({type:&#39;sync&#39;,x:player.x,y:player.y});TogetherJS.hub.on(&#39;sync&#39;, function(msg){    enemy.x = msg.x;    enemy.y = msg.y;});</p>
+<p>這樣雖然可用，但也會送出許多小數點之後的數值，所以我決定不用太精確：</p>
+<p>TogetherJS.send({type:&#39;sync&#39;, x:Math.round(player.x), y:Math.round(player.y) });</p>
+<p>					1</p>
+<p>						TogetherJS.send({type:&#39;sync&#39;, x:Math.round(player.x), y:Math.round(player.y) });</p>
+<p>接著我又想到，光是整數可能對碰撞檢測不夠精確，所以我又加了更多位數：</p>
+<p>TogetherJS.send({type:&#39;sync&#39;, x:player.x.toFixed(2), y:player.y.toFixed(2) });</p>
+<p>					1</p>
+<p>						TogetherJS.send({type:&#39;sync&#39;, x:player.x.toFixed(2), y:player.y.toFixed(2) });</p>
+<p>這看來是合理的解決方案，但實際上卻產生很難發現的臭蟲。一直到我又建置了其他功能並測試遊戲之後才發現。這臭蟲會造成對手在遊戲期間完全不能動。</p>
+<p>我花了幾個小時除錯才發現原因。如果一開始用 C++ 應該就不會發生這種錯誤。</p>
+<p>如果你想看看這個臭蟲的實際運作情形，可試試這個 <a href="https://jsfiddle.net/coolwanglu/eu8vT/3/">jsFiddle</a> 專案。你只要看到旁邊三個 Canvas 標籤的輸出，就會注意到第三個 Canvas 發生錯誤了。因為 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed">toFixed</a> 回傳了字串表示式而造成這個問題。</p>
+<p>我不知道 Closure compiler 能否避免這個問題，但我在<a href="https://github.com/coolwanglu/pdf2htmlEX">另一個專案</a>中發現 Closure compiler 的確能協助達到最佳化。</p>
+<p>看到這裡，你對相關遊戲開發是否有進一步的認識了呢？可別錯過《<a href="../../posts/5668/">用 TogetherJS 與 CreateJS 開發多人遊戲 (中)</a>》。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/05/creating-a-multiplayer-game-with-togetherjs-and-createjs/">Creating a Multiplayer Game with TogetherJS and CreateJS</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190825002545id_/https://blog.mozilla.com.tw/?p=5663">Wayback snapshot</a>
+              <span>Post ID: 5663</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>淺談 Firefox 34 開發者工具 | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">淺談 Firefox 34 開發者工具</h2>
+            <p class="entry-posted"><time datetime="2014-09-24" class="published"><span class="posted-month">9月</span><span class="posted-date">24</span><span class="posted-year">2014</span></time></p>
+          </header>
+          <div class="entry-content"><h3>WebIDE、jQuery 事件、iframe 切換器、儲存空間檢測器，還有更多</h3>
+<p>新的 Firefox 開發者工具已經進入<a href="https://www.mozilla.org/firefox/aurora/">曙光版 (Aurora) 釋出頻道</a>，並將正式登上 11 月的 Firefox 34 版本。其中包含新工具 (儲存空間檢測器、WebIDE)、更新過的效能分析器，亦強化了多項現有工具。</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/firefoxdevtools-1024x579.png" alt="firefoxdevtools" loading="lazy"></p>
+<h4>WebIDE</h4>
+<p>WebIDE 在此版本中預設為啟用狀態，可讓你在瀏覽器中開發 App。<a href="https://developer.mozilla.org/docs/Tools/WebIDE">WebIDE</a> 可透過範本建立新的 <a href="https://developer.mozilla.org/Firefox_OS">Firefox OS</a> App (即為 Web App)，或可打開現成 App 的程式碼。你可於 WebIDE 上編輯 App 的檔案。且只要清點滑鼠，即可在模擬器中執行 App，亦可搭配開發者工具進行除錯。現在只要進入 Firefox 的「網頁開發者 (Web Developer)」功能表就能找到 WebIDE。(<a href="https://developer.mozilla.org/docs/Tools/WebIDE">說明文件</a>)</p>
+<h4>儲存空間檢測器 (Storage Inspector)</h4>
+<p>新的面板將顯示目前頁面以 cookies、localStorage、sessionStorage、<a href="https://developer.mozilla.org/en/IndexedDB">IndexedDB</a> 所儲存的資料。可從開發者工具中的「<a href="https://developer.mozilla.org/docs/Tools/Tools_Toolbox#Settings">工具箱選項 (即齒輪圖示)</a>」→「Default Developer Tools」→「Storage」，即可啟動 <a href="https://developer.mozilla.org/docs/Tools/Storage_Inspector">Storage</a> 面板。此面板現仍是「唯讀」狀態，未來將開放編輯功能。(<a href="https://developer.mozilla.org/docs/Tools/Storage_Inspector">說明文件</a>) (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=970517">開發討論記錄</a>) (<a href="https://ffdevtools.uservoice.com/forums/246087-firefox-developer-tools-ideas/suggestions/5707193-i-need-a-better-insight-into-appcache-and-offline">他人在 UserVoice 提出的需求</a>)</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/storage-inspector.png" alt="storage-inspector" loading="lazy"></p>
+<h4>jQuery 事件</h4>
+<p><a href="https://developer.mozilla.org/docs/Tools/Page_Inspector">檢測器 (Inspector)</a> 彈出視窗的事件監聽器 (Event Listener) 現已支援 jQuery。也就是說，彈出視窗會顯示你附掛的函式，例如 jQuery.on()，而不是 jQuery wrapper 函式本身。可參閱<a href="https://flailingmonkey.com/view-jquery-and-jquery-live-events-in-firefox-devtools/">本篇文章</a>進一步了解，並新增支援自己愛用的框架。(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1044932">開發討論記錄</a>)</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/jQuery-events.png" alt="jQuery-events" loading="lazy"></p>
+<h4>iframe 切換器</h4>
+<p>新的頁框選單可變更你正除錯中的頁框。只要選擇一個頁框，就會切換所有工具以進行該 iframe 的除錯作業，包含檢測器、主控台 (Console)、除錯器 (Debugger)。找到「<a href="https://developer.mozilla.org/docs/Tools/Tools_Toolbox#Settings">工具箱選項 (即齒輪圖示)</a>」→「可用的工具箱按鈕 (Available Toolbox Buttons)」→「選擇要做為目標文件的 iframe (Select an iframe as the currently targeted document)」，就能新增框架選擇按鈕。(<a href="https://developer.mozilla.org/docs/tools/Working_with_iframes">說明文件</a>) (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=977043">開發討論記錄</a>)(<a href="https://ffdevtools.uservoice.com/forums/246087-firefox-developer-tools-ideas/suggestions/5893367-allow-switching-between-active-frames-in-the-conso">他人在 UserVoice 提出的需求</a>)</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/iframe-switcher.png" alt="iframe-switcher" loading="lazy"></p>
+<h4>強化過的效能分析器 (Profiler)</h4>
+<p>新的 JavaScript 效能分析器 (Profiler)，將出現於新的「效能 (Performance)」分頁中 (之前分頁名為「效能分析器」)。新功能包含幀率 (Frame rate) 時間軸，還有如頁框的「network」與「graphics」分類。(<a href="https://developer.mozilla.org/docs/Tools/Performance">說明文件</a>) (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=879008">開發討論記錄</a>)</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/updated-profiler.png" alt="updated-profiler" loading="lazy"></p>
+<p>##</p>
+<h4>console.table()</h4>
+<p>在 JavaScript 中的任何一處呼叫 console.table()，即可透過表格呈現方式將資料輸出至主控台。可記錄任何物件、陣列、<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Map">Map</a>、<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Set">Set</a>。另外只要點擊表頭，即可重新排序表格內的欄位。(<a href="https://developer.mozilla.org/docs/Web/API/Console.table">說明文件</a>) (<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=899753">開發討論記錄</a>)</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/console.table_.png" alt="console.table_" loading="lazy"></p>
+<h4>選擇器預覽</h4>
+<p>在檢測器或樣式編輯器 (Style Editor) 中，只要將滑鼠游標移至 CSS 選擇器上，就會反白顯示目前頁面符合該選擇器的所有節點。(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=971662">開發討論記錄</a>)</p>
+<p><img src="https://blog.mozilla.com.tw/wp-content/uploads/selector-preview.png" alt="selector-preview" loading="lazy"></p>
+<h4>其他功能</h4>
+<ul><li>記憶前次工具的分割主控台 – 分割主控台 (按下 ESC 就會開啟) 現在會同時開啟最近一次使用的工具。(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=974550">開發討論記錄</a>)</li></ul>
+<ul><li>Web audio – AudioParam connections – <a href="https://developer.mozilla.org/docs/Tools/Web_Audio_Editor">「Web Audio」編輯器</a>現可顯示 AudioNodes 到 AudioParams 的連結。(<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1032129">開發討論記錄</a>)</li></ul>
+<p>特別感謝為此版本撰寫<a href="https://mzl.la/Zfc5VY">所有功能與修正檔</a>的四十一位貢獻者。</p>
+<p>你可於下方直接填寫意見；到 Twitter 的 <a href="https://twitter.com/firefoxdevtools">@FirefoxDevTools</a> 提供反饋意見；或透過<a href="https://mzl.la/devtools">開發者工具意見反饋管道</a>提出想法。如果你想貢獻自己的一份力，可參閱<a href="https://wiki.mozilla.org/DevTools/GetInvolved">相關說明</a>。</p>
+<p>原文連結：<a href="https://hacks.mozilla.org/2014/09/webide-storage-inspector-jquery-events-iframe-switcher-more-firefox-developer-tools-episode-34/">WebIDE, Storage inspector, jQuery events, iframe switcher + more – Firefox Developer Tools Episode 34</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=6333">Wayback snapshot</a>
+              <span>Post ID: 6333</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mozilla Taiwan 部落格封存">
+  <title>WebRTC 後續更新：我們就快要發表WebRTC 第一版。歡迎來玩！ | Mozilla Taiwan 部落格封存</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+<body class="single sky">
+  <div id="outer-wrapper">
+    <div id="wrapper">
+      <div id="doc">
+        <header id="masthead">
+          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <h2><a href="../../index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
+          <nav class="breadcrumbs">
+            <a href="../../index.html" class="home">Home</a>
+            <b>&raquo;</b>
+            <span>部落格封存</span>
+          </nav>
+          <hgroup>
+            <h1>部落格</h1>
+            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+          </hgroup>
+        </header>
+        <div id="main">
+          
+      <main id="primary" class="content" role="main">
+        <article class="post single-post">
+          <header class="entry-header">
+            <h2 class="entry-title">WebRTC 後續更新：我們就快要發表WebRTC 第一版。歡迎來玩！</h2>
+            <p class="entry-posted"><time datetime="2013-04-19" class="published"><span class="posted-month">4月</span><span class="posted-date">19</span><span class="posted-year">2013</span></time></p>
+          </header>
+          <div class="entry-content"><p>我想跟大家分享 Firefox 對 WebRTC 的最新進度，同時也搶先預告 WebRTC 未來的可能計畫。我的同事洛奇 (Adam Roach)，鑽研 IETF 的 VoIP/SIP 領域已經超過 10 年，而且在去年 11 月剛加入 Mozilla WebRTC 團隊。我會接著讓他介紹 WebRTC 的歷史背景，並概略介紹目前進行中的工作。</p>
+<h3>準備在 Firefox 桌面版上發表 WebRTC 第一版</h3>
+<p>Firefox 在安全性與穩定性的考量下，針對 Firefox 桌面版所設計的 WebRTC 第一版有了重大進展。在最近幾個禮拜裡，我們讓 Nightly/Aurora 中的 PeerConnection 與 DataChannels 偏好設定，均已預設為啟用。而我們也準備讓 Firefox 22 的所有版本都納入 PeerConnection 與 DataChannels；這也代表我們要將 WebRTC 內建到 Aurora、測試版、一般版本中。</p>
+<p>我們也趁機更新了 Firefox 22 中的 DataChannels，使其能因應最近的規格變化(並於上個月取得 atIETF 的許可)。這裡請注意：<a href="https://mozilla.github.io/webrtc-landing/DataChannel_changes.html">我們因應規格而進行的改變</a>，並非向下相容之前的 DataChannels 版本 (Firefox 21 或更早版本)。因此若要測試 DataChannels App，請使用 Firefox 22 或更高版本。</p>
+<h3>開始支援 TURN</h3>
+<p>我們讓 Firefox Nightly 新支援了 TURN，並已進入測試階段。不論末端位於何種 NAT 之後，TURN 都能提高電話連線的成功率，也因此我們極為看重 TURN。</p>
+<p><a href="https://en.wikipedia.org/wiki/Traversal_Using_Relay_NAT">TURN (Traversal Using Relays behind NAT)</a> 標準，用以管理 (如分配、使用、破壞等作業) 遠端外部伺服器上的中繼 (Relay) 階段。只要 2 端同時均有 NAT，則這個中繼階段將讓 WebRTC 進行連線，否則作業隨即失敗。由於 TURN 伺服器可接手中繼作業 (特別是當 TURN 伺服器均為 2 個末端的遠端) 且價格偏高 (可在電話連線期間處理所有的媒體流量)，因此只有在電話連線期間，其他方式 (如 STUN) 無法取得媒體流量之時，ICE 才會使用 TURN。</p>
+<h3>WebRTC 在 Firefox for Android 上的應用 已準備進入測試與意見反饋階段</h3>
+<p>先拉回到 2 月份的世界行動通訊大會 (MWC)上。我們當時透過 Firefox for Android 而展示了 WebRTC 電話連線功能；而現在也已經把同樣的程式碼內建到 Nightly 中。而針對 getUserMedia (gUM) 與 PeerConnection，這組程式碼必須透過偏好設定 (與桌面版的初始設定相同) 而啟動。你可將 media.navigator.enabled 與 media.peerconnection.enabled 的偏好設定轉為「true」(請至 about:config 並搜尋偏好清單中的 media.navigator.enabled 與 media.peerconnection.enabled)，進而啟動該程式碼。在同樣的偏好清單中，亦可將 media.navigator.permission.disabled 設定為「true」，即可自動允許相機/麥克風存取；而在測試 gUM 與 WebRTC 時，亦可略過 permission/selection 的對話框。</p>
+<p>此程式碼仍在早期測試階段，但我們希望你也能一同測試、<a href="https://bugzilla.mozilla.org/enter_bug.cgi?product=Core&amp;component=WebRTC">回報錯誤</a>、<a href="https://groups.google.com/forum/#%21forum/mozilla.dev.media">發問並反應意見</a>。又因為我們同時在處理 Android 與 Desktop 的問題，所以要請你特別標明是回報「Android」的問題或意見。我們明年同樣會繼續努力改善並擴充程式碼，使其更趨穩定。</p>
+<h3>接著就是讓 WebRTC 躍上 Firefox OS</h3>
+<p>Mozilla 同樣要讓 Firefox OS 能夠執行此程式碼。不像 Firefox for Android，雖然 WebRTC 還沒那麼快能在 Firefox OS 上大顯身手，但是 Firefox OS 團隊已經儘量在縮短時程。你可先<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=750011">透過 Bug 750011</a> 了解相關進度。</p>
+<h3>WebRTC 未來的功能</h3>
+<p>既然 Mozilla 的所有產品都共用 Gecko 引擎，因此只要核心「平台」或 Gecko 程式碼有所提升，均將一併強化所有產品。</p>
+<p>Mozilla 已經計畫明年要改善下列特性：</p>
+<ul><li>完整的錯誤與狀態報表 (規格相容性)</li></ul>
+<ul><li>記錄 API 的支援情形</li></ul>
+<ul><li>整合 Persona</li></ul>
+<ul><li>單一 Peer Connection 允許多組音訊與視訊流量 (目前為音訊與視訊各 1 組)</li></ul>
+<ul><li>支援 Persistent permissions (針對 UX/UI)</li></ul>
+<ul><li>強化 AEC</li></ul>
+<ul><li>提升電話連線品質 (特別是音訊的潛時)</li></ul>
+<p>當然不只這些，但我們認為上面這幾項工作有比較高的優先性。現在也已經建構了 <a href="https://developer.mozilla.org/en-US/docs/WebRTC">WebRTC 記錄文件與輔助說明網頁</a>，而我們會接著充實相關內容，並隨時更新文章。該網頁亦將銜接我們正努力建構中的產品，另有鏈結可讓貢獻者加入我們的行列。</p>
+<h3>邁開大步向前</h3>
+<p>我們現在已經等不及想為桌面版 Firefox 發表 WebRTC 第一版了。這對 Mozilla 與WebRTC 本身來說都是一大里程碑。因為我們會搶先修正 Nightly 上的錯誤，而最新功能也會優先加入 Nightly，所以我還是希望所有的 WebRTC 開發人員能繼續使用 Nightly，讓我們能在最短時間內，將大家所反應的意見達到最大效益。</p>
+<p>更重要的是，WebRTC 規格本身仍處於標準化的階段。WebRTC 歷史沿革與相關細節，就接著讓亞當來說明。</p>
+<p>– Mozilla 媒體平台團隊產品經理芮薇 (Maire Reavy)</p>
+<h3>WebRTC 就是通訊技術的未來</h3>
+<p>大家好，我是洛奇。</p>
+<p>大概在 3 年前，我的好友辛雷奇 (Henry Sinnreich) 找我吃午飯，在對我畫著 VoIP 大餅的同時，也提出自己的論點：通訊技術真正的未來，在於能用網頁瀏覽器直接撥打音訊甚至視訊電話。我現在還能清楚回想他那時揮舞著自己手機滔滔不絕的樣子，還不斷強調瀏覽器已經多麼普及。我當時只回答：你的想法需要 IETF 與 W3C 史無前例的合作才能成功。就算他們願意合作，也會嚴重影響這兩大組織之前的努力成果。簡單一句話就是：很美的願景，但有很長的路要走。</p>
+<p>但，神奇的事發生了。</p>
+<h3>WebRTC 就像日出時的曙光</h3>
+<p>在 2011 年的研討會過後，IETF/W3C 的合作計畫也拍板定案了，而且真的出現了簡略的技術框架。Mozilla 與 Google 也在 2012 年確實著手開發相關標準。</p>
+<p>就在 2012 年 11 月，首屆 WebRTC 博覽會在美國舊金山舉辦。而開場序言的發表房間擠得水洩不通，大家都站到走廊上去了。接下來的 2 天內，我們看到許多 WebRTC 初期服務的相關展示，也有多家公司承諾將加入 WebRTC 的發展。而大衛也向我們表示，排名全美前十名的銀行中，有 5 家銀行已經開始規劃自己的 WebRTC 投資策略。</p>
+<p>在 2013 年 2 月，Mozilla 與 Google <a href="https://hacks.mozilla.org/2013/02/hello-chrome-its-firefox-calling/">展示 Firefox 與 Chrome 之間的即時視訊電話</a>，真正為 WebRTC 之路打下厚實基礎。</p>
+<h3>現在進度到哪了？</h3>
+<p>透過曾經的展示里程碑，我想說 WebRTC 已經邁入「幾乎完成」的階段，而且不難想像我們現在已經箭在弦上。雖然已經到了這個節骨眼，我還是必須強調：仍有許多事情等著完成。</p>
+<p>同樣在 2012 年 2 月，我們到波士頓參加了臨時的聯合會議，其中有多組致力於 WebRTC 標準的工作團隊。會議主題包含 WebRTC javascript API 的呼叫協定 (Calling convention) 問題，還有多重視訊串流的發訊架構；反正都是 WebRTC 標準是否能普及的重要因素。我意思可不是 WebRTC 標準很難搞。根據我自己這 16 年對各項標準的工作經驗，我必須說 WebRTC 的開發過程其實還算輕鬆，而且我也期待這項深具潛力的技術。所謂的「規格」，可以很大，可以很重要，也可以讓投資人等很久才有所回報。</p>
+<h3>WebRTC 目前的狀態</h3>
+<p>即使我說 WebRTC 標準目前已經完備，但 WebRTC 所能從事的深度與廣度、所要修正的錯誤、要能正確運作等要求，都還有一大段的路要走。我們所打下的基礎，不過是 2 款瀏覽器互連/互用 (Interpo) 的基本功能，同時也暴露出雙方建構內的許多瑕疵。而去年 2 月的會議上也提到了 <a href="https://www.sipit.net/SIPit30_summary">SIPit 30</a>，內含首次 WebRTC 實際互連測試活動。當時也有人說這次測試能顯露出許多新的錯誤，不論是我們或其他開發商，都一樣還有許多要修正的地方；但至少，我們能找出改進的空間。</p>
+<p>就我目前所知，仍有許多功能是 Mozilla 或 Google 都尚未著手進行的。如果你想使用這些未規範過的功能，也請你耐心等待。我們會儘快把這些功能加入 WebRTC 的未來版本中。</p>
+<p>我們正積極建構網路通訊的未來，而且 WebTRC 亦將帶來許多機會。我自己也很高興 WebRTC 能受到如此重視，但還有很多事情等著我們去完成。</p>
+<h3>歡迎來玩！</h3>
+<p>歡迎加入我們的行列、到處隨意看看、甚至動手嘗試目前的工作，但是千萬不要以為所有東西都已經準備就緒。我們還在盡力減少 WebRTC 標準的變化幅度，避免 App 開發人員與使用者後續受到太大的影響。在提升 WebRTC 的同時，規格絕對也會連帶產生變化。我們會透過相關討論區，隨時通知大家最新的修正並降低可能的影響，而 App 開發人員也應該跟著做出相關調整。現在我們的首要目標，就是提升聲音與影像的品質。其實大家早就知道：沒有任何人能完全滿足迅速革新的 W3C 規格。</p>
+<p>我們想讓 2013 年成為 WebRTC 的關鍵年，而現在已經達成了某些目標。對那些早期接觸的人來說，若要了解 WebRTC 到底有哪些能耐、找出效果不如你預期的原因，現在正是時候。當然，請隨時反應意見，讓我們能改善現有的版本並強化標準的開發作業。</p>
+<p>如果你負責修正次要的錯誤或變更；如果你能解決系統無法順利運作的某些問題；如果你身懷絕技，甚至想訂定 WebRTC 未來的發展方向，我們也都敞開溝通管道，隨時歡迎你提出任何建言。</p>
+<p>如果你等著使用以後的付費服務與穩定頻道，進而打好自己與客戶之間的關係，或完成關鍵的重要應用，我們也需要你提出相關的寶貴意見。我相信很快就會有高穩定度的通訊平台，而且明年的某個時間點就可以開始商務方面的運作。</p>
+<p>原文鏈結：<a href="https://hacks.mozilla.org/2013/04/webrtc-update-our-first-implementation-will-be-in-release-soon-welcome-to-the-party-but-please-watch-your-head/">https://hacks.mozilla.org/2013/04/webrtc-update-our-first-implementation-will-be-in-release-soon-welcome-to-the-party-but-please-watch-your-head/</a></p></div>
+          <footer class="entry-footer">
+            <div class="entry-category-box">文章分類：<span>Firefox</span><span>Web App</span></div>
+            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Web App</span></div>
+            <div class="entry-source-box">
+              <a href="https://web.archive.org/web/20190824001316id_/https://blog.mozilla.com.tw/?p=2411">Wayback snapshot</a>
+              <span>Post ID: 2411</span>
+            </div>
+          </footer>
+        </article>
+      </main>
+      <aside id="secondary" class="widget-area" role="complementary">
+    <section class="widget">
+      <h3>文章分類</h3>
+      <ul>
+        <li>Firefox</li><li>Firefox for Android</li><li>Firefox for iOS</li><li>Firefox OS</li><li>Identity</li><li>Mozilla</li><li>Privacy</li><li>Security</li><li>Web App</li><li>新聞訊息</li><li>未分類</li><li>校園大使</li><li>活動</li>
+      </ul>
+    </section>
+    <section class="widget">
+      <h3>封存說明</h3>
+      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
+      <p><a href="../../index.html">所有文章</a></p>
+    </section>
+  </aside>
+    
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
