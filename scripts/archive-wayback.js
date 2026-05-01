@@ -24,6 +24,9 @@ const URL_RETRY_IDS_PATH = path.join(DISCOVERY_DIR, 'urls-retry-post-ids.txt');
 const TIMEMAP_PATH = path.join(ROOT, 'json.json');
 const TIMEMAP_IMPORT_PATH = path.join(DISCOVERY_DIR, 'timemap-import-report.json');
 const TIMEMAP_RETRY_IDS_PATH = path.join(DISCOVERY_DIR, 'timemap-retry-post-ids.txt');
+const ARTICLE_MEDIA_REPORT_PATH = path.join(DISCOVERY_DIR, 'article-media-report.json');
+const ARTICLE_MEDIA_MISSING_PATH = path.join(DISCOVERY_DIR, 'article-media-missing.json');
+const ARTICLE_MEDIA_RECOVER_PATH = path.join(DISCOVERY_DIR, 'article-media-recover-report.json');
 
 const POST_ID_MIN = 74;
 const POST_ID_MAX = 9335;
@@ -174,6 +177,22 @@ async function main() {
     return;
   }
 
+  if (command === 'media-report') {
+    const result = await writeArticleMediaReport();
+    console.log(
+      `Article media: ${result.summary.article_media_localized_refs}/${result.summary.article_media_refs} localized; missing ${result.summary.article_media_missing_refs}; report written to ${relative(ARTICLE_MEDIA_REPORT_PATH)}`
+    );
+    return;
+  }
+
+  if (command === 'media-recover') {
+    const result = await recoverArticleMedia();
+    console.log(
+      `Recovered ${result.localized_now}/${result.total_missing_before} article media; remaining ${result.total_missing_after}; report written to ${relative(ARTICLE_MEDIA_RECOVER_PATH)}`
+    );
+    return;
+  }
+
   throw new Error(`Unknown command: ${command}`);
 }
 
@@ -203,6 +222,10 @@ Commands:
          Query post ids listed in urls.txt but missing from cdx-snapshots.json
   fetch  Read archive/cdx-snapshots.json and archive posts
   assets Retry only missing article image assets from archive/articles-json
+  media-report
+         Report media referenced inside each raw <article>
+  media-recover
+         Recover missing media referenced inside each raw <article>
   all    Scan if needed, then archive posts (default)
 
 Options:
@@ -213,6 +236,8 @@ Options:
                        Write fetch checkpoint every n posts, default 25
   --ids-file <path>     Process only newline-delimited post ids from a file
   --include-assets      Download images referenced inside article content
+  --include-srcset      Include srcset candidates in media-report/media-recover
+  --only uploads        Limit media-recover to blog.mozilla.com.tw/wp-content/uploads
   --delay-min <ms>      Minimum request delay, default 1000
   --delay-max <ms>      Maximum request delay, default 3000
   --max-attempts <n>    Snapshot attempts per post, default ${MAX_SNAPSHOT_ATTEMPTS}
@@ -1741,6 +1766,308 @@ async function fetchMissingAssets() {
 
   await saveJson(ASSET_MANIFEST_PATH, result);
   return result;
+}
+
+async function writeArticleMediaReport() {
+  const result = await articleMediaReport();
+  await saveJson(ARTICLE_MEDIA_REPORT_PATH, result);
+  await saveJson(ARTICLE_MEDIA_MISSING_PATH, result.missing);
+  return result;
+}
+
+async function recoverArticleMedia() {
+  const report = await articleMediaReport();
+  const only = String(args.only || '').trim();
+  const limit = args.limit ? Number(args.limit) : Infinity;
+  const candidates = report.missing
+    .filter((item) => !only || (only === 'uploads' && isUploadsUrl(item.url)))
+    .slice(0, limit);
+  const byPost = new Map();
+  const result = {
+    generated_at: new Date().toISOString(),
+    source_report: relative(ARTICLE_MEDIA_REPORT_PATH),
+    include_srcset: hasFlag('include-srcset'),
+    only: only || null,
+    total_missing_before: candidates.length,
+    localized_now: 0,
+    total_missing_after: 0,
+    recovered: [],
+    failed: [],
+  };
+
+  for (const item of candidates) {
+    const article = byPost.get(item.post_id) ?? JSON.parse(await readFile(path.join(JSON_DIR, `${item.post_id}.json`), 'utf8'));
+    byPost.set(item.post_id, article);
+
+    try {
+      const usedPaths = new Set((article.media || article.images || [])
+        .map((media) => media.archive_path)
+        .filter(Boolean)
+        .map((archivePath) => path.join(ARCHIVE_DIR, archivePath)));
+      const recovered = await recoverOneMedia(article, item, usedPaths);
+      mergeRecoveredMedia(article, recovered);
+      result.localized_now += 1;
+      result.recovered.push({
+        post_id: item.post_id,
+        url: item.url,
+        archive_path: recovered.archive_path,
+        wayback_timestamp: recovered.wayback_timestamp,
+      });
+    } catch (error) {
+      result.failed.push({ ...item, reason: error.message });
+      console.warn(`Media recover failed ${item.post_id}: ${item.url}: ${error.message}`);
+    }
+
+    if ((result.recovered.length + result.failed.length) % Number(args.checkpointEvery || args['checkpoint-every'] || 25) === 0) {
+      await writeRecoveredArticles(byPost);
+      await saveJson(ARTICLE_MEDIA_RECOVER_PATH, result);
+      console.log(`Media recover checkpoint: ${result.recovered.length + result.failed.length}/${candidates.length}`);
+    }
+
+    await sleep(randomDelay());
+  }
+
+  await writeRecoveredArticles(byPost);
+  const after = await articleMediaReport();
+  result.total_missing_after = only
+    ? after.missing.filter((item) => only === 'uploads' && isUploadsUrl(item.url)).length
+    : after.summary.article_media_missing_refs;
+  await saveJson(ARTICLE_MEDIA_REPORT_PATH, after);
+  await saveJson(ARTICLE_MEDIA_MISSING_PATH, after.missing);
+  await saveJson(ARTICLE_MEDIA_RECOVER_PATH, result);
+  return result;
+}
+
+async function writeRecoveredArticles(byPost) {
+  for (const article of byPost.values()) {
+    const missing = (article.media || []).filter((media) => !media.archive_path);
+    article.asset_status = missing.length ? 'partial_assets_failed' : 'ok';
+    article.asset_errors = missing.map((media) => ({ url: media.url, reason: 'article_media_missing' }));
+    await writeArticle(article);
+  }
+}
+
+async function recoverOneMedia(article, item, usedPaths) {
+  const attempts = mediaUrlRecoveryCandidates(item.url);
+  const errors = [];
+
+  for (const url of attempts) {
+    try {
+      const { buffer, contentType, snapshot } = await fetchAssetBuffer(article.wayback_timestamp, url);
+      const assetPath = chooseAssetPath(article.post_id, url, item.index, buffer, contentType, usedPaths);
+      usedPaths.add(assetPath);
+      await mkdir(path.dirname(assetPath), { recursive: true });
+      await writeFile(assetPath, buffer);
+      return {
+        ...item,
+        url: item.url,
+        recovered_url: url,
+        archive_path: path.relative(ARCHIVE_DIR, assetPath),
+        markdown_path: `../assets/${path.relative(ASSETS_DIR, assetPath).split(path.sep).join('/')}`,
+        wayback_timestamp: snapshot.timestamp,
+        asset_archive_url: waybackAssetUrl(snapshot.timestamp, snapshot.original),
+        content_type: contentType,
+      };
+    } catch (error) {
+      errors.push(`${url}: ${error.message}`);
+    }
+  }
+
+  throw new Error(errors.join(' | '));
+}
+
+function mergeRecoveredMedia(article, recovered) {
+  const media = article.media?.length ? article.media : article.images || [];
+  const existing = media.find((item) => item.url === recovered.url);
+  if (existing) {
+    Object.assign(existing, recovered);
+  } else {
+    media.push(recovered);
+  }
+  article.media = media;
+  article.images = media;
+}
+
+function mediaUrlRecoveryCandidates(url) {
+  const candidates = [url];
+  const original = originalSizeMediaUrl(url);
+  if (original && original !== url) {
+    candidates.push(original);
+  }
+  try {
+    const parsed = new URL(url);
+    const decodedPath = decodeURIComponent(parsed.pathname);
+    if (decodedPath !== parsed.pathname) {
+      parsed.pathname = decodedPath;
+      candidates.push(parsed.href);
+    }
+  } catch {}
+  return [...new Set(candidates)];
+}
+
+function originalSizeMediaUrl(url) {
+  try {
+    const parsed = new URL(url);
+    parsed.pathname = parsed.pathname.replace(/-\d+x\d+(\.[a-z0-9]+)$/i, '$1');
+    return parsed.href;
+  } catch {
+    return '';
+  }
+}
+
+async function articleMediaReport() {
+  const articles = await readArchivedArticles();
+  const summary = {
+    generated_at: new Date().toISOString(),
+    include_srcset: hasFlag('include-srcset'),
+    pages_checked: 0,
+    pages_with_article_media: 0,
+    article_media_refs: 0,
+    article_media_localized_refs: 0,
+    article_media_missing_refs: 0,
+    by_page_type: {},
+  };
+  const pages = [];
+  const missing = [];
+
+  for (const article of articles) {
+    const rawPath = path.join(RAW_DIR, `${article.post_id}-${article.wayback_timestamp}.html`);
+    if (!article.wayback_timestamp || !await fileExists(rawPath)) {
+      continue;
+    }
+
+    const rawHtml = await readFile(rawPath, 'utf8');
+    const articleHtml = extractArticleElement(rawHtml);
+    const media = collectArticleMedia(articleHtml, article.original_url, { includeSrcset: hasFlag('include-srcset') });
+    const localizedUrls = new Set((article.media || article.images || [])
+      .filter((item) => item.archive_path)
+      .map((item) => item.url));
+    const localized = media.filter((item) => localizedUrls.has(item.url));
+    const pageMissing = media
+      .map((item, index) => ({ ...item, index }))
+      .filter((item) => !localizedUrls.has(item.url))
+      .map((item) => ({
+        post_id: article.post_id,
+        page_type: article.page_type || 'other',
+        title: article.title,
+        page_timestamp: article.wayback_timestamp,
+        url: item.url,
+        source: item.source,
+        kind: item.kind,
+        index: item.index,
+      }));
+    const pageType = article.page_type || 'other';
+    summary.by_page_type[pageType] ??= { pages: 0, pages_with_media: 0, media_refs: 0, localized_refs: 0, missing_refs: 0 };
+    summary.pages_checked += 1;
+    summary.by_page_type[pageType].pages += 1;
+
+    if (media.length) {
+      summary.pages_with_article_media += 1;
+      summary.by_page_type[pageType].pages_with_media += 1;
+    }
+
+    summary.article_media_refs += media.length;
+    summary.article_media_localized_refs += localized.length;
+    summary.article_media_missing_refs += pageMissing.length;
+    summary.by_page_type[pageType].media_refs += media.length;
+    summary.by_page_type[pageType].localized_refs += localized.length;
+    summary.by_page_type[pageType].missing_refs += pageMissing.length;
+    missing.push(...pageMissing);
+    pages.push({
+      post_id: article.post_id,
+      page_type: pageType,
+      title: article.title,
+      media_refs: media.length,
+      localized_refs: localized.length,
+      missing_refs: pageMissing.length,
+    });
+  }
+
+  return { summary, pages, missing };
+}
+
+async function fileExists(filePath) {
+  try {
+    await readFile(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function extractArticleElement(html) {
+  const match = html.match(/<article\b[^>]*>/i);
+  return match ? sliceBalancedElement(html, match.index, 'article') : '';
+}
+
+function collectArticleMedia(html, baseUrl, options = {}) {
+  const media = [];
+
+  for (const match of html.matchAll(/<img\b([^>]*)>/gi)) {
+    const attrs = match[1];
+    media.push({
+      url: normalizeUrl(attr(attrs, 'src') || attr(attrs, 'data-src') || '', baseUrl),
+      alt: cleanText(attr(attrs, 'alt') || ''),
+      kind: 'image',
+      source: 'img',
+    });
+    if (options.includeSrcset) {
+      media.push(...collectSrcset(attr(attrs, 'srcset'), baseUrl).map((url) => ({
+        url,
+        alt: cleanText(attr(attrs, 'alt') || ''),
+        kind: 'image',
+        source: 'img-srcset',
+      })));
+    }
+  }
+
+  for (const tag of ['video', 'audio', 'source', 'embed']) {
+    for (const match of html.matchAll(new RegExp(`<${tag}\\b([^>]*)>`, 'gi'))) {
+      const url = normalizeUrl(attr(match[1], 'src'), baseUrl);
+      media.push({ url, alt: '', kind: mediaKindForTag(tag), source: tag });
+    }
+  }
+
+  for (const match of html.matchAll(/<video\b([^>]*)>/gi)) {
+    const url = normalizeUrl(attr(match[1], 'poster'), baseUrl);
+    media.push({ url, alt: '', kind: 'image', source: 'video-poster' });
+  }
+
+  for (const match of html.matchAll(/<object\b([^>]*)>/gi)) {
+    const url = normalizeUrl(attr(match[1], 'data'), baseUrl);
+    media.push({ url, alt: '', kind: 'object', source: 'object' });
+  }
+
+  for (const link of collectLinks(html, baseUrl)) {
+    if (isMediaUrl(link.url)) {
+      media.push({
+        url: link.url,
+        alt: link.text,
+        kind: mediaKindForUrl(link.url),
+        source: 'a-href',
+      });
+    }
+  }
+
+  const seen = new Set();
+  return media
+    .filter((item) => item.url && !item.url.startsWith('data:') && isWantedMediaUrl(item.url))
+    .filter((item) => {
+      if (seen.has(item.url)) {
+        return false;
+      }
+      seen.add(item.url);
+      return true;
+    });
+}
+
+function isUploadsUrl(url) {
+  try {
+    const parsed = new URL(url);
+    return parsed.hostname === 'blog.mozilla.com.tw' && parsed.pathname.includes('/wp-content/uploads/');
+  } catch {
+    return false;
+  }
 }
 
 async function readArchivedArticles() {

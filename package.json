@@ -13,6 +13,8 @@
     "archive:probe-ranges": "node scripts/archive-wayback.js probe-ranges",
     "archive:probe-urls": "node scripts/archive-wayback.js probe-urls",
     "archive:assets": "node scripts/archive-wayback.js assets",
+    "archive:media-report": "node scripts/archive-wayback.js media-report",
+    "archive:media-recover": "node scripts/archive-wayback.js media-recover",
     "archive:fetch": "node scripts/archive-wayback.js fetch"
   },
   "engines": {
