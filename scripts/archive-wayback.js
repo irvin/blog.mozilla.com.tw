@@ -29,7 +29,6 @@ const POST_ID_MIN = 74;
 const POST_ID_MAX = 9335;
 const SNAPSHOT_CUTOFF = '20201231235959';
 const MAX_SNAPSHOT_ATTEMPTS = 5;
-const ARTICLE_TEXT_MIN_LENGTH = 120;
 const USER_AGENT = 'MozillaTaiwanBlogArchive/0.1 (+https://blog.mozilla.com.tw archival recovery)';
 const CATEGORY_MAP = {
   8: 'Firefox',
@@ -64,6 +63,7 @@ const CATEGORY_COUNTS = {
 const CATEGORY_LISTING_TIMESTAMP = '20200805155022';
 const MONTH_START = 201112;
 const MONTH_END = 201610;
+const ASSET_SNAPSHOT_CACHE = new Map();
 
 const args = parseArgs(process.argv.slice(2));
 const command = args._[0] ?? 'all';
@@ -209,6 +209,8 @@ Options:
   --start <id>          First post id, default ${POST_ID_MIN}
   --end <id>            Last post id, default ${POST_ID_MAX}
   --limit <n>           Limit number of posts processed
+  --checkpoint-every <n>
+                       Write fetch checkpoint every n posts, default 25
   --ids-file <path>     Process only newline-delimited post ids from a file
   --include-assets      Download images referenced inside article content
   --delay-min <ms>      Minimum request delay, default 1000
@@ -838,17 +840,18 @@ async function importTimemapFile(snapshots) {
   const synthesized = [];
 
   for (const postId of allIds) {
-    if (snapshots[postId]) {
-      continue;
-    }
-
     const postSnapshots = synthesizeSnapshotsFromTimemap(postId, postRows.filter((row) => row.post_id === postId));
     if (!postSnapshots.length) {
       continue;
     }
 
-    snapshots[postId] = postSnapshots;
-    synthesized.push({ post_id: postId, snapshots: postSnapshots.length });
+    const before = snapshots[postId]?.length ?? 0;
+    snapshots[postId] = mergeSnapshotList(snapshots[postId] || [], postSnapshots);
+    const added = snapshots[postId].length - before;
+
+    if (added) {
+      synthesized.push({ post_id: postId, snapshots: added });
+    }
   }
 
   const retryIds = allIds
@@ -917,32 +920,50 @@ function synthesizeSnapshotsFromTimemap(postId, rows) {
   const seen = new Set();
 
   for (const row of rows) {
-    const timestamp = preferredTimemapTimestamp(row);
     const original = normalizeOriginalUrl(row.original);
-    const key = `timemap:${postId}:${timestamp}:${original}`;
+
+    for (const timestamp of preferredTimemapTimestamps(row)) {
+      const key = `timemap:${postId}:${timestamp}:${original}`;
+      if (seen.has(key)) {
+        continue;
+      }
+      seen.add(key);
+      snapshots.push({
+        timestamp,
+        original: canonicalPostUrl(postId),
+        statuscode: 200,
+        mimetype: row.mimetype || 'text/html',
+        digest: key,
+        length: 0,
+        discovered_from: {
+          kind: 'timemap',
+          source_original: original,
+          first_timestamp: row.timestamp,
+          last_timestamp: row.endtimestamp,
+          groupcount: Number(row.groupcount || 0),
+          uniqcount: Number(row.uniqcount || 0),
+        },
+      });
+    }
+  }
+
+  return snapshots.sort(compareSnapshots);
+}
+
+function mergeSnapshotList(existing, extra) {
+  const merged = [...existing];
+  const seen = new Set(merged.map((snapshot) => `${snapshot.timestamp}:${snapshot.original}`));
+
+  for (const snapshot of extra) {
+    const key = `${snapshot.timestamp}:${snapshot.original}`;
     if (seen.has(key)) {
       continue;
     }
     seen.add(key);
-    snapshots.push({
-      timestamp,
-      original: canonicalPostUrl(postId),
-      statuscode: 200,
-      mimetype: row.mimetype || 'text/html',
-      digest: key,
-      length: 0,
-      discovered_from: {
-        kind: 'timemap',
-        source_original: original,
-        first_timestamp: row.timestamp,
-        last_timestamp: row.endtimestamp,
-        groupcount: Number(row.groupcount || 0),
-        uniqcount: Number(row.uniqcount || 0),
-      },
-    });
+    merged.push(snapshot);
   }
 
-  return snapshots.sort(compareSnapshots);
+  return merged.sort(compareSnapshots);
 }
 
 function synthesizeSnapshotsFromUrls(postId, rows) {
@@ -973,14 +994,17 @@ function synthesizeSnapshotsFromUrls(postId, rows) {
   return snapshots.sort(compareSnapshots);
 }
 
-function preferredTimemapTimestamp(row) {
+function preferredTimemapTimestamps(row) {
+  const timestamps = [];
+
   if (row.endtimestamp && row.endtimestamp <= SNAPSHOT_CUTOFF) {
-    return row.endtimestamp;
+    timestamps.push(row.endtimestamp);
   }
   if (row.timestamp && row.timestamp <= SNAPSHOT_CUTOFF) {
-    return row.timestamp;
+    timestamps.push(row.timestamp);
   }
-  return SNAPSHOT_CUTOFF;
+
+  return [...new Set(timestamps.length ? timestamps : [SNAPSHOT_CUTOFF])].sort((a, b) => b.localeCompare(a));
 }
 
 function timemapUrlTypeCounts(rows) {
@@ -1310,11 +1334,15 @@ async function fetchPosts(snapshots) {
     }
     manifest.totals.asset_errors_count += result.asset_errors?.length ?? 0;
 
-    if ((index + 1) % 50 === 0) {
+    if ((index + 1) % Number(args.checkpointEvery || args['checkpoint-every'] || 25) === 0) {
       await saveJson(MANIFEST_PATH, manifest);
       await writeIndex(articles);
       console.log(`Checkpoint: ${index + 1}/${ids.length}`);
     }
+
+    console.log(
+      `Fetched ${index + 1}/${ids.length}: ${postId} ${result.status} ${result.asset_status || ''} media=${result.media?.length ?? result.images?.length ?? 0}`
+    );
 
     await sleep(randomDelay());
   }
@@ -1359,6 +1387,9 @@ async function archivePost(postId, postSnapshots) {
         archiveUrl = replayUrl;
       }
 
+      const rawPath = path.join(RAW_DIR, `${postId}-${snapshot.timestamp}.html`);
+      await writeFile(rawPath, html, 'utf8');
+
       const cleanedHtml = cleanWaybackHtml(html);
       const parsed = parseArticle(cleanedHtml, snapshot.original);
       const validation = validateParsed(parsed);
@@ -1368,12 +1399,9 @@ async function archivePost(postId, postSnapshots) {
         continue;
       }
 
-      const rawPath = path.join(RAW_DIR, `${postId}-${snapshot.timestamp}.html`);
-      await writeFile(rawPath, html, 'utf8');
-
       const assetResult = hasFlag('include-assets')
-        ? await archiveAssets(postId, parsed.images, snapshot.timestamp)
-        : { images: parsed.images, asset_status: 'skipped', asset_errors: [] };
+        ? await archiveAssets(postId, parsed.media, snapshot.timestamp)
+        : { images: parsed.media, asset_status: 'skipped', asset_errors: [] };
 
       const article = {
         ...baseArticle(postId),
@@ -1383,12 +1411,14 @@ async function archivePost(postId, postSnapshots) {
         categories: parsed.categories,
         tags: parsed.tags,
         author: parsed.author,
+        page_type: parsed.pageType,
         original_url: canonicalPostUrl(postId),
         archive_url: archiveUrl,
         wayback_timestamp: snapshot.timestamp,
         content_html: parsed.contentHtml,
         content_text: parsed.contentText,
         images: assetResult.images,
+        media: assetResult.images,
         links: parsed.links,
         status: 'ok',
         asset_status: assetResult.asset_status,
@@ -1422,12 +1452,14 @@ function baseArticle(postId, extra = {}) {
     categories: [],
     tags: [],
     author: '',
+    page_type: '',
     original_url: `https://blog.mozilla.com.tw/?p=${postId}`,
     archive_url: '',
     wayback_timestamp: '',
     content_html: '',
     content_text: '',
     images: [],
+    media: [],
     links: [],
     status: 'ok',
     asset_status: 'ok',
@@ -1443,6 +1475,11 @@ function parseArticle(html, originalUrl) {
     /<div\b[^>]*class=["'][^"']*\bentry-content\b[^"']*["'][^>]*>[\s\S]*?<\/div>/i,
     /<div\b[^>]*class=["'][^"']*\bpost-content\b[^"']*["'][^>]*>[\s\S]*?<\/div>/i,
   ]);
+  const articleClass = attr(firstCapture(articleHtml, [/<article\b([^>]*)>/i]), 'class');
+  const bodyClass = attr(firstCapture(html, [/<body\b([^>]*)>/i]), 'class');
+  const pageType = /\b(?:attachment|type-attachment|single-attachment)\b/i.test(`${bodyClass} ${articleClass}`)
+    ? 'attachment'
+    : 'post';
   const contentHtml = extractEntryContent(articleHtml) || articleHtml || '';
   const title = cleanText(
     firstCapture(articleHtml, [
@@ -1466,10 +1503,11 @@ function parseArticle(html, originalUrl) {
     /<[^>]*class=["'][^"']*\bauthor\b[^"']*["'][^>]*>([\s\S]*?)<\/[^>]+>/i,
   ]));
   const images = collectImages(contentHtml, originalUrl);
+  const media = collectMedia(html, originalUrl);
   const links = collectLinks(contentHtml, originalUrl);
   const contentText = htmlToText(contentHtml);
 
-  return { title, date, categories, tags, author, contentHtml, contentText, images, links };
+  return { title, date, categories, tags, author, articleClass, pageType, contentHtml, contentText, images, media, links };
 }
 
 function validateParsed(parsed) {
@@ -1481,9 +1519,6 @@ function validateParsed(parsed) {
   }
   if (!parsed.title) {
     return { ok: false, reason: 'missing_title' };
-  }
-  if (parsed.contentText.length < ARTICLE_TEXT_MIN_LENGTH) {
-    return { ok: false, reason: 'empty_article' };
   }
   return { ok: true };
 }
@@ -1535,21 +1570,7 @@ async function archiveAssets(postId, images, timestamp) {
 
   for (const [index, image] of images.entries()) {
     try {
-      const assetUrl = waybackAssetUrl(timestamp, image.url);
-      const response = await fetchWithRetry(assetUrl, { accept: 'image/*' });
-      const contentType = response.headers.get('content-type') || '';
-
-      if (!contentType.toLowerCase().startsWith('image/')) {
-        throw new Error(`content_type_not_image:${contentType || 'missing'}`);
-      }
-
-      const buffer = Buffer.from(await response.arrayBuffer());
-      if (buffer.length === 0) {
-        throw new Error('empty_asset');
-      }
-      if (!looksLikeImage(buffer, contentType)) {
-        throw new Error('signature_not_image');
-      }
+      const { buffer, contentType, snapshot } = await fetchAssetBuffer(timestamp, image.url);
 
       const assetPath = chooseAssetPath(postId, image.url, index, buffer, contentType, usedPaths);
       usedPaths.add(assetPath);
@@ -1560,6 +1581,9 @@ async function archiveAssets(postId, images, timestamp) {
         ...image,
         archive_path: path.relative(ARCHIVE_DIR, assetPath),
         markdown_path: `../assets/${path.relative(ASSETS_DIR, assetPath).split(path.sep).join('/')}`,
+        wayback_timestamp: snapshot.timestamp,
+        asset_archive_url: waybackAssetUrl(snapshot.timestamp, snapshot.original),
+        content_type: contentType,
       });
     } catch (error) {
       assetErrors.push({ url: image.url, reason: error.message });
@@ -1574,6 +1598,88 @@ async function archiveAssets(postId, images, timestamp) {
     asset_status: assetErrors.length ? 'partial_assets_failed' : 'ok',
     asset_errors: assetErrors,
   };
+}
+
+async function fetchAssetBuffer(pageTimestamp, originalUrl) {
+  const attempts = [
+    { timestamp: pageTimestamp, original: originalUrl },
+    ...await scanAssetSnapshots(originalUrl, pageTimestamp),
+  ];
+  const errors = [];
+
+  for (const snapshot of attempts) {
+    try {
+      const response = await fetchWithRetry(waybackAssetUrl(snapshot.timestamp, snapshot.original), { accept: '*/*' });
+      const contentType = response.headers.get('content-type') || '';
+
+      if (contentType.toLowerCase().startsWith('text/html')) {
+        throw new Error(`content_type_html:${contentType || 'missing'}`);
+      }
+
+      const buffer = Buffer.from(await response.arrayBuffer());
+      if (buffer.length === 0) {
+        throw new Error('empty_asset');
+      }
+
+      return { buffer, contentType, snapshot };
+    } catch (error) {
+      errors.push(`${snapshot.timestamp}:${error.message}`);
+    }
+  }
+
+  throw new Error(errors.join(' | '));
+}
+
+async function scanAssetSnapshots(originalUrl, pageTimestamp) {
+  if (ASSET_SNAPSHOT_CACHE.has(originalUrl)) {
+    return ASSET_SNAPSHOT_CACHE.get(originalUrl);
+  }
+
+  const parsed = new URL(originalUrl);
+  const pattern = `${parsed.hostname}${parsed.pathname}${parsed.search}`;
+  const query = new URLSearchParams({
+    url: pattern,
+    output: 'json',
+    fl: 'timestamp,original,statuscode,mimetype,digest,length',
+  });
+  query.append('filter', 'statuscode:200');
+  query.append('collapse', 'digest');
+
+  try {
+    const response = await fetchWithRetry(`https://web.archive.org/cdx/search/cdx?${query}`, { accept: 'application/json' });
+    const rows = await response.json();
+    const header = rows[0] ?? [];
+    const snapshots = rows
+      .slice(1)
+      .map((row) => Object.fromEntries(header.map((key, index) => [key, row[index]])))
+      .map((row) => ({
+        timestamp: row.timestamp,
+        original: row.original.startsWith('http') ? row.original : normalizeOriginalUrl(row.original),
+        statuscode: Number(row.statuscode),
+        mimetype: row.mimetype,
+        digest: row.digest,
+        length: Number(row.length || 0),
+      }))
+      .sort((a, b) => compareAssetSnapshots(a, b, pageTimestamp));
+    ASSET_SNAPSHOT_CACHE.set(originalUrl, snapshots);
+    return snapshots;
+  } catch {
+    ASSET_SNAPSHOT_CACHE.set(originalUrl, []);
+    return [];
+  }
+}
+
+function compareAssetSnapshots(a, b, pageTimestamp) {
+  const aBefore = a.timestamp <= pageTimestamp;
+  const bBefore = b.timestamp <= pageTimestamp;
+
+  if (aBefore !== bBefore) {
+    return aBefore ? -1 : 1;
+  }
+  if (aBefore && bBefore) {
+    return b.timestamp.localeCompare(a.timestamp);
+  }
+  return a.timestamp.localeCompare(b.timestamp);
 }
 
 async function fetchMissingAssets() {
@@ -1722,7 +1828,7 @@ async function writeIndex(articles) {
 
 function articleToMarkdown(article) {
   const body = htmlToMarkdown(article.content_html, article.images);
-  return `---\n${yamlLine('post_id', article.post_id)}${yamlLine('title', article.title)}${yamlLine('date', article.date)}${yamlArray('categories', article.categories)}${yamlArray('tags', article.tags)}${yamlLine('author', article.author)}${yamlLine('original_url', article.original_url)}${yamlLine('archive_url', article.archive_url)}${yamlLine('wayback_timestamp', article.wayback_timestamp)}${yamlLine('status', article.status)}${yamlLine('asset_status', article.asset_status)}---\n\n${body}\n`;
+  return `---\n${yamlLine('post_id', article.post_id)}${yamlLine('title', article.title)}${yamlLine('date', article.date)}${yamlLine('page_type', article.page_type)}${yamlArray('categories', article.categories)}${yamlArray('tags', article.tags)}${yamlLine('author', article.author)}${yamlLine('original_url', article.original_url)}${yamlLine('archive_url', article.archive_url)}${yamlLine('wayback_timestamp', article.wayback_timestamp)}${yamlLine('status', article.status)}${yamlLine('asset_status', article.asset_status)}---\n\n${body}\n`;
 }
 
 function htmlToMarkdown(html, images) {
@@ -1764,8 +1870,122 @@ function collectImages(html, baseUrl) {
     .map((match) => ({
       url: normalizeUrl(attr(match[1], 'src') || attr(match[1], 'data-src') || '', baseUrl),
       alt: cleanText(attr(match[1], 'alt') || ''),
+      kind: 'image',
+      source: 'img',
     }))
     .filter((image) => image.url && !image.url.startsWith('data:'));
+}
+
+function collectMedia(html, baseUrl) {
+  const media = [];
+
+  for (const match of html.matchAll(/<img\b([^>]*)>/gi)) {
+    const attrs = match[1];
+    media.push({
+      url: normalizeUrl(attr(attrs, 'src') || attr(attrs, 'data-src') || '', baseUrl),
+      alt: cleanText(attr(attrs, 'alt') || ''),
+      kind: 'image',
+      source: 'img',
+    });
+    media.push(...collectSrcset(attr(attrs, 'srcset'), baseUrl).map((url) => ({
+      url,
+      alt: cleanText(attr(attrs, 'alt') || ''),
+      kind: 'image',
+      source: 'img-srcset',
+    })));
+  }
+
+  for (const tag of ['video', 'audio', 'source', 'embed']) {
+    for (const match of html.matchAll(new RegExp(`<${tag}\\b([^>]*)>`, 'gi'))) {
+      const url = normalizeUrl(attr(match[1], 'src'), baseUrl);
+      media.push({ url, alt: '', kind: mediaKindForTag(tag), source: tag });
+    }
+  }
+
+  for (const match of html.matchAll(/<video\b([^>]*)>/gi)) {
+    const url = normalizeUrl(attr(match[1], 'poster'), baseUrl);
+    media.push({ url, alt: '', kind: 'image', source: 'video-poster' });
+  }
+
+  for (const match of html.matchAll(/<object\b([^>]*)>/gi)) {
+    const url = normalizeUrl(attr(match[1], 'data'), baseUrl);
+    media.push({ url, alt: '', kind: 'object', source: 'object' });
+  }
+
+  for (const match of html.matchAll(/<meta\b([^>]*)>/gi)) {
+    const property = attr(match[1], 'property') || attr(match[1], 'name');
+    if (/^(?:og:image|twitter:image|og:video|og:audio)$/i.test(property)) {
+      media.push({
+        url: normalizeUrl(attr(match[1], 'content'), baseUrl),
+        alt: '',
+        kind: property.toLowerCase().includes('image') ? 'image' : 'media',
+        source: property,
+      });
+    }
+  }
+
+  for (const link of collectLinks(html, baseUrl)) {
+    if (isMediaUrl(link.url)) {
+      media.push({
+        url: link.url,
+        alt: link.text,
+        kind: mediaKindForUrl(link.url),
+        source: 'a-href',
+      });
+    }
+  }
+
+  const seen = new Set();
+  return media
+    .filter((item) => item.url && !item.url.startsWith('data:') && isWantedMediaUrl(item.url))
+    .filter((item) => {
+      const key = item.url;
+      if (seen.has(key)) {
+        return false;
+      }
+      seen.add(key);
+      return true;
+    });
+}
+
+function collectSrcset(srcset, baseUrl) {
+  return String(srcset || '')
+    .split(',')
+    .map((part) => part.trim().split(/\s+/)[0])
+    .filter(Boolean)
+    .map((url) => normalizeUrl(url, baseUrl));
+}
+
+function mediaKindForTag(tag) {
+  if (tag === 'video') return 'video';
+  if (tag === 'audio') return 'audio';
+  return 'media';
+}
+
+function mediaKindForUrl(url) {
+  const ext = path.extname(new URL(url).pathname).toLowerCase();
+  if (['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.bmp', '.tif', '.tiff'].includes(ext)) return 'image';
+  if (['.mp4', '.m4v', '.mov', '.webm', '.ogv'].includes(ext)) return 'video';
+  if (['.mp3', '.m4a', '.ogg', '.oga', '.wav'].includes(ext)) return 'audio';
+  return 'media';
+}
+
+function isMediaUrl(url) {
+  try {
+    const pathname = new URL(url).pathname.toLowerCase();
+    return /\.(?:jpe?g|png|gif|webp|svg|bmp|tiff?|mp4|m4v|mov|webm|ogv|mp3|m4a|ogg|oga|wav|pdf)(?:$|[?#])/i.test(pathname);
+  } catch {
+    return false;
+  }
+}
+
+function isWantedMediaUrl(url) {
+  try {
+    const parsed = new URL(url);
+    return parsed.hostname === 'blog.mozilla.com.tw' || parsed.pathname.includes('/wp-content/uploads/') || isMediaUrl(url);
+  } catch {
+    return false;
+  }
 }
 
 function collectLinks(html, baseUrl) {
@@ -1794,6 +2014,8 @@ function compareSnapshots(a, b) {
   const bBeforeCutoff = b.timestamp <= SNAPSHOT_CUTOFF;
   const aCanonical = isCanonicalPostUrl(a.original);
   const bCanonical = isCanonicalPostUrl(b.original);
+  const aSyntheticCutoff = isSyntheticCutoffSnapshot(a);
+  const bSyntheticCutoff = isSyntheticCutoffSnapshot(b);
 
   if (aBeforeCutoff !== bBeforeCutoff) {
     return aBeforeCutoff ? -1 : 1;
@@ -1803,11 +2025,19 @@ function compareSnapshots(a, b) {
     return aCanonical ? -1 : 1;
   }
 
+  if (aSyntheticCutoff !== bSyntheticCutoff) {
+    return aSyntheticCutoff ? 1 : -1;
+  }
+
   if (aBeforeCutoff && bBeforeCutoff) {
     return b.timestamp.localeCompare(a.timestamp);
   }
 
   return a.timestamp.localeCompare(b.timestamp);
+}
+
+function isSyntheticCutoffSnapshot(snapshot) {
+  return snapshot.timestamp === SNAPSHOT_CUTOFF && snapshot.discovered_from?.kind === 'urls.txt';
 }
 
 function waybackUrl(snapshot, raw) {
