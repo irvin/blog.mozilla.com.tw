@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 
 import { createHash } from 'node:crypto';
+import { setDefaultResultOrder } from 'node:dns';
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+
+setDefaultResultOrder('ipv4first');
 
 const ROOT = process.cwd();
 const ARCHIVE_DIR = path.join(ROOT, 'archive');
@@ -1630,12 +1633,13 @@ async function fetchAssetBuffer(pageTimestamp, originalUrl) {
   const attempts = [
     { timestamp: pageTimestamp, original: originalUrl },
     ...await scanAssetSnapshots(originalUrl, pageTimestamp),
+    { timestamp: '', original: originalUrl, timegate: true },
   ];
   const errors = [];
 
   for (const snapshot of attempts) {
     try {
-      const response = await fetchWithRetry(waybackAssetUrl(snapshot.timestamp, snapshot.original), { accept: '*/*' });
+      const response = await fetchWithRetry(assetSnapshotUrl(snapshot), { accept: '*/*' });
       const contentType = response.headers.get('content-type') || '';
 
       if (contentType.toLowerCase().startsWith('text/html')) {
@@ -1647,13 +1651,24 @@ async function fetchAssetBuffer(pageTimestamp, originalUrl) {
         throw new Error('empty_asset');
       }
 
-      return { buffer, contentType, snapshot };
+      return { buffer, contentType, snapshot: snapshotFromWaybackResponse(response.url) || snapshot };
     } catch (error) {
       errors.push(`${snapshot.timestamp}:${error.message}`);
     }
   }
 
   throw new Error(errors.join(' | '));
+}
+
+function assetSnapshotUrl(snapshot) {
+  return snapshot.timegate
+    ? `https://web.archive.org/web/${snapshot.original}`
+    : waybackAssetUrl(snapshot.timestamp, snapshot.original);
+}
+
+function snapshotFromWaybackResponse(url) {
+  const match = url.match(/^https:\/\/web\.archive\.org\/web\/(\d+)(?:[a-z_]+)?\/(https?:\/\/.+)$/);
+  return match ? { timestamp: match[1], original: match[2] } : null;
 }
 
 async function scanAssetSnapshots(originalUrl, pageTimestamp) {
@@ -1779,9 +1794,11 @@ async function writeArticleMediaReport() {
 async function recoverArticleMedia() {
   const report = await articleMediaReport();
   const only = String(args.only || '').trim();
+  const kind = String(args.kind || '').trim();
   const limit = args.limit ? Number(args.limit) : Infinity;
   const candidates = report.missing
     .filter((item) => !only || (only === 'uploads' && isUploadsUrl(item.url)))
+    .filter((item) => !kind || item.kind === kind)
     .slice(0, limit);
   const byPost = new Map();
   const result = {
@@ -1789,6 +1806,7 @@ async function recoverArticleMedia() {
     source_report: relative(ARTICLE_MEDIA_REPORT_PATH),
     include_srcset: hasFlag('include-srcset'),
     only: only || null,
+    kind: kind || null,
     total_missing_before: candidates.length,
     localized_now: 0,
     total_missing_after: 0,
