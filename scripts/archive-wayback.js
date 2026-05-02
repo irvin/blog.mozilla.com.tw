@@ -1515,7 +1515,8 @@ function parseArticle(html, originalUrl) {
   ).replace(/\s*[|｜-]\s*Mozilla Taiwan.*$/i, '');
 
   const date =
-    parseDisplayedPostDate(articleHtml) ||
+    parseDisplayedPostDate(`${html}\n${articleHtml}`) ||
+    parseLegacyPublishedDate(html) ||
     parseDate(firstCapture(articleHtml, [
       /<time\b[^>]*datetime=["']([^"']+)["'][^>]*>/i,
       /<[^>]*class=["'][^"']*\b(?:posted-on|entry-date|published)\b[^"']*["'][^>]*>([\s\S]*?)<\/[^>]+>/i,
@@ -2551,6 +2552,12 @@ function parseDisplayedPostDate(html) {
   }
 
   return [String(year), String(month).padStart(2, '0'), String(day).padStart(2, '0')].join('-');
+}
+
+function parseLegacyPublishedDate(html) {
+  return parseDate(firstCapture(html, [
+    /發表於[:：]\s*(\d{4}[/.]\d{1,2}[/.]\d{1,2})/i,
+  ]));
 }
 
 function parseMonth(text) {
