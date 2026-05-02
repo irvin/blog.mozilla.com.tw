@@ -630,7 +630,7 @@ a:hover { text-decoration: underline; }
 #doc { width: 980px; margin: 0 auto; padding: 0 10px 48px; }
 #masthead { position: relative; padding: 0; }
 #tabzilla { position: absolute; right: 0; top: 0; display: block; width: 150px; height: 44px; overflow: hidden; background: rgba(255, 255, 255, 0.5); color: #303030; font-size: 13px; line-height: 44px; text-align: center; text-transform: lowercase; z-index: 2; }
-.breadcrumbs { margin: 0 0 20px 20px; padding-bottom: 16px; border-bottom: 1px solid #d6d6d6; color: #303030; font-size: 13px; }
+.breadcrumbs { margin: 0 0 20px 20px; color: #303030; font-size: 13px; }
 .breadcrumbs b { margin: 0 5px; color: #303030; font-size: 120%; font-weight: bold; }
 hgroup { margin: 0; padding: 34px 28px 30px; color: #484848; }
 hgroup .site-logo, hgroup .site-heading { margin-top: 1em; margin-left: 0; margin-right: 0; text-shadow: none; }
