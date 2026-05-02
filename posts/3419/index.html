@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2013-08/">2013 年 8 月</a><b>-</b><a href="../../posts/3419/">Firefox Marketplace 與其他選擇</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2013-08/">2013 年 8 月</a><b>&raquo;</b><a href="../../posts/3419/">Firefox Marketplace 與其他選擇</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">Firefox Marketplace 與其他選擇</h2>
-            <p class="entry-posted"><time datetime="2013-08-07" class="published"><span class="posted-month">8月</span><span class="posted-date">7</span><span class="posted-year">2013</span></time></p>
-          </header>
-          <div class="entry-content"><p>「Firefox OS ─ 讓 <a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 得以完全發揮的平台」系列影片的第四集 (另可回顧<a href="https://hacks.mozilla.org/2013/06/firefox-os-for-developers-the-platform-html5-deserves/">第一集</a>、<a href="../../posts/3179/">第二集</a>、<a href="../../posts/3277/">第三集</a>) 中，我們將說明 App 提交至 Firefox Marketplace 的方法，以及其他發佈 App 的方式。</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2013-08-07" class="published"><span class="posted-month">8月</span><span class="posted-date">7</span><span class="posted-year">2013</span></time></p>
+              <h1 class="entry-title">Firefox Marketplace 與其他選擇</h1>
+            </header>
+            <div class="entry-content"><p>「Firefox OS ─ 讓 <a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 得以完全發揮的平台」系列影片的第四集 (另可回顧<a href="https://hacks.mozilla.org/2013/06/firefox-os-for-developers-the-platform-html5-deserves/">第一集</a>、<a href="../../posts/3179/">第二集</a>、<a href="../../posts/3277/">第三集</a>) 中，我們將說明 App 提交至 Firefox Marketplace 的方法，以及其他發佈 App 的方式。</p>
 <p><img src="https://blog.mozilla.com.tw/wp-content/uploads/be-the-future1.png" alt="be-the-future" loading="lazy"></p>
 <p>本影片是由 Mozilla 首席技術傳教士 Chris Heilmann <a href="https://twitter.com/codepo8">@codepo8</a>，以及 Firefox OS 業務開發團隊的 Desigan Chinniah<a href="https://twitter.com/cyberdees">@cyberdees</a> 共同錄製。將讓你輕鬆在 Firefox OS 上發佈自己的 App。你也可到 YouTube 觀看此影片。</p>
 <p>Firefox OS 與其他行動平台一樣擁有自己的 <a href="https://marketplace.firefox.com/">Marketplace</a>，可讓你依照名稱或分類找到自己想要的 App。</p>
@@ -42,11 +43,11 @@
 <p>						if (navigator.mozApps) {  function install() {    var installapp = navigator.mozApps.install(manifestURL);    installapp.onsuccess = function(data) {      // App is installed    };    installapp.onerror = function() {                // Something went wrong,      // information is in: installapp.error.name             };         	  }  var button = document.createElement(&#39;button&#39;);  button.innerHTML = &#39;Install this app&#39;;  button.addEventListener(&#39;click&#39;, install, false);  document.body.appendChild(&#39;button&#39;);}</p>
 <p>如此一來，你以搜尋引擎最佳化 (SEO) 所累積的多年成果，亦可繼續用以推廣自己的 App。</p>
 <p>原文連結：<a href="https://hacks.mozilla.org/2013/08/firefox-marketplace-and-alternatives-firefox-os-for-developers-the-platform-html5-deserves/">https://hacks.mozilla.org/2013/08/firefox-marketplace-and-alternatives-firefox-os-for-developers-the-platform-html5-deserves/</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox-os/">Firefox OS</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
-            <div class="entry-tag-box">標籤：<span>Firefox OS</span><span>Web App</span></div>
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox-os/">Firefox OS</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -64,7 +65,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=3419">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=3419">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

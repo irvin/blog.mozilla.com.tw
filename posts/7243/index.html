@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2015-03/">2015 年 3 月</a><b>-</b><a href="../../posts/7243/">asm.js 在多家瀏覽器上的效能均有斬獲 (下)</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2015-03/">2015 年 3 月</a><b>&raquo;</b><a href="../../posts/7243/">asm.js 在多家瀏覽器上的效能均有斬獲 (下)</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">asm.js 在多家瀏覽器上的效能均有斬獲 (下)</h2>
-            <p class="entry-posted"><time datetime="2015-03-26" class="published"><span class="posted-month">3月</span><span class="posted-date">26</span><span class="posted-year">2015</span></time></p>
-          </header>
-          <div class="entry-content"><p><a href="https://asmjs.org/">asm.js</a> 是可輕鬆最佳化的 JavaScript 子集，且不需外掛程式就能在所有瀏覽器中執行，也是移植 C/C++ 程式碼的絕佳工具。如「<a href="https://blogs.unity3d.com/2014/04/29/on-the-future-of-web-publishing-in-unity/">Unity 3D</a>」與「<a href="https://www.unrealengine.com/blog/unreal-engine-47-released">Unreal Engine</a>」等遊戲引擎，即透過 asm.js 進行移植。再一起來看看還有哪兩家瀏覽器也愈發重視 asm.js 的效能。</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2015-03-26" class="published"><span class="posted-month">3月</span><span class="posted-date">26</span><span class="posted-year">2015</span></time></p>
+              <h1 class="entry-title">asm.js 在多家瀏覽器上的效能均有斬獲 (下)</h1>
+            </header>
+            <div class="entry-content"><p><a href="https://asmjs.org/">asm.js</a> 是可輕鬆最佳化的 JavaScript 子集，且不需外掛程式就能在所有瀏覽器中執行，也是移植 C/C++ 程式碼的絕佳工具。如「<a href="https://blogs.unity3d.com/2014/04/29/on-the-future-of-web-publishing-in-unity/">Unity 3D</a>」與「<a href="https://www.unrealengine.com/blog/unreal-engine-47-released">Unreal Engine</a>」等遊戲引擎，即透過 asm.js 進行移植。再一起來看看還有哪兩家瀏覽器也愈發重視 asm.js 的效能。</p>
 <h4>Internet Explorer</h4>
 <p>Internet Explorer (IE) 內部的 JavaScript 引擎稱為「Chakra」。而 Chakra 團隊在去年就<a href="https://blogs.msdn.com/b/ie/archive/2014/10/09/announcing-key-advances-to-javascript-performance-in-windows-10-technical-preview.aspx">發文</a>預告 Windows 10 中的 IE 將具備最佳化套件，並<a href="https://blogs.msdn.com/b/ie/archive/2014/10/09/announcing-key-advances-to-javascript-performance-in-windows-10-technical-preview.aspx#10563952">指出</a> Octane 與 JetStream 中的 asm.js 確實大幅提升了速度。且這只是 asm.js 納入常見效能基準，並促使各家瀏覽器最佳化的眾多例子之一罷了。</p>
 <p>其實較為重大的消息，是 <a href="https://blogs.msdn.com/b/ie/archive/2015/02/18/bringing-asm-js-to-the-chakra-javascript-engine-in-windows-10.aspx">Chakra 團隊最近宣佈</a>著手添增特定的 asm.js 最佳化作業，並將與前述提到的其他最佳化一同加入 Windows 10。這些最佳化尚未進入預覽 (Preview) 釋出頻道，所以本文無法提供量測結果。但我們可以藉此推測出 Firefox 在納入這些 asm.js 最佳化後，初步可能提升的效能程度。如同<a href="https://kripken.github.io/mloc_emscripten_talk/#/28">此效能基準比較結果</a>所示，在加入 asm.js 最佳化之後，立刻就將 Firefox 提升到幾乎只落後原生效能的 2 倍速度 (之前均落後 5 ~ 12 倍)。為何 Chakra 也能達到同樣的效能提升幅度？就如<a href="https://blog.mozilla.org/luke/2015/02/18/microsoft-announces-asm-js-optimizations">之前文章</a>說過的，因為我們可根據 asm.js 規格預測出所應達到的效果，所以可藉此檢驗 asm.js 程式碼而產生高品質的程式碼。</p>
@@ -46,11 +47,11 @@
 <p>由於「Cloud Raiders」同樣是以 Unity 開發的遊戲，所以也能透過 <a href="https://emscripten.org/">Emscripten</a> 編譯現有的 C++ 程式碼，不需外掛程式就能帶上 Web 執行，且在這 4 款主要瀏覽器中都能順利運作。</p>
 <p>總結來說，asm.js 的效能已於去年大幅躍進，且仍有進步的空間。有時可能是整體效能尚未完美，或是某款瀏覽器還缺了特定的 API。但現在所有的主要瀏覽器都在努力達到更高的 asm.js 執行速度。從現正最佳化的效能基準 (包含 asm.js)，以及其 JavaScript 引擎所提升的實作 (也往往是以 asm.js 進行)，都能看到廠商的用心。不久前還需搭配外掛程式才能達到的效能，現在都已經能在沒有外掛程式的狀態下輕鬆達成。</p>
 <p>原文連結：<a href="https://hacks.mozilla.org/2015/03/asm-speedups-everywhere/">asm.js Speedups Everywhere</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span><span><a href="../../categories/mozilla/">Mozilla</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
-            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Mozilla</span><span>Web App</span></div>
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span><span><a href="../../categories/mozilla/">Mozilla</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -68,7 +69,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190825012056id_/https://blog.mozilla.com.tw/?p=7243">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190825012056id_/https://blog.mozilla.com.tw/?p=7243">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

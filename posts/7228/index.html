@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2015-03/">2015 年 3 月</a><b>-</b><a href="../../posts/7228/">將原生遊戲送上 Web 的進度看來有點超前</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2015-03/">2015 年 3 月</a><b>&raquo;</b><a href="../../posts/7228/">將原生遊戲送上 Web 的進度看來有點超前</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">將原生遊戲送上 Web 的進度看來有點超前</h2>
-            <p class="entry-posted"><time datetime="2015-03-13" class="published"><span class="posted-month">3月</span><span class="posted-date">13</span><span class="posted-year">2015</span></time></p>
-          </header>
-          <div class="entry-content"><p>在 Mozilla 與全球最大遊戲引擎開發商的長期合作之下，2015 年的遊戲開發者大會 (Game Developer Conference，GDC) 可說是重要里程碑。我們所設定的「不需外掛程式即讓 Web 執行高效能遊戲」目標，現在真正實現了。<a href="https://blog.mozilla.org/blog/2015/03/03/unity-5-ships-and-brings-one-click-webgl-export-to-legions-of-game-developers">Unity Technologies</a> 現為「Unity 5」加入 WebGL 匯出預覽功能。而<a href="https://blog.mozilla.org/blog/2015/02/24/unreal-engine-4-7-binary-release-includes-html5-export-3/">Epic Games</a> 亦新增了測試版的 HTML5 匯出工具，並放入正式版本的遊戲引擎之中。這代表許多遊戲開發者現可搭配常見工具，進行免外掛程式的 Web 佈署作業。而開發者可選擇 Web 作為遊戲平台，且輕點滑鼠即可建構遊戲。也等於可利用 Mozilla 率先開發的 asm.js 與 WebGL 技術，解開全球最大型的開放式發佈平台。</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2015-03-13" class="published"><span class="posted-month">3月</span><span class="posted-date">13</span><span class="posted-year">2015</span></time></p>
+              <h1 class="entry-title">將原生遊戲送上 Web 的進度看來有點超前</h1>
+            </header>
+            <div class="entry-content"><p>在 Mozilla 與全球最大遊戲引擎開發商的長期合作之下，2015 年的遊戲開發者大會 (Game Developer Conference，GDC) 可說是重要里程碑。我們所設定的「不需外掛程式即讓 Web 執行高效能遊戲」目標，現在真正實現了。<a href="https://blog.mozilla.org/blog/2015/03/03/unity-5-ships-and-brings-one-click-webgl-export-to-legions-of-game-developers">Unity Technologies</a> 現為「Unity 5」加入 WebGL 匯出預覽功能。而<a href="https://blog.mozilla.org/blog/2015/02/24/unreal-engine-4-7-binary-release-includes-html5-export-3/">Epic Games</a> 亦新增了測試版的 HTML5 匯出工具，並放入正式版本的遊戲引擎之中。這代表許多遊戲開發者現可搭配常見工具，進行免外掛程式的 Web 佈署作業。而開發者可選擇 Web 作為遊戲平台，且輕點滑鼠即可建構遊戲。也等於可利用 Mozilla 率先開發的 asm.js 與 WebGL 技術，解開全球最大型的開放式發佈平台。</p>
 <h4>發生哪些變化？</h4>
 <p>在內容產出方面，瀏覽器正持續減少其對外掛程式的依賴性。如 Chrome 就計畫會完全移除對 NPAPI 的支援功能。而如 King、Humble Bundle、Game Insider、Zynga 等開發廠商，都在使用 Emscripten 移植自己的 C 與 C++ 遊戲到 Web 之上。迪士尼 (Disney) 的《小鱷魚愛洗澡 (Where’s My Water)》，正使用相同的技術移植為 Firefox OS 版本。Emscripten 可讓開發者跨平台將自己的原生遊戲編譯為 asm.js (即 JavaScript 的子集) 版本，並最佳化達接近原生 App 的執行速度。但說到移植Web 版本的內容，此方法可能仍有些難處亟待克服，且大多數公司都是以自身研發的遊戲引擎撰寫遊戲已久。這情形也讓大多數的開發者無法接觸某些高階的 Web 佈署技術。</p>
 <h4>技術正逐漸普及</h4>
@@ -39,11 +40,11 @@
 <p>Mozilla 致力開發任何能於 Web 上實現的事情。既然已經能呈現絕佳的遊戲效能，也就代表後續有更多的潛能仍待我們發掘。今年展位另將呈現如<a href="https://blog.mozilla.org/futurereleases/2015/03/03/an-early-look-at-webgl-2">WebGL 2</a> 與<a href="https://mozvr.com/">WebVR</a> 等新崛起的技術，另有針對遊戲與 Web 開發者需求所更新的開發者工具。我們另將透過最近釋出的<a href="https://hacks.mozilla.org/2015/03/firefox-developer-edition-38-64-bits-and-more/">64 位元</a><a href="https://www.mozilla.org/en-US/firefox/developer/all/">Firefox 開發者 (Developer) 版本</a>來展示這些工具。Mozilla 亦將提供<a href="https://hacks.mozilla.org/2014/10/introducing-simd-js/">SIMD</a> 與<a href="https://blog.mozilla.org/javascript/2015/02/26/the-path-to-parallel-javascript/">實驗階段的執行緒支援功能</a>給開發者，讓大家可開始用<a href="https://nightly.mozilla.org/">Firefox 每夜更新 (Nightly) 版</a>體驗這些技術。當然也能到展位上進一步了解<a href="https://marketplace.firefox.com/developers/">Firefox Marketplace</a>，現已支援桌機、Android、Firefox OS，以期能為開發者提供更多機會。</p>
 <p>如果要深入了解 Mozilla 在 GDC 期間的展示成果，可參閱開發者所撰寫的相關文章，或至 <a href="https://games.mozilla.org/">games.mozilla.org</a> 加入我們的行列。另可透過 press@mozilla.com 詢問相關資訊。</p>
 <p>原文連結：<a href="https://blog.mozilla.org/blog/2015/03/03/bringing-native-games-to-the-web-is-about-to-get-a-whole-lot-easier/">Bringing Native Games to the Web is About to get a Whole Lot Easier</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span><span><a href="../../categories/mozilla/">Mozilla</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
-            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Mozilla</span><span>Web App</span></div>
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span><span><a href="../../categories/mozilla/">Mozilla</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -61,7 +62,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190825011841id_/https://blog.mozilla.com.tw/?p=7228">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190825011841id_/https://blog.mozilla.com.tw/?p=7228">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

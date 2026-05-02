@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2015-03/">2015 年 3 月</a><b>-</b><a href="../../posts/7213/">只要輕點滑鼠就能用 Unity 5 匯出 WebGL 內容</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2015-03/">2015 年 3 月</a><b>&raquo;</b><a href="../../posts/7213/">只要輕點滑鼠就能用 Unity 5 匯出 WebGL 內容</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">只要輕點滑鼠就能用 Unity 5 匯出 WebGL 內容</h2>
-            <p class="entry-posted"><time datetime="2015-03-06" class="published"><span class="posted-month">3月</span><span class="posted-date">6</span><span class="posted-year">2015</span></time></p>
-          </header>
-          <div class="entry-content"><p>在「Unity 5」現身之後，Mozilla 距離「讓 Web 提供無須外掛程式的高品質遊戲」的目標又再更近一步。身為全球最受歡迎的遊戲開發工具，新版本「Unity 5」現可預覽其 WebGL 匯出功能。使用 Unity 5 的遊戲開發者只要輕點一下滑鼠，就能利用 WebGL 與 asm.js 而將自己的遊戲移植至 Web 之上。最後不需外掛程式，也能在桌機版瀏覽器上達到原生遊戲的視覺效果。</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2015-03-06" class="published"><span class="posted-month">3月</span><span class="posted-date">6</span><span class="posted-year">2015</span></time></p>
+              <h1 class="entry-title">只要輕點滑鼠就能用 Unity 5 匯出 WebGL 內容</h1>
+            </header>
+            <div class="entry-content"><p>在「Unity 5」現身之後，Mozilla 距離「讓 Web 提供無須外掛程式的高品質遊戲」的目標又再更近一步。身為全球最受歡迎的遊戲開發工具，新版本「Unity 5」現可預覽其 WebGL 匯出功能。使用 Unity 5 的遊戲開發者只要輕點一下滑鼠，就能利用 WebGL 與 asm.js 而將自己的遊戲移植至 Web 之上。最後不需外掛程式，也能在桌機版瀏覽器上達到原生遊戲的視覺效果。</p>
 <p>Unity 是極高人氣的遊戲開發工具，且根據其所屬公司表示，實際上有將近一半的開發者在使用此工具。此引擎特別適合開發行動版遊戲，當然也適合針對 Web 產出豐富內容。下載檔案容量不大、不佔用太多記憶體、繪圖流程相對較簡單等特色，都有利於直接將內容移植至 Web 上執行。Unity 讓開發者透過 Web 外掛程式，將內容發佈至 Web 上已有一段時間。近幾年來，瀏覽器也逐漸減少其內容輸出作業對外掛程式的依賴。</p>
 <p>大家早已需要新的跨瀏覽器方式，而現在正式來到。</p>
 <p>Mozilla 和 Unity 合作，期能使用符合標準的 API 與 JavaScript，就能將 Unity 5 所開發的內容帶入 Web 之中。Unity 的新方法即整合「IL2CPP」與跨平台編譯器「Emscripten」，進行內容移植作業。由 Unity Technologies 所開發的 IL2CPP，可將所有遊戲的指令碼轉換為 C++。而將遊戲移植到多重平台 (包含 Web 在內) 時，此轉換方式可提供效能上的優勢。接著 Unity 再以 Emscripten 將前一步驟所得的 C++ 轉換為 asm.js (此為 JavaScript 的子集，最佳化之後可於瀏覽器中達近乎原生 App 的執行速度) 版本的檔案。「asm.js」則是 Mozilla 率先打造的心血。最後，整個程式碼就如同其他 Web 內容一般，可在瀏覽器中順利執行，並透過如 WebGL、IndexedDB、Web Audio 等符合標準的 API 存取硬體。這個合作成果現在該是交到開發者手上的時候了。</p>
@@ -40,11 +41,11 @@
 <p>可透過 Unity 的<a href="https://blogs.unity3d.com/2015/03/03/unity-5-launch/">部落格</a>了解其他新消息。</p>
 <p>另可透過此篇<a href="https://blog.mozilla.org/blog/2015/03/03/bringing-native-games-to-the-web-is-about-to-get-a-whole-lot-easier">文章</a>進一步了解 Mozilla 在遊戲開發者大會的相關資訊。</p>
 <p>原文連結：<a href="https://blog.mozilla.org/blog/2015/03/03/unity-5-ships-and-brings-one-click-webgl-export-to-legions-of-game-developers/#more-8773">Unity 5 Ships and Brings One Click WebGL Export to Legions of Game Developers</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span><span><a href="../../categories/mozilla/">Mozilla</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
-            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Mozilla</span><span>Web App</span></div>
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span><span><a href="../../categories/mozilla/">Mozilla</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -62,7 +63,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190825011841id_/https://blog.mozilla.com.tw/?p=7213">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190825011841id_/https://blog.mozilla.com.tw/?p=7213">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

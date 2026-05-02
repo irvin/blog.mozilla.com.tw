@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2014-07/">2014 年 7 月</a><b>-</b><a href="../../posts/5876/">ServiceWorkers 與 Firefox</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2014-07/">2014 年 7 月</a><b>&raquo;</b><a href="../../posts/5876/">ServiceWorkers 與 Firefox</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">ServiceWorkers 與 Firefox</h2>
-            <p class="entry-posted"><time datetime="2014-07-04" class="published"><span class="posted-month">7月</span><span class="posted-date">4</span><span class="posted-year">2014</span></time></p>
-          </header>
-          <div class="entry-content"><p>從 2013 上半年開始，Mozillians 就開始參與 <a href="https://github.com/slightlyoff/ServiceWorker/">Service Worker</a> 的設計過程。感謝 Google、Mozilla、三星 (Samsung)，以及其他廠商的努力，讓此屬於 Web 平台的絕佳新功能不斷演化，現已建構到不同的瀏覽器引擎之中。</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2014-07-04" class="published"><span class="posted-month">7月</span><span class="posted-date">4</span><span class="posted-year">2014</span></time></p>
+              <h1 class="entry-title">ServiceWorkers 與 Firefox</h1>
+            </header>
+            <div class="entry-content"><p>從 2013 上半年開始，Mozillians 就開始參與 <a href="https://github.com/slightlyoff/ServiceWorker/">Service Worker</a> 的設計過程。感謝 Google、Mozilla、三星 (Samsung)，以及其他廠商的努力，讓此屬於 Web 平台的絕佳新功能不斷演化，現已建構到不同的瀏覽器引擎之中。</p>
 <h4>什麼是 Service Workers？</h4>
 <p>簡單來說，Service Workers 指令碼可針對網頁，於用戶端提供近似代理伺服器的功能。JavaScript 程式碼可攔截網路請求、傳送 (位於快取中) 現成的回應資料，並根據 App 的特殊需求而進行分層快取 (Granular caching，也是之前 Web 平台所缺乏的功能)。此強大功能現已可讓 Web 開發者啟用之，以提供完整的離線功能。可參閱 Jake Archibald 在<a href="https://jakearchibald.com/2014/service-worker-first-draft/">本篇部落格文章</a>所摘要的數項功能</p>
 <p>由於 Service Workers 是在「背景」中執行，因此之前僅限原生平台才能進行的某些作業，現在 Web 也同樣能執行。除了基本的網路功能之外，Service Workers 將來也能搭配 <a href="https://dvcs.w3.org/hg/push/raw-file/tip/index.html">Push API</a> 與 <a href="https://github.com/slightlyoff/BackgroundSync/blob/master/explainer.md">Background Sync API</a>，從瀏覽器傳遞訊息到 Web App。</p>
@@ -39,11 +40,11 @@
 <h4>Service Worker 建置現狀</h4>
 <p>Jake Archibald 特別提供可輕鬆了解 <a href="https://jakearchibald.github.io/isserviceworkerready/">Service Worker 建置現狀</a>的工具。另可透過 <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=903441">meta bug</a>知道 gecko 的建置情形。</p>
 <p>原文連結：<a href="https://hacks.mozilla.org/2014/06/serviceworkers-and-firefox/">ServiceWorkers and Firefox</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span></div>
-            <div class="entry-tag-box">標籤：<span>Firefox</span></div>
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -61,7 +62,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=5876">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=5876">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

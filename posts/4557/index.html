@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2013-12/">2013 年 12 月</a><b>-</b><a href="../../posts/4557/">Monster Madness – 透過 Emscripten 建構 Web 遊戲 (下)</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2013-12/">2013 年 12 月</a><b>&raquo;</b><a href="../../posts/4557/">Monster Madness – 透過 Emscripten 建構 Web 遊戲 (下)</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">Monster Madness – 透過 Emscripten 建構 Web 遊戲 (下)</h2>
-            <p class="entry-posted"><time datetime="2013-12-19" class="published"><span class="posted-month">12月</span><span class="posted-date">19</span><span class="posted-year">2013</span></time></p>
-          </header>
-          <div class="entry-content"><p>你之前聽過酷炫的《Monster Madness》遊戲嗎？只要你對 Emscripten 的相關資訊有興趣，就絕對不能錯過這一篇文章。在看下半篇之前，當然應該先複習一下《<a href="../../posts/4541/">Monster Madness – 透過 Emscripten 建構 Web 遊戲 (上)</a>》。</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2013-12-19" class="published"><span class="posted-month">12月</span><span class="posted-date">19</span><span class="posted-year">2013</span></time></p>
+              <h1 class="entry-title">Monster Madness – 透過 Emscripten 建構 Web 遊戲 (下)</h1>
+            </header>
+            <div class="entry-content"><p>你之前聽過酷炫的《Monster Madness》遊戲嗎？只要你對 Emscripten 的相關資訊有興趣，就絕對不能錯過這一篇文章。在看下半篇之前，當然應該先複習一下《<a href="../../posts/4541/">Monster Madness – 透過 Emscripten 建構 Web 遊戲 (上)</a>》。</p>
 <h3>遊戲執行效果如何？</h3>
 <p>現在我們已經在瀏覽器中繪製某些物件，而只需要小幅度修改而取得使用者的輸入之後，就能開始玩遊戲並分析其效能了。相關結果讓我們開心又大感意外。在 Firefox 中，遊戲 asm.js 版本可達到原生程式 33% 的效能。但這是拿「單執行緒的 Web 應用」去比「多執行緒的原生應用」，其實不很公平。若再與我們短時間內完成的 Flash 移植應用相較，asm.js 版更可達幾乎二倍的效能 (這仍將用於未支援 asm.js 的舊版瀏覽器中，但我們希望最終能完全不用此版本)。</p>
 <p>用 Chrome 測得的結果就稍微差一點，僅達原生應用 20% 的效能，不過還是我們預設的可接受目標區間之內。最後我們找到 2011 年版的 Macbook Air 測試，想知道能否跑出 45-60 FPS 的效果 (且是未啟用 Vsync 的狀態)？結果是可以！所以我們希望 Google 能持續提升 asm.js 在 Chrome 瀏覽器上的效能。就目前的情形來看，除非你要用 asm.js 技術弄出《末日之戰 (Crysis)》的瀏覽器版本 (可能時間也快了)，否則 Chrome 已足可應付大多數的 Web 遊戲。</p>
@@ -50,11 +51,11 @@
 <p>(請忍耐遊戲伺服器的存取流量限制。我們仍在測試後端並設法擴充！)</p>
 <p>我們在 Trendy 的每一天，都希望能讓大家能在不受干擾或限制的情況下，讓玩家能隨時以任何裝置/平台享受到任何遊戲。只要能正確整合這些最先進的技術，可能明天就能發表完整的遊戲。我們希望其他專業的遊戲開發者能加入我們，經由 Web 直接了解玩家的需求。但這些都必須歸功於Emscripten 與 asm.js，並可能讓 Web 成為最強大、影響最深遠的遊戲平台！</p>
 <p>原文連結：<a href="https://hacks.mozilla.org/2013/12/monster-madness-creating-games-on-the-web-with-emscripten/">Monster Madness – creating games on the web with Emscripten</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/mozilla/">Mozilla</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
-            <div class="entry-tag-box">標籤：<span>Mozilla</span><span>Web App</span></div>
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/mozilla/">Mozilla</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -72,7 +73,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=4557">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=4557">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

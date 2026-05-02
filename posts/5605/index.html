@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2014-05/">2014 年 5 月</a><b>-</b><a href="../../posts/5605/">PDF.js 到底有多快？</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2014-05/">2014 年 5 月</a><b>&raquo;</b><a href="../../posts/5605/">PDF.js 到底有多快？</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">PDF.js 到底有多快？</h2>
-            <p class="entry-posted"><time datetime="2014-05-20" class="published"><span class="posted-month">5月</span><span class="posted-date">20</span><span class="posted-year">2014</span></time></p>
-          </header>
-          <div class="entry-content"><p>大家好，我是 Thorben。目前是挪威首都奧斯陸 (Oslo) 的「Opera Software」員工。我不在 Mozilla 上班，又為何今天在 Mozilla Hacks 上撰文呢？你可能知道《Opera》瀏覽器並沒有預設的 PDF 檢視器，而我們也想改變這一點。所以幫 Opera 加個預設的檢視器怎麼樣？再跟 Adobe 或 Foxit 買個檢視器？或是自己動手做呢？</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2014-05-20" class="published"><span class="posted-month">5月</span><span class="posted-date">20</span><span class="posted-year">2014</span></time></p>
+              <h1 class="entry-title">PDF.js 到底有多快？</h1>
+            </header>
+            <div class="entry-content"><p>大家好，我是 Thorben。目前是挪威首都奧斯陸 (Oslo) 的「Opera Software」員工。我不在 Mozilla 上班，又為何今天在 Mozilla Hacks 上撰文呢？你可能知道《Opera》瀏覽器並沒有預設的 PDF 檢視器，而我們也想改變這一點。所以幫 Opera 加個預設的檢視器怎麼樣？再跟 Adobe 或 Foxit 買個檢視器？或是自己動手做呢？</p>
 <h4>介紹 PDF.js</h4>
 <p>在下決定之前，先簡單了解一下 <a href="https://mozilla.github.io/pdf.js/">PDF.js</a>。這個專案是想透過 JavaScript 與 Canvas，在瀏覽器中建構全功能的 PDF 檢視器。這聽起來有點誇張，但卻合情合理。瀏覽器應該要能順利處理文字、圖片、字型、向量圖素等等；而這些也是 PDF 檢視器能妥善進行的作業。PDF 中的繪圖指令都屬於 Postscript 的子集，其實跟 Canvas 功能的差異不大。另外就是安全性也沒有什麼問題。使用 PDF.js 就像開啟其他網站一樣安全。</p>
 <h4>開始打造 PDF.js</h4>
@@ -52,11 +53,11 @@
 <h4>接下來呢？</h4>
 <p>我上面所提到的計算框架，也能用在其他許多有趣的程式中。我們下一步會嘗試根據字型格式、圖片格式，或其他類似方式，進而分類 PDF 檔案。你可以先隨意取得 PDF 檔案並測試新的功能。我們也想了解 Postscript 中較常用的繪圖指令，讓我們能針對最常見的指令進行最佳化；就如我們對瀏覽器中的 HTML 所做的相同。看看我們實際還能做什麼吧。</p>
 <p>原文連結：<a href="https://hacks.mozilla.org/2014/05/how-fast-is-pdf-js/">How fast is PDF.js?</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
-            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Web App</span></div>
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -74,7 +75,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190825002545id_/https://blog.mozilla.com.tw/?p=5605">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190825002545id_/https://blog.mozilla.com.tw/?p=5605">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

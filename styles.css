@@ -1,45 +1,49 @@
 body {
   margin: 0;
-  background: #f4f4f1;
-  color: #333;
-  font: 16px/1.7 "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+  background: #f6f4ee url("assets/theme/bg-sky.png") repeat center top;
+  color: #484848;
+  font: 14px/1.65 "Open Sans", "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
 }
-a { color: #0a6f9e; text-decoration: none; }
+a { color: #447bc4; text-decoration: none; }
 a:hover { text-decoration: underline; }
 #outer-wrapper { border-top: 2px solid #fff; }
-#wrapper { max-width: 1060px; margin: 0 auto; background: #fff; min-height: 100vh; box-shadow: 0 0 20px rgba(0,0,0,.08); }
-#doc { padding: 0 32px 48px; }
-#masthead { position: relative; padding: 30px 0 24px; border-bottom: 1px solid #ddd; }
-#tabzilla { position: absolute; right: 0; top: 0; padding: 7px 14px; background: #c13832; color: #fff; font-size: 13px; text-transform: lowercase; }
-#masthead > h2 { margin: 0 0 18px; font-size: 24px; letter-spacing: 0; text-transform: lowercase; }
-#masthead > h2 a { color: #333; }
-.breadcrumbs { margin: 0 0 22px; color: #777; font-size: 13px; }
-.breadcrumbs b { color: #aaa; margin: 0 6px; }
-hgroup { padding: 32px 0 34px; background: linear-gradient(90deg, #f08a24, #d94f2b); color: #fff; }
-hgroup h1, hgroup h2 { margin-left: 28px; margin-right: 28px; }
-hgroup h1 { margin-top: 0; margin-bottom: 2px; font-size: 44px; line-height: 1.1; font-weight: 300; }
-hgroup h2 { margin-top: 0; margin-bottom: 0; font-size: 18px; font-weight: 400; }
-#main { display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 36px; padding-top: 30px; }
-.article-div { padding: 0 0 28px; margin: 0 0 30px; border-bottom: 1px solid #ddd; }
+#wrapper { min-height: 100vh; }
+#doc { width: 980px; margin: 0 auto; padding: 0 10px 48px; }
+#masthead { position: relative; padding: 0; }
+#tabzilla { position: absolute; right: 0; top: 0; display: block; width: 150px; height: 44px; overflow: hidden; background: rgba(255, 255, 255, 0.5); color: #303030; font-size: 13px; line-height: 44px; text-align: center; text-transform: lowercase; z-index: 2; }
+.breadcrumbs { margin: 0 0 20px 20px; color: #303030; font-size: 13px; }
+.breadcrumbs b { margin: 0 5px; color: #303030; font-size: 120%; font-weight: bold; }
+hgroup { margin: 0; padding: 34px 28px 30px; color: #484848; }
+hgroup .site-logo, hgroup .site-heading { margin-top: 1em; margin-left: 0; margin-right: 0; text-shadow: none; }
+.site-logo { margin: 0 0 3px; }
+.site-logo a:hover { text-decoration: none; }
+.site-logo img { display: block; width: 130px; height: auto; }
+.site-heading { margin-top: 2em; margin-bottom: 0; font-size: 18px; font-weight: 400; line-height: 1.35; }
+#main { display: grid; grid-template-columns: 660px 220px; gap: 60px; align-items: start; padding-top: 26px; }
+.article-div { clear: both; margin: 0 0 28px; padding: 20px 20px 30px; border-radius: 5px; background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.1)); background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.1)); }
 .post, .post-list-item { position: relative; }
-.entry-header { display: grid; grid-template-columns: minmax(0, 1fr) 74px; gap: 20px; align-items: start; }
-.entry-title { margin: 0 0 14px; font-size: 28px; line-height: 1.25; font-weight: 400; }
-.post-list-item .entry-title { font-size: 25px; }
-.entry-title a { color: #333; }
-.entry-posted { margin: 0; text-align: center; }
-.published { display: block; border: 1px solid #d0d0cc; background: #f8f8f5; color: #666; }
-.posted-month, .posted-year { display: block; padding: 2px 0; font-size: 13px; background: #e7e7e1; }
-.posted-date { display: block; font-size: 34px; line-height: 1.2; color: #c13832; }
-.entry-content { font-size: 17px; }
+.entry-header { display: block; }
+.entry-title { margin: 0 0 14px; font-size: 32px; line-height: 1.22; font-weight: 300; }
+.post-list-item .entry-title { min-height: 44px; margin-left: 92px; font-size: 26px; }
+.entry-title a { color: #303030; }
+.entry-posted { margin: 0 0 12px; text-align: left; }
+.post-list-item .entry-posted { float: left; margin: 0 18px 8px 0; }
+.published { display: inline-block; width: 68px; min-width: 68px; height: 72px; padding: 7px 0 0; background: url("assets/theme/bg-date-lt.png") no-repeat center top; color: #555; text-align: center; box-shadow: none; }
+.posted-month, .posted-year { display: block; padding: 0; font-size: 14px; line-height: 1.05; background: transparent; }
+.posted-date { display: block; font-size: 27px; line-height: .95; color: #555; }
+.thumb-img { float: left; width: 150px; height: 150px; margin: 4px 22px 12px 0; overflow: hidden; background: #fff; border: 1px solid #fff; box-shadow: 0 0 16px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.1); }
+.thumb-img img { width: 150px; height: 150px; object-fit: cover; display: block; }
+.entry-content { font-size: 16px; }
+.post-list-item .entry-content.half { min-height: 120px; color: #484848; }
 .entry-content p { margin: 0 0 1.15em; }
 .entry-content img { max-width: 100%; height: auto; display: block; margin: 1.4em auto; }
 .entry-content blockquote { margin: 1.4em 0; padding-left: 1.2em; border-left: 4px solid #d94f2b; color: #555; }
 .entry-content pre { overflow-x: auto; padding: 14px; background: #272822; color: #f8f8f2; }
 .entry-content code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .92em; }
 .entry-content ul, .entry-content ol { padding-left: 1.6em; }
-.entry-footer { margin-top: 20px; color: #666; font-size: 14px; }
+.entry-footer { display: block; clear: both; margin: 24px 0 0; padding: 12px 24px 3px; background: rgba(0,0,0,.02); border-bottom: 1px solid rgba(255,255,255,.5); box-shadow: 0 0 3px rgba(0,0,0,.1) inset; color: #666; font-size: 14px; }
+.entry-category-box { margin-bottom: 10px; }
 .entry-category-box span, .entry-tag-box span { display: inline-block; margin: 0 6px 6px 0; padding: 2px 8px; background: #eee; }
-.entry-source-box { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
 .archive-header { margin: 0 0 26px; padding-bottom: 12px; border-bottom: 1px solid #ddd; }
 .archive-header h2 { margin: 0 0 4px; font-size: 30px; font-weight: 400; }
 .archive-header p { margin: 0; color: #666; }
@@ -47,18 +51,24 @@ hgroup h2 { margin-top: 0; margin-bottom: 0; font-size: 18px; font-weight: 400; 
 .archive-list li { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid #e5e5df; }
 .archive-list span { color: #777; }
 #secondary { font-size: 14px; color: #555; }
-.widget { margin-bottom: 28px; }
-.widget h3 { margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid #ddd; color: #333; font-size: 18px; font-weight: 400; }
+.widget { display: block; margin: 0 0 22px; padding: 0 0 16px; border-bottom: 1px dotted #d6d6d6; }
+.widget h3 { margin: 0 0 10px; color: #333; font-size: 18px; font-weight: 400; }
 .widget ul { margin: 0; padding-left: 1.2em; }
 .widget li { margin: 0 0 5px; }
-#site-footer { margin-top: 34px; padding: 20px 0 0; border-top: 1px solid #ddd; color: #666; font-size: 13px; }
-#site-footer p { margin: 0 0 6px; }
-@media (max-width: 780px) {
-  #doc { padding-left: 18px; padding-right: 18px; }
+.archive-dropdown { max-width: 100%; }
+@media (max-width: 1000px) {
+  #doc { width: 760px; }
   #main { grid-template-columns: 1fr; }
-  .entry-header { grid-template-columns: 1fr; }
+  #secondary { width: 660px; margin: 20px auto 0; }
+  #secondary .widget { display: inline-block; width: 200px; margin: 0 8px 18px; padding: 0 6px 12px; vertical-align: top; }
+}
+@media (max-width: 760px) {
+  #doc { width: auto; padding-left: 18px; padding-right: 18px; }
+  #main, #secondary { width: auto; }
+  .post-list-item .entry-title { min-height: 0; margin-left: 0; }
+  .post-list-item .entry-posted { float: none; }
+  .thumb-img { float: none; margin-left: 0; }
+  #secondary .widget { display: block; width: auto; margin: 0 0 22px; }
   .entry-posted { text-align: left; }
-  .published { display: inline-grid; grid-template-columns: auto auto auto; align-items: baseline; }
-  .posted-month, .posted-year, .posted-date { display: inline; padding: 2px 8px; font-size: 14px; }
-  hgroup h1 { font-size: 34px; }
+  .site-heading { font-size: 18px; }
 }

@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2016-01/">2016 年 1 月</a><b>-</b><a href="../../posts/8357/">為 Firefox OS 電視打造遊戲 (下)</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2016-01/">2016 年 1 月</a><b>&raquo;</b><a href="../../posts/8357/">為 Firefox OS 電視打造遊戲 (下)</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">為 Firefox OS 電視打造遊戲 (下)</h2>
-            <p class="entry-posted"><time datetime="2016-01-18" class="published"><span class="posted-month">1月</span><span class="posted-date">18</span><span class="posted-year">2016</span></time></p>
-          </header>
-          <div class="entry-content"><p>隨著 Firefox OS 著眼於連網裝置的趨勢，現正是針對大型螢幕開發遊戲的時候。松下電器 (Panasonic) 現已發售多款 Firefox OS 智慧電視，而相較於一般人所習慣的智慧型手機畫面，我將透過本文簡單介紹該如何對應大型電視螢幕開發 HTML5 遊戲。</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2016-01-18" class="published"><span class="posted-month">1月</span><span class="posted-date">18</span><span class="posted-year">2016</span></time></p>
+              <h1 class="entry-title">為 Firefox OS 電視打造遊戲 (下)</h1>
+            </header>
+            <div class="entry-content"><p>隨著 Firefox OS 著眼於連網裝置的趨勢，現正是針對大型螢幕開發遊戲的時候。松下電器 (Panasonic) 現已發售多款 Firefox OS 智慧電視，而相較於一般人所習慣的智慧型手機畫面，我將透過本文簡單介紹該如何對應大型電視螢幕開發 HTML5 遊戲。</p>
 <p>在〈<a href="../../posts/8356/">為 Firefox OS 電視打造遊戲 (上)</a>〉一文中，我 (作者 <a href="https://end3r.com/">Andrzej Mazur</a>) 稍微解釋過第一版羅傑斯隊長的開發背景，與其所對應的執行裝置。但時至今日，逐漸普及的連網裝置讓遊戲平台也更為多元。一起來看看該如何讓電視遙控器也能化身遊戲搖桿，直接在大螢幕電視上享受遊戲！</p>
 <h4>動手開發</h4>
 <p>近幾年已有許多有關<a href="https://code.tutsplus.com/tutorials/preparing-for-firefox-os--mobile-18515">如何針對 Firefox OS 智慧型手機打造自己的 HTML5 遊戲</a>等的資源。但隨著新媒介不斷問世，相關方式也不盡相同 (以下將討論某些例外)，所以你大方向仍是可依照這些說明文章所述來做。但要針對 Panasonic 的 Firefox OS 電視開發遊戲，就需要 Firefox Nightly 與 WebIDE。你可參閱<a href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox_OS/TVs_connected_devices/How_to_connect_WebIDE_to_TV_%28VIErA%29">本篇 MDN 文章</a>，透過 WebIDE 遠端除錯的方式，逐步將遊戲推送至電視之中。</p>
@@ -59,11 +60,11 @@
 <p>在西班牙巴塞隆納的<a href="https://blog.end3r.com/260/enclave-games-jedzie-na-mobile-world-congress-do-barcelony/">世界行動通訊大會 (Mobile World Congress，MWC) 2014</a> 上，我就透過多款 Firefox OS 智慧型手機展示了第一版隊長遊戲。從那時開始，我就常與人討論 Firefox OS 的遊戲開發問題，也讓隊長遊戲作為案例研討之用。<a href="https://rogers2.enclavegames.com/tv/">新版遊戲</a>已經在賭城<a href="https://www.cesweb.org/">消費性電子展 (Consumer Electronics Show，CES)</a> 的 Firefox OS 電視上現身，就是松下電器 (Panasonic) <a href="../../posts/8337/">所發表的新款 UHD 電視</a>。如果你有任何疑問或想法，歡迎隨時<a href="https://twitter.com/end3r">到 Twitter 上找我</a>！</p>
 <p>── By <a href="https://end3r.com/">Andrzej Mazur</a></p>
 <p>原文連結：<a href="https://hacks.mozilla.org/2016/01/building-games-for-firefox-os-tv/">Building games for Firefox OS TV</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox-os/">Firefox OS</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
-            
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox-os/">Firefox OS</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -81,7 +82,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20191019130628id_/https://blog.mozilla.com.tw/?p=8357">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20191019130628id_/https://blog.mozilla.com.tw/?p=8357">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

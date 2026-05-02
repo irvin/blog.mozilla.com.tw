@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2014-06/">2014 年 6 月</a><b>-</b><a href="../../posts/5773/">PlayCanvas 也加入開放源碼 (上)</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2014-06/">2014 年 6 月</a><b>&raquo;</b><a href="../../posts/5773/">PlayCanvas 也加入開放源碼 (上)</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">PlayCanvas 也加入開放源碼 (上)</h2>
-            <p class="entry-posted"><time datetime="2014-06-12" class="published"><span class="posted-month">6月</span><span class="posted-date">12</span><span class="posted-year">2014</span></time></p>
-          </header>
-          <div class="entry-content"><p>你是遊戲開發者，心中早有一堆酷炫的遊戲點子等著發揮嗎？是不是遇上開發瓶頸，受限於自己使用的遊戲引擎呢？快來看看「PlayCanvas」這個已經開放源碼的強大引擎！而且看完你會發現原來 PlayCanvas 竟然跟全球玩家所熟知的兩大重量級遊戲有關呢！想知道是哪兩款遊戲就趕快看下去吧！</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2014-06-12" class="published"><span class="posted-month">6月</span><span class="posted-date">12</span><span class="posted-year">2014</span></time></p>
+              <h1 class="entry-title">PlayCanvas 也加入開放源碼 (上)</h1>
+            </header>
+            <div class="entry-content"><p>你是遊戲開發者，心中早有一堆酷炫的遊戲點子等著發揮嗎？是不是遇上開發瓶頸，受限於自己使用的遊戲引擎呢？快來看看「PlayCanvas」這個已經開放源碼的強大引擎！而且看完你會發現原來 PlayCanvas 竟然跟全球玩家所熟知的兩大重量級遊戲有關呢！想知道是哪兩款遊戲就趕快看下去吧！</p>
 <p>在 2011 年 3 月 22 日，Mozilla 發表的 Firefox 4.0 已預設啟動 <a href="https://developer.mozilla.org/en/WebGL">WebGL</a>。過了一個月後，我們更開始以 PlayCanvas 專案建構出不同於以往的遊戲引擎。時間向前快轉三年，WebGL 現已深入每個角落。而蘋果公司 (Apple) 最近也宣布旗下的 OS X 與 iOS 8 均將支援 WebGL。我們還要再加上一個好消息：</p>
 <p><a href="https://playcanvas.com/">PlayCanvas</a> 引擎現在也開放原始碼了！</p>
 <p><a href="https://playcanvas.com/"><img src="../../assets/5773/wp-content/uploads/MozBlog500.png" alt="MozBlog500" loading="lazy"></a></p>
@@ -52,11 +53,11 @@
 <p>那整個 Codebase 非關 asm.js 的部份呢？效能仍甚為關鍵，且對圖形引擎尤為如此。繪圖器(Renderer) 已確實完成最佳化，進而根據材質而排序 Draw call，並將多餘的 WebGL call 減到最少。另繪圖器亦謹慎撰寫過，避免因動態分配 (Dynamic allocation) 造成垃圾蒐集 (Garbage collection)，進而拖慢整個程式的速度。如此程式碼才能順暢執行，又同時保持本身輕量化與可讀性。</p>
 <p>看完 PlayCanvas 的遊戲引擎介紹，你總算知道其中 Ammo.js 竟然是以《碧血狂殺》和《俠盜獵車手》所用的「Bullet」移植而得了吧？ 是不是感覺熱血沸騰了呢？可別錯過《<a href="../../posts/5777/">PlayCanvas 也加入開放源碼 (下)</a>》！</p>
 <p>原文連結：<a href="https://hacks.mozilla.org/2014/06/playcanvas-goes-open-source/">PlayCanvas Goes Open Source</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/web-app/">Web App</a></span></div>
-            <div class="entry-tag-box">標籤：<span>Web App</span></div>
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/web-app/">Web App</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -74,7 +75,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190825003535id_/https://blog.mozilla.com.tw/?p=5773">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190825003535id_/https://blog.mozilla.com.tw/?p=5773">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

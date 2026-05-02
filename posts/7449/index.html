@@ -12,33 +12,34 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2015-05/">2015 年 5 月</a><b>-</b><a href="../../posts/7449/">為大家更新 Firefox 與數位版權管理的消息</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2015-05/">2015 年 5 月</a><b>&raquo;</b><a href="../../posts/7449/">為大家更新 Firefox 與數位版權管理的消息</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">為大家更新 Firefox 與數位版權管理的消息</h2>
-            <p class="entry-posted"><time datetime="2015-05-13" class="published"><span class="posted-month">5月</span><span class="posted-date">13</span><span class="posted-year">2015</span></time></p>
-          </header>
-          <div class="entry-content"><p>早在一年之前，我們就宣佈將著手開發 Firefox 中的元件，期能以 HTML5 的 video 標籤播放數位版權管理 (Digital Rights Management，DRM) 所包裹的內容。基於 Mozilla 的既有<a href="https://www.mozilla.org/en-US/mission/">理念</a>以及 DRM 的封閉本質，這項任務著實不易。在<a href="../../posts/5579/">解釋過兩難境地</a>之後，我們現正啟動 DRM 以提供使用者對瀏覽器所要求的功能，讓大家都能繼續欣賞精采的影片內容。我們不看好 DRM 能成為市場的解決方案，但卻是目前能觀看熱門內容的唯一方法。</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2015-05-13" class="published"><span class="posted-month">5月</span><span class="posted-date">13</span><span class="posted-year">2015</span></time></p>
+              <h1 class="entry-title">為大家更新 Firefox 與數位版權管理的消息</h1>
+            </header>
+            <div class="entry-content"><p>早在一年之前，我們就宣佈將著手開發 Firefox 中的元件，期能以 HTML5 的 video 標籤播放數位版權管理 (Digital Rights Management，DRM) 所包裹的內容。基於 Mozilla 的既有<a href="https://www.mozilla.org/en-US/mission/">理念</a>以及 DRM 的封閉本質，這項任務著實不易。在<a href="../../posts/5579/">解釋過兩難境地</a>之後，我們現正啟動 DRM 以提供使用者對瀏覽器所要求的功能，讓大家都能繼續欣賞精采的影片內容。我們不看好 DRM 能成為市場的解決方案，但卻是目前能觀看熱門內容的唯一方法。</p>
 <p>Firefox 在今天整合了 Adobe 的「Content Decryption Module (內容解密模組，CDM)」，以能播放 DRM 所包裹的內容。只要你升級或安裝 Firefox 之後，隨即會從 Adobe 下載 CDM。在你第一次進入已使用 Adobe CDM 的網站之後，就會跟著啟動 CDM。包含 Netflix 在內的高階影片服務，都已經開始<a href="https://www.mozilla.org/firefox/38.0/releasenotes/">在 Firefox 中測試此解決方案</a>。</p>
 <p>由於 DRM 屬於不開放的「黑箱」技術，我們以 CDM 為基礎設計了「<a href="https://hacks.mozilla.org/2014/05/reconciling-mozillas-mission-and-w3c-eme/">安全沙箱 (Security sandbox)</a>」。我們不知道其他瀏覽器是如何處理黑箱問題，但可透過沙箱機制提供必要的安全隔層。此外，我們也提供該如何<a href="https://support.mozilla.org/en-US/kb/enable-drm">從自己 Firefox 移除 CDM 的方法</a>。Mozilla 認為這些都是重要的安全與選擇機制，讓我們能在整合此類黑箱技術並將負面影響降到最低之餘，也能順利導入此項技術。</p>
 <p><img src="../../assets/7449/wp-content/uploads/FX3.png" alt="FX3" loading="lazy"></p>
 <p>Mozilla 也知道並非所有人都喜歡 DRM。所以針對某些不想在自己瀏覽器上安裝 CDM 的使用者，我們提供<a href="https://download.cdn.mozilla.net/pub/firefox/releases/38.0/win32-EME-free/">另外的 Firefox 下載版本</a>，其中已將 CDM 預設為停用。</p>
 <p>如同之前所討論過的，DRM 算是複雜的問題。我們希望使用者能了解其所代表的意涵，所以將透過此<a href="https://stacy.makes.org/thimble/MTUxMzI5MjI4OA==/what-is-drm">教材</a>介紹 DRM、其產生的挑戰，以及某些內容供應商仍決定採用的理由。</p>
 <p>原文連結：<a href="https://blog.mozilla.org/blog/2015/05/12/update-on-digital-rights-management-and-firefox/">Update on Digital Rights Management and Firefox</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span><span><a href="../../categories/mozilla/">Mozilla</a></span></div>
-            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Mozilla</span></div>
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span><span><a href="../../categories/mozilla/">Mozilla</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -56,7 +57,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190825005734id_/https://blog.mozilla.com.tw/?p=7449">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190825005734id_/https://blog.mozilla.com.tw/?p=7449">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

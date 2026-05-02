@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2015-02/">2015 年 2 月</a><b>-</b><a href="../../posts/7083/">BroadcastChannel API 現已進入 Firefox 38</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2015-02/">2015 年 2 月</a><b>&raquo;</b><a href="../../posts/7083/">BroadcastChannel API 現已進入 Firefox 38</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">BroadcastChannel API 現已進入 Firefox 38</h2>
-            <p class="entry-posted"><time datetime="2015-02-06" class="published"><span class="posted-month">2月</span><span class="posted-date">6</span><span class="posted-year">2015</span></time></p>
-          </header>
-          <div class="entry-content"><p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Broadcast_Channel_API">BroadcastChannel API</a> 最近已經進入 Firefox 38。若網頁內容的來源及其所使用的瀏覽器均相同，則此 API 就能在瀏覽器的內容之間進行簡單的訊息傳遞作業。此 API 現已擴充到 Windows 與 Worker 之上，並可於 iframes、Worker、瀏覽器分頁的執行緒之間進行通訊。</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2015-02-06" class="published"><span class="posted-month">2月</span><span class="posted-date">6</span><span class="posted-year">2015</span></time></p>
+              <h1 class="entry-title">BroadcastChannel API 現已進入 Firefox 38</h1>
+            </header>
+            <div class="entry-content"><p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Broadcast_Channel_API">BroadcastChannel API</a> 最近已經進入 Firefox 38。若網頁內容的來源及其所使用的瀏覽器均相同，則此 API 就能在瀏覽器的內容之間進行簡單的訊息傳遞作業。此 API 現已擴充到 Windows 與 Worker 之上，並可於 iframes、Worker、瀏覽器分頁的執行緒之間進行通訊。</p>
 <p>BroadcastChannel API 本來是想在 Web App 瀏覽器的內容之間，進行簡易的訊息通訊作業。舉例來說，只要使用者登入 App 的網頁之一，即可依其個人資訊而更新其他所有的內容 (如分頁或獨立視窗)。或是使用者將照片上傳到瀏覽器視窗，亦可一併傳送到該 App 之內所開啟的其他頁面。此 API 本不是為了處理複雜作業所設計。如鎖定已分享的資源，或透過伺服器同步多個用戶端等的複雜作業，則 Shared worker 還更適合。</p>
 <h3>API 概述</h3>
 <p>我們可用下列程式碼建立 BroadcastChannel 物件：</p>
@@ -70,11 +71,11 @@
 <h3>更多資訊</h3>
 <p>如果要進一步了解該如何於 iframe 中使用，則可到<a href="https://github.com/JasonWeathersby/broadcastchannelexample">github</a> 找到本文所提的另一組範例程式碼。另可透過到<a href="https://html.spec.whatwg.org/multipage/comms.html#broadcasting-to-other-browsing-contexts">規格</a>、<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=966439">bugzilla 討論串</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/API/Broadcast_Channel_API">MDN</a> 進一步了解BroadcastChannel API。亦可到 gecko<a href="https://github.com/mozilla/gecko-dev/tree/master/dom/broadcastchannel">原始碼</a>找到此 API 的程式碼與測試頁面。</p>
 <p>原文連結：<a href="https://hacks.mozilla.org/2015/02/broadcastchannel-api-in-firefox-38/">BroadcastChannel API in Firefox 38</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span></div>
-            
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -92,7 +93,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20200927090209id_/https://blog.mozilla.com.tw/?p=7083">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20200927090209id_/https://blog.mozilla.com.tw/?p=7083">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

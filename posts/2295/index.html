@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2013-04/">2013 年 4 月</a><b>-</b><a href="../../posts/2295/">網路付款 navigator.mozPay() 介紹</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2013-04/">2013 年 4 月</a><b>&raquo;</b><a href="../../posts/2295/">網路付款 navigator.mozPay() 介紹</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">網路付款 navigator.mozPay() 介紹</h2>
-            <p class="entry-posted"><time datetime="2013-04-11" class="published"><span class="posted-month">4月</span><span class="posted-date">11</span><span class="posted-year">2013</span></time></p>
-          </header>
-          <div class="entry-content"><p>現在網路上的付款機制到底出了什麼問題？任何網站都已經有購物車功能，而且幾乎都搭配信用卡或類似的付款機制。依照目前網路的自由度，應該要能支援更多商業模式才對。這裡就是問題所在：</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2013-04-11" class="published"><span class="posted-month">4月</span><span class="posted-date">11</span><span class="posted-year">2013</span></time></p>
+              <h1 class="entry-title">網路付款 navigator.mozPay() 介紹</h1>
+            </header>
+            <div class="entry-content"><p>現在網路上的付款機制到底出了什麼問題？任何網站都已經有購物車功能，而且幾乎都搭配信用卡或類似的付款機制。依照目前網路的自由度，應該要能支援更多商業模式才對。這裡就是問題所在：</p>
 <ul><li>使用者不能選擇付款方式，卻必須選擇那些預先定義的選項之一。</li></ul>
 <ul><li>在大多數情形中，使用者必須在網站上鍵入實際的信用卡卡號。這就好像你把自己的雙 B 車鑰匙給某個人，讓他把車開到治安不好的地區 (就是網路) 大繞特繞，然後還要大叫「不要搶我的車」一樣。</li></ul>
 <ul><li>而付款服務商往往要自己管理所有事情：設定付款處理機制、高額的金流處理費用，甚至還要顧到 PCI 相容性。</li></ul>
@@ -80,11 +81,11 @@
 <ul><li>要如何確保賣方出貨之後能收到貨款？</li></ul>
 <p>其實只要與錢搭上關係，每一步都必須謹慎小心以免爭議。數位貨幣 <a href="https://en.wikipedia.org/wiki/Bitcoin">BitCoin</a> 透過<a href="https://en.bitcoin.it/wiki/Block_chain">區塊鏈 (Block chain)</a>；網路付款協定 <a href="https://payswarm.com/wiki/PaySwarm_Design">PaySwarm</a> 則是以分散資產與公共金鑰 (或稱公鑰 Public key) 等特色，解決了信任方面的相關問題。Mozilla 將參考 PaySwarm 與其他模式，以期讓 navigator.mozPay() 能整合相關概念的優點，達成絕佳的付款平台。</p>
 <p>英文原文：https://hacks.mozilla.org/2013/04/introducing-navigator-mozpay-for-web-payments/</p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox-os/">Firefox OS</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
-            <div class="entry-tag-box">標籤：<span>Firefox OS</span><span>Web App</span></div>
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox-os/">Firefox OS</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -102,7 +103,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=2295">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=2295">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

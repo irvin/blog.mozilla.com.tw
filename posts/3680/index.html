@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2013-08/">2013 年 8 月</a><b>-</b><a href="../../posts/3680/">Web Activities 即可輕鬆存取硬體</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2013-08/">2013 年 8 月</a><b>&raquo;</b><a href="../../posts/3680/">Web Activities 即可輕鬆存取硬體</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">Web Activities 即可輕鬆存取硬體</h2>
-            <p class="entry-posted"><time datetime="2013-08-29" class="published"><span class="posted-month">8月</span><span class="posted-date">29</span><span class="posted-year">2013</span></time></p>
-          </header>
-          <div class="entry-content"><p>此為「Firefox OS ─ 讓 <a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 得以完全發揮的平台」系列的第六支影片 (於此回顧<a href="https://hacks.mozilla.org/2013/06/firefox-os-for-developers-the-platform-html5-deserves/">第一支</a>、<a href="../../posts/3179/">第二支</a>、<a href="../../posts/3277/">第三支</a>、<a href="../../posts/3419/">第四支</a>、<a href="../../posts/3593/">第五支</a>影片)，讓開發者不需封裝自己的 App，即可透過 <a href="https://wiki.mozilla.org/WebAPI/WebActivities">Web Activities</a>存取硬體。</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2013-08-29" class="published"><span class="posted-month">8月</span><span class="posted-date">29</span><span class="posted-year">2013</span></time></p>
+              <h1 class="entry-title">Web Activities 即可輕鬆存取硬體</h1>
+            </header>
+            <div class="entry-content"><p>此為「Firefox OS ─ 讓 <a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 得以完全發揮的平台」系列的第六支影片 (於此回顧<a href="https://hacks.mozilla.org/2013/06/firefox-os-for-developers-the-platform-html5-deserves/">第一支</a>、<a href="../../posts/3179/">第二支</a>、<a href="../../posts/3277/">第三支</a>、<a href="../../posts/3419/">第四支</a>、<a href="../../posts/3593/">第五支</a>影片)，讓開發者不需封裝自己的 App，即可透過 <a href="https://wiki.mozilla.org/WebAPI/WebActivities">Web Activities</a>存取硬體。</p>
 <p><img src="../../assets/3680/wp-content/uploads/be-the-future1.png" alt="be-the-future" loading="lazy"></p>
 <p>本影片是由 Mozilla 的 Chris Heilmann (<a href="https://twitter.com/codepo8">@codepo8</a>)，與 <a href="https://blog.digital.telefonica.com/">Telefónica Digital</a>/ W3C 的 Daniel Appelquist (<a href="https://twitter.com/torgo">@torgo</a>) 所錄製，為大家解說 Web Activities 的相關概念。<a href="https://youtu.be/DNVbxY70cIc">可於此觀看影片</a>。</p>
 <p><a href="https://wiki.mozilla.org/WebAPI/WebActivities">Web Activities</a> 可擴充 HTML5 App 的功能，不需詢問使用者的授權亦能存取硬體。換句話說，App 不會要求使用者允許存取相機或電話功能，而是由 App 直接要求圖片或撥打電話，再挑選最適合的 App 執行該作業。以尋找相片為例，使用者可從圖庫或桌布中挑選相片，甚至透過相機 App 拍攝新的相片。接著你就能取得 BLOB 格式的相片。而這組程式碼實在很簡單：</p>
@@ -57,11 +58,11 @@
 <p><img src="../../assets/3680/wp-content/uploads/boilerplate.jpeg" alt="boilerplate" loading="lazy"></p>
 <p>如果想把 App 托管於自己的伺服器上，而且不需詢問使用者的授權即存取硬體，那麼 Web Activities 就是最快、最簡單的方式。針對 App 所需的資訊，你可讓使用者決定資訊的取得方式，並專心處理所獲得的資料。</p>
 <p>原文連結：<a href="https://hacks.mozilla.org/2013/08/web-activities-firefox-os-the-platform-html5-deserves/">https://hacks.mozilla.org/2013/08/web-activities-firefox-os-the-platform-html5-deserves/</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox-os/">Firefox OS</a></span></div>
-            <div class="entry-tag-box">標籤：<span>Firefox OS</span></div>
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox-os/">Firefox OS</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -79,7 +80,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190824004607id_/https://blog.mozilla.com.tw/?p=3680">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190824004607id_/https://blog.mozilla.com.tw/?p=3680">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

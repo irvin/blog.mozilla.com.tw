@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2015-04/">2015 年 4 月</a><b>-</b><a href="../../posts/7265/">此 API 真可輕鬆提取！</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2015-04/">2015 年 4 月</a><b>&raquo;</b><a href="../../posts/7265/">此 API 真可輕鬆提取！</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">此 API 真可輕鬆提取！</h2>
-            <p class="entry-posted"><time datetime="2015-04-01" class="published"><span class="posted-month">4月</span><span class="posted-date">1</span><span class="posted-year">2015</span></time></p>
-          </header>
-          <div class="entry-content"><p>十多年來，Web 都是透過 XMLHttpRequest (XHR) 在 JavaScript 中達到非同步請求。XHR 雖然好用，但因為缺乏「Separation of concerns (SoC)」，所以算不上是很好的 API。其輸入、輸出、狀態，全都是經由存取單一物件進行管理，且透過事件來追蹤狀態。同樣的，事件架構的模型，並無法妥善配合 JavaScript 最近所著重的「Promise」與「產生器 (Generator)」架構之非同步程式設計方式。</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2015-04-01" class="published"><span class="posted-month">4月</span><span class="posted-date">1</span><span class="posted-year">2015</span></time></p>
+              <h1 class="entry-title">此 API 真可輕鬆提取！</h1>
+            </header>
+            <div class="entry-content"><p>十多年來，Web 都是透過 XMLHttpRequest (XHR) 在 JavaScript 中達到非同步請求。XHR 雖然好用，但因為缺乏「Separation of concerns (SoC)」，所以算不上是很好的 API。其輸入、輸出、狀態，全都是經由存取單一物件進行管理，且透過事件來追蹤狀態。同樣的，事件架構的模型，並無法妥善配合 JavaScript 最近所著重的「Promise」與「產生器 (Generator)」架構之非同步程式設計方式。</p>
 <p><img src="../../assets/7265/wp-content/uploads/clean-code-part-i-design-patterns-and-best-practices-29-638.jpg" alt="clean-code-part-i-design-patterns-and-best-practices-29-638" loading="lazy"></p>
 <p>為了修正大多數的問題，我們針對 HTTP 協定所使用的基本構成元件，透過 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API">Fetch API</a> 將之導入 JavaScript。另外也導入 fetch() 公用函式，以簡化網路的資源檢索作業。</p>
 <p>用以定義此 API 的 <a href="https://fetch.spec.whatwg.org/">Fetch 規格</a>，則明確定義了瀏覽器在提取資源時的語法。若整合 ServiceWorkers 即可：</p>
@@ -47,11 +48,11 @@
 <p>						fetch(&quot;http://www.example.org/submit.php&quot;, {  method: &quot;POST&quot;,  headers: {    &quot;Content-Type&quot;: &quot;application/x-www-form-urlencoded&quot;  },  body: &quot;firstName=Nikhil&amp;favColor=blue&amp;password=easytoguess&quot;}).then(function(res) {  if (res.ok) {    alert(&quot;Perfect! Your settings are saved.&quot;);  } else if (res.status == 401) {    alert(&quot;Oops! You are not authorized.&quot;);  }}, function(e) {  alert(&quot;Error submitting form!&quot;);});</p>
 <p>看到這裡，你想進一步了解 Fetch API，或是正好需要相關功能嗎？請回到<a href="https://hacks.mozilla.org/2015/03/this-api-is-so-fetching/">原文</a>觀看更多詳細的程式碼範例！</p>
 <p>原文連結：<a href="https://hacks.mozilla.org/2015/03/this-api-is-so-fetching/">This API is so Fetching!</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox-os/">Firefox OS</a></span></div>
-            <div class="entry-tag-box">標籤：<span>Firefox OS</span></div>
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox-os/">Firefox OS</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -69,7 +70,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20191113174006id_/https://blog.mozilla.com.tw/?p=7265">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20191113174006id_/https://blog.mozilla.com.tw/?p=7265">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

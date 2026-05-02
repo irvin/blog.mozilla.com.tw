@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2016-10/">2016 年 10 月</a><b>-</b><a href="../../posts/9335/">取消對 WoSign 與 StartCom 新簽發憑證的信任</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2016-10/">2016 年 10 月</a><b>&raquo;</b><a href="../../posts/9335/">取消對 WoSign 與 StartCom 新簽發憑證的信任</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">取消對 WoSign 與 StartCom 新簽發憑證的信任</h2>
-            <p class="entry-posted"><time datetime="2016-10-25" class="published"><span class="posted-month">10月</span><span class="posted-date">25</span><span class="posted-year">2016</span></time></p>
-          </header>
-          <div class="entry-content"><p>Mozilla 發現中國的「沃通 (WoSign)」<a href="https://wiki.mozilla.org/CA:FAQ">憑證授權機構 (Certificate Authority；CA)</a> 發生許多<a href="https://wiki.mozilla.org/CA:WoSign_Issues">技術與管理上的錯誤</a>。最嚴重的一點，就是其他 CA 為安全性考量，已經自 2016 年 1 月 1 日起停止核發 SHA-1 SSL 憑證，但我們<a href="https://docs.google.com/document/d/1C6BlmbeQfn4a9zydVi2UvjBGv6szuSB4sMYUcVrR8vQ/edit?usp=sharing">竟然發現</a>沃通<a href="https://wiki.mozilla.org/CA:WoSign_Issues#Issue_S:_Backdated_SHA-1_Certs_.28January_2016.29">竄改</a>了該 SSL 憑證為較早日期，藉以規避此一<a href="https://mozillacaprogram.secure.force.com/Communications/CommunicationActionOptionResponse?CommunicationId=a04o000000M89RCAAZ&amp;Question=ACTION%20%233:%20After%20January%201,%202016">停止核發日期</a>。此外，我們<a href="https://groups.google.com/d/msg/mozilla.dev.security.policy/0pqpLJ_lCJQ/z69lmZ88DwAJ">還發現</a>在沃通併購同業「StartCom」並完整取得其經營權之後，也未依照 Mozilla 政策而公開揭露此一併購行為。在彙整相關有效資料證實我們所言非虛之前，沃通與 StartCom 的負責人更對上述情事一概否認。基於公司負責人展現的欺瞞行為，Mozilla 決定不再信賴此兩間公司的根憑證 (Root certificate)。</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2016-10-25" class="published"><span class="posted-month">10月</span><span class="posted-date">25</span><span class="posted-year">2016</span></time></p>
+              <h1 class="entry-title">取消對 WoSign 與 StartCom 新簽發憑證的信任</h1>
+            </header>
+            <div class="entry-content"><p>Mozilla 發現中國的「沃通 (WoSign)」<a href="https://wiki.mozilla.org/CA:FAQ">憑證授權機構 (Certificate Authority；CA)</a> 發生許多<a href="https://wiki.mozilla.org/CA:WoSign_Issues">技術與管理上的錯誤</a>。最嚴重的一點，就是其他 CA 為安全性考量，已經自 2016 年 1 月 1 日起停止核發 SHA-1 SSL 憑證，但我們<a href="https://docs.google.com/document/d/1C6BlmbeQfn4a9zydVi2UvjBGv6szuSB4sMYUcVrR8vQ/edit?usp=sharing">竟然發現</a>沃通<a href="https://wiki.mozilla.org/CA:WoSign_Issues#Issue_S:_Backdated_SHA-1_Certs_.28January_2016.29">竄改</a>了該 SSL 憑證為較早日期，藉以規避此一<a href="https://mozillacaprogram.secure.force.com/Communications/CommunicationActionOptionResponse?CommunicationId=a04o000000M89RCAAZ&amp;Question=ACTION%20%233:%20After%20January%201,%202016">停止核發日期</a>。此外，我們<a href="https://groups.google.com/d/msg/mozilla.dev.security.policy/0pqpLJ_lCJQ/z69lmZ88DwAJ">還發現</a>在沃通併購同業「StartCom」並完整取得其經營權之後，也未依照 Mozilla 政策而公開揭露此一併購行為。在彙整相關有效資料證實我們所言非虛之前，沃通與 StartCom 的負責人更對上述情事一概否認。基於公司負責人展現的欺瞞行為，Mozilla 決定不再信賴此兩間公司的根憑證 (Root certificate)。</p>
 <p><img src="../../assets/9335/wp-content/uploads/data-breaches-notification-1024x657.jpg" alt="data-breaches-notification" loading="lazy"><br>圖片來源：http://www.cpapracticeadvisor.com/</p>
 <p>Mozilla 為此採取下列行動：</p>
 <ul><li>針對 2016 年 10 月 21 日之後所頒發的憑證，及其相同根憑證的憑證串鍊，現一律取消其信任。如果再發現其他日期竄改行為 (不論以何種方法造成) 欲規避此一控制方式，Mozilla 將立刻且永久撤銷受影響的根憑證。 此一改變將自<a href="https://wiki.mozilla.org/RapidRelease/Calendar">Firefox 51 版本起生效</a>。</li></ul>
@@ -45,11 +46,11 @@
 <p>我們認為相關回應動作與 Mozilla 政策甚為一致。若其他 CA 也透過類似的欺瞞手法，企圖規避<a href="https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/policy/">Mozilla 的 CA 憑證策略</a>、<a href="https://cabforum.org/baseline-requirements-documents/">CA/Browser Forum Baseline Requirements</a>，或是 Mozilla 負責人的直接詢問，我們均將採用相同的回應方式。</p>
 <p>─ Mozilla 安全團隊</p>
 <p>原文連結：<a href="https://blog.mozilla.org/security/2016/10/24/distrusting-new-wosign-and-startcom-certificates/">Distrusting New WoSign and StartCom Certificates</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/mozilla/">Mozilla</a></span><span><a href="../../categories/security/">Security</a></span></div>
-            
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/mozilla/">Mozilla</a></span><span><a href="../../categories/security/">Security</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -67,7 +68,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20200927091734id_/https://blog.mozilla.com.tw/?p=9335">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20200927091734id_/https://blog.mozilla.com.tw/?p=9335">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

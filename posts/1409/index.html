@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2012-11/">2012 年 11 月</a><b>-</b><a href="../../posts/1409/">HTML5 流言終結 (Part 1)</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2012-11/">2012 年 11 月</a><b>&raquo;</b><a href="../../posts/1409/">HTML5 流言終結 (Part 1)</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">HTML5 流言終結 (Part 1)</h2>
-            <p class="entry-posted"><time datetime="2012-11-02" class="published"><span class="posted-month">11月</span><span class="posted-date">2</span><span class="posted-year">2012</span></time></p>
-          </header>
-          <div class="entry-content"><p>一直以來，大家在討論<a href="https://developer.mozilla.org/en-US/docs/HTML/HTML5">HTML5</a> 是否“已成熟”時，其中參雜了許多的誤解，誤解導致迷思，而關於 HTML5 的各項迷思不斷反覆地被傳頌，然而很多時候，這些迷思的可信度並沒有獲得確認。</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2012-11-02" class="published"><span class="posted-month">11月</span><span class="posted-date">2</span><span class="posted-year">2012</span></time></p>
+              <h1 class="entry-title">HTML5 流言終結 (Part 1)</h1>
+            </header>
+            <div class="entry-content"><p>一直以來，大家在討論<a href="https://developer.mozilla.org/en-US/docs/HTML/HTML5">HTML5</a> 是否“已成熟”時，其中參雜了許多的誤解，誤解導致迷思，而關於 HTML5 的各項迷思不斷反覆地被傳頌，然而很多時候，這些迷思的可信度並沒有獲得確認。</p>
 <h3>HTML5 效能不佳？</h3>
 <p>HTML5 常被人詬病的問題在於它的「效能」，但關於這一點，大家常忽略一個事實，把蘋果和梨（無雙關語意）擺在一起比較是沒有意義的，因為它們就是不同的東西。</p>
 <p>把 HTML5 應用程式的效能表現與原生 App 做比較，就好像把量身訂製的手工西裝，與百貨內已做好的西裝擺在一起比！當然，手工西裝絕對合身，也一定看起來挺拔，但如果你想把它賣掉或送人，那就得憑運氣了，下一個人穿鐵定不會合身。</p>
@@ -50,11 +51,11 @@
 <p>由於 HTML5 是 Web 技術，大眾最直接的反應會是「HTML5 一定得維持連線狀態才能使用」，但這完全是誤解。有許多方法能讓 HTML5 應用程式保留內容以供離線使用，最簡單的方式是採用大部分瀏覽器都已經支援的 Web Storage API（Opera mini 因其運作方式需仰賴雲端服務，尚不支援 Web Storage API 而採用私有的儲存工具）。你也可以使用除 IE 以外都支援的 AppCache 機制，讓應用軟體本身可以離線使用。如果有更複雜的資料必須儲存而 Web Storage 無法應付，則可使用 <a href="https://developer.mozilla.org/en-US/docs/IndexedDB">IndexedDB</a>（適用於 Chrome 及 Firefox）或 WebSQL（<a href="https://caniuse.com/#feat=sql-storage">適用於 iOS 及 Safari</a>）。使用 <a href="https://brian.io/lawnchair/">Lawnchair</a> 等相關函式庫，可以更容易解決開發上不同狀況的複雜需求及問題。</p>
 <p>未完待續…</p>
 <p>原文取自 Chris Heilmann: HTML5 mythbusting<br>原文網址：https://hacks.mozilla.org/2012/11/html5-mythbusting/</p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/mozilla/">Mozilla</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
-            <div class="entry-tag-box">標籤：<span>Mozilla</span><span>Web App</span></div>
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/mozilla/">Mozilla</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -72,7 +73,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=1409">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=1409">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2013-08/">2013 年 8 月</a><b>-</b><a href="../../posts/3593/">WebAPIs ─ Firefox OS 存取硬體的必備核心</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2013-08/">2013 年 8 月</a><b>&raquo;</b><a href="../../posts/3593/">WebAPIs ─ Firefox OS 存取硬體的必備核心</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">WebAPIs ─ Firefox OS 存取硬體的必備核心</h2>
-            <p class="entry-posted"><time datetime="2013-08-16" class="published"><span class="posted-month">8月</span><span class="posted-date">16</span><span class="posted-year">2013</span></time></p>
-          </header>
-          <div class="entry-content"><p>此為「Firefox OS ─ 讓 <a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 得以完全發揮的平台」系列的第五支影片 (可於此回顧<a href="https://hacks.mozilla.org/2013/06/firefox-os-for-developers-the-platform-html5-deserves/">第一支</a>、<a href="../../posts/3179/">第二支</a>、<a href="../../posts/3277/">第三支</a>、<a href="../../posts/3419/">第四支</a>影片)，說明應如何添增新的 API ─ 即所謂的 <a href="https://wiki.mozilla.org/WebAPI">WebAPI</a>，讓 Firefox OS 進一步擴充 Web 的功能。</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2013-08-16" class="published"><span class="posted-month">8月</span><span class="posted-date">16</span><span class="posted-year">2013</span></time></p>
+              <h1 class="entry-title">WebAPIs ─ Firefox OS 存取硬體的必備核心</h1>
+            </header>
+            <div class="entry-content"><p>此為「Firefox OS ─ 讓 <a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 得以完全發揮的平台」系列的第五支影片 (可於此回顧<a href="https://hacks.mozilla.org/2013/06/firefox-os-for-developers-the-platform-html5-deserves/">第一支</a>、<a href="../../posts/3179/">第二支</a>、<a href="../../posts/3277/">第三支</a>、<a href="../../posts/3419/">第四支</a>影片)，說明應如何添增新的 API ─ 即所謂的 <a href="https://wiki.mozilla.org/WebAPI">WebAPI</a>，讓 Firefox OS 進一步擴充 Web 的功能。</p>
 <p><img src="../../assets/3593/wp-content/uploads/be-the-future1.png" alt="be-the-future" loading="lazy"></p>
 <p>本影片是由 Mozilla 的 Chris Heilmann (<a href="https://twitter.com/codepo8">@codepo8</a>)，與 <a href="https://blog.digital.telefonica.com/">Telefónica Digital</a>/ W3C 的 Daniel Appelquist (<a href="https://twitter.com/torgo">@torgo</a>) 所錄製，為大家解說 Web 需要裝置 API 的理由、利用某些現有 API 的方法，進而讓 Firefox OS 提升 Web 的整體效益。<a href="https://www.youtube.com/watch?v=oNgsvxTaqao">可於此觀看影片</a>。</p>
 <p>WebAPI 的重要性在於：只要是以 Web 技術所建構的 App，均可透過 WebAPI 存取硬體。而對完全以 HTML5 打造的 Firefox OS 來說，更需掌握行動電話的狀態、電池所剩的電力、網路連線的情況、螢幕旋轉的方向，還有更多功能。Mozilla 為此定義 JavaScript API 以存取硬體的不同部分，並努力使其成為大家都能使用的標準 API。</p>
@@ -36,11 +37,11 @@
 <p>伺服器可能潛藏安全風險，所以無法將全部 API 開放給 Open Web 上的 App 取用。因此 API 分為「Regular」、「Privileged」、「Certified」共三大類。Regular API 可用於任何 App (開發者可置於自己的伺服器) 中，如 Battery API 或 Geolocation API 均屬此類。而 Privileged 與 Certified API 除了要求 App 遵守 <a href="https://www.w3.org/TR/CSP/">Content Security Policy (CSP)</a> 規範之外，其托管 (Hosted) 用的伺服器亦必須符合 Mozilla Marketplace 規定。如此可在存取硬體的同時，將濫用與惡意軟體的風險降至最低。</p>
 <p>另可參閱 <a href="https://hacks.mozilla.org/category/webapi/">WebAPI 文章列表</a>獲得更多資訊。系列第六支影片將說明 Web Activities 的相關概念。</p>
 <p>原文連結：<a href="https://hacks.mozilla.org/2013/08/webapis-firefox-os-for-developers-the-platform-html5-deserves/">https://hacks.mozilla.org/2013/08/webapis-firefox-os-for-developers-the-platform-html5-deserves/</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox-os/">Firefox OS</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
-            <div class="entry-tag-box">標籤：<span>Firefox OS</span><span>Web App</span></div>
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox-os/">Firefox OS</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -58,7 +59,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190824004607id_/https://blog.mozilla.com.tw/?p=3593">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190824004607id_/https://blog.mozilla.com.tw/?p=3593">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

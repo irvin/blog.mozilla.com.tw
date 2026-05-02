@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2015-01/">2015 年 1 月</a><b>-</b><a href="../../posts/6965/">運用 Emscripten 移植遊戲 (下)</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2015-01/">2015 年 1 月</a><b>&raquo;</b><a href="../../posts/6965/">運用 Emscripten 移植遊戲 (下)</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">運用 Emscripten 移植遊戲 (下)</h2>
-            <p class="entry-posted"><time datetime="2015-01-09" class="published"><span class="posted-month">1月</span><span class="posted-date">9</span><span class="posted-year">2015</span></time></p>
-          </header>
-          <div class="entry-content"><p>你是資深的 App 開發者，手上已有一堆酷炫遊戲等著要接觸更多消費者嗎？在看完《<a href="../../posts/6956/">運用 Emscripten 移植遊戲 (上)</a>》與《<a href="https://blog.mozilla.com.tw/posts/6963/">(中)</a>》之後，當然應該把全文看完，讓自己更了解 Emscripten 這個強大的移植工具！如果你剛加入這系列文章，也歡迎透過上方兩篇文章的連結，閱讀完整的遊戲移植撇步喔！</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2015-01-09" class="published"><span class="posted-month">1月</span><span class="posted-date">9</span><span class="posted-year">2015</span></time></p>
+              <h1 class="entry-title">運用 Emscripten 移植遊戲 (下)</h1>
+            </header>
+            <div class="entry-content"><p>你是資深的 App 開發者，手上已有一堆酷炫遊戲等著要接觸更多消費者嗎？在看完《<a href="../../posts/6956/">運用 Emscripten 移植遊戲 (上)</a>》與《<a href="https://blog.mozilla.com.tw/posts/6963/">(中)</a>》之後，當然應該把全文看完，讓自己更了解 Emscripten 這個強大的移植工具！如果你剛加入這系列文章，也歡迎透過上方兩篇文章的連結，閱讀完整的遊戲移植撇步喔！</p>
 <h3>Part 2 ： Emscripten 本身</h3>
 <p>所以現在連上線了。但在瀏覽器中載入遊戲時，整個畫面暫停不動，沒多久之後瀏覽器告知指令碼暫停並刪除。</p>
 <h4>出了什麼問題？</h4>
@@ -77,11 +78,11 @@
 <h4>結論</h4>
 <p>總的來說，透過 Emscripten 移植遊戲時，須移除任何封閉原始碼的第三方函式庫與執行緒、視窗管理與輸入作業部分改用 SDL2、圖形處理部分改用 OpenGL ES、音效部分改用 OpenAL 或 SDL2。你應該先將手邊的遊戲移植到其他平台 (如 OS X 與行動裝置)，至少也應該移植成 Linux 版本。如此有助於找出潛在問題，並能輕鬆利用多樣的除錯工具。以 Emscripten 移植的遊戲最少須更改主要迴圈、外部檔案處理、使用者資料儲存等作業。你也必須特別針對自己的程式碼進行最佳化，以能於瀏覽器中順利運作。</p>
 <p>原文連結：<a href="https://hacks.mozilla.org/2014/11/porting-to-emscripten/">Porting to Emscripten</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span><span><a href="../../categories/firefox-os/">Firefox OS</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
-            
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span><span><a href="../../categories/firefox-os/">Firefox OS</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -99,7 +100,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190919102237id_/https://blog.mozilla.com.tw/?p=6965">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190919102237id_/https://blog.mozilla.com.tw/?p=6965">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

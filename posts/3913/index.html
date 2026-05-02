@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2013-10/">2013 年 10 月</a><b>-</b><a href="../../posts/3913/">Firefox OS：Web Components 與 Mozilla Brick</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2013-10/">2013 年 10 月</a><b>&raquo;</b><a href="../../posts/3913/">Firefox OS：Web Components 與 Mozilla Brick</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">Firefox OS：Web Components 與 Mozilla Brick</h2>
-            <p class="entry-posted"><time datetime="2013-10-18" class="published"><span class="posted-month">10月</span><span class="posted-date">18</span><span class="posted-year">2013</span></time></p>
-          </header>
-          <div class="entry-content"><p><img src="../../assets/3913/wp-content/uploads/be-the-future1.png" alt="be-the-future" loading="lazy"></p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2013-10-18" class="published"><span class="posted-month">10月</span><span class="posted-date">18</span><span class="posted-year">2013</span></time></p>
+              <h1 class="entry-title">Firefox OS：Web Components 與 Mozilla Brick</h1>
+            </header>
+            <div class="entry-content"><p><img src="../../assets/3913/wp-content/uploads/be-the-future1.png" alt="be-the-future" loading="lazy"></p>
 <p>此為「Firefox OS ─ 讓 <a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 得以完全發揮的平台」系列的第七支影片 (於此回顧<a href="https://hacks.mozilla.org/2013/06/firefox-os-for-developers-the-platform-html5-deserves/">第一</a>、<a href="../../posts/3179/">第二</a>、<a href="../../posts/3277/">第三</a>、<a href="../../posts/3419/">第四</a>、<a href="../../posts/3593/">第五</a>、<a href="../../posts/3680/">第六</a>支影片)。由 Mozilla 首席技術傳教士 Chris Heilmann (<a href="https://twitter.com/codepo8">@codepo8</a>) 與 Mozilla 資深 HTML5 工程師 Matthew Claypotch (<a href="https://twitter.com/potch">@potch</a>) 一同錄製，將為 Web App 開發者說明 Web Components 諸多可能。另將談到 Mozilla 的 Brick 函式庫。此函式庫蒐集了許多自訂元素，可用以開發 App 並協助建構更順暢的過場動畫。你也可<a href="https://www.youtube.com/watch?v=eS1O46O5saA">在 YouTube 上觀看本影片</a>。</p>
 <h3>使用 Web Components 的理由</h3>
 <p>將 Web 作為 App 平台其實有點小麻煩：雖然可輕鬆建立 HTML 文件並賦予意義，但其實 HTML 本身並沒有足夠的元素可建構 App。而 HTML5 規格擁有許多新元素，其支援功能也只是湊合著跨瀏覽器所用；不像 Flex 或 iOS 的其他平台已能提供現成 Widgets 給開發者。因此，開發者必須使用非語意式 HTML (大多數為 DIV 元素)，以自行建構如行事曆、選單列、滑動桿控制項等的 Widgets，可透過 JavaScript 與之互動，並使用 CSS 建立主題式風格。</p>
@@ -41,11 +42,11 @@
 <p>所建構的 App 如同三張撲克牌。不需其他多餘的作業，只要呼叫 deck.shuffleNext(); 函式即可產生過場動畫。</p>
 <p>Web Components 現已成為熱門話題，而且每個星期都產生許多新的框架與函式庫。Mozilla 希望開發者能透過 Brick，清晰且迅速建構 Firefox OS 的高適應性 App，不用再為了迎合特定 OS 而辛苦雕琢自己的 App。</p>
 <p>原文連結：<a href="https://hacks.mozilla.org/2013/09/firefox-os-development-web-components-and-mozilla-brick/">https://hacks.mozilla.org/2013/09/firefox-os-development-web-components-and-mozilla-brick/</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox-os/">Firefox OS</a></span></div>
-            <div class="entry-tag-box">標籤：<span>Firefox OS</span></div>
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox-os/">Firefox OS</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -63,7 +64,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190824002835id_/https://blog.mozilla.com.tw/?p=3913">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190824002835id_/https://blog.mozilla.com.tw/?p=3913">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2015-06/">2015 年 6 月</a><b>-</b><a href="../../posts/7590/">開發 HTML5 遊戲 — 也別忘了發佈喔</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2015-06/">2015 年 6 月</a><b>&raquo;</b><a href="../../posts/7590/">開發 HTML5 遊戲 — 也別忘了發佈喔</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">開發 HTML5 遊戲 — 也別忘了發佈喔</h2>
-            <p class="entry-posted"><time datetime="2015-06-17" class="published"><span class="posted-month">6月</span><span class="posted-date">17</span><span class="posted-year">2015</span></time></p>
-          </header>
-          <div class="entry-content"><p><a href="../../posts/6521/">Mozilla 在去年與 Humble Bundle 合作，為大家提供多款獨立開發遊戲</a>，如《超越光速 (Faster Than Light，FTL)》以及《Voxatron》。當然還有其他遊戲透過「Humble Mozilla Bundle」的助力而進入 Web 平台。我們今年規劃要以 JavaScript 的開發活動來玩更大一點，像是可支援 <a href="https://docs.google.com/presentation/d/1yc2NDzFJ-0yD980URiTcV3oE_2cQDVzXuH4Rss1fG8s/present#slide=id.p19">SIMD</a> 與 SharedArrayBuffer。不用外掛程式就能在 Web 上玩遊戲實在太美妙了。玩家不會再被逼著安裝一堆自己都不知道是什麼的東西，而且一旦他們喜歡遊戲，也只要一個連結就能在社交平台上輕鬆分享。試想多位玩家如同病毒感染一樣蜂擁連線，似乎能創造無限可能！</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2015-06-17" class="published"><span class="posted-month">6月</span><span class="posted-date">17</span><span class="posted-year">2015</span></time></p>
+              <h1 class="entry-title">開發 HTML5 遊戲 — 也別忘了發佈喔</h1>
+            </header>
+            <div class="entry-content"><p><a href="../../posts/6521/">Mozilla 在去年與 Humble Bundle 合作，為大家提供多款獨立開發遊戲</a>，如《超越光速 (Faster Than Light，FTL)》以及《Voxatron》。當然還有其他遊戲透過「Humble Mozilla Bundle」的助力而進入 Web 平台。我們今年規劃要以 JavaScript 的開發活動來玩更大一點，像是可支援 <a href="https://docs.google.com/presentation/d/1yc2NDzFJ-0yD980URiTcV3oE_2cQDVzXuH4Rss1fG8s/present#slide=id.p19">SIMD</a> 與 SharedArrayBuffer。不用外掛程式就能在 Web 上玩遊戲實在太美妙了。玩家不會再被逼著安裝一堆自己都不知道是什麼的東西，而且一旦他們喜歡遊戲，也只要一個連結就能在社交平台上輕鬆分享。試想多位玩家如同病毒感染一樣蜂擁連線，似乎能創造無限可能！</p>
 <p><a href="https://nickdesaulniers.github.io/RawWebGL/#/">我最近專注於 WebGL 的即時繪圖</a>之時，才發現這玩意實在強大，讓我必須稍退一步先了解遊戲邏輯的開發作業及不同的發佈管道。我看了幾本有關遊戲開發的書，最近剛看完 Karl Bunyan 所寫的《Build an HTML5 Game》，心想應該分享一下自己的心得。接著針對 HTML5 遊戲的分享與發佈管道，再為大家解釋其他的替代方案。</p>
 <h4>簡介《Build an HTML5 Game》</h4>
 <p><a href="https://buildanhtml5game.com/"><img src="../../assets/7590/wp-content/uploads/bhg_colver-250x330.jpg" alt="bhg_colver-250x330" loading="lazy"></a></p>
@@ -36,11 +37,11 @@
 <p>本書也提到許多遊戲所需，或值得讀者深入研究的 Web API。其中的 API、樣式、函式庫包含：<a href="https://modernizr.com/">Modernizr</a>、<a href="https://jquery.com/">jQuery</a>、CSS3 <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Using_CSS_transitions">transitions</a>/<a href="https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Using_CSS_animations">animations</a>/<a href="https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Using_CSS_transforms">transforms</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API">Canvas 2D</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio">audio tags</a>、Sprite Atlases、DOM manipulation、<a href="https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/Storage#localStorage">localStorage</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame">requestAnimationFrame</a>、<a href="https://developer.mozilla.org/en-US/docs/AJAX">AJAX</a>、<a href="https://developer.mozilla.org/en-US/docs/WebSockets">WebSockets</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers">Web Workers</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/WebGL">WebGL</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullScreen">requestFullScreen</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/API/Touch_events">觸控事件 (Tuch Events)</a>、<a href="https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag">「viewport」的 meta tags</a>、<a href="https://developer.mozilla.org/en-US/docs/Tools">開發者工具</a>等等。</p>
 <p>如果你正打算開發 HTML5 遊戲，想找一本還不錯的開發參考書，當然可以試著翻閱本文提到的《<a href="https://buildanhtml5game.com/">Build an HTML5 Game (BHG)</a>》。而除了這裡提到的參考書之外，你當然也應該要<a href="https://hacks.mozilla.org/2015/06/build-an-html5-game-and-distribute-it/">點擊這裡參閱原文</a>全文，其內另將為大家概述如遊戲發佈管道、執行環境的選擇、管理後續的更新檔，當然也少不了精采的程式碼。期待你開發出屬於自己的 HTML5 遊戲！</p>
 <p>原文連結：<a href="https://hacks.mozilla.org/2015/06/build-an-html5-game-and-distribute-it/">Build an HTML5 game—and distribute it</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/web-app/">Web App</a></span></div>
-            <div class="entry-tag-box">標籤：<span>Web App</span></div>
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/web-app/">Web App</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -58,7 +59,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190825001002id_/https://blog.mozilla.com.tw/?p=7590">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190825001002id_/https://blog.mozilla.com.tw/?p=7590">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

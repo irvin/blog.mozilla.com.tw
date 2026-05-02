@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2015-08/">2015 年 8 月</a><b>-</b><a href="../../posts/7782/">Pointer Events 現已進入 Firefox Nightly</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2015-08/">2015 年 8 月</a><b>&raquo;</b><a href="../../posts/7782/">Pointer Events 現已進入 Firefox Nightly</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">Pointer Events 現已進入 Firefox Nightly</h2>
-            <p class="entry-posted"><time datetime="2015-08-20" class="published"><span class="posted-month">8月</span><span class="posted-date">20</span><span class="posted-year">2015</span></time></p>
-          </header>
-          <div class="entry-content"><p>就在今年二月，<a href="https://www.w3.org/TR/pointerevents/">Pointer Events</a> 已正式列入 W3C 的「建議 (Recommendation)」公告。而在這段期間，<a href="https://www.mozilla.org/">Mozilla</a> 與 <a href="https://msopentech.com/">Microsoft Open Tech</a> 一同合作建構其規格。隨著消費者以越來越多樣的裝置探索網路，所搭配的輸入機制 (如觸控、滑鼠、觸控筆) 也更顯豐富。所以讓開發者能在自己的 App 中使用一致的 API 就更顯重要。我們在努力之下達到了重要里程碑：Pointer event 現已進入 <a href="https://nightly.mozilla.org/">Firefox 每夜更新版 (Nightly)</a>。此代表了多家瀏覽器供應商投入心力共同合作，要能產生高品質的業界標準 API 並拓展其支援範圍。</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2015-08-20" class="published"><span class="posted-month">8月</span><span class="posted-date">20</span><span class="posted-year">2015</span></time></p>
+              <h1 class="entry-title">Pointer Events 現已進入 Firefox Nightly</h1>
+            </header>
+            <div class="entry-content"><p>就在今年二月，<a href="https://www.w3.org/TR/pointerevents/">Pointer Events</a> 已正式列入 W3C 的「建議 (Recommendation)」公告。而在這段期間，<a href="https://www.mozilla.org/">Mozilla</a> 與 <a href="https://msopentech.com/">Microsoft Open Tech</a> 一同合作建構其規格。隨著消費者以越來越多樣的裝置探索網路，所搭配的輸入機制 (如觸控、滑鼠、觸控筆) 也更顯豐富。所以讓開發者能在自己的 App 中使用一致的 API 就更顯重要。我們在努力之下達到了重要里程碑：Pointer event 現已進入 <a href="https://nightly.mozilla.org/">Firefox 每夜更新版 (Nightly)</a>。此代表了多家瀏覽器供應商投入心力共同合作，要能產生高品質的業界標準 API 並拓展其支援範圍。</p>
 <p><a href="https://www.w3.org/TR/pointerevents/"><img src="../../assets/7782/wp-content/uploads/tiltY_600px.png" alt="圖片來源：http://www.w3.org" loading="lazy"></a>圖片來源：http://www.w3.org</p>
 <p>但請確實下載 Firefox Nightly 版本才得以實際體驗。另請透過 <a href="https://lists.mozilla.org/listinfo/dev-platform">dev-platform</a> 郵件群組或 <a href="https://groups.google.com/forum/#%21forum/mozilla.dev.platform">mozilla.dev.platform</a> 不吝提供意見。如果你想針對規格提出建議，請寄送至 <a href="mailto:public-pointer-events@w3.org">public-pointer-events@w3.org</a>。</p>
 <p>此一規格是希望能讓 Open Web 支援更多樣的輸入機制，並能繼續相容絕大多數以 <a href="https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent">Mouse events</a> 所打造的 Web 架構內容。此 API 將可透過單一解決方案處理多樣的輸入裝置，且著重於點擊裝置 (如滑鼠、觸控筆、觸控手勢)。Pointer 的規格定義不限於特定硬體 (Hardware-agnostic) 裝置，因此可支援特定的螢幕座標集合。Pointer events 是刻意要近似於現有 Mouse events 的相關事件集合。</p>
@@ -40,11 +41,11 @@
 <p>						if (window.PointerEvent) {  .....}else{  // use mouse events}</p>
 <p>看到這裡，如果你早就對 Pointer events 有著極高的興趣也躍躍欲試，請千萬別錯過<a href="https://hacks.mozilla.org/2015/08/pointer-events-now-in-firefox-nightly/">原文及其中的範例程式碼</a>。</p>
 <p>原文連結：<a href="https://hacks.mozilla.org/2015/08/pointer-events-now-in-firefox-nightly/">Pointer Events now in Firefox Nightly</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span></div>
-            <div class="entry-tag-box">標籤：<span>Firefox</span></div>
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -62,7 +63,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190825011727id_/https://blog.mozilla.com.tw/?p=7782">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190825011727id_/https://blog.mozilla.com.tw/?p=7782">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2016-09/">2016 年 9 月</a><b>-</b><a href="../../posts/9111/">透過 Mozilla 的「Push」傳送 VAPID 驗證過的 WebPush 通知</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2016-09/">2016 年 9 月</a><b>&raquo;</b><a href="../../posts/9111/">透過 Mozilla 的「Push」傳送 VAPID 驗證過的 WebPush 通知</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">透過 Mozilla 的「Push」傳送 VAPID 驗證過的 WebPush 通知</h2>
-            <p class="entry-posted"><time datetime="2016-09-05" class="published"><span class="posted-month">9月</span><span class="posted-date">5</span><span class="posted-year">2016</span></time></p>
-          </header>
-          <div class="entry-content"><h4>簡介</h4>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2016-09-05" class="published"><span class="posted-month">9月</span><span class="posted-date">5</span><span class="posted-year">2016</span></time></p>
+              <h1 class="entry-title">透過 Mozilla 的「Push」傳送 VAPID 驗證過的 WebPush 通知</h1>
+            </header>
+            <div class="entry-content"><h4>簡介</h4>
 <p>不需與使用者互動，<a href="https://developer.mozilla.org/en-US/docs/Web/API/Push_API">Web Push API</a> 即可從應用程式伺服器 (App server) 送出即時事件 (包含資料) 至其用戶端的對應處 (即該 App)。我們另在 Push 說明文件中針對 App 的 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Push_API">API</a> 提供一般參考資料，以及<a href="https://developer.mozilla.org/en-US/docs/Web/API/Push_API/Using_the_Push_API">用戶端基本使用範例線上教學</a>。此一文件針對 App 伺服端有詳盡說明，更包含將 VAPID 與 Push 訊息加密功能整合至你的伺服器等相關資訊，並避免常見問題。</p>
 <p>注意：本文中所提的大多數情況，均假設讀者已嫻熟程式設計並知道加密的基礎。可惜的是，由於「Push」仍屬於新技術，目前尚無足夠的函式庫可輕鬆、順利的傳送訊息。只要有新的函式庫出現，我們將立刻添增相關資訊。目前將重點說明應如何進行加密，以因應當下的迫切需要，並協助其他人得以儘快著手建構函式庫。</p>
 <p>另必須說明的是：「Push」並非要取代如 <a href="https://firebase.google.com/docs/cloud-messaging/">Google Cloud Messaging</a> (GCM)、<a href="https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html">Apple Push Notification system</a> (APNs)、<a href="https://msdn.microsoft.com/en-us/library/azure/jj891130.aspx">Microsoft 的 Windows Notification System</a> (WNS) 等較完整的訊息傳輸技術。這些技術各有各的優點與成本，所以開發者應自行選用最適合自己所需的技術。若單就將資料傳送到 App，則「Push」可算是低成本又簡單易用的方式。</p>
@@ -50,11 +51,11 @@
 <p>這裡先說結論：推播資料加密其實頗具挑戰性，但值得大家投入更多資源。越健全的加密也代表歹徒越無機可趁，避免未知第三方獲得你的個人資訊。我們希望未來會有更完善的函式庫，以及更廣為大家所採用的規格，讓這期間的許多痛苦與困難之處畫下句點。也期待所有程式語言的函式庫將日益完善。</p>
 <p>如果你正好在接觸「Push」的相關工作，想更進一步了解以上所提的技術面，請<a href="https://blog.mozilla.org/services/2016/08/23/sending-vapid-identified-webpush-notifications-via-mozillas-push-service/">參閱完整原文</a>。</p>
 <p>原文連結：<a href="https://blog.mozilla.org/services/2016/08/23/sending-vapid-identified-webpush-notifications-via-mozillas-push-service/">Sending VAPID identified WebPush Notifications via Mozilla’s Push Service</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/privacy/">Privacy</a></span><span><a href="../../categories/security/">Security</a></span></div>
-            
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/privacy/">Privacy</a></span><span><a href="../../categories/security/">Security</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -72,7 +73,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20191113171043id_/https://blog.mozilla.com.tw/?p=9111">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20191113171043id_/https://blog.mozilla.com.tw/?p=9111">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

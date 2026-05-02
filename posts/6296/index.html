@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2014-09/">2014 年 9 月</a><b>-</b><a href="../../posts/6296/">建構互動的 HTML5 影片</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2014-09/">2014 年 9 月</a><b>&raquo;</b><a href="../../posts/6296/">建構互動的 HTML5 影片</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">建構互動的 HTML5 影片</h2>
-            <p class="entry-posted"><time datetime="2014-09-18" class="published"><span class="posted-month">9月</span><span class="posted-date">18</span><span class="posted-year">2014</span></time></p>
-          </header>
-          <div class="entry-content"><p><a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 的 &lt;video&gt; 元素可在網頁中嵌入影片，就像嵌入圖片一樣簡單。各款主要瀏覽器均自 2011 年起支援 &lt;video&gt;，幾乎已經是最佳的動畫呈現方式。</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2014-09-18" class="published"><span class="posted-month">9月</span><span class="posted-date">18</span><span class="posted-year">2014</span></time></p>
+              <h1 class="entry-title">建構互動的 HTML5 影片</h1>
+            </header>
+            <div class="entry-content"><p><a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 的 &lt;video&gt; 元素可在網頁中嵌入影片，就像嵌入圖片一樣簡單。各款主要瀏覽器均自 2011 年起支援 &lt;video&gt;，幾乎已經是最佳的動畫呈現方式。</p>
 <p><img src="../../assets/6296/wp-content/uploads/sintel-1024x520.png" alt="sintel" loading="lazy"></p>
 <p>而最近加入 HTML5 家族的 &lt;track&gt; 元素，其實就是 &lt;video&gt; 的子元素，可提供更好用的影片時間列，主要用以添增字幕 (Closed caption，CC)。這類字幕均以獨立的文字檔(<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Video_Text_Tracks_Format">WebVTT</a> 檔案) 所載入，並顯示於影片底部。Ian Devlin 已針對這一點寫過一篇《<a href="https://blog.mozilla.com.tw/posts/5916/">幫你的 HTML5 影片添加字幕</a>》。</p>
 <p>除了字幕之外，&lt;track&gt; 元素也能用於影片時間列的互動功能。本文將概略說明三個範例：章節標記、預覽縮圖、時間列搜尋。你看完就能了解 &lt;track&gt; 元素及其 API，並建構自己的互動式影片。</p>
@@ -77,11 +78,11 @@
 <p>上述範例可讓你設計出自己的互動式影片。如果需要更多靈感，可參考<a href="https://www.jwplayer.com/labs/experiments/hot-spots/">可點擊的影片章節捷徑</a>、<a href="https://www.jwplayer.com/labs/experiments/interactive-transcripts/">互動式逐字稿</a>、<a href="https://www.jwplayer.com/labs/experiments/timeline-interaction/">時間軸互動</a>等影片。</p>
 <p>整體來說，如果想提升自己影片的互動功能，<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/track">HTML5 的  元素</a>絕對是簡單易用又能跨平台的好方法。只要你肯花時間寫出 VTT 檔案並打造類似的經驗，就能提高影片的能見度而獲得更高點閱率。祝你順利囉！</p>
 <p>原文連結：<a href="https://hacks.mozilla.org/2014/08/building-interactive-html5-videos/">Building Interactive HTML5 Videos</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/mozilla/">Mozilla</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
-            <div class="entry-tag-box">標籤：<span>Mozilla</span><span>Web App</span></div>
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/mozilla/">Mozilla</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -99,7 +100,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190825004626id_/https://blog.mozilla.com.tw/?p=6296">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190825004626id_/https://blog.mozilla.com.tw/?p=6296">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

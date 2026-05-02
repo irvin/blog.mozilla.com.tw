@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2015-04/">2015 年 4 月</a><b>-</b><a href="../../posts/7325/">撤銷 CNNIC 的中繼憑證</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2015-04/">2015 年 4 月</a><b>&raquo;</b><a href="../../posts/7325/">撤銷 CNNIC 的中繼憑證</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">撤銷 CNNIC 的中繼憑證</h2>
-            <p class="entry-posted"><time datetime="2015-04-09" class="published"><span class="posted-month">4月</span><span class="posted-date">9</span><span class="posted-year">2015</span></time></p>
-          </header>
-          <div class="entry-content"><p>在 <a href="https://wiki.mozilla.org/CA:Overview">Mozilla 的根憑證</a>鍊中，我們最近注意到一組中繼憑證 (Intermediate certificate) 被載入至防火牆裝置，用以執行 SSL 中間人 (Man-In-The-Middle，MITM) 流量管理。在攔截流量的期間，又為其無所有權的網域產生憑證。<a href="https://wiki.mozilla.org/CA:FAQ">憑證機構 (Certificate Authority，CA)</a> 告知我們此一行為並不符合其政策與實作規範，且違反其客戶與之簽訂的合約。所以 CA 已經從防火牆裝置中撤銷了該中繼憑證。而這並非 Firefox 所專有的問題。為了保護 Mozilla 的使用者，我們已將此撤銷憑證的資訊加進<a href="https://blog.mozilla.org/security/2015/03/03/revoking-intermediate-certificates-introducing-onecrl/">OneCRL</a>。Firefox 37 即已搭載此「<a href="https://blog.mozilla.org/security/2015/03/03/revoking-intermediate-certificates-introducing-onecrl/">OneCRL</a>」機制，以利將撤銷資訊直接傳送到 Firefox 之中。</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2015-04-09" class="published"><span class="posted-month">4月</span><span class="posted-date">9</span><span class="posted-year">2015</span></time></p>
+              <h1 class="entry-title">撤銷 CNNIC 的中繼憑證</h1>
+            </header>
+            <div class="entry-content"><p>在 <a href="https://wiki.mozilla.org/CA:Overview">Mozilla 的根憑證</a>鍊中，我們最近注意到一組中繼憑證 (Intermediate certificate) 被載入至防火牆裝置，用以執行 SSL 中間人 (Man-In-The-Middle，MITM) 流量管理。在攔截流量的期間，又為其無所有權的網域產生憑證。<a href="https://wiki.mozilla.org/CA:FAQ">憑證機構 (Certificate Authority，CA)</a> 告知我們此一行為並不符合其政策與實作規範，且違反其客戶與之簽訂的合約。所以 CA 已經從防火牆裝置中撤銷了該中繼憑證。而這並非 Firefox 所專有的問題。為了保護 Mozilla 的使用者，我們已將此撤銷憑證的資訊加進<a href="https://blog.mozilla.org/security/2015/03/03/revoking-intermediate-certificates-introducing-onecrl/">OneCRL</a>。Firefox 37 即已搭載此「<a href="https://blog.mozilla.org/security/2015/03/03/revoking-intermediate-certificates-introducing-onecrl/">OneCRL</a>」機制，以利將撤銷資訊直接傳送到 Firefox 之中。</p>
 <p><a href="https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/policy/"><img src="../../assets/7325/wp-content/uploads/CA-1024x439.png" alt="CA" loading="lazy"></a></p>
 <h4>問題</h4>
 <p>中國互聯網絡信息中心 (China Internet Network Information Center，CNNIC)，是由中華人民共和國國家互連網信息辦公室 (Cyberspace Administration of China，CAC) 轄下的非營利組織，負責<a href="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS">NSS</a> 之內的「CNNIC Root」與「China Internet Network Information Center EV Certificates Root」憑證，用以簽發一般大眾與組織的憑證。CNNIC 曾發出一組無限制且標記為「測試用」的中繼憑證，直到 2015 年 4 月 3 日為止共兩週的效期。有客戶將此憑證載入防火牆裝置以執行 SSL MITM，而其網路內的使用者存取其他伺服器時，防火牆裝置為其未擁有的網域產生了憑證。就 <a href="https://www.mozilla.org/projects/security/certs/policy/">Mozilla 的 CA 憑證政策</a>而言，<a href="https://wiki.mozilla.org/CA:Overview">Mozilla CA Program</a> 憑證鍊內的憑證則禁止採用這類的使用方式。</p>
@@ -40,11 +41,11 @@
 <p>感謝<a href="https://googleonlinesecurity.blogspot.com/2015/03/maintaining-digital-certificate-security.html">Google</a> 向我們回報此問題。</p>
 <p> ─ Mozilla 安全團隊</p>
 <p>原文連結：<a href="https://blog.mozilla.org/security/2015/03/23/revoking-trust-in-one-cnnic-intermediate-certificate/">Revoking Trust in one CNNIC Intermediate Certificate</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span><span><a href="../../categories/mozilla/">Mozilla</a></span><span><a href="../../categories/privacy/">Privacy</a></span></div>
-            
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span><span><a href="../../categories/mozilla/">Mozilla</a></span><span><a href="../../categories/privacy/">Privacy</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -62,7 +63,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20191113180814id_/https://blog.mozilla.com.tw/?p=7325">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20191113180814id_/https://blog.mozilla.com.tw/?p=7325">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

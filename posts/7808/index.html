@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2015-08/">2015 年 8 月</a><b>-</b><a href="../../posts/7808/">透過 WebBluetooth 就能用瀏覽器控制無人機</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2015-08/">2015 年 8 月</a><b>&raquo;</b><a href="../../posts/7808/">透過 WebBluetooth 就能用瀏覽器控制無人機</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">透過 WebBluetooth 就能用瀏覽器控制無人機</h2>
-            <p class="entry-posted"><time datetime="2015-08-26" class="published"><span class="posted-month">8月</span><span class="posted-date">26</span><span class="posted-year">2015</span></time></p>
-          </header>
-          <div class="entry-content"><p>我們周遭有太多的裝置，且整體數字還在攀升。其中具備連線功能的裝置也越來越多，從<a href="https://bluesmart.com/">登機箱</a>到<a href="https://www.parrot.com/usa/products/flower-power/">盆栽</a>，甚至冰箱裡面的<a href="https://www.amazon.com/Minder-Wink-App-Enabled-Smart-Tray/dp/B00GN92KQ4">蛋盒</a>都能連上你的手機！但這也造成新的問題：我們該如何找出四周的裝置，又該如何互動呢？</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2015-08-26" class="published"><span class="posted-month">8月</span><span class="posted-date">26</span><span class="posted-year">2015</span></time></p>
+              <h1 class="entry-title">透過 WebBluetooth 就能用瀏覽器控制無人機</h1>
+            </header>
+            <div class="entry-content"><p>我們周遭有太多的裝置，且整體數字還在攀升。其中具備連線功能的裝置也越來越多，從<a href="https://bluesmart.com/">登機箱</a>到<a href="https://www.parrot.com/usa/products/flower-power/">盆栽</a>，甚至冰箱裡面的<a href="https://www.amazon.com/Minder-Wink-App-Enabled-Smart-Tray/dp/B00GN92KQ4">蛋盒</a>都能連上你的手機！但這也造成新的問題：我們該如何找出四周的裝置，又該如何互動呢？</p>
 <p>目前的裝置互動作業，都交由智慧手機所執行的不同 App 處理。但這仍無法解決「可發現性 (Discoverability)」的問題。在我決定要安裝 App 之前，必須先知道周遭到底有哪些裝置。但站在<a href="https://blog.telenor.io/iot/2015/08/04/smart-meetingroom.html">會議室</a>門口時，其實我才不在乎要安裝哪個 App，甚至會議室的名稱或代碼也不重要。我只想儘快預定會議室，或知道現在到底有沒有人預約使用這個會議室？</p>
 <h4>藍牙</h4>
 <p>Google 的 <a href="https://twitter.com/scottjenson">Scott Jenson</a> 思考可發現性的問題已有一陣子，並想出了「<a href="https://google.github.io/physical-web/">Physical Web</a>」專案，希望達到「走上街就能使用所有東西」。此一概念就是要透過「<a href="https://www.bluetooth.com/Pages/Bluetooth-Smart.aspx">Bluetooth Smart</a>」這個藍牙的低耗電變體，將網址廣播出去。你的手機將拾取 advertisment 封包、進行解碼，再對使用者顯示某些資訊。輕輕點擊就會重新導至相關內容的網頁。如此就能應用於多種東西：</p>
@@ -47,11 +48,11 @@
 <p>Web 真是讓人驚喜不斷！隨著有越來越多裝置上線，我們應該要能輕鬆發現裝置並與之互動。透過 Physical Web 與 WebBluetooth 的整合，我們建構出順暢體驗，要讓使用者願意與實際應用＼新款裝置進行互動。雖然還有很長的一段路要走，但應該已經走上對的方向了。Mozilla 與 Google 正主動開發相關技術。我高度期待本文所提到的東西，在未來一年內都會變成極為普通的常識！</p>
 <p>如果一年的時間對你來說太長，那你也能直接開始把玩 Firefox OS 的實驗性版本。此版本已啟用了本文所提過的所有東西，並可於「<a href="https://developer.mozilla.org/en-US/Firefox_OS/Developer_phone_guide/Flame">Flame</a>」開發者裝置上執行。先升級到 <a href="https://developer.mozilla.org/en-US/Firefox_OS/Phone_guide/Flame/Updating_your_Flame">nightly_v3 base image</a> 再刷進<a href="https://rollingspider.xyz/bt-flame.zip">此版本</a>。</p>
 <p>原文連結：<a href="https://hacks.mozilla.org/2015/08/flying-a-drone-in-your-browser-with-webbluetooth/">Flying a drone in your browser with WebBluetooth</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
-            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Web App</span></div>
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -69,7 +70,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190825011727id_/https://blog.mozilla.com.tw/?p=7808">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190825011727id_/https://blog.mozilla.com.tw/?p=7808">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

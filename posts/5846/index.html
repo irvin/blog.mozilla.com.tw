@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2014-06/">2014 年 6 月</a><b>-</b><a href="../../posts/5846/">介紹 Firefox 開發者工具之 Web Audio 編輯器</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2014-06/">2014 年 6 月</a><b>&raquo;</b><a href="../../posts/5846/">介紹 Firefox 開發者工具之 Web Audio 編輯器</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">介紹 Firefox 開發者工具之 Web Audio 編輯器</h2>
-            <p class="entry-posted"><time datetime="2014-06-25" class="published"><span class="posted-month">6月</span><span class="posted-date">25</span><span class="posted-year">2014</span></time></p>
-          </header>
-          <div class="entry-content"><p>除了「著色器編輯器 (Shader Editor)」與「Canvas 除錯器 (Canvas Debugger)」之外，從 Firefox 32 開始，更有「Web Audio 編輯器 (Web Audio Editor)」可針對網頁的多媒體內容進行除錯。若是使用 Web Audio API 開發 <a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 遊戲或有趣的合成器 (Synthesizer)，就能讓 Web Audio 編輯器透過 <a href="https://developer.mozilla.org/en-US/docs/Web/API/AudioContext">Web Audio AudioContext</a>，呈現並修改所有的音訊節點。</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2014-06-25" class="published"><span class="posted-month">6月</span><span class="posted-date">25</span><span class="posted-year">2014</span></time></p>
+              <h1 class="entry-title">介紹 Firefox 開發者工具之 Web Audio 編輯器</h1>
+            </header>
+            <div class="entry-content"><p>除了「著色器編輯器 (Shader Editor)」與「Canvas 除錯器 (Canvas Debugger)」之外，從 Firefox 32 開始，更有「Web Audio 編輯器 (Web Audio Editor)」可針對網頁的多媒體內容進行除錯。若是使用 Web Audio API 開發 <a href="https://developer.mozilla.org/en/html/html5">HTML5</a> 遊戲或有趣的合成器 (Synthesizer)，就能讓 Web Audio 編輯器透過 <a href="https://developer.mozilla.org/en-US/docs/Web/API/AudioContext">Web Audio AudioContext</a>，呈現並修改所有的音訊節點。</p>
 <p><a href="https://hacks.mozilla.org/wp-content/uploads/2014/06/Web-Audio-Editor-1.png"><img src="https://blog.mozilla.com.tw/wp-content/uploads/Web-Audio-Editor-1-1024x391.png" alt="Web-Audio-Editor-1" loading="lazy"></a></p>
 <h4>將 Audio Context 視覺化</h4>
 <p>當以 <a href="https://webaudio.github.io/web-audio-api/">Web Audio API</a> 的模組化路由 (Modular routing) 進行開發時，光是聆聽音訊輸出很難解析音訊節點的連結方式。此外，只是聆聽輸出，或觀看音訊節點的程式碼，也難以對 AudioContext 進行除錯。但 Web Audio 編輯器可透過有向圖 (Directed graph) 描繪所有 <a href="https://developer.mozilla.org/en-US/docs/Web/API/AudioNode">AudioNodes</a>，並展示所有音訊節點的階層與連結。讓開發者能確認所有節點均照著自己期望的方式完成連結。如果遇到複雜網頁 (例如用一個節點網路專門操作音訊，又用另一個節點網路分析資料) 時，這個功能就特別有用。我們已經看過能構成這些圖像的 <a href="https://webaudiodemos.appspot.com/Vocoder/">Web Audio 酷炫應用</a>！</p>
@@ -45,11 +46,11 @@
 <ul><li>將來不僅能修改節點檢測器中的參數 (Primitive)，例如亦可新增 AudioBuffer</li></ul>
 <p>我們還規劃了許多<a href="https://gist.github.com/jsantell/ee1be41bc87968d7b170">絕佳功能</a>， 你可檢視 Web Audio 編輯器<a href="https://bugzilla.mozilla.org/buglist.cgi?component=Developer%20Tools%3A%20Web%20Audio%20Editor&amp;product=Firefox&amp;bug_status=__open__&amp;list_id=10101182">所開放的錯誤</a>， 或<a href="https://bugzilla.mozilla.org/enter_bug.cgi?product=Firefox&amp;component=Developer%20Tools%3A%20Web%20Audio%20Editor">提報新的錯誤</a>。另請參閱 Web Audio 編輯器的 <a href="https://developer.mozilla.org/en-US/docs/Tools/Web_Audio_Editor">MDN 說明文件</a>；我們也歡迎 <a href="https://mzl.la/devtools">UserVoice feedback channel 上提出任何意見與想法</a>，你當然 也能使用 <a href="https://twitter.com/firefoxdevtools">Twitter @firefoxdevtools</a>。</p>
 <p>原文連結：<a href="https://hacks.mozilla.org/2014/06/introducing-the-web-audio-editor-in-firefox-developer-tools/">Introducing the Web Audio Editor in Firefox Developer Tools</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span></div>
-            <div class="entry-tag-box">標籤：<span>Firefox</span></div>
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -67,7 +68,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=5846">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20201231235959id_/https://blog.mozilla.com.tw/?p=5846">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

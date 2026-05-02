@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2015-02/">2015 年 2 月</a><b>-</b><a href="../../posts/7115/">在 Firefox OS 內嵌入 HTTP Web Server</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2015-02/">2015 年 2 月</a><b>&raquo;</b><a href="../../posts/7115/">在 Firefox OS 內嵌入 HTTP Web Server</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">在 Firefox OS 內嵌入 HTTP Web Server</h2>
-            <p class="entry-posted"><time datetime="2015-02-26" class="published"><span class="posted-month">2月</span><span class="posted-date">26</span><span class="posted-year">2015</span></time></p>
-          </header>
-          <div class="entry-content"><p>Mozilla 員工在去年底群聚一堂，在一週的時間內共同擬定來年計畫。另有某一團隊也在這一週內成形，並預見到 <a href="https://developer.mozilla.org/en-US/Firefox_OS">Firefox OS</a> 未來必會將 Web 的重心擺在點對點 (P2P) 作業之上。確切一點來說，我們正努力駕馭如<a href="https://developer.mozilla.org/en-US/docs/Web/API/NFC_API">NFC</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/API/MozWifiP2pManager">WiFi Direct</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Bluetooth_API">藍牙</a>等的相關技術，期能達到離線的 P2P 連線功能。</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2015-02-26" class="published"><span class="posted-month">2月</span><span class="posted-date">26</span><span class="posted-year">2015</span></time></p>
+              <h1 class="entry-title">在 Firefox OS 內嵌入 HTTP Web Server</h1>
+            </header>
+            <div class="entry-content"><p>Mozilla 員工在去年底群聚一堂，在一週的時間內共同擬定來年計畫。另有某一團隊也在這一週內成形，並預見到 <a href="https://developer.mozilla.org/en-US/Firefox_OS">Firefox OS</a> 未來必會將 Web 的重心擺在點對點 (P2P) 作業之上。確切一點來說，我們正努力駕馭如<a href="https://developer.mozilla.org/en-US/docs/Web/API/NFC_API">NFC</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/API/MozWifiP2pManager">WiFi Direct</a>、<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Bluetooth_API">藍牙</a>等的相關技術，期能達到離線的 P2P 連線功能。</p>
 <p><img src="../../assets/7115/wp-content/uploads/p2p_DEMO-1024x570.png" alt="p2p_DEMO" loading="lazy"></p>
 <p>因為這些技術只能算是裝置之間的通訊方式，所以我們當然也需要 App 之間的通訊協定，以利傳送＼接收資料。而說到要在 Web App 之間傳輸資料，我立刻就想到現成、標準、可用的通訊協定，也就是 HTTP。</p>
 <p>使用 HTTP，就等於用戶端 App 傳送＼接收資料的所有工具均已完備，但仍需要在瀏覽器中執行 Web 伺服器，以啟動離線 P2P 通訊作業。而此類型 HTTP 伺服器的功能，可能最適合作為標準化的 <a href="https://developer.mozilla.org/en-US/docs/WebAPI">WebAPI</a> 以成為 Gecko 的一部分。Firefox OS 實際上已經具備了必要的全部工具，立刻就能使用 JavaScript 建構 P2P 的應用！</p>
@@ -38,11 +39,11 @@
 <p>						&lt;code&gt;&quot;type&quot;: &quot;privileged&quot;,&quot;permissions&quot;: {  &quot;tcp-socket&quot;: {}},&lt;/code&gt;</p>
 <p>如果你認同 P2P 將是 Firefox OS 未來的趨勢，也正需要「HTTP Web Server」的類似功能，可別錯過<a href="https://hacks.mozilla.org/2015/02/embedding-an-http-web-server-in-firefox-os/">原文</a>後半部所介紹的程式碼，並有<a href="https://www.youtube.com/watch?v=-WY2ku-f574">展示影片</a>欣賞喔！</p>
 <p>原文連結：<a href="https://hacks.mozilla.org/2015/02/embedding-an-http-web-server-in-firefox-os/">Embedding an HTTP Web Server in Firefox OS</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox-os/">Firefox OS</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
-            
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox-os/">Firefox OS</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -60,7 +61,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20200805164203id_/https://blog.mozilla.com.tw/?p=7115">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20200805164203id_/https://blog.mozilla.com.tw/?p=7115">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

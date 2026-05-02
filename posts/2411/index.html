@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2013-04/">2013 年 4 月</a><b>-</b><a href="../../posts/2411/">WebRTC 後續更新：我們就快要發表WebRTC 第一版。歡迎來玩！</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2013-04/">2013 年 4 月</a><b>&raquo;</b><a href="../../posts/2411/">WebRTC 後續更新：我們就快要發表WebRTC 第一版。歡迎來玩！</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">WebRTC 後續更新：我們就快要發表WebRTC 第一版。歡迎來玩！</h2>
-            <p class="entry-posted"><time datetime="2013-04-19" class="published"><span class="posted-month">4月</span><span class="posted-date">19</span><span class="posted-year">2013</span></time></p>
-          </header>
-          <div class="entry-content"><p>我想跟大家分享 Firefox 對 WebRTC 的最新進度，同時也搶先預告 WebRTC 未來的可能計畫。我的同事洛奇 (Adam Roach)，鑽研 IETF 的 VoIP/SIP 領域已經超過 10 年，而且在去年 11 月剛加入 Mozilla WebRTC 團隊。我會接著讓他介紹 WebRTC 的歷史背景，並概略介紹目前進行中的工作。</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2013-04-19" class="published"><span class="posted-month">4月</span><span class="posted-date">19</span><span class="posted-year">2013</span></time></p>
+              <h1 class="entry-title">WebRTC 後續更新：我們就快要發表WebRTC 第一版。歡迎來玩！</h1>
+            </header>
+            <div class="entry-content"><p>我想跟大家分享 Firefox 對 WebRTC 的最新進度，同時也搶先預告 WebRTC 未來的可能計畫。我的同事洛奇 (Adam Roach)，鑽研 IETF 的 VoIP/SIP 領域已經超過 10 年，而且在去年 11 月剛加入 Mozilla WebRTC 團隊。我會接著讓他介紹 WebRTC 的歷史背景，並概略介紹目前進行中的工作。</p>
 <h3>準備在 Firefox 桌面版上發表 WebRTC 第一版</h3>
 <p>Firefox 在安全性與穩定性的考量下，針對 Firefox 桌面版所設計的 WebRTC 第一版有了重大進展。在最近幾個禮拜裡，我們讓 Nightly/Aurora 中的 PeerConnection 與 DataChannels 偏好設定，均已預設為啟用。而我們也準備讓 Firefox 22 的所有版本都納入 PeerConnection 與 DataChannels；這也代表我們要將 WebRTC 內建到 Aurora、測試版、一般版本中。</p>
 <p>我們也趁機更新了 Firefox 22 中的 DataChannels，使其能因應最近的規格變化(並於上個月取得 atIETF 的許可)。這裡請注意：<a href="https://mozilla.github.io/webrtc-landing/DataChannel_changes.html">我們因應規格而進行的改變</a>，並非向下相容之前的 DataChannels 版本 (Firefox 21 或更早版本)。因此若要測試 DataChannels App，請使用 Firefox 22 或更高版本。</p>
@@ -75,11 +76,11 @@
 <p>如果你負責修正次要的錯誤或變更；如果你能解決系統無法順利運作的某些問題；如果你身懷絕技，甚至想訂定 WebRTC 未來的發展方向，我們也都敞開溝通管道，隨時歡迎你提出任何建言。</p>
 <p>如果你等著使用以後的付費服務與穩定頻道，進而打好自己與客戶之間的關係，或完成關鍵的重要應用，我們也需要你提出相關的寶貴意見。我相信很快就會有高穩定度的通訊平台，而且明年的某個時間點就可以開始商務方面的運作。</p>
 <p>原文鏈結：<a href="https://hacks.mozilla.org/2013/04/webrtc-update-our-first-implementation-will-be-in-release-soon-welcome-to-the-party-but-please-watch-your-head/">https://hacks.mozilla.org/2013/04/webrtc-update-our-first-implementation-will-be-in-release-soon-welcome-to-the-party-but-please-watch-your-head/</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
-            <div class="entry-tag-box">標籤：<span>Firefox</span><span>Web App</span></div>
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/firefox/">Firefox</a></span><span><a href="../../categories/web-app/">Web App</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -97,7 +98,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190824001316id_/https://blog.mozilla.com.tw/?p=2411">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20190824001316id_/https://blog.mozilla.com.tw/?p=2411">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     

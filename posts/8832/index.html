@@ -12,22 +12,23 @@
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>最新部落格文章，提供各式 Mozilla 產品與專案相關訊息</h2>
+            <div class="site-logo"><a href="../../index.html"><img src="../../assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            
           </hgroup>
         </header>
-        <nav class="breadcrumbs"><a href="../../index.html">部落格封存</a><b>-</b><a href="../../months/2016-05/">2016 年 5 月</a><b>-</b><a href="../../posts/8832/">將獨立製作的 Unity 遊戲匯至 WebVR</a></nav>
+        <nav class="breadcrumbs"><b>&raquo;</b><a href="../../months/2016-05/">2016 年 5 月</a><b>&raquo;</b><a href="../../posts/8832/">將獨立製作的 Unity 遊戲匯至 WebVR</a></nav>
         <div id="main">
           
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">將獨立製作的 Unity 遊戲匯至 WebVR</h2>
-            <p class="entry-posted"><time datetime="2016-05-25" class="published"><span class="posted-month">5月</span><span class="posted-date">25</span><span class="posted-year">2016</span></time></p>
-          </header>
-          <div class="entry-content"><p>WebVR 不需額外的下載或安裝作業，即可迅速達到玩家喜愛的多樣效果，因此已成未來「虛擬實境 (VR)」內容的關鍵。至少我們是這樣想的！現正陸續建構中的「<a href="https://www.jump.game/">Jump</a>」跨平台數位遊戲訂閱服務，期能將原生的 Web 遊戲推送至桌機、行動裝置、電視遊樂器，當然還有目前正夯的 VR 裝置之上。同時更已將全數資源投入原生的 Web 技術，如 HTML5、<a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">WebGL</a>、JavaScript，且很快就會擴及 <a href="https://hacks.mozilla.org/2016/03/a-webassembly-milestone/">WebAssembly</a>。我們針對 Jump 寫出一款可支援 Oculus Rift 的 WebVR 遊戲，要展現 Web 在 VR 方面同樣游刃有餘！結果在一個月之內就打造出「SECVRITY」。因為時間過於急迫，我們並未深入 <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API">WebVR API</a> 而原生打造出 Web 遊戲，所以我們選了「<a href="https://unity3d.com/5">Unity 5</a>」作為遊戲引擎。</p>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted"><time datetime="2016-05-25" class="published"><span class="posted-month">5月</span><span class="posted-date">25</span><span class="posted-year">2016</span></time></p>
+              <h1 class="entry-title">將獨立製作的 Unity 遊戲匯至 WebVR</h1>
+            </header>
+            <div class="entry-content"><p>WebVR 不需額外的下載或安裝作業，即可迅速達到玩家喜愛的多樣效果，因此已成未來「虛擬實境 (VR)」內容的關鍵。至少我們是這樣想的！現正陸續建構中的「<a href="https://www.jump.game/">Jump</a>」跨平台數位遊戲訂閱服務，期能將原生的 Web 遊戲推送至桌機、行動裝置、電視遊樂器，當然還有目前正夯的 VR 裝置之上。同時更已將全數資源投入原生的 Web 技術，如 HTML5、<a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">WebGL</a>、JavaScript，且很快就會擴及 <a href="https://hacks.mozilla.org/2016/03/a-webassembly-milestone/">WebAssembly</a>。我們針對 Jump 寫出一款可支援 Oculus Rift 的 WebVR 遊戲，要展現 Web 在 VR 方面同樣游刃有餘！結果在一個月之內就打造出「SECVRITY」。因為時間過於急迫，我們並未深入 <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebVR_API">WebVR API</a> 而原生打造出 Web 遊戲，所以我們選了「<a href="https://unity3d.com/5">Unity 5</a>」作為遊戲引擎。</p>
 <p>「電腦病毒版本的<a href="https://en.wikipedia.org/wiki/Whac-A-Mole">打地鼠</a>」大概最能貼切形容 SECVRITY 了。玩家將扮演電腦安全專家，試著在全景螢幕中追殺不斷冒出來的病毒。玩家必須找出遭病毒攻擊的螢幕並點擊之，有時用猜的可能還比較快。在玩這遊戲時要小心扭到自己的脖子，但整個遊戲的樂趣就是讓人無法停下來！看到 <a href="https://twitter.com/whoyee/status/710874335343484928">Mozilla 在遊戲開發者大會 (GDC) 展位</a>上的情況就能證明！</p>
 <p><img src="https://blog.mozilla.com.tw/wp-content/uploads/SECVRITY-at-GDC-1024x580.jpg" alt="SECVRITY-at-GDC" loading="lazy"></p>
 <p>先回來看技術本身：「Unity」遊戲引擎雖可支援 WebGL 與 VR，但我們很快就發現此兩方互相排斥，且 <a href="https://forum.unity3d.com/threads/webgl-and-webvr.390445/">Unity 目前尚未將 WebVR 納入其中程規劃之內</a>。 因此我們著手「在此斷層上搭建一座橋樑」。由於 Unity 的 WebGL 匯出功能並未支援網站形式，因此必須設法銜接 <a href="https://mozvr.github.io/webvr-spec/">WebVR API</a> 與我們的 Unity 遊戲，才能將 WebVR 的輸入連回該遊戲引擎。我們真的很希望能有不只一個月的時間進行開發。</p>
@@ -37,11 +38,11 @@
 <p>如果要親身體驗範本，你必須：……</p>
 <p>參閱<a href="https://hacks.mozilla.org/2016/05/exporting-an-indie-unity-game-to-webvr/">本文原文</a>中的後續說明。文中會詳細列出你所應準備的 App、所應入手的實體裝置、所應使用的 Firefox 版本，以及所應完成的詳盡步驟。接著就能進入 VR 的世界親身體驗，甚至進一步開發自己的 VR 內容！</p>
 <p>原文連結：<a href="https://hacks.mozilla.org/2016/05/exporting-an-indie-unity-game-to-webvr/">Exporting An Indie Unity Game to WebVR</a></p></div>
-          <footer class="entry-footer">
-            <div class="entry-category-box">文章分類：<span><a href="../../categories/未分類/">未分類</a></span></div>
-            
-          </footer>
-        </article>
+            <footer class="entry-footer">
+              <div class="entry-category-box">文章分類：<span><a href="../../categories/未分類/">未分類</a></span></div>
+            </footer>
+          </article>
+        </div>
       </main>
       <aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
@@ -59,7 +60,8 @@
   </section>
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20191019130312id_/https://blog.mozilla.com.tw/?p=8832">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="https://web.archive.org/web/20191019130312id_/https://blog.mozilla.com.tw/?p=8832">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant">創用 CC 姓名標示─相同方式分享 4.0 國際</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>
     
