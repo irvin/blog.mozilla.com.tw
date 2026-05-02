@@ -40,11 +40,19 @@ hgroup h2 { margin-top: 0; margin-bottom: 0; font-size: 18px; font-weight: 400; 
 .entry-footer { margin-top: 20px; color: #666; font-size: 14px; }
 .entry-category-box span, .entry-tag-box span { display: inline-block; margin: 0 6px 6px 0; padding: 2px 8px; background: #eee; }
 .entry-source-box { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+.archive-header { margin: 0 0 26px; padding-bottom: 12px; border-bottom: 1px solid #ddd; }
+.archive-header h2 { margin: 0 0 4px; font-size: 30px; font-weight: 400; }
+.archive-header p { margin: 0; color: #666; }
+.archive-list { margin: 0; padding: 0; list-style: none; }
+.archive-list li { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid #e5e5df; }
+.archive-list span { color: #777; }
 #secondary { font-size: 14px; color: #555; }
 .widget { margin-bottom: 28px; }
 .widget h3 { margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid #ddd; color: #333; font-size: 18px; font-weight: 400; }
 .widget ul { margin: 0; padding-left: 1.2em; }
 .widget li { margin: 0 0 5px; }
+#site-footer { margin-top: 34px; padding: 20px 0 0; border-top: 1px solid #ddd; color: #666; font-size: 13px; }
+#site-footer p { margin: 0 0 6px; }
 @media (max-width: 780px) {
   #doc { padding-left: 18px; padding-right: 18px; }
   #main { grid-template-columns: 1fr; }
