@@ -9,15 +9,17 @@ const DOCS_DIR = path.join(ROOT, 'docs');
 const POSTS_DIR = path.join(DOCS_DIR, 'posts');
 const ASSETS_DIR = path.join(DOCS_DIR, 'assets');
 
-const SITE_TITLE = '部落格 | Mozilla Taiwan';
+const SITE_TITLE = 'Mozilla Taiwan 部落格';
 const SITE_SUBTITLE = '最新部落格文章，提供各式 Mozilla 產品與專案相關訊息';
-const LICENSE_NAME = '創用 CC 姓名標示—相同方式分享條款 3.0 或更新版本';
-const LICENSE_URL = 'http://creativecommons.org/licenses/by-sa/3.0/';
-const LEGAL_URL = 'http://www.mozilla.org/zh-TW/about/legal.html#site';
+const LICENSE_NAME = '創用 CC 姓名標示─相同方式分享 4.0 國際';
+const LICENSE_URL = 'https://creativecommons.org/licenses/by-sa/4.0/deed.zh-hant';
 const KNOWN_CATEGORIES = ['Firefox', 'Firefox for Android', 'Firefox for iOS', 'Firefox OS', 'Identity', 'Mozilla', 'Privacy', 'Security', 'Web App', '新聞訊息', '未分類', '校園大使', '活動'];
+const SITE_SNAPSHOT_URL = 'https://web.archive.org/web/*/https://blog.mozilla.com.tw/';
+let ALL_POSTS = [];
 
 async function main() {
   const posts = await readPosts();
+  ALL_POSTS = posts;
   const postIds = new Set(posts.map((post) => String(post.id)));
 
   await rm(DOCS_DIR, { recursive: true, force: true });
@@ -263,6 +265,8 @@ function renderPost(post, contentHtml) {
     title: `${post.title} | Mozilla Taiwan 部落格封存`,
     rootPrefix: '../../',
     bodyClass: 'single',
+    breadcrumbs: postBreadcrumbs(post, '../../'),
+    snapshotUrl: post.frontmatter.archive_url || SITE_SNAPSHOT_URL,
     body: `
       <main id="primary" class="content" role="main">
         <article class="post single-post">
@@ -274,14 +278,10 @@ function renderPost(post, contentHtml) {
           <footer class="entry-footer">
             ${categories ? `<div class="entry-category-box">文章分類：${categories}</div>` : ''}
             ${tags ? `<div class="entry-tag-box">標籤：${tags}</div>` : ''}
-            <div class="entry-source-box">
-              <a href="${escapeAttr(post.frontmatter.archive_url || '')}">Wayback snapshot</a>
-              <span>Post ID: ${escapeHtml(String(post.id))}</span>
-            </div>
           </footer>
         </article>
       </main>
-      ${sidebar('../../')}
+      ${sidebar('../../', post.frontmatter.archive_url || SITE_SNAPSHOT_URL)}
     `,
   });
 }
@@ -291,11 +291,13 @@ function renderIndex(posts) {
     title: `${SITE_TITLE} 封存`,
     rootPrefix: '',
     bodyClass: 'home blog',
+    breadcrumbs: [{ label: '部落格封存', href: 'index.html' }],
+    snapshotUrl: SITE_SNAPSHOT_URL,
     body: `
       <main id="primary" class="content" role="main">
         ${renderPostList(posts, '')}
       </main>
-      ${sidebar('')}
+      ${sidebar('', SITE_SNAPSHOT_URL)}
     `,
   });
 }
@@ -324,6 +326,11 @@ async function writeArchivePages(posts) {
       title: `文章分類：${group.name}`,
       posts: group.posts,
       rootPrefix: '../../',
+      breadcrumbs: [
+        { label: '部落格封存', href: '../../index.html' },
+        { label: '分類', href: '../' },
+        { label: group.name, href: './' },
+      ],
     }));
   }
 
@@ -344,6 +351,11 @@ async function writeArchivePages(posts) {
       title: `月份封存：${monthLabel(group.name)}`,
       posts: group.posts,
       rootPrefix: '../../',
+      breadcrumbs: [
+        { label: '部落格封存', href: '../../index.html' },
+        { label: '月份', href: '../' },
+        { label: monthLabel(group.name), href: './' },
+      ],
     }));
   }
 }
@@ -367,11 +379,13 @@ function renderPostList(posts, rootPrefix) {
   }).join('\n');
 }
 
-function renderArchivePage({ title, posts, rootPrefix }) {
+function renderArchivePage({ title, posts, rootPrefix, breadcrumbs }) {
   return pageShell({
     title: `${title} | ${SITE_TITLE} 封存`,
     rootPrefix,
     bodyClass: 'archive',
+    breadcrumbs,
+    snapshotUrl: SITE_SNAPSHOT_URL,
     body: `
       <main id="primary" class="content" role="main">
         <header class="archive-header">
@@ -380,7 +394,7 @@ function renderArchivePage({ title, posts, rootPrefix }) {
         </header>
         ${renderPostList(posts, rootPrefix)}
       </main>
-      ${sidebar(rootPrefix)}
+      ${sidebar(rootPrefix, SITE_SNAPSHOT_URL)}
     `,
   });
 }
@@ -390,6 +404,11 @@ function renderArchiveIndex({ title, rootPrefix, groups }) {
     title: `${title} | ${SITE_TITLE} 封存`,
     rootPrefix,
     bodyClass: 'archive-index',
+    breadcrumbs: [
+      { label: '部落格封存', href: `${rootPrefix}index.html` },
+      { label: title, href: './' },
+    ],
+    snapshotUrl: SITE_SNAPSHOT_URL,
     body: `
       <main id="primary" class="content" role="main">
         <header class="archive-header">
@@ -399,7 +418,7 @@ function renderArchiveIndex({ title, rootPrefix, groups }) {
           ${groups.map((group) => `<li><a href="${escapeAttr(group.href)}">${escapeHtml(group.name)}</a><span>${group.count}</span></li>`).join('')}
         </ul>
       </main>
-      ${sidebar(rootPrefix)}
+      ${sidebar(rootPrefix, SITE_SNAPSHOT_URL)}
     `,
   });
 }
@@ -441,6 +460,16 @@ function monthLabel(month) {
   return `${year} 年 ${Number(value)} 月`;
 }
 
+function postBreadcrumbs(post, rootPrefix) {
+  const month = post.date?.match(/^\d{4}-\d{2}/)?.[0];
+  const items = [{ label: '部落格封存', href: `${rootPrefix}index.html` }];
+  if (month) {
+    items.push({ label: monthLabel(month), href: `${rootPrefix}months/${month}/` });
+  }
+  items.push({ label: post.title, href: `${rootPrefix}posts/${post.id}/` });
+  return items;
+}
+
 function categoryLink(category, rootPrefix) {
   return `<a href="${rootPrefix}categories/${escapeAttr(slugify(category))}/">${escapeHtml(category)}</a>`;
 }
@@ -475,6 +504,11 @@ function renderNotFound() {
     title: `找不到頁面 | ${SITE_TITLE}`,
     rootPrefix: '',
     bodyClass: 'error404',
+    breadcrumbs: [
+      { label: '部落格封存', href: 'index.html' },
+      { label: '找不到頁面', href: './' },
+    ],
+    snapshotUrl: SITE_SNAPSHOT_URL,
     body: `
       <main id="primary" class="content" role="main">
         <article class="post single-post">
@@ -482,12 +516,12 @@ function renderNotFound() {
           <div class="entry-content"><p>這份封存中沒有對應的頁面。請回到 <a href="./">文章列表</a> 瀏覽。</p></div>
         </article>
       </main>
-      ${sidebar('')}
+      ${sidebar('', SITE_SNAPSHOT_URL)}
     `,
   });
 }
 
-function pageShell({ title, rootPrefix, bodyClass, body }) {
+function pageShell({ title, rootPrefix, bodyClass, body, breadcrumbs = [], snapshotUrl = SITE_SNAPSHOT_URL }) {
   return `<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -503,21 +537,15 @@ function pageShell({ title, rootPrefix, bodyClass, body }) {
       <div id="doc">
         <header id="masthead">
           <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
-          <h2><a href="${rootPrefix}index.html" title="回首頁" class="close">mozilla taiwan</a></h2>
-          <nav class="breadcrumbs">
-            <a href="${rootPrefix}index.html" class="home">Home</a>
-            <b>&raquo;</b>
-            <span>部落格封存</span>
-          </nav>
           <hgroup>
-            <h1>部落格</h1>
+            <h1>Mozilla Taiwan 部落格</h1>
             <h2>${SITE_SUBTITLE}</h2>
           </hgroup>
         </header>
+        ${renderBreadcrumbs(breadcrumbs)}
         <div id="main">
           ${body}
         </div>
-        ${siteFooter(rootPrefix)}
       </div>
     </div>
   </div>
@@ -526,7 +554,7 @@ function pageShell({ title, rootPrefix, bodyClass, body }) {
 `;
 }
 
-function sidebar(rootPrefix) {
+function sidebar(rootPrefix, snapshotUrl) {
   return `<aside id="secondary" class="widget-area" role="complementary">
     <section class="widget">
       <h3>文章分類</h3>
@@ -534,26 +562,33 @@ function sidebar(rootPrefix) {
         ${KNOWN_CATEGORIES.map((name) => `<li>${categoryLink(name, rootPrefix)}</li>`).join('')}
       </ul>
     </section>
-    <section class="widget">
-      <h3>封存索引</h3>
-      <ul>
-        <li><a href="${rootPrefix}categories/">文章分類</a></li>
-        <li><a href="${rootPrefix}months/">月份封存</a></li>
-      </ul>
-    </section>
+    ${monthArchiveWidget(rootPrefix)}
     <section class="widget">
       <h3>封存說明</h3>
-      <p>內容由 Wayback Machine snapshot 重建，圖片以本地封存檔優先顯示。</p>
-      <p><a href="${rootPrefix}index.html">所有文章</a></p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="${escapeAttr(snapshotUrl)}">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="${LICENSE_URL}">${LICENSE_NAME}</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>`;
 }
 
-function siteFooter(rootPrefix) {
-  return `<footer id="site-footer">
-    <p>除另有<a href="${LEGAL_URL}">註明</a>外，本站內容皆採用 <a href="${LICENSE_URL}">${LICENSE_NAME}</a> 授權大眾使用。</p>
-    <p>此頁為 Mozilla Taiwan 部落格封存重建版。</p>
-  </footer>`;
+function renderBreadcrumbs(items) {
+  if (!items.length) {
+    return '';
+  }
+  return `<nav class="breadcrumbs">${items.map((item, index) => {
+    const content = item.href ? `<a href="${escapeAttr(item.href)}">${escapeHtml(item.label)}</a>` : `<span>${escapeHtml(item.label)}</span>`;
+    return `${index ? '<b>-</b>' : ''}${content}`;
+  }).join('')}</nav>`;
+}
+
+function monthArchiveWidget(rootPrefix) {
+  const groups = groupByMonth(ALL_POSTS);
+  return `<section class="widget">
+    <h3>月份彙整</h3>
+    <select class="archive-dropdown" onchange="if (this.value) window.location.href=this.value">
+      <option value="">選擇月份</option>
+      ${groups.map((group) => `<option value="${rootPrefix}months/${group.name}/">${monthLabel(group.name)} (${group.posts.length})</option>`).join('')}
+    </select>
+  </section>`;
 }
 
 function dateBadge(date) {
