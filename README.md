@@ -8,7 +8,7 @@
 npm run site:build
 ```
 
-將 `archive/articles-md` 內的 Markdown 文章轉成靜態網站，輸出到 `docs/`。
+將 `archive/articles-md` 內的 Markdown 文章轉成靜態網站，輸出到 `blog/`。
 
 ```bash
 npm run site:deploy
@@ -18,7 +18,7 @@ npm run site:deploy
 
 1. 重新執行 `npm run site:build`
 2. 建立或重用 `gh-pages` worktree
-3. 將 `docs/` 內容同步到 `gh-pages` branch 根目錄
+3. 將 `blog/` 內容同步到 `gh-pages` branch 根目錄
 4. commit `gh-pages`
 5. push `origin gh-pages`
 
@@ -34,15 +34,15 @@ npm run site:deploy -- --message "Publish static site"
 
 `scripts/build-site.js` 會產生：
 
-- `docs/index.html`：全部文章列表
-- `docs/posts/<post_id>/index.html`：單篇文章頁
-- `docs/categories/index.html`：分類索引
-- `docs/categories/<category>/index.html`：分類文章列表
-- `docs/months/index.html`：月份索引
-- `docs/months/YYYY-MM/index.html`：月份文章列表
-- `docs/assets/`：文章內已本地化的媒體檔案
-- `docs/styles.css`：基本樣式
-- `docs/.nojekyll`：避免 GitHub Pages 以 Jekyll 處理底線路徑或檔名
+- `blog/index.html`：全部文章列表
+- `blog/posts/<post_id>/index.html`：單篇文章頁
+- `blog/categories/index.html`：分類索引
+- `blog/categories/<category>/index.html`：分類文章列表
+- `blog/months/index.html`：月份索引
+- `blog/months/YYYY-MM/index.html`：月份文章列表
+- `blog/assets/`：文章內已本地化的媒體檔案
+- `blog/styles.css`：基本樣式
+- `blog/.nojekyll`：避免 GitHub Pages 以 Jekyll 處理底線路徑或檔名
 
 ## 編譯實作細節
 

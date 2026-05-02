@@ -4,7 +4,7 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const DOCS_DIR = path.join(ROOT, 'docs');
+const BUILD_DIR = path.join(ROOT, 'blog');
 const DEFAULT_WORKTREE = path.join('/private/tmp', `${path.basename(ROOT)}-gh-pages-deploy`);
 
 const args = parseArgs(process.argv.slice(2));
@@ -16,7 +16,7 @@ const commitMessage = args.message || 'Publish static site';
 async function main() {
   run('npm', ['run', 'site:build'], ROOT);
   await ensureWorktree();
-  await syncDocs();
+  await syncBuild();
   run('git', ['add', '.'], worktreePath);
 
   const status = run('git', ['status', '--porcelain'], worktreePath, { capture: true });
@@ -53,7 +53,7 @@ async function ensureWorktree() {
   }
 }
 
-async function syncDocs() {
+async function syncBuild() {
   await mkdir(worktreePath, { recursive: true });
   for (const entry of await readdir(worktreePath)) {
     if (entry === '.git') {
@@ -62,11 +62,11 @@ async function syncDocs() {
     await rm(path.join(worktreePath, entry), { recursive: true, force: true });
   }
 
-  for (const entry of await readdir(DOCS_DIR)) {
+  for (const entry of await readdir(BUILD_DIR)) {
     if (entry === '.DS_Store') {
       continue;
     }
-    await cp(path.join(DOCS_DIR, entry), path.join(worktreePath, entry), { recursive: true });
+    await cp(path.join(BUILD_DIR, entry), path.join(worktreePath, entry), { recursive: true });
   }
 }
 

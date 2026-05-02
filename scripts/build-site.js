@@ -5,9 +5,10 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const ARCHIVE_DIR = path.join(ROOT, 'archive');
 const MD_DIR = path.join(ARCHIVE_DIR, 'articles-md');
-const DOCS_DIR = path.join(ROOT, 'docs');
-const POSTS_DIR = path.join(DOCS_DIR, 'posts');
-const ASSETS_DIR = path.join(DOCS_DIR, 'assets');
+const THEME_ASSETS_DIR = path.join(ARCHIVE_DIR, 'theme-assets');
+const BUILD_DIR = path.join(ROOT, 'blog');
+const POSTS_DIR = path.join(BUILD_DIR, 'posts');
+const ASSETS_DIR = path.join(BUILD_DIR, 'assets');
 
 const SITE_TITLE = 'Mozilla Taiwan 部落格';
 const SITE_SUBTITLE = '最新部落格文章，提供各式 Mozilla 產品與專案相關訊息';
@@ -22,11 +23,12 @@ async function main() {
   ALL_POSTS = posts;
   const postIds = new Set(posts.map((post) => String(post.id)));
 
-  await rm(DOCS_DIR, { recursive: true, force: true });
+  await rm(BUILD_DIR, { recursive: true, force: true });
   await mkdir(POSTS_DIR, { recursive: true });
   await cp(path.join(ARCHIVE_DIR, 'assets'), ASSETS_DIR, { recursive: true });
-  await writeFile(path.join(DOCS_DIR, 'styles.css'), stylesheet());
-  await writeFile(path.join(DOCS_DIR, '.nojekyll'), '');
+  await cp(THEME_ASSETS_DIR, path.join(ASSETS_DIR, 'theme'), { recursive: true });
+  await writeFile(path.join(BUILD_DIR, 'styles.css'), stylesheet());
+  await writeFile(path.join(BUILD_DIR, '.nojekyll'), '');
 
   for (const post of posts) {
     const html = markdownToHtml(post.body, `../../`, postIds);
@@ -36,10 +38,10 @@ async function main() {
   }
 
   await writeArchivePages(posts);
-  await writeFile(path.join(DOCS_DIR, 'index.html'), renderIndex(posts));
-  await writeFile(path.join(DOCS_DIR, '404.html'), renderNotFound());
+  await writeFile(path.join(BUILD_DIR, 'index.html'), renderIndex(posts));
+  await writeFile(path.join(BUILD_DIR, '404.html'), renderNotFound());
 
-  console.log(`Built ${posts.length} pages into ${relative(DOCS_DIR)}`);
+  console.log(`Built ${posts.length} pages into ${relative(BUILD_DIR)}`);
 }
 
 async function readPosts() {
@@ -259,27 +261,28 @@ function rewriteUrl(url, rootPrefix, postIds) {
 function renderPost(post, contentHtml) {
   const title = escapeHtml(post.title);
   const categories = displayCategories(post).map((category) => `<span>${categoryLink(category, '../../')}</span>`).join('');
-  const tags = post.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join('');
 
   return pageShell({
     title: `${post.title} | Mozilla Taiwan 部落格封存`,
     rootPrefix: '../../',
     bodyClass: 'single',
     breadcrumbs: postBreadcrumbs(post, '../../'),
+    breadcrumbLeadingSeparator: true,
     snapshotUrl: post.frontmatter.archive_url || SITE_SNAPSHOT_URL,
     body: `
       <main id="primary" class="content" role="main">
-        <article class="post single-post">
-          <header class="entry-header">
-            <h2 class="entry-title">${title}</h2>
-            <p class="entry-posted">${dateBadge(post.date)}</p>
-          </header>
-          <div class="entry-content">${contentHtml}</div>
-          <footer class="entry-footer">
-            ${categories ? `<div class="entry-category-box">文章分類：${categories}</div>` : ''}
-            ${tags ? `<div class="entry-tag-box">標籤：${tags}</div>` : ''}
-          </footer>
-        </article>
+        <div class="article-div">
+          <article class="post single-post">
+            <header class="entry-header">
+              <p class="entry-posted">${dateBadge(post.date)}</p>
+              <h1 class="entry-title">${title}</h1>
+            </header>
+            <div class="entry-content">${contentHtml}</div>
+            <footer class="entry-footer">
+              ${categories ? `<div class="entry-category-box">文章分類：${categories}</div>` : ''}
+            </footer>
+          </article>
+        </div>
       </main>
       ${sidebar('../../', post.frontmatter.archive_url || SITE_SNAPSHOT_URL)}
     `,
@@ -291,7 +294,7 @@ function renderIndex(posts) {
     title: `${SITE_TITLE} 封存`,
     rootPrefix: '',
     bodyClass: 'home blog',
-    breadcrumbs: [{ label: '部落格封存', href: 'index.html' }],
+    mastheadHeading: SITE_SUBTITLE,
     snapshotUrl: SITE_SNAPSHOT_URL,
     body: `
       <main id="primary" class="content" role="main">
@@ -306,10 +309,10 @@ async function writeArchivePages(posts) {
   const categories = groupByCategory(posts);
   const months = groupByMonth(posts);
 
-  await mkdir(path.join(DOCS_DIR, 'categories'), { recursive: true });
-  await mkdir(path.join(DOCS_DIR, 'months'), { recursive: true });
+  await mkdir(path.join(BUILD_DIR, 'categories'), { recursive: true });
+  await mkdir(path.join(BUILD_DIR, 'months'), { recursive: true });
 
-  await writeFile(path.join(DOCS_DIR, 'categories', 'index.html'), renderArchiveIndex({
+  await writeFile(path.join(BUILD_DIR, 'categories', 'index.html'), renderArchiveIndex({
     title: '文章分類',
     rootPrefix: '../',
     groups: categories.map((group) => ({
@@ -320,7 +323,7 @@ async function writeArchivePages(posts) {
   }));
 
   for (const group of categories) {
-    const outputDir = path.join(DOCS_DIR, 'categories', group.slug);
+    const outputDir = path.join(BUILD_DIR, 'categories', group.slug);
     await mkdir(outputDir, { recursive: true });
     await writeFile(path.join(outputDir, 'index.html'), renderArchivePage({
       title: `文章分類：${group.name}`,
@@ -334,7 +337,7 @@ async function writeArchivePages(posts) {
     }));
   }
 
-  await writeFile(path.join(DOCS_DIR, 'months', 'index.html'), renderArchiveIndex({
+  await writeFile(path.join(BUILD_DIR, 'months', 'index.html'), renderArchiveIndex({
     title: '月份封存',
     rootPrefix: '../',
     groups: months.map((group) => ({
@@ -345,7 +348,7 @@ async function writeArchivePages(posts) {
   }));
 
   for (const group of months) {
-    const outputDir = path.join(DOCS_DIR, 'months', group.name);
+    const outputDir = path.join(BUILD_DIR, 'months', group.name);
     await mkdir(outputDir, { recursive: true });
     await writeFile(path.join(outputDir, 'index.html'), renderArchivePage({
       title: `月份封存：${monthLabel(group.name)}`,
@@ -363,13 +366,15 @@ async function writeArchivePages(posts) {
 function renderPostList(posts, rootPrefix) {
   return posts.map((post) => {
     const excerpt = markdownExcerpt(post.body, 150);
+    const thumbnail = postThumbnail(post.body, rootPrefix);
     return `
       <div class="article-div divider">
         <article class="post-list-item">
           <header class="entry-header">
-            <h2 class="entry-title"><a href="${rootPrefix}posts/${post.id}/">${escapeHtml(post.title)}</a></h2>
             <p class="entry-posted">${dateBadge(post.date)}</p>
+            <h2 class="entry-title"><a href="${rootPrefix}posts/${post.id}/">${escapeHtml(post.title)}</a></h2>
           </header>
+          ${thumbnail ? `<div class="thumb-img"><img src="${escapeAttr(thumbnail.src)}" alt="${escapeAttr(thumbnail.alt)}" loading="lazy"></div>` : ''}
           <div class="entry-content half">${escapeHtml(excerpt)}${excerpt ? '...' : ''}</div>
           <footer class="entry-footer">
             ${displayCategories(post).length ? `<div class="entry-category-box">文章分類：${displayCategories(post).map((category) => categoryLink(category, rootPrefix)).join('、')}</div>` : ''}
@@ -377,6 +382,17 @@ function renderPostList(posts, rootPrefix) {
         </article>
       </div>`;
   }).join('\n');
+}
+
+function postThumbnail(markdown, rootPrefix) {
+  const match = markdown.match(/!\[([^\]]*)\]\(([^)]+)\)/);
+  if (!match) {
+    return null;
+  }
+  return {
+    alt: match[1],
+    src: rewriteUrl(match[2].trim(), rootPrefix, new Set()),
+  };
 }
 
 function renderArchivePage({ title, posts, rootPrefix, breadcrumbs }) {
@@ -462,7 +478,7 @@ function monthLabel(month) {
 
 function postBreadcrumbs(post, rootPrefix) {
   const month = post.date?.match(/^\d{4}-\d{2}/)?.[0];
-  const items = [{ label: '部落格封存', href: `${rootPrefix}index.html` }];
+  const items = [];
   if (month) {
     items.push({ label: monthLabel(month), href: `${rootPrefix}months/${month}/` });
   }
@@ -521,7 +537,7 @@ function renderNotFound() {
   });
 }
 
-function pageShell({ title, rootPrefix, bodyClass, body, breadcrumbs = [], snapshotUrl = SITE_SNAPSHOT_URL }) {
+function pageShell({ title, rootPrefix, bodyClass, body, breadcrumbs = [], breadcrumbLeadingSeparator = false, mastheadHeading = '', snapshotUrl = SITE_SNAPSHOT_URL }) {
   return `<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -536,13 +552,13 @@ function pageShell({ title, rootPrefix, bodyClass, body, breadcrumbs = [], snaps
     <div id="wrapper">
       <div id="doc">
         <header id="masthead">
-          <a id="tabzilla" href="https://mozilla.org/">mozilla</a>
+          <a id="tabzilla" href="https://moztw.org/">moztw.org</a>
           <hgroup>
-            <h1>Mozilla Taiwan 部落格</h1>
-            <h2>${SITE_SUBTITLE}</h2>
+            <div class="site-logo"><a href="${rootPrefix}index.html"><img src="${rootPrefix}assets/theme/header-logo.png" width="130" height="49" alt="Firefox"></a></div>
+            ${mastheadHeading ? `<h1 class="site-heading">${escapeHtml(mastheadHeading)}</h1>` : ''}
           </hgroup>
         </header>
-        ${renderBreadcrumbs(breadcrumbs)}
+        ${renderBreadcrumbs(breadcrumbs, breadcrumbLeadingSeparator)}
         <div id="main">
           ${body}
         </div>
@@ -565,18 +581,19 @@ function sidebar(rootPrefix, snapshotUrl) {
     ${monthArchiveWidget(rootPrefix)}
     <section class="widget">
       <h3>封存說明</h3>
-      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="${escapeAttr(snapshotUrl)}">Wayback snapshot</a> 重建。除另有註明外，本站內容皆採 <a href="${LICENSE_URL}">${LICENSE_NAME}</a> 或更新版本授權大眾使用。</p>
+      <p>此頁為 Mozilla Taiwan 部落格封存，由 <a href="${escapeAttr(snapshotUrl)}">Wayback snapshot</a> 重建。</p>
+      <p>除另有註明外，本站內容皆採 <a href="${LICENSE_URL}">${LICENSE_NAME}</a> 或更新版本授權大眾使用。</p>
     </section>
   </aside>`;
 }
 
-function renderBreadcrumbs(items) {
+function renderBreadcrumbs(items, leadingSeparator = false) {
   if (!items.length) {
     return '';
   }
   return `<nav class="breadcrumbs">${items.map((item, index) => {
     const content = item.href ? `<a href="${escapeAttr(item.href)}">${escapeHtml(item.label)}</a>` : `<span>${escapeHtml(item.label)}</span>`;
-    return `${index ? '<b>-</b>' : ''}${content}`;
+    return `${index || leadingSeparator ? '<b>&raquo;</b>' : ''}${content}`;
   }).join('')}</nav>`;
 }
 
@@ -602,46 +619,50 @@ function dateBadge(date) {
 function stylesheet() {
   return `body {
   margin: 0;
-  background: #f4f4f1;
-  color: #333;
-  font: 16px/1.7 "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+  background: #f6f4ee url("assets/theme/bg-sky.png") repeat center top;
+  color: #484848;
+  font: 14px/1.65 "Open Sans", "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
 }
-a { color: #0a6f9e; text-decoration: none; }
+a { color: #447bc4; text-decoration: none; }
 a:hover { text-decoration: underline; }
 #outer-wrapper { border-top: 2px solid #fff; }
-#wrapper { max-width: 1060px; margin: 0 auto; background: #fff; min-height: 100vh; box-shadow: 0 0 20px rgba(0,0,0,.08); }
-#doc { padding: 0 32px 48px; }
-#masthead { position: relative; padding: 30px 0 24px; border-bottom: 1px solid #ddd; }
-#tabzilla { position: absolute; right: 0; top: 0; padding: 7px 14px; background: #c13832; color: #fff; font-size: 13px; text-transform: lowercase; }
-#masthead > h2 { margin: 0 0 18px; font-size: 24px; letter-spacing: 0; text-transform: lowercase; }
-#masthead > h2 a { color: #333; }
-.breadcrumbs { margin: 0 0 22px; color: #777; font-size: 13px; }
-.breadcrumbs b { color: #aaa; margin: 0 6px; }
-hgroup { padding: 32px 0 34px; background: linear-gradient(90deg, #f08a24, #d94f2b); color: #fff; }
-hgroup h1, hgroup h2 { margin-left: 28px; margin-right: 28px; }
-hgroup h1 { margin-top: 0; margin-bottom: 2px; font-size: 44px; line-height: 1.1; font-weight: 300; }
-hgroup h2 { margin-top: 0; margin-bottom: 0; font-size: 18px; font-weight: 400; }
-#main { display: grid; grid-template-columns: minmax(0, 1fr) 250px; gap: 36px; padding-top: 30px; }
-.article-div { padding: 0 0 28px; margin: 0 0 30px; border-bottom: 1px solid #ddd; }
+#wrapper { min-height: 100vh; }
+#doc { width: 980px; margin: 0 auto; padding: 0 10px 48px; }
+#masthead { position: relative; padding: 0; }
+#tabzilla { position: absolute; right: 0; top: 0; display: block; width: 150px; height: 44px; overflow: hidden; background: rgba(255, 255, 255, 0.5); color: #303030; font-size: 13px; line-height: 44px; text-align: center; text-transform: lowercase; z-index: 2; }
+.breadcrumbs { margin: 0 0 20px 20px; padding-bottom: 16px; border-bottom: 1px solid #d6d6d6; color: #303030; font-size: 13px; }
+.breadcrumbs b { margin: 0 5px; color: #303030; font-size: 120%; font-weight: bold; }
+hgroup { margin: 0; padding: 34px 28px 30px; color: #484848; }
+hgroup .site-logo, hgroup .site-heading { margin-top: 1em; margin-left: 0; margin-right: 0; text-shadow: none; }
+.site-logo { margin: 0 0 3px; }
+.site-logo a:hover { text-decoration: none; }
+.site-logo img { display: block; width: 130px; height: auto; }
+.site-heading { margin-top: 2em; margin-bottom: 0; font-size: 18px; font-weight: 400; line-height: 1.35; }
+#main { display: grid; grid-template-columns: 660px 220px; gap: 60px; align-items: start; padding-top: 26px; }
+.article-div { clear: both; margin: 0 0 28px; padding: 20px 20px 30px; border-radius: 5px; background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.1)); background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.1)); }
 .post, .post-list-item { position: relative; }
-.entry-header { display: grid; grid-template-columns: minmax(0, 1fr) 74px; gap: 20px; align-items: start; }
-.entry-title { margin: 0 0 14px; font-size: 28px; line-height: 1.25; font-weight: 400; }
-.post-list-item .entry-title { font-size: 25px; }
-.entry-title a { color: #333; }
-.entry-posted { margin: 0; text-align: center; }
-.published { display: block; border: 1px solid #d0d0cc; background: #f8f8f5; color: #666; }
-.posted-month, .posted-year { display: block; padding: 2px 0; font-size: 13px; background: #e7e7e1; }
-.posted-date { display: block; font-size: 34px; line-height: 1.2; color: #c13832; }
-.entry-content { font-size: 17px; }
+.entry-header { display: block; }
+.entry-title { margin: 0 0 14px; font-size: 32px; line-height: 1.22; font-weight: 300; }
+.post-list-item .entry-title { min-height: 44px; margin-left: 92px; font-size: 26px; }
+.entry-title a { color: #303030; }
+.entry-posted { margin: 0 0 12px; text-align: left; }
+.post-list-item .entry-posted { float: left; margin: 0 18px 8px 0; }
+.published { display: inline-block; width: 68px; min-width: 68px; height: 72px; padding: 7px 0 0; background: url("assets/theme/bg-date-lt.png") no-repeat center top; color: #555; text-align: center; box-shadow: none; }
+.posted-month, .posted-year { display: block; padding: 0; font-size: 14px; line-height: 1.05; background: transparent; }
+.posted-date { display: block; font-size: 27px; line-height: .95; color: #555; }
+.thumb-img { float: left; width: 150px; height: 150px; margin: 4px 22px 12px 0; overflow: hidden; background: #fff; border: 1px solid #fff; box-shadow: 0 0 16px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.1); }
+.thumb-img img { width: 150px; height: 150px; object-fit: cover; display: block; }
+.entry-content { font-size: 16px; }
+.post-list-item .entry-content.half { min-height: 120px; color: #484848; }
 .entry-content p { margin: 0 0 1.15em; }
 .entry-content img { max-width: 100%; height: auto; display: block; margin: 1.4em auto; }
 .entry-content blockquote { margin: 1.4em 0; padding-left: 1.2em; border-left: 4px solid #d94f2b; color: #555; }
 .entry-content pre { overflow-x: auto; padding: 14px; background: #272822; color: #f8f8f2; }
 .entry-content code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: .92em; }
 .entry-content ul, .entry-content ol { padding-left: 1.6em; }
-.entry-footer { margin-top: 20px; color: #666; font-size: 14px; }
+.entry-footer { display: block; clear: both; margin: 24px 0 0; padding: 12px 24px 3px; background: rgba(0,0,0,.02); border-bottom: 1px solid rgba(255,255,255,.5); box-shadow: 0 0 3px rgba(0,0,0,.1) inset; color: #666; font-size: 14px; }
+.entry-category-box { margin-bottom: 10px; }
 .entry-category-box span, .entry-tag-box span { display: inline-block; margin: 0 6px 6px 0; padding: 2px 8px; background: #eee; }
-.entry-source-box { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
 .archive-header { margin: 0 0 26px; padding-bottom: 12px; border-bottom: 1px solid #ddd; }
 .archive-header h2 { margin: 0 0 4px; font-size: 30px; font-weight: 400; }
 .archive-header p { margin: 0; color: #666; }
@@ -649,20 +670,26 @@ hgroup h2 { margin-top: 0; margin-bottom: 0; font-size: 18px; font-weight: 400; 
 .archive-list li { display: flex; justify-content: space-between; gap: 16px; padding: 10px 0; border-bottom: 1px solid #e5e5df; }
 .archive-list span { color: #777; }
 #secondary { font-size: 14px; color: #555; }
-.widget { margin-bottom: 28px; }
-.widget h3 { margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid #ddd; color: #333; font-size: 18px; font-weight: 400; }
+.widget { display: block; margin: 0 0 22px; padding: 0 0 16px; border-bottom: 1px dotted #d6d6d6; }
+.widget h3 { margin: 0 0 10px; color: #333; font-size: 18px; font-weight: 400; }
 .widget ul { margin: 0; padding-left: 1.2em; }
 .widget li { margin: 0 0 5px; }
-#site-footer { margin-top: 34px; padding: 20px 0 0; border-top: 1px solid #ddd; color: #666; font-size: 13px; }
-#site-footer p { margin: 0 0 6px; }
-@media (max-width: 780px) {
-  #doc { padding-left: 18px; padding-right: 18px; }
+.archive-dropdown { max-width: 100%; }
+@media (max-width: 1000px) {
+  #doc { width: 760px; }
   #main { grid-template-columns: 1fr; }
-  .entry-header { grid-template-columns: 1fr; }
+  #secondary { width: 660px; margin: 20px auto 0; }
+  #secondary .widget { display: inline-block; width: 200px; margin: 0 8px 18px; padding: 0 6px 12px; vertical-align: top; }
+}
+@media (max-width: 760px) {
+  #doc { width: auto; padding-left: 18px; padding-right: 18px; }
+  #main, #secondary { width: auto; }
+  .post-list-item .entry-title { min-height: 0; margin-left: 0; }
+  .post-list-item .entry-posted { float: none; }
+  .thumb-img { float: none; margin-left: 0; }
+  #secondary .widget { display: block; width: auto; margin: 0 0 22px; }
   .entry-posted { text-align: left; }
-  .published { display: inline-grid; grid-template-columns: auto auto auto; align-items: baseline; }
-  .posted-month, .posted-year, .posted-date { display: inline; padding: 2px 8px; font-size: 14px; }
-  hgroup h1 { font-size: 34px; }
+  .site-heading { font-size: 18px; }
 }
 `;
 }
